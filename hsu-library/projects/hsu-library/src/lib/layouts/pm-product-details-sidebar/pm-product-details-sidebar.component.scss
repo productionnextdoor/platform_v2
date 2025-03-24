@@ -1,0 +1,96 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+.details-sidebar {
+  --sidebar-padding-inline: #{f.rem(16)};
+
+  background-color: f.color(neutrals, 1100);
+  box-shadow: 0 f.rem(2) f.rem(40) f.color(neutrals, 310);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+
+  &__header {
+    margin-bottom: f.rem(8);
+    padding-inline: var(--sidebar-padding-inline);
+    padding-top: f.rem(40);
+  }
+
+  &__actions {
+    text-align: right;
+    padding-inline: var(--sidebar-padding-inline);
+    white-space: nowrap;
+
+    &-button {
+      padding-right: f.rem(12);
+
+      &:last-of-type {
+        padding: 0;
+      }
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__content {
+    overflow: auto;
+    padding-inline: var(--sidebar-padding-inline);
+  }
+
+  &__container {
+    display: block;
+    margin-bottom: f.rem(8);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__label {
+    @include fonts.font-copy-m1();
+    color: f.color(neutrals, 500);
+
+    &:after {
+      content: ': ';
+    }
+  }
+
+  &__value {
+    @include fonts.font-copy-m1();
+    color: f.color(neutrals, 100);
+  }
+
+  &__uploaded-files {
+    padding-top: f.rem(24);
+  }
+
+  &__uploaded-files-title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__files {
+    display: flex;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    padding-right: f.rem(8);
+    color: f.color(neutrals, 100);
+
+    &-link {
+      cursor: pointer;
+    }
+  }
+
+  &__footer {
+    position: relative;
+    margin-top: f.rem(32);
+    padding-bottom: f.rem(32);
+    padding-inline: f.rem(24);
+  }
+}

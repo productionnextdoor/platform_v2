@@ -1,0 +1,32 @@
+@use '../../styles/utils/functions' as f;
+
+.pm-state-popup {
+  &__description {
+    margin: 0 0 f.rem(8);
+  }
+
+  &__footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "left right";
+    gap: f.rem(24);
+  }
+
+  &__actions {
+    &--left {
+      grid-area: left;
+    }
+
+    &--right {
+      grid-area: right;
+    }
+  }
+
+  &__action {
+    margin: 0 0 0 f.rem(24);
+
+    &:first-of-type {
+      margin: 0;
+    }
+  }
+}

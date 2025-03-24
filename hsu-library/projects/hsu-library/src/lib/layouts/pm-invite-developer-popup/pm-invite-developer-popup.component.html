@@ -1,0 +1,55 @@
+<pm-popup
+    [title]="localisations.title"
+    [type]="PopupType.MEDIUM"
+    [closable]="true"
+    (onClose)="onClose.emit()"
+    class="invite-popup"
+>
+    <pm-text
+        [type]="TextType.COPY_M1"
+    >
+        {{localisations.description}}
+    </pm-text>
+
+    <pm-text
+        [type]="TextType.H3"
+        [margin]="subTitleMargin"
+    >
+        {{localisations.subTitle}}
+    </pm-text>
+    <pm-row [template]="'1fr 1fr'" [gap]="margins.XLarge">
+        <pm-input
+            [type]="EPmInputType.TEXT"
+            [label]="localisations.inputNameLabel"
+            [placeholder]="localisations.inputNamePlaceholder"
+            [required]="true"
+            [(value)]="developerBaseData.developerName"
+        />
+        <pm-input
+            [type]="EPmInputType.TEXT"
+            [label]="localisations.inputMailLabel"
+            [placeholder]="localisations.inputMailPlaceholder"
+            [required]="true"
+            [(value)]="developerBaseData.email"
+            [hasError]="hasError"
+            [errorMessages]="[localisations.emailNotValidError]"
+            (click)="hasError = false"
+        />
+    </pm-row>
+    <div footer class="invite-popup__footer">
+        <pm-button
+            class="invite-popup__btn"
+            [type]="ButtonType.SECONDARY"
+            [label]="localisations.cancelLabel"
+            (onClicked)="onClose.emit()"
+        />
+        <pm-button
+            class="invite-popup__btn"
+            [type]="ButtonType.PRIMARY"
+            [label]="localisations.inviteLabel"
+            [disabled]="!developerBaseData.developerName || !developerBaseData.email"
+            (onClicked)="onInviteClick()"
+        />
+    </div>
+
+</pm-popup>

@@ -1,0 +1,49 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmTimerComponent } from "../../../lib/components/pm-timer/pm-timer.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+
+<Meta title="Components/Timer/Timer" component={PmTimerComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmTimerComponent)),
+]}/>
+
+<Description of={PmTimerComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...args,
+    },
+});
+
+## Timer
+
+<Canvas withToolbar>
+    <Story name="Timer" args={{
+        label: 'Time',
+        disabled: false,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Timer Disabled" args={{
+        label: 'Time',
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-Timer](https://img.shields.io/badge/-Timer-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/162fe405-e223-4dcb-98dd-1af22094405b/)

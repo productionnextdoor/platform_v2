@@ -1,0 +1,69 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmButtonComponent } from '../../../lib/components/pm-button/pm-button.component';
+import { PmPopupComponent, PopupType } from '../../../lib/components/pm-popup/pm-popup.component';
+import { storybookHelper } from '../../StorybookHelper';
+import { popupData } from './popup.data';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Popup/Popup" component={PmPopupComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(
+        PmPopupComponent,
+        [
+            PmButtonComponent
+        ]
+    )),
+]}/>
+
+<Description of={PmPopupComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-popup', popupData);
+
+# Popup
+
+This contains definitions for all **Popups**.
+
+## Small
+
+<Canvas withToolbar>
+    <Story name="Default" height={'500px'} args={{
+        type: PopupType.SMALL
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Medium
+
+<Canvas withToolbar>
+    <Story name="Medium" height={'500px'} args={{
+        type: PopupType.MEDIUM
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Large
+
+<Canvas withToolbar>
+    <Story name="Large" height={'500px'} args={{
+        type: PopupType.LARGE
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-Popup](https://img.shields.io/badge/-Popup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/d3439fc0-406b-45a9-99c1-1a85233e44cb/)

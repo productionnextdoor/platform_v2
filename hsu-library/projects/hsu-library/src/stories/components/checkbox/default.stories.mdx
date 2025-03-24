@@ -1,0 +1,142 @@
+import {
+    Meta,
+    Story,
+    Canvas,
+    Description
+} from '@storybook/addon-docs';
+import { action } from "@storybook/addon-actions";
+
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { CheckboxData } from './checkbox.data';
+import { PmCheckboxComponent } from "../../../lib/components/pm-checkbox/pm-checkbox.component";
+import { PmCheckboxState } from "../../../lib/components/pm-checkbox/pm-checkbox.shared";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Checkbox/Checkbox" component={PmCheckboxComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmCheckboxComponent)),
+    //👇 Wraps our stories with a decorator
+    componentWrapperDecorator(story => `<div style="margin: 5px;">${story}</div>`),
+]}/>
+
+<Description of={PmCheckboxComponent}/>
+
+
+export const actionsData = {
+    onClicked: action('clicked on checkbox:'),
+};
+
+export const Template = args => ({
+    props: {
+        ...CheckboxData,
+        ...args,
+        stateChange: actionsData.onClicked
+    },
+});
+
+
+
+This contains the **Checkboxes**.
+
+## Checkbox - Default
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Checkbox - Hover
+
+<Canvas withToolbar>
+    <Story name="Hover" args={{
+        hovered: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Checkbox - Single Active
+
+<Canvas withToolbar>
+    <Story name="OneActive" args={{
+        state: PmCheckboxState.ACTIVE,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Checkbox - MultiSelect
+
+<Canvas withToolbar>
+    <Story name="MultiSelect" args={{
+        state: PmCheckboxState.MULTISELECT,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Checkbox - Disabled
+
+<Canvas withToolbar>
+    <Story name="Disabled" args={{
+        disabled: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Checkbox - Disabled-Checked
+
+<Canvas withToolbar>
+    <Story name="DisabledChecked" args={{
+        disabled: true,
+        state: PmCheckboxState.ACTIVE
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Checkbox - Disabled-MultiSelect
+
+<Canvas withToolbar>
+    <Story name="DisabledMultiSelect" args={{
+        disabled: true,
+        state: PmCheckboxState.MULTISELECT
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Checkbox - With-Label
+
+<Canvas withToolbar>
+    <Story name="WithLabel" args={{
+        label: 'With Label'
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Checkbox - Has Error
+
+<Canvas withToolbar>
+    <Story name="HasError" args={{
+        hasError: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+## Design
+
+
+[![XD-Checkboxes](https://img.shields.io/badge/-Checkboxes-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/fa0d840c-7331-46bb-bb25-243378b092b1/specs/)

@@ -1,0 +1,97 @@
+@use "functions" as f;
+
+$font_family: "Karla", sans-serif;
+
+
+$fonts: (
+  h1: (
+    font-size: f.rem(26),
+    line-height: f.rem(31),
+    font-family: $font_family,
+    font-weight: Bold,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(-0.1),
+  ),
+  h2: (
+    font-size: f.rem(22),
+    line-height: f.rem(27),
+    font-family: $font_family,
+    font-weight: Bold,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(-0.1),
+  ),
+  h3: (
+    font-size: f.rem(18),
+    line-height: f.rem(27),
+    font-family: $font_family,
+    font-weight: Bold,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(0.1),
+  ),
+  h4: (
+    font-size: f.rem(16),
+    line-height: f.rem(24),
+    font-family: $font_family,
+    font-weight: Bold,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(0.1),
+  ),
+  copy-m1: (
+    font-size: f.rem(16),
+    line-height: f.rem(24),
+    font-family: $font_family,
+    font-weight: normal,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(0.2),
+  ),
+  copy-m2: (
+    font-size: f.rem(16),
+    line-height: f.rem(24),
+    font-family: $font_family,
+    font-weight: 500,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(0.2)
+  ),
+  copy-m3: (
+    font-size: f.rem(16),
+    line-height: f.rem(24),
+    font-family: $font_family,
+    font-weight: bold,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(0.2)
+  ),
+  copy-s1: (
+    font-size: f.rem(12),
+    line-height: f.rem(18),
+    font-family: $font_family,
+    font-weight: normal,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(0.2)
+  ),
+  copy-s2: (
+    font-size: f.rem(12),
+    line-height: f.rem(18),
+    font-family: $font_family,
+    font-weight: 500,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(0.2)
+  ),
+  copy-s3: (
+    font-size: f.rem(12),
+    line-height: f.rem(18),
+    font-family: $font_family,
+    font-weight: bold,
+    background: transparent,
+    text-transform: none,
+    letter-spacing: f.rem(0.2)
+  ),
+);

@@ -1,0 +1,72 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from '../../../ComponentDependencies';
+import { PmProductionProcessCardComponent } from '../../../../lib/layouts/pm-order-details/pm-production-process-card/pm-production-process-card.component';
+import { productionProcessCardData } from './production-process-card.data';
+import { action } from '@storybook/addon-actions';
+import { storybookHelper } from '../../../StorybookHelper';
+import { ECardMode } from '../../../../lib/layouts/pm-order-details/pm-production-process-card/pm-production-process-card.shared';
+
+<Meta title="Layouts/Order-Details/ProductionProcessCard" component={PmProductionProcessCardComponent} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductionProcessCardComponent))
+]}/>
+
+<Description of={PmProductionProcessCardComponent}/>
+
+export const actionsData = {
+    onActionStart: action('on action start clicked:'),
+    onActionFinish: action('on action finish clicked:'),
+    onCheckBoxChange: action('on CheckBox Change'),
+    onFileDelete: action('on File Delete')
+};
+
+# Production Process Card
+export const Template = storybookHelper.RenderNgContent('pm-production-process-card', {
+    ...productionProcessCardData,
+    ...actionsData
+});
+
+
+
+This contains the story for the layout **ProductionProcessCard**.
+### Start production
+<Canvas withToolbar>
+    <Story name="Default" args={{
+        cardMode: ECardMode.EDIT,        
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+### Finish production
+<Canvas withToolbar>
+    <Story name="Final step" args={{
+        cardMode: ECardMode.EDIT,
+        startDisabled: true,
+        endDisabled: false,
+        isFinalSelected: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+### View Only mode
+<Canvas withToolbar>
+    <Story name="View Only" args={{
+        cardMode: ECardMode.VIEW      
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+
+## Design
+[![XD-ProductionProcessCard](https://img.shields.io/badge/-ProductionProcessCard-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/8dc592e1-e58e-4806-a581-1de80fde3acf-d896/screen/3b725342-c3d1-43e4-a667-b70c28d2878c)

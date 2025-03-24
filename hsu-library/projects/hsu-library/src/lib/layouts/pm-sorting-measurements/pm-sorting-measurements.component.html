@@ -1,0 +1,23 @@
+<pm-banner
+    *ngIf="isBannerVisible"
+    [bannerText]="localisations.bannerText"
+    [bannerType]="BannerType.INFO"
+    (onCloseBanner)="onCloseBanner()"
+/>
+<pm-text
+    [type]="TextType.H3"
+    [margin]="isAdminView ? titleMarginWithoutDescription : titleMargin"
+> {{localisations.titleText}}</pm-text>
+<pm-text
+    *ngIf="!isAdminView"
+    [type]="TextType.COPY_M1"
+    [margin]="descriptionMargin"
+> {{localisations.descriptionText}}</pm-text>
+
+<pm-table
+    [columnHeaders]="sortingColumnHeaders"
+    [(rows)]="sortingRows"
+    [draggable]="true"
+    (rowsChange)="sortingRowsChange.emit($event)"
+/>
+

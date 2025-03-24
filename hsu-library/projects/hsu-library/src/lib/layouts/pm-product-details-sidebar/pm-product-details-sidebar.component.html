@@ -1,0 +1,142 @@
+<div *ngIf="!sidebarCollapsed" class="details-sidebar" >
+    <div class="details-sidebar__header">
+        <pm-row [template]="'1fr auto'">
+            <pm-text
+                [type]="TextType.H2"
+                class="details-sidebar__title"
+            >
+                {{ localisations.sidebarTitle }}
+            </pm-text>
+
+            <div class="details-sidebar__actions">
+                <pm-button
+                    *ngIf="showEditButton"
+                    [type]="ButtonType.ICON"
+                    [icon]="Icon.EDIT"
+                    (onClicked)="productEditClicked()"
+                    class="details-sidebar__actions-button"
+                />
+
+                <pm-button
+                    [type]="ButtonType.ICON"
+                    [icon]="Icon.MINIMIZE"
+                    (onClicked)="onCollapseSidebar()"
+                    class="details-sidebar__actions-button"
+                />
+            </div>
+        </pm-row>
+    </div>
+
+    <div class="details-sidebar__content" >
+            <div *ngFor="let productSection of productDataSidebar"
+                 class="details-sidebar__container"
+            >
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="sectionMargin"
+                >
+                    {{ productSection.sectionTitle }}
+                </pm-text>
+
+                <pm-text
+                    [type]="TextType.COPY_M1"
+                >
+                    {{ productSection.content }}
+                </pm-text>
+
+                <ng-container *ngFor="let productGroup of productSection.groups">
+                    <pm-text
+                        [type]="TextType.H4"
+                        [margin]="groupMargin"
+                    >
+                        {{ productGroup.groupTitle }}
+                    </pm-text>
+
+                    <div *ngFor="let productProperties of productGroup.properties">
+                        <span class="details-sidebar__label">{{ productProperties.key }}</span>
+                        <span class="details-sidebar__value">{{ productProperties.value }}</span>
+                    </div>
+                </ng-container>
+            </div>
+
+            <!--Files with Download button-->
+            <pm-row *ngIf="fileData.length"
+                    [template]="'1fr 1fr'"
+                    class="details-sidebar__container details-sidebar__uploaded-files"
+            >
+                <pm-text
+                    [type]="TextType.H3"
+                    class="details-sidebar__uploaded-files-title"
+                >
+                    {{ localisations.fileSectionTitle }}
+                </pm-text>
+
+                <div class="details-sidebar__actions">
+                    <pm-button
+                        [type]="ButtonType.ICON"
+                        [icon]="Icon.DOWNLOAD"
+                        (onClicked)="onDownloadFiles()"
+                        class="details-sidebar__actions-button"
+                    />
+                </div>
+            </pm-row>
+
+            <!--Display sharepointLink-->
+            <ng-container *ngIf="sharePointLink.length"
+                          class="details-sidebar__sharepoint-link"
+            >
+                <pm-text
+                    [type]="TextType.H4"
+                    [margin]="sharepointMargin"
+                > {{localisations.sharepointLinkLabel}}
+                </pm-text>
+
+                <div class="details-sidebar__files">
+                    <pm-icon
+                        [icon]="Icon.NEW_WINDOW"
+                        [size]="IconSize.XS"
+                        (click)="onClickLink.emit()"
+                        class="details-sidebar__icon details-sidebar__icon-link"
+                    />
+                    <pm-text [type]="TextType.COPY_M1"> {{sharePointLink}} </pm-text>
+                </div>
+            </ng-container>
+
+            <!--Display uploaded files-->
+            <ng-container *ngFor="let category of categories">
+                <ng-container *ngIf="(fileData | FileTagsByCategory:category).length > 0">
+                    <pm-text
+                        [type]="TextType.H4"
+                        [margin]="uploadedFilesMargin"
+                    >
+                        {{ uploadCategories[category] }}
+                    </pm-text>
+
+                    <div *ngFor="let file of fileData | FileTagsByCategory:category"
+                         class="details-sidebar__files">
+                        <pm-icon
+                            [icon]="file.fileName | FiletypeIcon"
+                            [size]="IconSize.XS"
+                            class="details-sidebar__icon"
+                        />
+                        <pm-text
+                            [type]="TextType.COPY_M1"
+                            class="details-sidebar__files-tag"
+                        >
+                            {{ file.fileName }}
+                        </pm-text>
+                    </div>
+                </ng-container>
+            </ng-container>
+    </div>
+
+    <!--Sidebar Footer with Image-->
+    <div class="details-sidebar__footer">
+        <pm-image
+            *ngIf="productImagePath.length"
+            [imagePath]="productImagePath"
+            [imagePathFull]="productImagePathFull"
+            [hasLimitHeight]="hasLimitHeight"
+        />
+    </div>
+</div>

@@ -1,0 +1,53 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmBannerComponent } from "../../../lib/components/pm-banner/pm-banner.component";
+import { bannerData } from "./banner.data";
+import { BannerType } from "../../../lib/components/pm-banner/pm-banner.shared";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Banner/Banner" component={PmBannerComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmBannerComponent))
+]}/>
+
+<Description of={PmBannerComponent}/>
+
+export const actionsData = {
+    closeBannerEmitter: action('clicked on close Banner:'),
+};
+export const Template = args => ({
+    props: {
+        ...bannerData,
+        ...args,
+        closeBannerEmitter: actionsData.closeBannerEmitter
+    },
+});
+
+This contains definitions for all **Banner**.
+
+## Banner
+
+<Canvas withToolbar>
+    <Story name="BannerAttention">
+        {Template.bind({})}
+    </Story>
+    <Story name="BannerInfo" args={{
+        bannerType: BannerType.INFO,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-Banners](https://img.shields.io/badge/-Banners-%235c5c5c?logo=adobexd&labelButtons=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/537c8542-c68e-458a-a596-7c7f81917981/specs/)

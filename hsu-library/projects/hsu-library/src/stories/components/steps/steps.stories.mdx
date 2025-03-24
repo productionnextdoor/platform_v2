@@ -1,0 +1,45 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { action } from "@storybook/addon-actions";
+
+import { PmStepsComponent } from "../../../lib/components/pm-steps/pm-steps.component";
+import { StepsData } from "./steps.data";
+
+
+
+<Meta title="Components/Steps/Steps" component={PmStepsComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}}/>
+
+<Description of={PmStepsComponent}/>
+
+export const actionsData = {
+    onChange: action('Step changed:'),
+};
+
+export const Template = args => ({
+    props: {
+        ...StepsData,
+        ...actionsData,
+        ...args,
+    },
+});
+
+## Steps
+
+<Canvas withToolbar>
+    <Story name="Steps">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-Steps](https://img.shields.io/badge/-Steps-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/e14e7da8-b501-4d8f-8454-48451bd165c4/)

@@ -1,0 +1,143 @@
+import { moduleMetadata } from '@storybook/angular';
+import { ArgsTable, Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import {
+    PmInputComponent,
+    EPmInputType,
+    EPmAutocompleteState
+} from "../../../lib/components/pm-input/pm-input.component";
+import { InputData } from './input.data';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Input/Sandbox" component={PmInputComponent} argTypes={{
+    type: {
+        control: 'select',
+        description: 'The type of the input',
+        options: EPmInputType,
+        table: {
+            category: 'Visual',
+        },
+    },
+    label: {
+        description: 'The label above the input',
+        table: {
+            category: 'Texts',
+        },
+    },
+    name: {
+        description: 'The name of the input',
+        table: {
+            category: 'Texts',
+        },
+    },
+    placeholder: {
+        description: 'The placeholder text',
+        table: {
+            category: 'Texts',
+        },
+    },
+    value: {
+        description: 'The displayed value in the input',
+        table: {
+            category: 'Texts',
+        },
+    },
+    active: {
+        description: 'active state',
+        table: {
+            category: 'Pseudo',
+        },
+    },
+    disabled: {
+        description: 'disabled state',
+        table: {
+            category: 'Pseudo',
+        },
+    },
+    hovered: {
+        description: 'hovered state',
+        table: {
+            category: 'Pseudo',
+        },
+    },
+    required: {
+        description: 'Defines if the input is required',
+        table: {
+            category: 'State',
+        },
+    },
+    margin: {
+        description: 'Defines the margin of the input',
+        table: {
+            category: 'Texts',
+        },
+    },
+    showPassword: {
+        description: 'Defines if the password should be shown when type is password',
+        table: {
+            category: 'State',
+        },
+    },
+    autocomplete: {
+        control: 'select',
+        description: 'autocomplete',
+        options: EPmAutocompleteState,
+        table: {
+            category: 'State',
+        },
+    },
+    onInput: {
+        description: 'emitted when input changes',
+        table: {
+            category: 'Event',
+        },
+    },
+    onEnter: {
+        description: 'emitted when enter is clicked',
+        table: {
+            category: 'Event',
+        },
+    },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmInputComponent)),
+]} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}}/>
+
+<Description of={PmInputComponent}/>
+
+export const actionsData = {
+    onInput: action('input to field:'),
+    onEnter: action('on enter clicked:'),
+    onClick: action('on click'),
+    onEmpty: action('on empty'),
+};
+export const Template = args => ({
+    props: {
+        ...InputData,
+        ...args,
+        onInput: actionsData.onInput,
+        onEnter: actionsData.onEnter,
+        onClick: actionsData.onClick,
+        onEmpty: actionsData.onEmpty,
+    },
+});
+
+This contains the **Inputs-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+[![XD-Inputfields](https://img.shields.io/badge/-Inputfields-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

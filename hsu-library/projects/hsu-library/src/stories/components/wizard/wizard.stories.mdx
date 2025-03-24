@@ -1,0 +1,109 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from "@storybook/angular";
+import { PmInputComponent } from "../../../lib/components/pm-input/pm-input.component";
+
+import { PmWizardComponent } from "../../../lib/components/pm-wizard/pm-wizard.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { storybookHelper } from "../../StorybookHelper";
+import { wizardData } from "./wizard.data";
+
+<Meta title="Components/Wizard/Wizard" component={PmWizardComponent} argTypes={{}} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(
+        PmWizardComponent,
+        [
+            PmInputComponent
+        ]
+    ))
+]} />
+
+<Description of={PmWizardComponent} />
+
+export const actionsData = {
+    onChange: action('Step changed:'),
+    onCancel: action('On Cancel:'),
+    onDraft: action('On Draft:'),
+    onSave: action('On Save:'),
+};
+
+export const Template = storybookHelper.RenderNgContent(
+    'pm-wizard',
+    {
+        ...actionsData,
+        ...wizardData,
+    }
+);
+
+# Wizard
+
+This contains the **Wizard**.
+
+## Default
+
+<Canvas withToolbar>
+    <Story name="Default" height={'700px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Second Step Active
+
+The initial step can be set with the `step` input.
+
+<Canvas withToolbar>
+    <Story name="Second Step Active" height={'700px'} args={{
+        step: 1
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Existing Progress
+
+Existing progress can be set with the `progress` input. This will show e.g. the second step as already visited.
+
+<Canvas withToolbar>
+    <Story name="Existing Progress" height={'700px'} args={{
+        progress: 1
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Actions Disabled
+
+All Actions can be disabled separately, with exception to the Cancel button, which is always enabled.
+
+
+<Canvas withToolbar>
+    <Story name="Disabled Actions" height={'700px'} args={{
+        disableDraft: true,
+        disablePrev: true,
+        disableNext: true,
+        disableSave: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Invalid Wizard
+
+The Wizard can be set to invalid, which will disable the Save button and similar actions.
+
+
+<Canvas withToolbar>
+    <Story name="Invalid Wizard" height={'700px'} args={{
+        valid: false
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br /><br />
+
+
+
+## Design
+[![XD-Wizard](https://img.shields.io/badge/-Wizard-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/00f72310-aad8-49bf-a8bb-89819ccd969c-55a4/screen/7153bc02-2a19-4795-95ae-87c9a774e360/)

@@ -1,0 +1,18 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+.pm-badge {
+  --badge-color: #{f.color('primary', 100)};
+
+  @include fonts.font-copy-s1();
+
+  display: inline-block;
+  padding: f.rem(5) f.rem(8);
+  border-radius: f.rem(8);
+  background-color: var(--badge-color);
+  color: f.color('neutrals', 1100);
+
+  &--negative {
+    --badge-color: #{f.color('semantic', 100)};
+  }
+}

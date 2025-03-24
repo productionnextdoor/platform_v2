@@ -1,0 +1,48 @@
+import { Meta, Story, Canvas, Description } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmMaterialGroupComponent } from "../../../lib/layouts/pm-material-group/pm-material-group.component";
+import { materialGroupData } from "./material-group.data";
+import { action } from "@storybook/addon-actions";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+
+<Meta title="Layouts/Material-Group/Material-Group" component={PmMaterialGroupComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmMaterialGroupComponent)),
+]}/>
+
+<Description of={PmMaterialGroupComponent}/>
+
+export const actionsData = {
+    workingPiecesChange: action('add Working Piece'),
+};
+
+export const Template = args => ({
+    props: {
+        ...actionsData,
+        ...materialGroupData,
+        ...args,
+    },
+});
+
+## Material Group
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<Canvas withToolbar>
+    <Story name="Default with data" args={{
+        workingPieces: [...materialGroupData.workingPieces].splice(0, 2)
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/><br/>
+
+## Design
+
+[![XD-MaterialGroup](https://img.shields.io/badge/-MaterialGroup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/b2c3775d-2901-4bf0-b018-145694fed6a2-e790/screen/757c9918-1ab6-43c9-863c-425de62aae99/)

@@ -1,0 +1,44 @@
+<pm-header class="order-overview__header"
+           [breadcrumbs]="breadcrumbs"
+/>
+<pm-card
+    [hasHeader]="false"
+    [contentPadding]="false"
+>
+    <div class="order-overview__top-toolbar">
+        <pm-input
+            class="order-overview__top-toolbar--search"
+            [type]="EPmInputType.SEARCH"
+            [name]="'search'"
+            [label]="localisationStrings.searchBarTexts.label"
+            [placeholder]="localisationStrings.searchBarTexts.placeholder"
+            [hideErrorMessages]="true"
+            (valueChange)="onSearch($event)"
+        />
+        <pm-dropdown
+            *ngIf="statusFilterOptions.length"
+            class="order-overview__top-toolbar--filter"
+            [options]="statusFilterOptions"
+            [label]="localisationStrings.stateFilterTexts.label"
+            [placeholder]="localisationStrings.stateFilterTexts.placeholder"
+            [hideErrorMessages]="true"
+            (valueChange)="statusFilterChanged($event)"
+        />
+    </div>
+    <pm-table
+        [loading]="loading"
+        [columnHeaders]="columnHeaders"
+        [rows]="rowData"
+        (onActionClicked)="actionClicked($event)"
+        (onSort)="sortingClicked($event)"
+    />
+    <div class="order-overview__pagination">
+        <pm-pagination
+            [totalItems]="totalItems"
+            [totalText]="localisationStrings.totalText"
+            [currentPage]="currentPage"
+            [itemsPerPageOptions]="itemsPerPageOptions"
+            (onShowPage)="paginationChanged($event)"
+        />
+    </div>
+</pm-card>

@@ -1,0 +1,36 @@
+import {PmImprintComponent} from '../../../lib/layouts/pm-imprint/pm-imprint.component';
+import { moduleMetadata } from '@storybook/angular';
+import {getComponentStoryMeta} from '../../ComponentDependencies';
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import {imprintData} from './imprint.data';
+
+<Meta title="Layouts/Imprint/Imprint" component={PmImprintComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmImprintComponent))
+]}/>
+
+<Description of={PmImprintComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...imprintData,
+        ...args,
+    }
+});
+
+# Imprint Page
+
+This contains the story for the layout **Imprint Page**.
+
+<Canvas withToolbar>
+  <Story name="Imprint" height={'500px'}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+
+## Design
+[![XD-Imprint](https://img.shields.io/badge/-Imprint-%235c5c5c?logo=adobexd&labelColor=450034)]()

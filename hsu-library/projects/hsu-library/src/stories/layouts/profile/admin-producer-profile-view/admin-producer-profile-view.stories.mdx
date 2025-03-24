@@ -1,0 +1,48 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story,
+    ArgsTable
+} from '@storybook/addon-docs';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+import { adminProducerProfileViewData } from './admin-producer-profile-view.data.ts';
+import { PmAdminProducerProfileViewComponent } from "../../../../lib/layouts/pm-profile/pm-admin-producer-profile-view/pm-admin-producer-profile-view.component";
+import { getComponentStoryMeta } from "../../../ComponentDependencies";
+
+<Meta title="Layouts/Profiles/AdminProducerProfileView" component={PmAdminProducerProfileViewComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmAdminProducerProfileViewComponent)),
+]}/>
+
+<Description of={PmAdminProducerProfileViewComponent}/>
+
+export const actionsData = {
+    onSave: action('on save'),
+    onClose: action('on close'),
+};
+
+export const Template = args => ({
+    props: {
+        ...args,
+        ...adminProducerProfileViewData,
+        ...actionsData,
+    },
+});
+
+<br/><br/>
+
+## Admin Producer Profile
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Default"/>
+
+## Design
+[![XD-AdminProducerProfileView](https://img.shields.io/badge/-AdminProducerProfileView-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/1ce5c93b-972a-47b2-bc1c-7efdc49247de-49b6/screen/f5a00488-af85-4c37-92e6-c6f87ae9f7ca/)

@@ -1,0 +1,82 @@
+import {
+    ArgsTable,
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { CheckboxData } from './checkbox.data'
+import { PmCheckboxComponent } from "../../../lib/components/pm-checkbox/pm-checkbox.component";
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Checkbox/Sandbox" component={PmCheckboxComponent} argTypes={{
+    hovered: {
+        description: 'Defines the hovered behaviour',
+        table: {
+            category: 'Visual',
+            subcategory: 'Pseudo',
+        },
+    },
+    disabled: {
+        description: 'Defines the disabled behaviour',
+        table: {
+            category: 'Visual',
+            subcategory: 'Pseudo',
+        },
+    },
+    state: {
+        description: 'Defines the state of the checkbox',
+        table: {
+            category: 'State',
+        },
+    },
+    stateChange: {
+        description: "Will be notified when this checkbox is clicked.",
+        table: {
+            category: 'Events',
+        },
+    },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmCheckboxComponent)),
+]} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}}/>
+
+<Description of={PmCheckboxComponent}/>
+
+
+export const actionsData = {
+    stateChange: action('clicked on checkbox:'),
+};
+
+export const Template = args => ({
+    props: {
+        ...CheckboxData,
+        ...args,
+        stateChange: actionsData.stateChange
+    },
+});
+
+
+
+This contains the **Checkbox-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+
+[![XD-Checkboxes](https://img.shields.io/badge/-Checkboxes-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/fa0d840c-7331-46bb-bb25-243378b092b1/specs/)

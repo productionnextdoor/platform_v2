@@ -1,0 +1,48 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story,
+    ArgsTable
+} from '@storybook/addon-docs';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmCurrentProducerProfileComponent } from "../../../../lib/layouts/pm-profile/pm-current-producer-profile/pm-current-producer-profile.component";
+import { currentProducerProfileData } from './current-producer-profile.data';
+import { getComponentStoryMeta } from "../../../ComponentDependencies";
+
+<Meta title="Layouts/Profiles/CurrentProducerProfile" component={PmCurrentProducerProfileComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmCurrentProducerProfileComponent)),
+]}/>
+
+<Description of={PmCurrentProducerProfileComponent}/>
+
+export const actionsData = {
+    onSave: action('on save'),
+    onClose: action('on close'),
+};
+export const Template = args => ({
+    props: {
+        ...currentProducerProfileData,
+        ...args,
+        ...actionsData,
+    },
+});
+
+<br/><br/>
+
+## Producer Profile Popup
+
+<Canvas withToolbar>
+    <Story name="Default" height={'1100px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Default"/>
+
+## Design
+[![XD-ProducerProfile](https://img.shields.io/badge/-ProducerProfile-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/66bf393a-bc9e-445c-8679-9e47bc51f80c-33ec/screen/b35e3565-b86a-428e-83ad-4a87a9345822/specs/)

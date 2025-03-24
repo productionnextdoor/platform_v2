@@ -1,0 +1,49 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.filename-tag {
+  --filename-tag-box-shadow: #{f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 320)};
+
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  vertical-align: middle;
+  height: f.rem(40);
+  padding: f.rem(8) f.rem(16);
+  box-shadow: var(--filename-tag-box-shadow);
+  @include m.border-radius(f.rem(8));
+  background: f.color(neutrals, 1100) 0 0 no-repeat padding-box;
+  width: inherit;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    color: f.color(neutrals, 100);
+  }
+
+  &__text {
+    @include fonts.font-copy-m1();
+
+    flex: 2;
+    margin-left: f.rem(4);
+    text-align: left;
+    letter-spacing: 0;
+    color: f.color(neutrals, 300);
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+    margin-left: f.rem(16);
+    padding: f.rem(2);
+    cursor: pointer;
+    color: f.color(neutrals, 100);
+  }
+
+  &:hover {
+    --filename-tag-box-shadow: #{f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 340)};
+  }
+}

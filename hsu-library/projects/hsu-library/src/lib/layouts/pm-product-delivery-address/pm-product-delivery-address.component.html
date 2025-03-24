@@ -1,0 +1,87 @@
+<pm-banner *ngIf="isBannerVisible"
+               [bannerText]="productDeliveryAddressLocalisations.bannerText"
+               [bannerType]="BannerType.INFO"
+               (onCloseBanner)="onCLoseBanner()"
+    />
+    <pm-text
+        [type]="TextType.H3"
+        [margin]="isAdminView ? titleMarginWithoutDescription : titleMargin"
+    >
+        {{productDeliveryAddressLocalisations.titleText}}
+    </pm-text>
+    <pm-text
+        *ngIf="!isAdminView"
+        [type]="TextType.COPY_M1"
+        [margin]="descriptionMargin"
+    >
+        {{productDeliveryAddressLocalisations.descriptionText}}
+    </pm-text>
+    <pm-row [template]="'1fr 1fr 1fr'" [gap]="DefaultMargins.XLarge">
+        <pm-col>
+            <pm-input
+                [name]="'name'"
+                [label]="productDeliveryAddressLocalisations.nameLabel"
+                [placeholder]="productDeliveryAddressLocalisations.nameLabel"
+                [(value)]="deliveryAddress.name"
+                [required]="true"
+                [errorMessages]="productDeliveryAddressLocalisations.inputErrorMessages"
+                (valueChange)="productDeliveryAddressDataChange.emit()"
+            />
+
+            <pm-input
+                [name]="'street'"
+                [label]="productDeliveryAddressLocalisations.streetLabel"
+                [placeholder]="productDeliveryAddressLocalisations.streetLabel"
+                [(value)]="deliveryAddress.street"
+                [required]="true"
+                [errorMessages]="productDeliveryAddressLocalisations.inputErrorMessages"
+                (valueChange)="productDeliveryAddressDataChange.emit()"
+            />
+
+            <pm-input
+                [name]="'zipCode'"
+                [label]="productDeliveryAddressLocalisations.zipCodeLabel"
+                [placeholder]="productDeliveryAddressLocalisations.zipCodeLabel"
+                [(value)]="deliveryAddress.zipCode"
+                [required]="true"
+                [errorMessages]="productDeliveryAddressLocalisations.inputErrorMessages"
+                (valueChange)="productDeliveryAddressDataChange.emit()"
+
+            />
+        </pm-col>
+        <pm-col>
+            <pm-input
+                [name]="'city'"
+                [label]="productDeliveryAddressLocalisations.cityLabel"
+                [placeholder]="productDeliveryAddressLocalisations.cityLabel"
+                [(value)]="deliveryAddress.city"
+                [required]="true"
+                [errorMessages]="productDeliveryAddressLocalisations.inputErrorMessages"
+                (valueChange)="productDeliveryAddressDataChange.emit()"
+
+            />
+
+            <pm-input
+                [name]="'phone'"
+                [label]="productDeliveryAddressLocalisations.phoneLabel"
+                [placeholder]="productDeliveryAddressLocalisations.phoneLabel"
+                [(value)]="deliveryAddress.phone"
+                [required]="false"
+                [errorMessages]="productDeliveryAddressLocalisations.inputErrorMessages"
+                (valueChange)="productDeliveryAddressDataChange.emit()"
+
+
+            />
+
+            <pm-input
+                [name]="'email'"
+                [label]="productDeliveryAddressLocalisations.emailLabel"
+                [placeholder]="productDeliveryAddressLocalisations.emailLabel"
+                [(value)]="deliveryAddress.email"
+                [required]="true"
+                [errorMessages]="productDeliveryAddressLocalisations.inputErrorMessages"
+                (valueChange)="productDeliveryAddressDataChange.emit()"
+
+            />
+        </pm-col>
+    </pm-row>

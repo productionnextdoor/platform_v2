@@ -1,0 +1,38 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+
+  &__amount {
+    @include fonts.font-copy-m1();
+    color: f.color(neutrals, 300);
+  }
+
+  &__paginator {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  &__pages {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-inline: f.rem(16);
+  }
+
+  &__button {
+    margin-right: f.rem(8);
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}

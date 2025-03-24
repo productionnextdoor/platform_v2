@@ -1,0 +1,23 @@
+<div class="pm-header">
+    <ng-container *ngFor="let breadcrumbLink of breadcrumbs?.breadcrumbLinks">
+        <a class="pm-header__breadcrumb"
+           [title]="breadcrumbLink.link.title"
+           [routerLink]="breadcrumbLink.link.routerLink"
+           [queryParams]="breadcrumbLink.link.queryParams">
+            {{ breadcrumbLink.text }}
+        </a>
+        <div class="pm-header__separator">
+            <pm-icon
+                [icon]="Icon.CHEVRON"
+                [size]="IconSize.S"
+                [rotate]="270"
+            />
+        </div>
+    </ng-container>
+    <h1 class="pm-header__breadcrumb pm-header__breadcrumb--is-title">
+        {{ breadcrumbs.lastBreadcrumb }}
+    </h1>
+    <div class="pm-header__buttons">
+        <ng-content/>
+    </div>
+</div>

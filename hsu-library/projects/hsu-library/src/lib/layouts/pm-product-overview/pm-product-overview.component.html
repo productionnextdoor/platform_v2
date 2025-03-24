@@ -1,0 +1,57 @@
+<pm-header class="product-overview__header"
+           [breadcrumbs]="breadcrumbs"
+>
+    <pm-button class="product-overview__header-btn"
+               *ngIf="showCreatProductButton"
+               [type]="ButtonType.PRIMARY"
+               [icon]="EIcon.ADD"
+               [label]="localisationStrings.buttonLabel"
+               [active]="true"
+               (onClicked)="openProductPopup()"
+    >
+    </pm-button>
+</pm-header>
+
+<pm-card
+    class="pm-admin-producer-profile-view"
+    [hasHeader]="false"
+    [contentPadding]="false"
+>
+    <div class="product-overview__top-toolbar">
+        <pm-input
+            class="product-overview__top-toolbar--search"
+            [type]="EPmInputType.SEARCH"
+            [name]="'search'"
+            [label]="localisationStrings.searchBarTexts.label"
+            [placeholder]="localisationStrings.searchBarTexts.placeholder"
+            [hideErrorMessages]="true"
+            (valueChange)="onSearch($event)"
+        />
+        <pm-dropdown
+            class="product-overview__top-toolbar--filter"
+            [options]="statusFilterOptions"
+            [label]="localisationStrings.stateFilterTexts.label"
+            [placeholder]="localisationStrings.stateFilterTexts.placeholder"
+            [hideErrorMessages]="true"
+            (valueChange)="statusFilterChanged($event)"
+        />
+    </div>
+    <pm-table
+        [loading]="loading"
+        [columnHeaders]="columnHeaders"
+        [rows]="rowData"
+        (onActionClicked)="actionClicked($event)"
+        (onSort)="sortingClicked($event)"
+    />
+    <div class="product-overview__pagination">
+        <pm-pagination
+            [totalItems]="totalItems"
+            [totalText]="localisationStrings.totalText"
+            [currentPage]="currentPage"
+            [itemsPerPageOptions]="itemsPerPageOptions"
+            (onShowPage)="paginationChanged($event)"
+        />
+    </div>
+
+</pm-card>
+

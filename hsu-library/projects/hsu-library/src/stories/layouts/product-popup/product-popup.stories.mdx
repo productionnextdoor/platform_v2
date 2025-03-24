@@ -1,0 +1,49 @@
+import {
+    Canvas, Description, Meta, Story
+} from '@storybook/addon-docs';
+import {
+    moduleMetadata
+} from '@storybook/angular';
+import {
+    PmProductPopupComponent
+} from "../../../lib/layouts/pm-product-popup/pm-product-popup.component";
+import {
+    productPopupData
+} from "./product-popup.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+
+<Meta title="Layouts/Product-Popup/Product-Popup" component={PmProductPopupComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductPopupComponent)),
+]}/>
+
+<Description of={PmProductPopupComponent}/>
+
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...productPopupData,
+        ...args
+    },
+});
+
+# Product Popup
+
+This contains the story for the layout **Product Popup**.
+
+## Product Popup
+
+<Canvas withToolbar>
+  <Story name="ProductPopup" height={'723px'}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-ProductPopup](https://img.shields.io/badge/-ProductPopup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/017f7c78-7bd2-431a-9339-0c0cb674f63f-542c/screen/394e167a-a38a-4086-8573-eeb51c9464ff/)

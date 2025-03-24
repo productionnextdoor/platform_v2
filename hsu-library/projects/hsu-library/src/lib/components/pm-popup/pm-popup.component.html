@@ -1,0 +1,28 @@
+<div
+    class="pm-popup"
+    [ngClass]="{
+        'pm-popup--medium': type === PopupType.MEDIUM,
+        'pm-popup--large': type === PopupType.LARGE,
+    }"
+>
+    <pm-card
+        class="pm-popup__card"
+        [hasHeader]="hasHeader"
+        [context]="context"
+        [title]="title"
+        [titleIcon]="titleIcon"
+        [closable]="closable"
+        [fullHeight]="type === PopupType.LARGE"
+        (onClose)="onCloseHandler()"
+    >
+        <ng-container header>
+            <ng-content select="[header]"></ng-content>
+        </ng-container>
+
+        <ng-content></ng-content>
+
+        <ng-container footer>
+            <ng-content select="[footer]"></ng-content>
+        </ng-container>
+    </pm-card>
+</div>

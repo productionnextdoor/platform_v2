@@ -1,0 +1,9 @@
+<div class="pm-col"
+     [style.--col-gap.px]="gap"
+     [style.--col-template]="template"
+     [ngClass]="{
+         'pm-col--fullHeight': hasFullHeight
+     }"
+>
+    <ng-content/>
+</div>

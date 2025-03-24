@@ -1,0 +1,32 @@
+@use '../../../styles/utils/functions' as f;
+@use '../../../styles/base/fonts' as fonts;
+
+.header-cell {
+  --text-color: #{f.color(neutrals, 100)};
+
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  white-space: nowrap;
+
+  &--disabled {
+    --text-color: #{f.color(neutrals, 700)};
+
+    pointer-events: none;
+  }
+
+  &__text {
+    @include fonts.font-h4();
+
+    color: var(--text-color);
+  }
+
+  &__icon {
+    margin-left: f.rem(11);
+    color: var(--text-color);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

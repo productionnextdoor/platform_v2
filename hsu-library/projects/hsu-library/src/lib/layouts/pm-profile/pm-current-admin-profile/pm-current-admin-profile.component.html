@@ -1,0 +1,53 @@
+<div class="current-admin-profile">
+    <pm-popup
+        [type]="PopupType.MEDIUM"
+        [title]="localisations.popupTitle"
+        (onClose)="onCancelClick()">
+        <div class="current-admin-profile__subtitle">
+            {{ localisations.popupSubtitle }}
+        </div>
+        <pm-row template="1fr 1fr" [gap]="margins.XLarge">
+            <pm-col [gap]="margins.Small">
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="localisations.labels.fullName"
+                    [label]="localisations.labels.fullName"
+                    [placeholder]="localisations.labels.fullName"
+                    [hasError]="adminProfileErrors.fullName"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    [(value)]="admin.fullName"
+                    [required]="true"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()">
+                </pm-input>
+            </pm-col>
+            <pm-col [gap]="margins.Small">
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="localisations.labels.mail"
+                    [label]="localisations.labels.mail"
+                    [placeholder]="localisations.labels.mail"
+                    [required]="true"
+                    [hasError]="adminProfileErrors.email"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    [(value)]="admin.emailAddress"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()">
+                </pm-input>
+            </pm-col>
+        </pm-row>
+        <div footer class="current-admin-profile__footer">
+            <pm-button
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.labels.cancel"
+                (onClicked)="onCancelClick()"
+                class="current-admin-profile__cancel">
+            </pm-button>
+            <pm-button
+                [type]="ButtonType.PRIMARY"
+                [label]="localisations.labels.save"
+                (onClicked)="onSaveClick()">
+            </pm-button>
+        </div>
+    </pm-popup>
+</div>

@@ -1,0 +1,43 @@
+<pm-header class="developer-overview__header"
+           [breadcrumbs]="breadcrumbs"
+>
+    <pm-button
+        [type]="ButtonType.PRIMARY"
+        [icon]="Icon.ADD"
+        [label]="localisationStrings.buttonLabel"
+        (onClicked)="onButtonClicked.emit()"
+    />
+</pm-header>
+<pm-card
+    class="developer-overview"
+    [hasHeader]="false"
+    [contentPadding]="false"
+>
+    <div class="developer-overview__top-toolbar">
+        <pm-input
+            class="developer-overview__top-toolbar--search"
+            [type]="EPmInputType.SEARCH"
+            [name]="'search'"
+            [label]="localisationStrings.searchBarLabel"
+            [placeholder]="localisationStrings.searchBarPlaceholder"
+            [hideErrorMessages]="true"
+            (valueChange)="onSearchTermChanged.emit($event)"
+        />
+    </div>
+    <pm-table
+        [loading]="loading"
+        [columnHeaders]="columnHeaders"
+        [rows]="rowData"
+        (onActionClicked)="actionClicked($event)"
+        (onSort)="onSortingClicked.emit($event)"
+    />
+    <div class="developer-overview__pagination">
+        <pm-pagination
+            [totalItems]="totalItems"
+            [totalText]="localisationStrings.totalText"
+            [currentPage]="currentPage"
+            [itemsPerPageOptions]="itemsPerPageOptions"
+            (onShowPage)="paginationChanged($event)"
+        />
+    </div>
+</pm-card>

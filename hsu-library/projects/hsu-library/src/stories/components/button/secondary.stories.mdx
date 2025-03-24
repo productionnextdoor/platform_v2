@@ -1,0 +1,140 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import {
+    ButtonType,
+    IconPosition,
+    PmButtonComponent
+} from '../../../lib/components/pm-button/pm-button.component';
+import { PmIconComponent } from '../../../lib/components/pm-icon/pm-icon.component';
+import { Icon } from '../../../lib/components/pm-icon/pm-icon.shared';
+import { action } from '@storybook/addon-actions';
+import { ButtonData } from './button.data'
+import { PmComponentMargin } from "../../../lib/utils/pm-component-margin";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Button/Button-Secondary" component={PmButtonComponent} parameters={{
+    controls: {disabled: true},
+}} argTypes={{}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmButtonComponent))
+]}/>
+
+<Description of={PmIconComponent}/>
+<Description markdown={`# Buttons`}/>
+
+export const actionsData = {
+    onClicked: action('clicked on button:'),
+};
+export const Template = args => ({
+    props: {
+        ...ButtonData,
+        ...args,
+        onClicked: actionsData.onClicked
+    },
+});
+
+
+
+This contains definitions for all **Secondary Buttons**.
+
+## Secondary Button
+
+<Canvas withToolbar isColumn>
+    <Story name="Secondary" args={{
+        label: "Secondary",
+        type: ButtonType.SECONDARY,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Secondary Active" args={{
+        label: "Secondary",
+        type: ButtonType.SECONDARY,
+        active: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Secondary Disabled" args={{
+        label: "Secondary",
+        type: ButtonType.SECONDARY,
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Secondary Icon Full Width" args={{
+        label: "Secondary",
+        type: ButtonType.SECONDARY,
+        fullWidth: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Primary Button With Icon
+
+<Canvas withToolbar>
+    <Story name="Secondary Icon" args={{
+        label: "Secondary",
+        icon: Icon.ARROW,
+        type: ButtonType.SECONDARY,
+        iconPosition: IconPosition.RIGHT,
+        iconRotation: 0,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Secondary Active Icon" args={{
+        label: "Secondary",
+        icon: Icon.ARROW,
+        type: ButtonType.SECONDARY,
+        iconPosition: IconPosition.RIGHT,
+        iconRotation: 0,
+        active: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Secondary Disabled Icon" args={{
+        type: ButtonType.SECONDARY,
+        iconPosition: IconPosition.RIGHT,
+        label: "Secondary",
+        icon: Icon.ARROW,
+        iconRotation: 0,
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+> Note: ``Disabled``, ``Hover`` and ``Active`` also work by defining the state ``:disabled``, ``:hover`` and ``:active`` of the component.
+
+<br/>
+
+## Button Margin
+
+> **Note**: The margin @Input() utilizes the `CMargin` class to replicate the behavior of CSS margins.\
+> For instance, in CSS, we often use declarations like `margin: 30px 60px;` or `margin: 10px 30px 20px;`.\
+> So by using CMargin class, you can achieve the same effect by using `new CMargin(30, 60)` or `new CMargin(10, 30, 20)`.\
+> This provides a more structured and programmatic way to manage margins within your application.
+
+<Canvas withToolbar isColumn>
+    <Story name="margin example-one" args={{
+        margin: new PmComponentMargin(10, 30, 20),
+        type: ButtonType.SECONDARY,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="margin example-two" args={{
+        margin: new PmComponentMargin(30, 60),
+        type: ButtonType.SECONDARY,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-Buttons](https://img.shields.io/badge/-Buttons-%235c5c5c?logo=adobexd&labelButtons=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/a365fa37-9f9b-4fd9-9c93-68391e7d29d7)

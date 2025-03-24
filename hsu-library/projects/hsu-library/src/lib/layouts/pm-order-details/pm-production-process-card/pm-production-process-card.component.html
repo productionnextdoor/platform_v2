@@ -1,0 +1,65 @@
+<pm-card
+    class="production-process-card"
+    [hasHeader]="true"
+    [contentPadding]="false"
+    [title]="localisations.title"
+
+>
+    <ng-container header
+    *ngIf="cardMode==ECardMode.EDIT">
+        <pm-button
+            [margin]="btnMargin"
+            [disabled]="startDisabled"
+            [label]="localisations.startButton"
+            [type]="EButtonType.PRIMARY"
+            (onClicked)="confirmAction(true)"
+
+        />
+        <pm-button
+            [disabled]="endDisabled"
+            [label]="isFinalSelected ? localisations.completeOrderButton : localisations.finishButton"
+            [type]="EButtonType.PRIMARY"
+            (onClicked)="confirmAction(false)"
+        />
+    </ng-container>
+    <pm-text
+        [type]="TextType.COPY_M1"
+        [margin]="textMargin"
+    >
+        {{ localisations.description }}
+    </pm-text>
+    <pm-table
+        [loading]="loading"
+        [multiselect]="false"
+        [columnHeaders]="columnHeaders"
+        [(rows)]="rowData"
+        (onCheckboxStateChange)="checkBoxChange($event)"
+    ></pm-table>
+</pm-card>
+
+<pm-confirm-popup
+    *ngIf="showPopup"
+    [localisations]="pmConfirmPopupLocalisations"
+    [confirmDisabled]="!isStart && isFinalSelected && deliveryDocuments.length === 0"
+    (onCancel)="onCancelSubmit()"
+    (onConfirm)="onConfirm()"
+>
+    <ng-container afterDescription>
+        <div
+            *ngIf="!isStart && isFinalSelected"
+            class="production-process-card__popup-content"
+        >
+            <pm-row>
+                <ng-content select="[uploadField]"/>
+                <pm-filename-tag
+                    class="production-process-card__popup-content-filetag"
+                    *ngFor="let deliveryDocument of deliveryDocuments"
+                    [label]="deliveryDocument.name"
+                    [value]="deliveryDocument.index.toString()"
+                    [icon]="deliveryDocument.name | FiletypeIcon"
+                    (onClick)="deleteFile($event)"
+                ></pm-filename-tag>
+            </pm-row>
+        </div>
+    </ng-container>
+</pm-confirm-popup>

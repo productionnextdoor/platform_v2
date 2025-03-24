@@ -1,0 +1,31 @@
+@use '../../../styles/utils/functions' as f;
+
+.producer-registration {
+
+  &__card {
+    width: f.width('registration');
+  }
+
+  &__footer {
+    padding: f.rem(8) 0;
+    text-align: right;
+  }
+
+  &__imprint {
+    display: block;
+    margin-top: f.rem(16);
+
+    &-text, &-link {
+      margin-top: f.rem(2);
+    }
+
+    &-link {
+      text-decoration: underline;
+      cursor: pointer;
+
+        &:hover {
+            color: f.color(primary, 100);
+        }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+<div class="pm-image"
+     [ngClass]="{
+         'pm-image--limitHeight': hasLimitHeight
+     }"
+>
+    <div class="pm-image__image pm-image__image--thumbnail">
+        <img class="pm-image__img" [src]="imagePath" [alt]="alternateImageText"/>
+    </div>
+    <pm-button
+        *ngIf="imagePathFull.length > 0"
+        [type]="ButtonType.ICON"
+        [icon]="Icon.FULLSCREEN"
+        (onClicked)="onOpenImage()"
+        class="pm-image__icon"
+    />
+    <pm-popup *ngIf="popupOpen"
+              class="pm-image__popup"
+              [type]="PopupType.LARGE"
+              [hasHeader]="false"
+    >
+        <div class="pm-image__image">
+            <img class="pm-image__img pm-image__img--full" [src]="imagePathFull" [alt]="alternateImageText"/>
+        </div>
+        <pm-button
+            [type]="ButtonType.ICON"
+            [icon]="Icon.EXIT_FULLSCREEN"
+            (onClicked)="onCloseImage()"
+            class="pm-image__icon"
+        />
+    </pm-popup>
+</div>
+

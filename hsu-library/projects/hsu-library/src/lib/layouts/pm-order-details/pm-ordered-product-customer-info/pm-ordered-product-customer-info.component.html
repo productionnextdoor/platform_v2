@@ -1,0 +1,26 @@
+<pm-card
+    [hasHeader]="true"
+    [title]="title"
+    [noShadow]="false"
+>
+    <pm-row template="1fr 1fr 1fr" [gap]="margins.Large">
+        <div class="customer-info-card__column">
+            <div *ngFor="let properties of customerData.firstRow">
+                <span class="customer-info-card__label">{{ properties.key }}</span>
+                <span class="customer-info-card__value">{{ properties.value }}</span>
+            </div>
+        </div>
+        <div class="customer-info-card__column">
+            <div *ngFor="let properties of customerData.secondRow">
+                <span class="customer-info-card__label">{{ properties.key }}</span>
+                <span class="customer-info-card__value">{{ properties.value }}</span>
+            </div>
+        </div>
+        <div class="customer-info-card__column">
+            <div *ngFor="let properties of customerData.thirdRow">
+                <span class="customer-info-card__label">{{ properties.key }}</span>
+                <span class="customer-info-card__value">{{ properties.value }}</span>
+            </div>
+        </div>
+    </pm-row>
+</pm-card>

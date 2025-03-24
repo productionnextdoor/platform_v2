@@ -1,0 +1,14 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.pm-timer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  &__text {
+    @include fonts.font-copy-m2;
+    padding-right: f.rem(12);
+  }
+}

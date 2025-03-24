@@ -1,0 +1,46 @@
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from '../../../ComponentDependencies';
+import { orderProducerRequestCardData } from './order-producer-request-card.data';
+import { PmOrderProducerRequestCardComponent } from '../../../../lib/layouts/pm-order-details/pm-order-producer-request-card/pm-order-producer-request-card.component';
+import { action } from '@storybook/addon-actions';
+
+
+
+<Meta title="Layouts/Order-Details/OrderProducerRequestCard" component={PmOrderProducerRequestCardComponent} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmOrderProducerRequestCardComponent))
+]}/>
+
+<Description of={PmOrderProducerRequestCardComponent}/>
+
+export const actionsData = {
+    onProducerActionEvent: action('on action clicked:')    
+};
+
+export const Template = args => ({
+    props: {
+        ...orderProducerRequestCardData,
+        ...args,
+        ...actionsData
+    },
+});
+
+# Work Step Popup
+
+This contains the story for the layout **OrderProducerRequestCard**.
+
+<Canvas withToolbar>
+    <Story name="Default" height={'700px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-OrderProducerRequest](https://img.shields.io/badge/-OrderProducerRequest-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/f5063493-9485-49c6-abe7-56301e5ecd9b-a055/screen/ddfb6995-73ff-4d4e-a35a-e7f1786d1503)
+[![XD-OrderProducerRequest](https://img.shields.io/badge/-OrderProducerRequest-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/cff87775-abf7-4bb5-b295-f8129c420ffa-9aab/screen/3fdea884-d540-443c-9932-f6f9ba06bbdb)

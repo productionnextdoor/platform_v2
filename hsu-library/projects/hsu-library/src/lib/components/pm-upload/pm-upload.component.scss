@@ -1,0 +1,68 @@
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+.pm-upload {
+
+  //Upload-field General
+  --upload-field-height: #{f.rem(120)};
+  --upload-field-border-radius: #{f.rem(8)};
+  --upload-field-border: #{f.rem(1)} dashed var(--upload-field-border-color);
+  --upload-field-border-color: #{f.color(neutrals, 500)};
+  --upload-field-background-color: #{f.color(neutrals, 1100)};
+  --upload-field-color: #{f.color(neutrals, 100)};
+
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  &--active {
+    --upload-field-border: #{f.rem(1)} solid #{f.color(neutrals, 100)};
+    --upload-field-background-color: #{f.color(neutrals, 900)};
+  }
+
+  &--hover, &:hover {
+    --upload-field-border-color: #{f.color(neutrals, 100)};
+  }
+
+  &--disabled {
+    --upload-field-background-color: #{f.color(neutrals, 700)};
+    --upload-field-color: #{f.color(neutrals, 500)};
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: var(--upload-field-height);
+    width: 100%;
+    border: var(--upload-field-border);
+    border-radius: var(--upload-field-border-radius);
+    background-color: var(--upload-field-background-color);
+    color: var(--upload-field-color);
+  }
+
+  &__text {
+    @include fonts.font-copy-m1();
+    margin-top: f.rem(8);
+
+    &--url-text {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  &__subtext {
+    @include fonts.font-copy-s1();
+    color: f.color(neutrals, 500);
+  }
+
+  &__label {
+    color: f.color(neutrals, 100);
+    display: inline-block;
+    margin: 0 0 f.rem(8);
+  }
+
+}

@@ -1,0 +1,71 @@
+<pm-popup class="product-popup"
+          [type]="PopupType.MEDIUM"
+          [hasHeader]="true"
+          [title]="popupStrings.popupTitle"
+          (onClose)="onCloseHandler()"
+>
+    <pm-row [template]="'1fr 1fr'" [gap]="margins.XLarge">
+        <pm-col [gap]="margins.Small">
+            <pm-text [type]="TextType.H3">
+                {{popupStrings.titleProduct}}
+            </pm-text>
+            <pm-input
+                [type]="EPmInputType.TEXT"
+                [label]="popupStrings.productNameTexts.label"
+                [placeholder]="popupStrings.productNameTexts.placeholder"
+                [required]="true"
+                [(value)]="productModel.productName"
+                [errorMessages]="inputErrorMessages"
+            />
+            <div class="product-popup__automatic">
+                <pm-text [type]="TextType.COPY_M1">
+                    {{popupStrings.productNumberText}}: {{productModel.productNumber}}
+                </pm-text>
+                <pm-text [type]="TextType.COPY_M1">
+                    {{popupStrings.creationDateText}}: {{productModel.creationDate|date}}
+                </pm-text>
+            </div>
+      </pm-col>
+
+      <pm-col [gap]="margins.Small">
+            <pm-text [type]="TextType.H3">
+                {{popupStrings.titleDeveloper}}
+            </pm-text>
+            <pm-dropdown
+                [label]="popupStrings.developerTexts.label"
+                [placeholder]="popupStrings.developerTexts.placeholder"
+                [options]="optionsDeveloper"
+                [(value)]="productModel.developerId"
+                [searchable]="true"
+                [required]="true"
+                [errorMessages]="inputErrorMessages"
+            />
+            <pm-input
+                 [type]="EPmInputType.TEXTAREA"
+                 [label]="popupStrings.descriptionTexts.label"
+                 [placeholder]="popupStrings.descriptionTexts.placeholder"
+                 [(value)]="productModel.description"
+            />
+      </pm-col>
+    </pm-row>
+
+    <div footer class="product-popup__footer">
+        <pm-button class="product-popup__btn"
+                   [type]="EButtonType.SECONDARY"
+                   [label]="buttonLabel.closeLabel"
+                   (onClicked)="onCloseHandler()"
+        />
+        <pm-button class="product-popup__btn"
+                   [type]="EButtonType.SECONDARY"
+                   [label]="buttonLabel.saveLabel"
+                   [disabled]="!this.productModel.productName || !this.productModel.developerId"
+                   (onClicked)="this.onSave.emit()"
+        />
+        <pm-button class="product-popup__btn"
+                   [type]="EButtonType.PRIMARY"
+                   [label]="buttonLabel.publishLabel"
+                   [disabled]="!this.productModel.productName || !this.productModel.developerId"
+                   (onClicked)="this.onPublish.emit()"
+        />
+    </div>
+</pm-popup>

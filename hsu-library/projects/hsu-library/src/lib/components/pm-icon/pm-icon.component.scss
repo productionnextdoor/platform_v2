@@ -1,0 +1,56 @@
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/icons' as i;
+
+.icon {
+  --icon-size: #{f.rem(48)};
+  --icon-rotate: #{f.rem(0)};
+  --icon-color: currentColor;
+  --icon-transformation: translateX(0);
+  --icon-top-margin-default: 0;
+  --icon-box-size: calc(var(--icon-size) + #{f.rem(4)});
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-box-size);
+  height: var(--icon-box-size);
+  position: relative;
+  margin-top: var(--icon-margin, var(--icon-top-margin-default));
+  vertical-align: bottom;
+
+  @include m.icon('', before) {
+    font-size: var(--icon-size);
+    width: var(--icon-size);
+    height: var(--icon-size);
+    line-height: 1;
+    color: currentColor;
+    position: absolute;
+    @include m.transform(rotate(var(--icon-rotate)) var(--icon-transformation));
+  }
+
+  &--very-small {
+    --icon-size: #{f.rem(12)};
+  }
+
+  &--small {
+    --icon-size: #{f.rem(24)};
+  }
+
+  &--medium {
+    --icon-size: #{f.rem(36)};
+  }
+
+  &--xlarge {
+    --icon-size: #{f.rem(48)};
+    --icon-box-size: calc(var(--icon-size) + #{f.rem(16)});
+  }
+
+  @each $icon, $iconValue in i.$icons {
+    &--#{$icon} {
+      &:before {
+        content: $iconValue
+      }
+    }
+  }
+}

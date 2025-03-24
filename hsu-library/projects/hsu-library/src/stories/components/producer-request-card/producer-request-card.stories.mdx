@@ -1,0 +1,47 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmProducerRequestCardComponent } from "../../../lib/components/pm-producer-request-card/pm-producer-request-card.component";
+import { producerResponseRequestLocalisation } from "./producer-request-card.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta
+    title="Components/ProducerRequestCard/ProducerRequestCard"
+    component={PmProducerRequestCardComponent}
+    argTypes={{}} 
+    parameters={{
+        controls: { disabled: true },
+    }}
+    decorators={[
+        moduleMetadata(getComponentStoryMeta(PmProducerRequestCardComponent)),
+    ]}
+/>
+
+<Description of={PmProducerRequestCardComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...producerResponseRequestLocalisation,
+        ...args,
+    },
+});
+
+
+<br/><br/>
+
+## ProducerRequestCardComponent Default
+
+<Canvas withToolbar>
+    <Story name="Default" args={{
+          ...producerResponseRequestLocalisation,
+      }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/>
+<br/>

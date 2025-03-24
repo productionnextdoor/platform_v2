@@ -1,0 +1,11 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+
+.bar {
+  background-color: f.color(neutrals, 700);
+  height: f.rem(14);
+  @include m.border-radius(f.rem(7));
+  width: 80%;
+}
+
+

@@ -1,0 +1,117 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { backgroundCardData } from "./background-card.data";
+import { PmBackgroundCardComponent } from "../../../lib/components/pm-background-card/pm-background-card.component";
+import { storybookHelper } from "../../StorybookHelper";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+
+<Meta title="Components/BackgroundCard/BackgroundCard" component={PmBackgroundCardComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmBackgroundCardComponent))
+]}/>
+
+<Description of={PmBackgroundCardComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-background-card', backgroundCardData);
+
+# Background Card
+
+This contains the different variations of the **Background Card**.
+
+## Card Variation: Datepicker
+
+<Canvas withToolbar>
+    <Story name="Datepicker" args={{
+        title: 'Produzenten Anfragen',
+        collapsible: true,
+        datepicker: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Datepicker Disabled" args={{
+        title: 'Produzenten Anfragen',
+        collapsible: true,
+        disabled: true,
+        datepicker: true,
+        datepickerDisabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Card Variation: Timer
+
+<Canvas withToolbar>
+    <Story name="Timer" args={{
+        timer: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Timer Disabled" args={{
+        timer: true,
+        disabled: true,
+        editDisabled: true,
+        timerDisabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Card Variation: Edit
+
+<Canvas withToolbar>
+    <Story name="Edit" args={{
+        edit: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Edit Disabled" args={{
+        edit: true,
+        disabled: true,
+        editDisabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Card Variation: Primary Button
+
+<Canvas withToolbar>
+    <Story name="Primary Button" args={{
+        title: 'Beauftragte Wertkette',
+        primaryBtn: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Primary Button Disabled" args={{
+        title: 'Beauftragte Wertkette',
+        disabled: true,
+        primaryBtn: true,
+        primaryBtnDisabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+<br/>
+<br/>
+
+## Design
+
+[![XD-BackgroundCard](https://img.shields.io/badge/-BackgroundCard-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/162fe405-e223-4dcb-98dd-1af22094405b/specs/)

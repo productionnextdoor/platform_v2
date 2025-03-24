@@ -1,0 +1,23 @@
+<pm-popup
+    class="pm-final-product-step-popup"
+    [title]="localisations.title"
+    [type]="PopupType.SMALL"
+    (onClose)="onCancel.emit()"
+>
+    <p>{{localisations.description}}</p>
+
+    <div footer class="pm-final-product-step-popup__actions">
+        <pm-button
+            [type]="ButtonType.SECONDARY"
+            [label]="localisations.cancel"
+            (onClicked)="onCancel.emit()"
+            class="pm-final-product-step-popup__action"
+        />
+        <pm-button
+            [type]="ButtonType.PRIMARY"
+            [label]="localisations.confirm"
+            (onClicked)="onConfirm.emit()"
+            class="pm-final-product-step-popup__action"
+        />
+    </div>
+</pm-popup>

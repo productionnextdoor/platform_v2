@@ -1,0 +1,14 @@
+@use '../../styles/utils/functions' as f;
+
+.invite-popup {
+  color: f.color(neutrals, 100);
+
+  &__footer {
+    text-align: right;
+  }
+
+  &__btn {
+    display: inline-block;
+    margin-left: f.rem(24);
+  }
+}

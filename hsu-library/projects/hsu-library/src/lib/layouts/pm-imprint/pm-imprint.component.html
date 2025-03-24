@@ -1,0 +1,14 @@
+<pm-header
+    [breadcrumbs]="getBreadcrumbs()"
+/>
+<pm-card
+    [hasHeader]="false"
+    [collapsible]="false"
+    [closable]="false"
+>
+    <pm-text
+        [type]="TextType.COPY_M1"
+    >
+        {{ content }}
+    </pm-text>
+</pm-card>

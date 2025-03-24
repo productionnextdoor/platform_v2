@@ -1,0 +1,39 @@
+@use '../../../styles/utils/functions' as f;
+@use '../../../styles/base/fonts' as fonts;
+
+.admin-producer-profile-view {
+  --grid-default-gap: #{f.rem(8)} #{f.rem(24)};
+  --grid-rating-section-gap: #{f.rem(12)} #{f.rem(24)};
+
+  &__top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__action-button {
+    margin-left: f.rem(12);
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &__section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: var(--grid-default-gap);
+
+    &--rating {
+      grid-gap: var(--grid-rating-section-gap);
+    }
+  }
+
+  &__property-label {
+    color: f.color(neutrals, 500);
+  }
+
+  &__rating-icon {
+    margin-right: #{f.rem(2)}
+  }
+}

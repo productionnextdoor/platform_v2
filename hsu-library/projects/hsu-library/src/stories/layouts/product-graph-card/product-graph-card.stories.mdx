@@ -1,0 +1,67 @@
+import {
+    PmProductGraphCardComponent
+} from "../../../lib/layouts/pm-product-graph-card/pm-product-graph-card.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { moduleMetadata } from "@storybook/angular";
+import { productGraphCardData } from "./product-graph-card.data";
+
+<Meta title="Layouts/Product-Graph-Card/Product-Graph-Card" component={PmProductGraphCardComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductGraphCardComponent)),
+]}/>
+
+<Description of={PmProductGraphCardComponent}/>
+<Description markdown={`# Product Graph Card`}/>
+
+export const Template = args => ({
+    props: {
+        ...productGraphCardData,
+        ...args,
+    },
+});
+
+This contains definitions for the **Product Graph Card**.
+
+## Product Graph Card Admin
+
+<Canvas withToolbar>
+    <Story name="Admin" args={{
+        isProducerCard: false,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Product Graph Card Admin Disabled
+
+<Canvas withToolbar>
+    <Story name="Admin Disabled" args={{
+        isProducerCard: false,
+        readyForCalculating: false
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Product Graph Card Producer
+
+<Canvas withToolbar>
+    <Story name="Producer" args={{
+        isProducerCard: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-ProductGraphCardAdmin](https://img.shields.io/badge/-ProductGraphCardAdmin-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/4b6cca74-1250-424c-8c3c-3ab8c470fe13-1e3f/screen/80dbd9f1-b489-4d52-a87f-b4837f78204e/)
+
+[![XD-ProductGraphCardProducer](https://img.shields.io/badge/-ProductGraphCardProducer-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/8ab5cddb-05ec-449a-8d9a-f66f19a817c6-dfe6/screen/57aa7da0-eedd-46bd-80e0-d4dafb708d88/)

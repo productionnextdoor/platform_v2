@@ -1,0 +1,23 @@
+<div class="sidebar">
+    <img class="sidebar__logo" [src]="logoPath" alt="logo" />
+    <pm-button
+        *ngIf="isAuthenticated"
+        class="sidebar__button"
+        [type]="EButtonType.ICON"
+        [icon]="EIcon.PROFILE"
+        (onClicked)="this.onOpenProfile.emit()"
+    />
+    <pm-button
+        *ngIf="isAuthenticated && isImpersonated"
+        class="sidebar__button"
+        [type]="EButtonType.ICON_RED"
+        [icon]="EIcon.GROUP"
+        (onClicked)="this.onLogoutImpersonation.emit()"
+    />
+    <pm-button
+        class="sidebar__button"
+        [type]="EButtonType.ICON"
+        [icon]="EIcon.LOG_OUT"
+        (onClicked)="this.onLogout.emit()"
+    />
+</div>

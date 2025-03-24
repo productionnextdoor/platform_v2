@@ -1,0 +1,128 @@
+@use '../utils/mixins' as m;
+@use '../utils/fonts' as fonts;
+
+// karla regular
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/Karla-Regular.ttf') format('truetype');
+}
+
+// karla Medium
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/Karla-Medium.ttf') format('truetype');
+}
+
+// karla Bold
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../fonts/Karla-Bold.ttf') format('truetype');
+}
+
+// Icons
+$hash: 'zskice';
+@font-face {
+  font-family: 'HSU';
+  src: url('../fonts/HSU-icon.eot?#{$hash}');
+  src: url('../fonts/HSU-icon.eot?#{$hash}#iefix') format('embedded-opentype'),
+  url('../fonts/HSU-icon.woff?#{$hash}') format('woff'),
+  url('../fonts/HSU-icon.ttf?#{$hash}') format('truetype'),
+  url('../fonts/HSU-icon.svg?#{$hash}##HSU-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// for each font in the fonts map, create a class with the font mixin
+@each $fontName, $fontValue in fonts.$fonts {
+  .#{$fontName} {
+    @include m.include-font($fontName);
+  }
+}
+
+// these mixins are used to extend the font classes in the components
+// for overriding the font size you can use the apply-font ones
+@mixin font-h1() {
+  @extend .h1
+}
+
+@mixin apply-font-h1() {
+  @include m.include-font('h1')
+}
+
+@mixin font-h2() {
+  @extend .h2;
+}
+
+@mixin apply-font-h2() {
+  @include m.include-font('h2');
+}
+
+@mixin font-h3() {
+  @extend .h3;
+}
+
+@mixin apply-font-h3() {
+  @include m.include-font('h3');
+}
+
+@mixin font-h4() {
+  @extend .h4;
+}
+
+@mixin apply-font-h4() {
+  @include m.include-font('h4');
+}
+
+@mixin font-copy-m1() {
+  @extend .copy-m1;
+}
+
+@mixin apply-font-copy-m1() {
+  @include m.include-font('copy-m1');
+}
+
+@mixin font-copy-m2() {
+  @extend .copy-m2;
+}
+
+@mixin apply-font-copy-m2() {
+  @include m.include-font('copy-m2');
+}
+
+@mixin font-copy-m3() {
+  @extend .copy-m3;
+}
+
+@mixin apply-font-copy-m3() {
+  @include m.include-font('copy-m3');
+}
+
+@mixin font-copy-s1() {
+  @extend .copy-s1;
+}
+
+@mixin apply-font-copy-s1() {
+  @include m.include-font('copy-s1');
+}
+
+@mixin font-copy-s2() {
+  @extend .copy-s2;
+}
+
+@mixin apply-font-copy-s2() {
+  @include m.include-font('copy-s2');
+}
+
+@mixin font-copy-s3() {
+  @extend .copy-s3;
+}
+
+@mixin apply-font-copy-s3() {
+  @include m.include-font('copy-s3');
+}

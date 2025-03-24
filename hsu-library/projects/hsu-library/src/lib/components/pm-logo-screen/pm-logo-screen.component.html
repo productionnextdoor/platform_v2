@@ -1,0 +1,16 @@
+<div class="logo-screen"
+     [ngClass]="{
+         'logo-screen--limitWidth': hasLimitWidth
+     }"
+>
+    <div class="logo-screen__container">
+        <img
+            class="logo-screen__logo"
+            alt="logo"
+            [src]="logoPath"
+        />
+        <div class="logo-screen__content">
+            <ng-content/>
+        </div>
+    </div>
+</div>

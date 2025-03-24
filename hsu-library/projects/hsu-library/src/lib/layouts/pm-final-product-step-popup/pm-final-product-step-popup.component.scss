@@ -1,0 +1,17 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.pm-final-product-step-popup {
+  &__actions {
+    text-align: right;
+  }
+
+  &__action {
+    margin: 0 0 0 f.rem(24);
+
+    &:first-of-type {
+      margin: 0;
+    }
+  }
+}

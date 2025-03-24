@@ -1,0 +1,43 @@
+@use '../../styles/base/fonts' as fonts;
+@use '../../styles/utils/functions' as f;
+
+.tab-card {
+  &__tabs {
+    --text-default-color: #{f.color(neutrals, 500)};
+    --text-hover-color: #{f.color(neutrals, 100)};
+    --text-underscore-color: #{f.color(primary, 100)};
+
+    display: flex;
+    border-bottom: f.rem(1) solid #{f.color(neutrals, 700)};
+
+    &-tab {
+      @include fonts.font-h2();
+      margin-right: f.rem(24);
+      padding-bottom: f.rem(5);
+      color: var(--text-default-color);
+      position: relative;
+      cursor: pointer;
+
+      &.active,
+      &:hover {
+        color: var(--text-hover-color);
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: f.rem(-1);
+          left: 0;
+          height: f.rem(2);
+          width: 100%;
+          background-color: var(--text-underscore-color);
+        }
+      }
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: f.rem(24);
+  }
+}

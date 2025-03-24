@@ -1,0 +1,43 @@
+import { PmImageComponent } from "../../../lib/components/pm-image/pm-image.component";
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { moduleMetadata } from "@storybook/angular";
+import { imageData } from "./image.data";
+
+<Meta title="Components/Image/Image" component={PmImageComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmImageComponent)),
+]}/>
+
+<Description of={PmImageComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...imageData,
+        ...args,
+    },
+});
+
+# Image
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/>
+
+# Image Popup Open
+
+<Canvas withToolbar>
+    <Story name="Popup Open" args={{
+        popupOpen: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Design
+[![XD-Image](https://img.shields.io/badge/-Image-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/226bcc35-1c12-47e3-88d2-5f63be07b605/)

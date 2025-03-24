@@ -1,0 +1,36 @@
+@use '../../styles/base/fonts' as fonts;
+@use '../../styles/utils/colors' as colors;
+@use '../../styles/utils/functions' as f;
+
+.pm-header {
+  --active-breadcrumb-color: #{f.color('neutrals', 100)};
+  --inactive-breadcrumb-color: #{f.color('neutrals', 500)};
+
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-height: f.rem(112);
+
+  &__breadcrumb {
+    @include fonts.font-h1();
+    display: inline-flex;
+    padding: f.rem(8) 0;
+    align-items: center;
+    color: var(--inactive-breadcrumb-color);
+
+    &--is-title {
+      color: var(--active-breadcrumb-color);
+      margin-right: auto;
+    }
+  }
+
+  &__separator {
+    color: var(--inactive-breadcrumb-color);
+    padding: 0 f.rem(14);
+  }
+
+  &__buttons {
+    padding: f.rem(16) 0;
+    display: flex;
+  }
+}

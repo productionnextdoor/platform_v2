@@ -1,0 +1,47 @@
+@use '../../../styles/utils/functions' as f;
+@use '../../../styles/base/fonts' as fonts;
+
+.admin-producer-profile-edit {
+  --form-gap: #{f.rem(40)};
+
+  &__subtitle {
+    @include fonts.font-h3();
+    margin: f.rem(8) 0 f.rem(24);
+  }
+
+  &__note {
+    margin-top: f.rem(16);
+  }
+
+  &__parameters {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: auto;
+    grid-column-gap: var(--form-gap);
+    grid-row-gap: f.rem(12);
+
+    &-title {
+      @include fonts.font-h3();
+      margin: f.rem(40) 0 f.rem(28);
+    }
+  }
+
+  &__parameter {
+    &-label {
+      padding-top: f.rem(12);
+    }
+
+    &-icon {
+     margin-right: f.rem(10);
+    }
+  }
+
+  &__footer {
+    text-align: right;
+    padding: f.rem(8) 0;
+  }
+
+  &__cancel {
+    margin-right: f.rem(24);
+  }
+}

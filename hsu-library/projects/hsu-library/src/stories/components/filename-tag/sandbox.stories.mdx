@@ -1,0 +1,76 @@
+import { moduleMetadata } from '@storybook/angular';
+import { ArgsTable, Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { PmIconComponent } from "../../../lib/components/pm-icon/pm-icon.component";
+import { PmFilenameTagComponent } from "../../../lib/components/pm-filename-tag/pm-filename-tag.component";
+import { FilenameTagData } from "./filename-tag.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/FilenameTag/Sandbox" component={PmFilenameTagComponent} argTypes={{
+    label: {
+        description: 'The Name of the uploaded file',
+        table: {
+            category: 'Texts',
+        },
+    },
+    value: {
+        description: 'The Name of the uploaded file',
+        table: {
+            category: 'Texts',
+        },
+    },
+    icon: {
+        description: 'Defines the icon',
+        table: {
+            category: 'Visual',
+        },
+    },
+    onClick: {
+        description: "Will be notified when this button is clicked.",
+        table: {
+            category: 'Events',
+        },
+    },
+}} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmFilenameTagComponent)),
+]}/>
+
+<Description of={PmIconComponent}/>
+<Description of={PmFilenameTagComponent}/>
+
+export const actionsData = {
+    onClick: action('clicked on button:'),
+};
+
+export const Template = args => ({
+    props: {
+        ...FilenameTagData,
+        ...args,
+    },
+});
+
+
+This contains the **Filename-Tag-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox" args={{
+        icon: undefined
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+
+[![XD-Filename-Tag](https://img.shields.io/badge/-FilenameTag-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/93c7a94a-260d-4646-bd8e-4d7c04093354/)

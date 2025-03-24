@@ -1,0 +1,52 @@
+<pm-product-graph
+    [states]="states"
+    [steps]="steps"
+    [producers]="[]"
+    [mode]="graphMode"
+    [producerId]="producerId"
+    (addStep)="addWorkstep($event)"
+    (editStep)="editWorkstep($event)"
+    (addState)="addNewState($event)"
+    (stateClick)="editState($event)"
+    (infoClick)="showWorkstep($event)"
+></pm-product-graph>
+
+<pm-state-popup
+    *ngIf="statePopupShown"
+    [localisations]="localisations.addStatePopup"
+    [stateId]="stateForEdit.stateId"
+    [stateName]="stateForEdit.label"
+    [countdown]="lockTime"
+    [canDelete] = "canDelete"
+    [suggestions]="suggestions"
+    (stateNameChange) = "onStateNameChange($event)"
+    (onConfirm)="onConfirm($event)"
+    (onCancel)="onStateCancel()"
+    (onDelete)="onDeleteState()"
+    (onTimerReset)="onStateTimerReset()"
+    (onTimerFinished)="statePopupShown=false"
+></pm-state-popup>
+
+<pm-state-lock-popup
+    *ngIf ="stateLockPopupShown"
+    [localisations]="localisations.lockedStatePopup"
+    (onConfirm)="stateLockPopupShown = false"
+></pm-state-lock-popup>
+
+<pm-final-product-step-popup
+    *ngIf ="showFinalProductNote"
+    [localisations]="localisations.finalProductNotePopup"
+    (onCancel)="finalProductNoteClose()"
+    (onConfirm)="finalProductNoteConfirm()"
+/>
+
+<workstep-wizard
+    *ngIf="showWorkstepWizard"
+    [stepId]="stepId"
+    [productionDetailsId]="productionDetailsId"
+    [startState]="startState"
+    [endState]="endState"
+    [productFinalWorkPiecesCount]="productFinalWorkPiecesCount"
+    [readonly]="workstepReadonly"
+    (onClose)="stepWizardClose()"
+/>

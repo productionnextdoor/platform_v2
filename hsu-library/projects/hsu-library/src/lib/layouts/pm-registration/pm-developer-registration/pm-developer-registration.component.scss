@@ -1,0 +1,35 @@
+@use '../../../styles/utils/functions' as f;
+
+.developer-registration {
+
+  &__card {
+    width: f.width('registration');
+  }
+
+  &__banner {
+    margin-bottom: f.rem(32);
+  }
+
+  &__footer {
+    padding: f.rem(8) 0;
+    text-align: right;
+  }
+
+  &__imprint {
+    display: block;
+    margin-top: f.rem(16);
+
+    &-text, &-link {
+      margin-top: f.rem(2);
+    }
+
+    &-link {
+      text-decoration: underline;
+      cursor: pointer;
+
+        &:hover {
+            color: f.color(primary, 100);
+        }
+    }
+  }
+}

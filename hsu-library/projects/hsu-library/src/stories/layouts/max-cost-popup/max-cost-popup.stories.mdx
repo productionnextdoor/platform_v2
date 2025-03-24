@@ -1,0 +1,45 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { maxCostPopupData } from "./max-cost-popup.data";
+import { PmMaxCostPopupComponent } from '../../../lib/layouts/pm-max-cost-popup/pm-max-cost-popup.component';
+
+
+<Meta title="Layouts/Max-Cost-Popup/Default" component={PmMaxCostPopupComponent} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmMaxCostPopupComponent))
+]}/>
+
+<Description of={PmMaxCostPopupComponent}/>
+
+export const actionsData = {
+    onCancel: action('on cancel'),
+    onConfirm: action('on confirm'),
+};
+
+export const Template = args => ({
+    props: {
+        ...maxCostPopupData,
+        ...args,
+        ...actionsData
+    },
+});
+
+# MaxCost Popup
+
+This contains the story for the layout **MaxCost Popup**.
+
+<Canvas withToolbar>
+  <Story name="MaxCostPopup" height={'500px'}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-MaxCostPopup](https://img.shields.io/badge/-MaxCostPopup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/d70cd4f0-e355-4aa0-b011-5aca2b0b1da0-825f/)

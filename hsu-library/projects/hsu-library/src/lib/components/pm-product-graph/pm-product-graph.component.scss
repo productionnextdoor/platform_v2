@@ -1,0 +1,15 @@
+@use '../../styles/utils/mixins' as m;
+
+.pm-product-graph {
+  display: grid; // Important for the correct width calculation in css
+
+  &__container {
+    width: 100%;
+    overflow: auto;
+  }
+
+  &__canvas {
+    display: block;
+    @include m.user-select(none);
+  }
+}

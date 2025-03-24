@@ -1,0 +1,1198 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="de">
+    <texts>
+
+        <!--Menu side bar-->
+        <text name="Menu.Products">Produktübersicht</text>
+        <text name="Menu.Developer">Entwickler</text>
+        <text name="Menu.Producer">Produzenten</text>
+        <text name="Menu.ProductDetails">Produktdetails</text>
+        <text name="Menu.OrderOverview">Auftragsübersicht</text>
+        <text name="Menu.OrderDetail">Auftragsdetails</text>
+        <text name="Menu.Statistics">Statistiken</text>
+        <text name="Menu.PrivacyPolicy">Datenschutzerklärung</text>
+        <text name="Menu.TermsAndConditions">Allgemeine Geschäftsbedingungen</text>
+        <text name="Menu.ContactCard.Title">Fragen &amp; Kontakt</text>
+        <text name="Menu.ContactCard.Text">Solltest du Fragen haben oder Hilfe benötigen, kontaktiere bitte einen Administrator!</text>
+        <text name="Menu.ContactCard.EmailAddress">info@productionnextdoor.de</text>
+        <text name="Menu.ContactCard.PhoneNumber">+49 40 6541 3845</text>
+
+        <!--Account-->
+        <text name="LoginPage.Title">Anmelden</text>
+        <text name="LoginPage.ForgotPassword">Passwort vergessen?</text>
+        <text name="LoginPage.RememberMe">Angemeldet bleiben</text>
+        <text name="LoginPage.EmailAddress">E-Mail-Adresse</text>
+        <text name="LoginPage.EmailName">email</text>
+        <text name="LoginPage.Password">Passwort</text>
+        <text name="LoginPage.PasswordName">password</text>
+        <text name="LoginPage.SubmitTitle">Anmelden</text>
+        <text name="ForgotPassword.Form.Title">Passwort vergessen?</text>
+        <text name="ForgotPassword.Form.Text">Ein Link zum Zurücksetzen des Passworts wird an deine E-Mail-Adresse gesendet. Wenn du innerhalb weniger Minuten keine E-Mail erhältst, versuch es bitte erneut.</text>
+        <text name="ForgotPassword.Form.EmailLabel">E-Mail-Adresse</text>
+        <text name="ForgotPassword.Form.ConfirmButton">Bestätigen</text>
+        <text name="ForgotPassword.Form.BackButton">Zurück</text>
+        <text name="ForgotPassword.Form.EmailNotValid">Bitte gib eine gültige E-Mail-Adresse ein</text>
+        <text name="ForgotPassword.PopUp.Title">E-Mail versendet</text>
+        <text name="ForgotPassword.PopUp.Text">Ein Link zum Zurücksetzen des Passworts wurde an deine E-Mail-Adresse versendet. Dies kann wenige Minuten dauern. Bitte prüfe deine E-Mails.</text>
+        <text name="ForgotPassword.PopUp.ConfirmButton">Verstanden</text>
+        <text name="ResetPassword.Title">Passwort ändern</text>
+        <text name="ResetPassword.Text">Gebe hier dein neues Passwort ein.</text>
+        <text name="ResetPassword.PasswordLabel">Passwort</text>
+        <text name="ResetPassword.ConfirmPasswordLabel">Passwort wiederholen</text>
+        <text name="ResetPassword.ConfirmButton">Bestätigen</text>
+        <text name="ResetPassword.BackButton">Zurück</text>
+        <text name="ResetPassword.PasswordComplexity.PasswordsMismatch">Die Passwörter stimmen nicht überein.</text>
+        <text name="ResetPassword.PasswordComplexity.RequireDigit">Das Passwort muss mindestens eine Ziffer enthalten.</text>
+        <text name="ResetPassword.PasswordComplexity.RequireLowercase">Das Passwort muss mindestens einen Kleinbuchstaben enthalten.</text>
+        <text name="ResetPassword.PasswordComplexity.RequireNonAlphanumeric">Das Passwort muss mindestens ein Sonderzeichen enthalten.</text>
+        <text name="ResetPassword.PasswordComplexity.RequireUppercase">Das Passwort muss mindestens einen Großbuchstaben enthalten.</text>
+        <text name="ResetPassword.PasswordComplexity.RequiredLength">Das Passwort muss mindestens 6 Zeichen lang sein.</text>
+
+        <!-- Breadcrumb Links -->
+        <text name="Routes.Breadcrumb.ProductOverviewLinkText">Produktübersicht</text>
+        <text name="Routes.Breadcrumb.ProductOverviewLinkHoverTitle">Zur Produktübersicht</text>
+        <text name="Routes.Breadcrumb.DeveloperOverviewLinkText">Entwickler</text>
+        <text name="Routes.Breadcrumb.DeveloperOverviewLinkHoverTitle">Zur Entwicklerübersicht</text>
+        <text name="Routes.Breadcrumb.ProducerOverviewLinkText">Produzenten</text>
+        <text name="Routes.Breadcrumb.ProducerOverviewLinkHoverTitle">Zur Produzentenübersicht</text>
+        <text name="Routes.Breadcrumb.OrderOverviewLinkText">Auftragsübersicht</text>
+        <text name="Routes.Breadcrumb.OrderOverviewLinkHoverTitle">Zur Auftragsübersicht</text>
+
+        <!-- Privacy Policy -->
+        <text name="PrivacyPolicy.Title">Datenschutzerklärung</text>
+        <text name="PrivacyPolicy.Content">Hier steht Ihre Datenschutzerklärung.</text>
+
+        <!-- Terms and Conditions -->
+        <text name="TermsAndConditions.Title">Allgemeine Geschäftsbedingungen</text>
+        <text name="TermsAndConditions.ShortTitle">AGB</text>
+        <text name="TermsAndConditions.Content">Hier stehen Ihre allgemeinen Geschäftsbedingungen.</text>
+
+        <!-- Terms And Privacy acknowledgement -->
+        <text name="TermsAndPrivacy.Acknowledgement.First">Ich akzeptiere die </text>
+        <text name="TermsAndPrivacy.Acknowledgement.Second"> und </text>
+
+        <!--ConfirmPopup (Default)-->
+        <text name="ConfirmPopup.Default.Confirm">Bestätigen</text>
+        <text name="ConfirmPopup.Default.Cancel">Abbrechen</text>
+
+        <!--Product-->
+        <!--Measurements-->
+        <text name="Measurement.Name">Größe</text>
+        <text name="Measurement.Height">Höhe in cm</text>
+        <text name="Measurement.Width">Breite in cm</text>
+        <text name="Measurement.Depth">Tiefe in cm</text>
+        <text name="Measurement.Unit">cm</text>
+
+        <!--Since currently material groups and surface names are static we can add those here.
+            If in the future those will be managed by admin other solution is needed -->
+        <!--Material groups german names-->
+        <text name="MaterialGroup.Wood">Holz</text>
+        <text name="MaterialGroup.Metal">Metall</text>
+        <text name="MaterialGroup.Glass">Glas</text>
+        <text name="MaterialGroup.Other">Sonstiges</text>
+
+        <!--Surface names-->
+        <text name="SurfaceFinish.Oiled">Geölt</text>
+        <text name="SurfaceFinish.Waxed">Gewachst</text>
+        <text name="SurfaceFinish.Painted">Lackiert</text>
+        <text name="SurfaceFinish.Glazed">Lasiert</text>
+        <text name="SurfaceFinish.Stained">Gebeizt</text>
+        <text name="SurfaceFinish.Veneered">Furniert</text>
+        <text name="SurfaceFinish.SolidColored">Durchgefärbt</text>
+        <text name="SurfaceFinish.Coated">Beschichtet</text>
+        <text name="SurfaceFinish.WithPrimerFilm">mit Grundierfolie</text>
+        <text name="SurfaceFinish.Polished">Poliert/glänzend</text>
+        <text name="SurfaceFinish.Matt">Matt</text>
+        <text name="SurfaceFinish.Brushed">Gebürstet</text>
+        <text name="SurfaceFinish.Smooth">Glatt</text>
+        <text name="SurfaceFinish.Etched">Geätzt</text>
+        <text name="SurfaceFinish.Sandblasted">Sandstrahlung</text>
+        <text name="SurfaceFinish.Sanded">Geschliffen</text>
+
+        <!--Product tables-->
+        <!--Product table Header-->
+        <text name="ProductTableHeader.ProductNumber">Produktnummer</text>
+        <text name="ProductTableHeader.ProductName">Produktname</text>
+        <text name="ProductTableHeader.CreatedAt">Erstelldatum</text>
+        <text name="ProductTableHeader.UpdatedAt">Letzte Änderung</text>
+        <text name="ProductTableHeader.Status">Status</text>
+        <text name="ProductTableHeader.ProcessingDeadline">Bearbeitungsfrist</text>
+        <text name="ProductTableHeader.Details">Details</text>
+        <text name="ProductTableHeader.AdminButton">Produkt anlegen</text>
+        <text name="ProductTableHeader.AdminTitle">Produktübersicht</text>
+
+        <!--Product table Text-->
+        <text name="ProductTableTexts.Total">Gesamt</text>
+        <text name="ProductTableTexts.SearchLabel">Suche</text>
+        <text name="ProductTableTexts.SearchPlaceholder">Gib einen Suchbegriff ein</text>
+        <text name="ProductTableTexts.FilterLabel">Filtern nach</text>
+        <text name="ProductTableTexts.FilterPlaceholder">Zustand auswählen</text>
+        <text name="ProductTableTexts.Until">bis zum</text>
+
+        <!--Product state Filter-->
+        <text name="ProductTableState.NoFilter">kein Filter</text>
+        <text name="ProductTableState.Draft">Entwurf</text>
+        <text name="ProductTableState.InProcessDeveloper">In Bearbeitung Entwickler</text>
+        <text name="ProductTableState.InProcessProducer">In Bearbeitung Produzent</text>
+        <text name="ProductTableState.ReadyForValueChainPlanning">Bereit für Wertkettenplanung</text>
+        <text name="ProductTableState.Live">Live im Shop</text>
+        <text name="ProductTableState.ProductionReady">Produktionsbereit</text>
+        <text name="ProductTableState.ProductionPlanningFinalized">Warten auf die Auswahl der Wertschöpfungskette</text>
+        <text name="ProductTableState.ValueChainWaitingAdminConfirmation">Warten auf Bestätigung durch den Admin</text>
+        <text name="ProductTableState.CommissionedToProduction">Zur Produktion beauftragt</text>
+        <text name="ProductTableState.InProduction">In Produktion</text>
+        <text name="ProductTableState.Completed">Abgeschlossen</text>
+
+        <!--Text-->
+        <text name="ProductCreateOrEdit.Draft">Angaben speichern</text>
+        <text name="ProductCreateOrEdit.Save">Produkt einreichen</text>
+
+        <!--Base product create-->
+        <text name="ProductPopupText.Title">Neues Produkt anlegen</text>
+        <text name="ProductPopupText.TitleProduct">Allgemeine Angaben</text>
+        <text name="ProductPopupText.TitleDeveloper">Entwickler zuweisen</text>
+        <text name="ProductPopupText.ProductNumber">Produktnummer</text>
+        <text name="ProductPopupText.CreationDate">Erstelldatum</text>
+        <text name="ProductPopupText.NameLabel">Name des Produkts</text>
+        <text name="ProductPopupText.NamePlaceholder">Name des Produkts eingeben</text>
+        <text name="ProductPopupText.DeveloperLabel">Entwickler des Produkts eingeben oder auswählen</text>
+        <text name="ProductPopupText.DeveloperPlaceholder">Entwickler eingeben oder auswählen</text>
+        <text name="ProductPopupText.DescriptionLabel">Bemerkung</text>
+        <text name="ProductPopupText.DescriptionPlaceholder">Anmerkungen an den Entwickler</text>
+        <text name="ProductPopupButton.CloseLabel">Abbrechen</text>
+        <text name="ProductPopupButton.SaveLabel">Angaben speichern</text>
+        <text name="ProductPopupButton.PublishLabel">Produkt freigeben</text>
+
+        <!--Product wizard-->
+        <text name="DeveloperProductWizard.Title">Produktentwurf</text>
+        <text name="DeveloperProductWizard.AdminTitle">Produktdetails</text>
+        <text name="DeveloperProductWizard.Cancel">Abbrechen</text>
+        <text name="DeveloperProductWizard.Previous">Zurück zu Schritt {step}</text>
+        <text name="DeveloperProductWizard.Next">Weiter zu Schritt {step}</text>
+        <text name="DeveloperProductWizard.CancelConfirmationTitle">Ohne „speichern“ schließen</text>
+        <text name="DeveloperProductWizard.CancelConfirmationDescription">Klicke auf „Bestätigen“ wenn du das Fenster schließen möchtest, ohne deine zuletzt vorgenommenen Angaben zu speichern. Wenn du die Angaben speichern möchtest, klicke auf „Abbrechen“, um zurück zum Produktentwurf zu gelangen.</text>
+        <text name="DeveloperProductWizard.Confirm">Bestätigen</text>
+        <text name="DeveloperProductWizard.SaveAsAdmin">Speichern</text>
+        <text name="DeveloperProductWizard.ConfirmPopup.Title">Produkt einreichen</text>
+        <text name="DeveloperProductWizard.ConfirmPopup.Description">Wenn du auf “Produkt einreichen” klickst, wird der Entwurf an den zuständigen Administrator weitergeleitet. Danach hast du vorerst keine Möglichkeit mehr die Details des Produktes zu bearbeiten. Möchtest du das Produkt wirklich einreichen?</text>
+        <text name="DeveloperProductWizard.ConfirmPopup.Confirm">Produkt einreichen</text>
+        <text name="DeveloperProductWizard.ConfirmPopup.Cancel">Abbrechen</text>
+
+        <!--General step-->
+        <text name="ProductCreateOrEditGeneral.Note">Bitte füge alle Produktangaben ein und gib mir das Produkt anschließend zur Prüfung frei. (Admin)</text>
+        <text name="ProductCreateOrEditGeneral.Title">Allgemeine Angaben</text>
+        <text name="ProductCreateOrEditGeneral.Description">Trage hier den Produktnamen sowie die Produktgröße des Produktstandards ein. Achte darauf, einen aussagekräften Produktnamen einzutragen, sollte es von diesem Produkt verschiedene Varianten (unterschiedliche Produkte aufgrund von unterschiedlichen Wertketten) geben.</text>
+        <text name="ProductCreateOrEditGeneral.Name">Name des Produkts</text>
+        <text name="ProductCreateOrEditGeneral.ProductNumber">Produktnummer</text>
+        <text name="ProductCreateOrEditGeneral.CreationDate">Erstelldatum</text>
+        <text name="ProductCreateOrEditGeneral.Quantity">Menge</text>
+        <text name="ProductCreateOrEditGeneral.OfferDeadline">Angebotsfrist</text>
+        <text name="ProductCreateOrEditGeneral.ProductionDeadline">Produktionsfrist</text>
+
+        <text name="ProductOfferCreateOrEditGeneral.Description">Trage hier den Produktnamen sowie die Produktgröße ein. Achte darauf, einen aussagekräften Produktnamen einzutragen, sollte es von diesem Produkt verschiedene Varianten geben.</text>
+
+
+        <!--DeliveryAddress-->
+        <text name="ProductCreateOrEditDeliveryAddress.Note">Bitte gebe hier die Adresse an zu der das fertige Produkt geliefert werden soll. (Admin)</text>
+        <text name="ProductCreateOrEditDeliveryAddress.Title">Lieferadresse</text>
+        <text name="ProductCreateOrEditDeliveryAddress.Description">Bitte gebe hier die Anschrift und den Namen des Empfängers an zu welchem das fertige Produkt geliefert werden soll.</text>
+        <text name="ProductCreateOrEditDeliveryAddress.Name">Vor - und Zuname</text>
+        <text name="ProductCreateOrEditDeliveryAddress.Street">Straße inkl. Hausnummer</text>
+        <text name="ProductCreateOrEditDeliveryAddress.ZipCode">Postleitzahl</text>
+        <text name="ProductCreateOrEditDeliveryAddress.City">Stadt</text>
+        <text name="ProductCreateOrEditDeliveryAddress.Phone">Telefonnummer</text>
+        <text name="ProductCreateOrEditDeliveryAddress.Email">E-Mail Adresse</text>
+
+        <!--Material Groups step-->
+        <text name="ProductCreateOrEditMaterialGroups.Title">Materialgruppen</text>
+        <text name="ProductCreateOrEditMaterialGroups.Note">Bitte füge alle Produktangaben ein und gib mir das Produkt anschließend zur Prüfung frei. (Admin)</text>
+        <text name="ProductCreateOrEditMaterialGroups.SubTitle">Beteiligte Materialgruppen im Produktstandard</text>
+        <text name="ProductCreateOrEditMaterialGroups.Description">Wähle die Materialgruppe(n) aus, die im Produktstandard verwendet werden (min. eine Materialgruppe). Gib bitte auch die zu bearbeitende Oberflächenbeschaffenheit sowie den finalen Zustand der jeweiligen Materialgruppe im Produktionsprozess an. Beachte auch, dass die Auswahl der Materialgruppe(n) Auswirkung auf die Produktvarianten hat.</text>
+        <text name="ProductCreateOrEditMaterialGroups.MaterialItem.MaterialLabel">Material im Produktstandard</text>
+        <text name="ProductCreateOrEditMaterialGroups.MaterialItem.FinalStateLabel">Finaler Zustand der Rohmaterialgruppe im Produktionsprozess</text>
+        <text name="ProductCreateOrEditMaterialGroups.MaterialItem.SurfaceFinishLabel">Oberflächenbeschaffenheit</text>
+        <text name="ProductCreateOrEditMaterialGroups.MaterialItem.MaterialPlaceholder">Material eingeben</text>
+        <text name="ProductCreateOrEditMaterialGroups.MaterialItem.FinalStatePlaceholder">Finaler Zustand der Rohmaterialgruppe</text>
+        <text name="ProductCreateOrEditMaterialGroups.MaterialItem.SurfaceFinishPlaceholder">Zustand auswählen</text>
+
+        <text name="ProductOfferCreateOrEditMaterialGroups.SubTitle">Beteiligte Materialgruppen</text>
+        <text name="ProductOfferCreateOrEditMaterialGroups.Description">Wähle die Materialgruppe(n) aus, die für das Produkt verwendet werden (min. eine Gruppe). Gib bitte auch den finalen Zustand der jeweiligen Materialgruppe im Produktionsprozess an.</text>
+        <text name="ProductOfferCreateOrEditMaterialGroups.MaterialItem.MaterialLabel">Material</text>
+
+        <!--Variants step-->
+        <text name="ProductCreateOrEditVariants.Title">Produktvarianten</text>
+        <text name="DeveloperProductWizard.ProductVariants.BannerText">Bitte füge alle Produktangaben ein und gib mir das Produkt anschließend zur Prüfung frei. (Admin)</text>
+        <text name="DeveloperProductWizard.ProductVariants.TitleText">Varianten zum Produktstandard</text>
+        <text name="DeveloperProductWizard.ProductVariants.DescriptionText">In welchen alternativen Varianten soll das Produkt angeboten werden? Füge die Abweichungen über den Plus-Button in den entsprechenden Kategorien hinzu. Bitte beachte, dass zertifizierte Materialien jeweils als einzelne Variante unter „Abweichenden Materialien“ angegeben werden müssen.</text>
+        <text name="DeveloperProductWizard.ProductVariants.WorkPieceDropdownLabel">Materialgruppe</text>
+        <text name="DeveloperProductWizard.ProductVariants.WorkPieceDropdownPlaceholder">Materialgruppe auswählen</text>
+        <text name="DeveloperProductWizard.ProductVariants.WorkPieceVariantLabel">Abweichendes Material</text>
+        <text name="DeveloperProductWizard.ProductVariants.WorkPieceVariantPlaceholder">Material eintragen</text>
+        <text name="DeveloperProductWizard.ProductVariants.MeasurementVariantsTitle">Abweichende Größen</text>
+        <text name="DeveloperProductWizard.ProductVariants.WorkPieceVariantsTitle">Abweichende Materialien</text>
+
+        <!--Measurements Sorting step-->
+        <text name="ProductCreateOrEditSortingMeasurements.Title">Größenranking</text>
+        <text name="ProductCreateOrEditSortingMeasurements.SubTitle">Reihenfolge der angegebenen Produktgrößen</text>
+        <text name="ProductCreateOrEditSortingMeasurements.Description">Bitte bringe die zuvor angegeben Größenvarianten, angefangen von der minimalsten (1), bis hin zur maximalsten Ausprägung in eine Reihenfolge entsprechend des Materialbedarfs. Der Produktstandard ist dunkelgrün gehighlightet. Diese Sortierung ist wichtig, um später Aufwand und Materialkosten für die jeweilige Produktausprägung kalkulieren zu können.</text>
+        <text name="ProductCreateOrEditSortingMeasurements.ColumnPosition">Position</text>
+        <text name="ProductCreateOrEditSortingMeasurements.MinimumVariant">Minimalausprägung</text>
+        <text name="ProductCreateOrEditSortingMeasurements.MaximumVariant">Maximalausprägung</text>
+
+        <!--File upload step-->
+        <text name="ProductCreateOrEditFiles.Title">Upload aller Dateien zum Produkt</text>
+        <text name="ProductCreateOrEditFiles.Description">Bitte beschreibe das Produkt in einem kurzen Text zur Unterstützung für den Herstellungsprozess und füge ein Galeriebild hinzu. Lade auch die notwendigen Dateien zur Herstellung des Produkts hoch. Beachte, dass die hochgeladenen Datei-Namen und die ausgewählten Kategorisierungen entsprechend auch den Produzenten zur Verfügung gestellt werden.</text>
+        <text name="ProductCreateOrEditFiles.SharepointLink.Label">Link zum Sharepoint</text>
+        <text name="ProductCreateOrEditFiles.SharepointLink.Placeholder">Link einfügen</text>
+        <text name="ProductCreateOrEditFiles.Description.Label">Kurzbeschreibung des Produkts</text>
+        <text name="ProductCreateOrEditFiles.Description.Placeholder">Beschreibe das Produkt für die Produzenten</text>
+        <text name="ProductCreateOrEditFiles.FileTag">Alle Dateitypen</text>
+        <text name="ProductCreateOrEditFiles.UploadText">Drag &amp; Drop oder {0} zum Upload</text>
+        <text name="ProductCreateOrEditFiles.uploadTextLabel">wähle eine Datei</text>
+        <text name="ProductCreateOrEditFiles.UploadCategory.ProductDescription">Produktbeschreibung</text>
+        <text name="ProductCreateOrEditFiles.UploadCategory.ProductPicture">Produktbilder</text>
+        <text name="ProductCreateOrEditFiles.UploadCategory.ModelsAndDrawings">Modelle und Zeichnungen</text>
+        <text name="ProductCreateOrEditFiles.UploadCategory.TechnicalDetails">Technische Details</text>
+        <text name="ProductCreateOrEditFiles.UploadCategory.ManufacturingHints">Herstellungshinweise</text>
+        <text name="ProductCreateOrEditFiles.UploadCategory.InstallationAndUsageInstructions">(Installations- und Nutzungs) Anweisungen</text>
+        <text name="ProductCreateOrEditFiles.UploadCategory.Miscellaneous">Begleitdokumente und Sonstiges</text>
+        <text name="ProductCreateOrEditFiles.FileCategory.ProductDescription">Dateien Produktbeschreibung</text>
+        <text name="ProductCreateOrEditFiles.FileCategory.ProductPicture">Dateien Produktbilder</text>
+        <text name="ProductCreateOrEditFiles.FileCategory.ModelsAndDrawings">Dateien Modelle und Zeichnungen</text>
+        <text name="ProductCreateOrEditFiles.FileCategory.TechnicalDetails">Dateien Technische Details</text>
+        <text name="ProductCreateOrEditFiles.FileCategory.ManufacturingHints">Dateien Herstellungshinweise</text>
+        <text name="ProductCreateOrEditFiles.FileCategory.InstallationAndUsageInstructions">Dateien (Installations- und Nutzungs) Anweisungen</text>
+        <text name="ProductCreateOrEditFiles.FileCategory.Miscellaneous">Dateien Begeleitdokumente und Sonstiges</text>
+
+        <!--Product details overview-->
+        <text name="ProductDetails.PageTitle">Produktübersicht</text>
+
+        <!--Product details sidebar-->
+        <text name="ProductDetailsSidebar.Title">Produktdetails</text>
+        <text name="ProductDetailsSidebar.SectionGeneralInfo.Title">Allgemeine Angaben</text>
+        <text name="ProductDetailsSidebar.SectionGeneralInfo.Developer">Entwickler:in</text>
+        <text name="ProductDetailsSidebar.SectionGeneralInfo.ProductName">Name des Produkts</text>
+        <text name="ProductDetailsSidebar.SectionGeneralInfo.ProductNumber">Produktnummer</text>
+        <text name="ProductDetailsSidebar.SectionGeneralInfo.CreationDate">Erstelldatum</text>
+        <text name="ProductDetailsSidebar.SectionGeneralInfo.DefaultMeasurement">Größe im Produktstandard (H, B, T)</text>
+        <text name="ProductDetailsSidebar.SectionMaterialGroups.Title">Materialgruppen im Produkstandard</text>
+        <text name="ProductDetailsSidebar.SectionMaterialGroups.Material">Material</text>
+        <text name="ProductDetailsSidebar.SectionMaterialGroups.FinalState">Finaler Zustand</text>
+        <text name="ProductDetailsSidebar.SectionMaterialGroups.SurfaceFinish">Oberflächenbeschaffenheit</text>
+        <text name="ProductDetailsSidebar.SectionVariants.Title">Produktvarianten</text>
+        <text name="ProductDetailsSidebar.SectionVariants.Measurements.Title">Abweichende Größen (Min. - Max.)</text>
+        <text name="ProductDetailsSidebar.SectionVariants.Measurements.Key">Größe (H, B, T)</text>
+        <text name="ProductDetailsSidebar.SectionVariants.Materials.Title">Abweichende Materialien</text>
+        <text name="ProductDetailsSidebar.SectionDescription.Title">Kurzbeschreibung</text>
+        <text name="ProductDetailsSidebar.SectionFiles.Title">Dateien</text>
+        <text name="ProductDetailsSidebar.SectionFiles.SharePoint.Label">Link zum SharePoint</text>
+        <text name="ProductDetailsSidebar.SectionOfferProperties.Title">Angebotsinformationen</text>
+        <text name="ProductDetailsSidebar.SectionOfferProperties.Quantity">Menge</text>
+        <text name="ProductDetailsSidebar.SectionOfferProperties.OfferDeadline">Angebotsfrist</text>
+        <text name="ProductDetailsSidebar.SectionOfferProperties.ProductionDeadline">Produktionsfrist</text>
+        <text name="ProductDetailsSidebar.SectionDeliveryAddress.Title">Lieferadresse</text>
+
+        <text name="ProductOfferDetailsSidebar.SectionGeneralInfo.DefaultMeasurement">Größe (H, B, T)</text>
+        <text name="ProductOfferDetailsSidebar.SectionMaterialGroups.Title">Materialgruppen</text>
+
+        <!--Product details producer table-->
+        <text name="ProductDetails.ProducerTable.CardTitle">Produzenten Anfragen</text>
+        <text name="ProductDetails.ProducerTable.Description">Die markierten Produzenten wurden vorgeschlagen, um für das Produkt angefragt zu werden. Sie können manuell angepasst werden und angefragt werden, sobald eine Bearbeitungsfrist eingestellt worden ist. Bereits angefragte Produzenten können nicht deselektiert oder erneut angefragt werden.</text>
+        <text name="ProductDetails.ProducerTable.PaginationTotalText">Gesamt</text>
+        <text name="ProductDetails.ProducerTable.RequestButtonLabel">Produzenten anfragen</text>
+        <text name="ProductDetails.ProducerTable.Deadline">Bearbeitungsfrist</text>
+        <text name="ProductDetails.ProducerTable.Status.Accepted">Angenommen</text>
+        <text name="ProductDetails.ProducerTable.Status.Rejected">Abgelehnt</text>
+        <text name="ProductDetails.ProducerTable.Status.Requested">Angefragt</text>
+        <text name="ProductDetails.ProducerTable.Status.Unknown">-</text>
+        <text name="ProductDetails.ProducerTable.ColumnHeader.CompanyName">Name des Produzenten</text>
+        <text name="ProductDetails.ProducerTable.ColumnHeader.TradeTypeName">Gewerk</text>
+        <text name="ProductDetails.ProducerTable.ColumnHeader.Status">Status</text>
+        <text name="ProductDetails.ProducerTable.ColumnHeader.Details">Details</text>
+        <text name="ProductDetails.ProducerTable.Popup.Title">Bearbeitungsfrist für die Produzenten</text>
+        <text name="ProductDetails.ProducerTable.Popup.Description">Hier kann eine Bearbeitungsfrist für das Eintragen der Produktionsprozesse angegeben werden, die für alle ausgewählten Produzenten gültig ist.</text>
+        <text name="ProductDetails.ProducerTable.Popup.InputLabel">Bearbeitungsfrist bis zum… *</text>
+        <text name="ProductDetails.ProducerTable.Popup.CancelButtonLabel">Abbrechen</text>
+        <text name="ProductDetails.ProducerTable.Popup.ConfirmButtonLabel">Bestätigen</text>
+        <text name="ProductDetails.ProducerTable.RequestPopup.Title">Produzenten anfragen</text>
+        <text name="ProductDetails.ProducerTable.RequestPopup.Description">Bist du sicher, dass du die ausgewählten Produzenten für das Produkt anfragen möchtest? Die Produzenten werden dann freigeschaltet, um ihre Arbeitsschritte innerhalb der Bearbeitungsfrist in die Produktionskette des Produkts einzutragen.</text>
+        <text name="ProductDetails.ProducerTable.RequestPopup.CancelButtonLabel">Abbrechen</text>
+        <text name="ProductDetails.ProducerTable.RequestPopup.ConfirmButtonLabel">Bestätigen</text>
+
+        <!--Product details work step table-->
+        <text name="ProductDetails.WorkStepTable.CardTitle">Eingetragene Arbeitsschritte</text>
+        <text name="ProductDetails.WorkStepTable.Description">Hier werden die bereits eingetragenen Arbeitsschritte von Produzenten aufgelistet. Du kannst die Schritte an dieser Stelle auch wieder zurücksetzen, beachte jedoch, dass dies Auswirkungen auf die Wertketten habe kann!</text>
+        <text name="ProductDetails.WorkStepTable.PaginationTotalText">Gesamt</text>
+        <text name="ProductDetails.WorkStepTable.RemoveButtonLabel">Arbeitsschritte entfernen</text>
+        <text name="ProductDetails.WorkStepTable.ColumnHeader.StartingState">Startzustand</text>
+        <text name="ProductDetails.WorkStepTable.ColumnHeader.FinalState">Ergebniszustand</text>
+        <text name="ProductDetails.WorkStepTable.ColumnHeader.Cost">Kosten (Standard)</text>
+        <text name="ProductDetails.WorkStepTable.ColumnHeader.ProducerName">Name d. Produzenten</text>
+        <text name="ProductDetails.WorkStepTable.ColumnHeader.TradeTypeName">Gewerk</text>
+        <text name="ProductDetails.WorkStepTable.ColumnHeader.Details">Details</text>
+
+        <!--Product details work step popup-->
+        <text name="ProductDetails.WorkStepPopup.Title">Details</text>
+        <text name="ProductDetails.WorkStepPopup.Button">Zurück zur Übersicht</text>
+        <text name="ProductDetails.WorkStepPopup.Section.Calculation.Title">Kalkulation (Produktstandard)</text>
+        <text name="ProductDetails.WorkStepPopup.Section.Calculation.Properties.WorkCost">Arbeitskosten</text>
+        <text name="ProductDetails.WorkStepPopup.Section.Calculation.Properties.MaterialAndTransportCost">Material- &amp; Transportkosten</text>
+        <text name="ProductDetails.WorkStepPopup.Section.WorkTime.Title">Arbeitszeit</text>
+        <text name="ProductDetails.WorkStepPopup.Section.WorkTime.Properties.OrderProcessingTime">Voraussichtliche Auftragsbearbeitungszeit</text>
+        <text name="ProductDetails.WorkStepPopup.Section.WorkTime.Properties.WorkHours">Arbeitszeit in Stunden</text>
+        <text name="ProductDetails.WorkStepPopup.Section.WorkStep.Title">Arbeitsschritt</text>
+        <text name="ProductDetails.WorkStepPopup.Section.WorkStep.Properties.StartState">Startzustand</text>
+        <text name="ProductDetails.WorkStepPopup.Section.WorkStep.Properties.EndState">Endzustand</text>
+        <text name="ProductDetails.WorkStepPopup.Section.Producer.Title">Produzent</text>
+        <text name="ProductDetails.WorkStepPopup.Section.Producer.Properties.ProducerName">Name d. Produzenten</text>
+        <text name="ProductDetails.WorkStepPopup.Section.Producer.Properties.TradeTypeName">Gewerk</text>
+
+        <text name="ProductOfferDetails.WorkStepPopup.Section.Calculation.Title">Kalkulation</text>
+
+        <!--Product details value chains table-->
+        <text name="ProductDetails.ValueChainTable.CardTitle">Errechnete Wertketten-Optionen</text>
+        <text name="ProductDetails.ValueChainTable.Description">Hier werden alle Optionen aufgeführt, die für die Herstellung des Produkts errechnet wurden. Zudem wird die durchschnittliche Bewertung für die jeweils berechnete Option mit aufgeführt.</text>
+        <text name="ProductDetails.ValueChainTable.PaginationTotalText">Gesamt</text>
+        <text name="ProductDetails.ValueChainTable.DatepickerTitle">Datum der letzten Berechnung</text>
+        <text name="ProductDetails.ValueChainTable.Unit">Wochen</text>
+        <text name="ProductDetails.ValueChainTable.SelectVCP.Select">Auswählen</text>
+        <text name="ProductDetails.ValueChainTable.SelectVCP.Selected">Ausgewählt</text>
+        <text name="ProductDetails.ValueChainTable.ColumnName.Producers">Beteiligte Produzenten</text>
+        <text name="ProductDetails.ValueChainTable.ColumnName.PlanCost">Kosten</text>
+        <text name="ProductDetails.ValueChainTable.ColumnName.LeadTime">Durchlaufzeit</text>
+        <text name="ProductDetails.ValueChainTable.ColumnName.ProjectedEndDate">Berechnetes Fertigstellungsdatum</text>
+        <text name="ProductDetails.ValueChainTable.ConfirmPopup.Title">Wertschöpfungskette für die Produktion auswählen?</text>
+        <text name="ProductDetails.ValueChainTable.ConfirmPopup.Description">Die ausgewählte Wertschöpfungskette wird bei der Produktion des Produkts verwendet.</text>
+
+
+        <!--Product details overview developer-->
+        <text name="ProductDetailsDeveloper.Title">Produktdetails</text>
+        <text name="ProductDetailsDeveloper.SectionGeneralInfo.Title">Allgemeine Angaben</text>
+        <text name="ProductDetailsDeveloper.SectionGeneralInfo.ProductName">Name des Produkts</text>
+        <text name="ProductDetailsDeveloper.SectionGeneralInfo.ProductNumber">Produktnummer</text>
+        <text name="ProductDetailsDeveloper.SectionGeneralInfo.ModifiedDate">Letzte Änderung</text>
+        <text name="ProductDetailsDeveloper.SectionGeneralInfo.CreationDate">Erstelldatum</text>
+        <text name="ProductDetailsDeveloper.SectionGeneralInfo.DefaultMeasurement">Größe(H, B, T)</text>
+        <text name="ProductDetailsDeveloper.SectionMaterialGroups.Title">Materialgruppen</text>
+        <text name="ProductDetailsDeveloper.SectionMaterialGroups.Material">Material</text>
+        <text name="ProductDetailsDeveloper.SectionMaterialGroups.FinalState">Finaler Zustand</text>
+        <text name="ProductDetailsDeveloper.SectionMaterialGroups.SurfaceFinish">Oberflächenbeschaffenheit</text>
+        <text name="ProductDetailsDeveloper.SectionVariants.Title">Produktvarianten</text>
+        <text name="ProductDetailsDeveloper.SectionVariants.Measurements.Title">Abweichende Größen (Min. - Max.)</text>
+        <text name="ProductDetailsDeveloper.SectionVariants.Measurements.Key">Größe (H, B, T)</text>
+        <text name="ProductDetailsDeveloper.SectionVariants.Materials.Title">Abweichende Materialien</text>
+        <text name="ProductDetailsDeveloper.SectionDescription.Title">Kurzbeschreibung</text>
+        <text name="ProductDetailsDeveloper.SectionFiles.Title">Dateien</text>
+
+        <!-- Product details developer Revenue Info -->
+        <text name="ProductDetailsDeveloper.RevenueInfo.Title">Bestellungen &amp; Profit</text>
+        <text name="ProductDetailsDeveloper.RevenueInfo.SubTitle">Allgemein</text>
+        <text name="ProductDetailsDeveloper.RevenueInfo.TotalOrders">Bestellungen insgesamt</text>
+        <text name="ProductDetailsDeveloper.RevenueInfo.PriceRange">Preisspanne</text>
+        <text name="ProductDetailsDeveloper.RevenueInfo.RoyaltyRate">Mein Anteil pro Bestellung</text>
+        <text name="ProductDetailsDeveloper.RevenueInfo.TotalRevenue">Bisheriger Verdienst</text>
+
+        <!--Product details Admin-->
+        <text name="ProductDetailsAdmin.InProgress.Description">Das Produkt liegt zur Zeit beim Entwickler. Angaben, die bereits eingetragen wurden, kannst du in den Produkdetails einsehen. Bei weiteren Fragen nimm bitte mit dem Entwickler direkt Kontakt auf.</text>
+        <text name="ProductDetailsAdmin.InProgress.LastEditTitle">Letzte Bearbeitung des Produkts</text>
+
+        <!--Product details Producer deadline banner-->
+        <text name="ProductDetailsDeveloper.DeadlineBanner.Text">Die Bearbeitungsfrist für dieses Produkt läuft bis zum {0}</text>
+        <text name="ProductDetailsDeveloper.CompletedBanner.Text">Die Wertkettenplanung ist abgeschlossen, du kannst aktuell keine Änderungen vornehmen. Sollte es Bedarf geben, Anpassungen in der Planung zu tätigen, kontaktiere bitte den Admin.</text>
+
+        <!--Product details Producer request message-->
+        <text name="ProductDetailsDeveloper.ProducerRequest.Text">Wenn du an der Bearbeitung des unten aufgeführten Produkts teilnehmen möchtest, klicke bitte auf „Planungsanfrage annehmen“ und trage anschließend in der folgenden Ansicht deine Produktionsschritte in die Wertkette ein. Wenn du nicht an der Planung des Produkts teilnehmen möchtest, klicke bitte auf „Planungsanfrage ablehnen".</text>
+        <text name="ProductDetailsDeveloper.ProducerRequest.Accept">Planungsanfrage annehmen</text>
+        <text name="ProductDetailsDeveloper.ProducerRequest.Reject">Planungsanfrage ablehnen</text>
+
+        <text name="ProductOfferDetailsDeveloper.ProducerRequest.Text">Wenn du an der Bearbeitung des unten aufgeführten Produktes teilnehmen möchtest, klicke bitte auf „Planungsanfrage annehmen“ und trage anschließend in der folgenden Ansicht deine Produktionsschritte in die Wertkette ein. Beachte bitte, dass du dich dazu verpflichtest, die Produktionsschritte, die du im Rahmen der Planung einträgst, im Falle einer Beauftragung innerhalb der angegebenen Produktionsfrist umzusetzen.
+            Wenn du nicht an der Planung des Produkts teilnehmen möchtest, klicke bitte auf „Planungsanfrage ablehnen".</text>
+
+        <!--Value chain planning-->
+        <text name="ValueChainPlanning.Units.Hours">Stunden</text>
+        <text name="ValueChainPlanning.Units.Weeks">Wochen</text>
+        <text name="ValueChainPlanning.Units.CalendarWeek">KW</text>
+
+        <!--Product details value chain planning card-->
+        <text name="ProductDetails.ProductGraphCard.CardTitle">Wertkettenplanung</text>
+        <text name="ProductDetails.ProductGraphCard.DescriptionAdmin">Bitte erstelle eine wahrscheinliche Wertkette als Basis für den ersten Produzenten. Beim Hover über die Linien werden Buttons eingeblendet, um neue Zustände hinzuzufügen oder bereits erstellte Zustände zu bearbeiten. Die in der Wertkette bereits vorgegebenen Zustände kannst du in den Produktdetails bearbeiten. Sobald sich Produzenten eingetragen haben, können keine Zustände mehr von dir hinzugefügt werden. Für die Wertketten können dann verschiedene Optionen berechnet werden.</text>
+        <text name="ProductDetails.ProductGraphCard.DescriptionProducer">Bitte trag in die Wertkettenplanung deine Arbeitsschritte ein. Mögliche Startzustände werden beim Hover über die Zustände eingeblendet, mögliche Ergebniszustände werden eingeblendet sobald du einen Startzustand angewählt hast. Du kannst auch eigene Zustände ergänzen, indem du über die Linien zwischen den vorhanden Zuständen hoverst und auf das Plus klickst. Solltest du bereits Zustände eingetragen haben, kannst du diese über den Bearbeitungsstift editieren.</text>
+        <text name="ProductDetails.ProductGraphCard.ButtonLabel">Optionen berechnen</text>
+        <text name="ProductDetails.ProductGraphCard.GraphKey.FinalState">Finaler Zustand der Rohmaterialgruppe in der Wertkettenplanung</text>
+        <text name="ProductDetails.ProductGraphCard.GraphKey.StepWithoutProducer">Dieser Schritt wurde noch von keinem Produzenten eingetragen</text>
+        <text name="ProductDetails.ProductGraphCard.GraphKey.StepWithProducer">Dieser Schritt wurde bereits von einem Produzenten eingetragen</text>
+        <text name="ProductDetails.ProductGraphCard.GraphKey.StepCurrentProducer">Dieser Schritt wurde von dir eingetragen</text>
+
+        <!--Add state popup-->
+        <text name="ProductDetails.StatePopup.Title.New">Neuen Zustand hinzufügen</text>
+        <text name="ProductDetails.StatePopup.Title.Edit">Zustand editieren</text>
+        <text name="ProductDetails.StatePopup.Description">Bitte ergänze hier den neuen Zustand. Beachte, dass das Pop-up nach Ablauf des Timers automatisch geschlossen wird, ohne deine Angaben zu speichern.</text>
+        <text name="ProductDetails.StatePopup.State">Zustand</text>
+        <text name="ProductDetails.StatePopup.StatePlaceholder">Neuen Zustand eingeben</text>
+        <text name="ProductDetails.StatePopup.Confirm.New">Zustand hinzufügen</text>
+        <text name="ProductDetails.StatePopup.Confirm.Edit">Zustand aktualisieren</text>
+        <text name="ProductDetails.StatePopup.Cancel">Abbrechen</text>
+        <text name="ProductDetails.StatePopup.Delete">Zustand löschen</text>
+
+        <!--Locked state popup-->
+        <text name="ProductDetails.LockedStatePopup.Title">Zustand gesperrt</text>
+        <text name="ProductDetails.LockedStatePopup.Description">An dieser Position wird gerade ein weitere Zustand von einem anderen Nutzer hinzugefügt. Bitte versuche es in einigen Minuten noch einmal.</text>
+        <text name="ProductDetails.LockedStatePopup.Confirm">Ok</text>
+
+        <!--Final product state popup-->
+        <text name="ProductDetails.FinalProductStatePopup.Title">Bearbeitung des Arbeitsschritts</text>
+        <text name="ProductDetails.FinalProductStatePopup.Description">Im ausgewählten Arbeitsschritt wird der Finalzustand einer Rohmaterialgruppe übersprungen, du möchtest also auch die Endmontage des Produktes übernehmen. Wenn das der Fall ist, klick bitte auf “Mit der Bearbeitung fortfahren”. Wenn du auch bereit wärst, nur Teilschritte aus dem von dir gewählten Prozess zu übernehmen, so trag diese bitte separat ein. Du kannst dies jetzt gleich tun, indem du auf “Abbrechen” klickst und die Teilschritte auswählst, oder du kannst zunächst hier “Mit der Bearbeitung fortfahren” und nach Abschluss des aktuell gewählten Schrittes zusätzlich die Teilschritte ergänzen.</text>
+        <text name="ProductDetails.FinalProductStatePopup.Cancel">Abbrechen</text>
+        <text name="ProductDetails.FinalProductStatePopup.Confirm">Mit der Bearbeitung fortfahren</text>
+
+        <!--Product details value chain planning work-step wizard-->
+        <text name="ProductDetails.WorkstepWizard.Title">Arbeitsschritt</text>
+        <text name="ProductDetails.WorkstepWizard.InfoBanner">Deine Angaben aus dem Produktstandard werden hier automatisch übertragen. Falls sich für diese Produkt-Ausprägung Änderungen ergeben, trage diese bitte entsprechend ein. Bei den Angaben zu den Kosten ist es ausreichend, eine neue Angabe für das Standard Material einzutragen, weitere Materialvarianten werden dann prozentual angeglichen.</text>
+        <text name="ProductDetails.WorkstepWizard.Cancel">Abbrechen</text>
+        <text name="ProductDetails.WorkstepWizard.Draft">Entwurf</text>
+        <text name="ProductDetails.WorkstepWizard.Save">Arbeitsschritt speichern</text>
+        <text name="ProductDetails.WorkstepWizard.PrevStep">Zurück zu Schritt {step}</text>
+        <text name="ProductDetails.WorkstepWizard.NextStep">Weiter zu Schritt {step}</text>
+        <text name="ProductDetails.WorkstepWizard.CancelConfirmationTitle">Ohne „speichern“ schließen</text>
+        <text name="ProductDetails.WorkstepWizard.CancelConfirmationDescription">Klicke auf „Bestätigen“ wenn du das Fenster schließen möchtest, ohne deine zuletzt vorgenommenen Angaben zu speichern. Wenn du die Angaben speichern möchtest, klicke auf „Abbrechen“, um zurück zum Arbeitsschritt zu gelangen.</text>
+        <text name="ProductDetails.WorkstepWizard.Confirm">Bestätigen</text>
+        <text name="ProductDetails.WorkstepWizard.SaveAsAdmin">Speichern</text>
+        <text name="ProductDetails.WorkstepWizard.ConfirmPopup.Title">Arbeitsschritt einreichen</text>
+        <text name="ProductDetails.WorkstepWizard.ConfirmPopup.Description">Wenn du auf “Arbeitsschritt einreichen” klickst, wird der entsprechende Arbeitsschritt in die Wertkettenplanung eingetragen.</text>
+        <text name="ProductDetails.WorkstepWizard.ConfirmPopup.Confirm">Arbeitsschritt einreichen</text>
+        <text name="ProductDetails.WorkstepWizard.ConfirmPopup.Cancel">Abbrechen</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Default">Produktstandard</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Max">Max. Ausprägung</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Min">Min. Ausprägung</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.ProductDimensionLabel">Größe (H, B, T)</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Time.Title">1. Angaben zur Arbeitszeit</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Time.Description">Bitte gib an, wie viele Stunden du für die Bearbeitung dieses Schrittes benötigst, unter Berücksichtigung deiner aktuellen Auftragslage. Nenne auch den Zeitrahmen, in dem du diesen Arbeitsschritt abschließen kannst.</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Time.HourlyInputUnit">Stunden</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Time.WeeklyInputUnit">Wochen</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Time.ProcessingTimeInputLabel">Voraussichtliche Auftragsbearbeitungszeit in Wochen</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Time.WorkingTimeInputLabel">Arbeitszeit in Stunden</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Time.SupplyOtherCraftsInWeeksInputLabel">Zulieferung der Produkte anderer Gewerke wird spätestens benötigt nach</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Costs.Title">2. Angaben zu den Kosten</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Costs.Description">Füge die Materialkosten hinzu. Solltest du eine Variante nicht produzieren können, so aktiviere die entsprechende Checkbox (diese Möglichkeit besteht nur bei den Produktvarianten). Gib auch eine Pauschale für Transport und Montage an, um die Kosten für den Transport innerhalb Hamburgs oder die Montage zu berücksichtigen.</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Costs.InputUnit">Euro (Netto)</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Costs.TransportRateInputLabel">Transport- und Montagepauschale</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Costs.AdditionalMaterialsInputLabel">Kosten für Zusatzmaterialien (z. B. Beschläge, Folien, ….)</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Costs.MaterialCostsInputLabel">Materialkosten</text>
+        <text name="ProductDetails.WorkstepWizard.Step.Data.Costs.CheckboxLabel">Diese Variante kann ich nicht produzieren</text>
+        <text name="ProductDetails.WorkstepWizard.Workpiece.Material">Material</text>
+        <text name="ProductDetails.WorkstepWizard.DeleteBtn">Arbeitsschritt löschen</text>
+        <text name="ProductDetails.WorkstepWizard.DeletePopup.Title">Arbeitsschritt löschen</text>
+        <text name="ProductDetails.WorkstepWizard.DeletePopup.Description">Bist du sicher, dass du diesen Arbeitsschritt löschen möchtest?</text>
+        <text name="ProductDetails.WorkstepWizard.DeletePopup.Confirm">Arbeitsschritt löschen</text>
+        <text name="ProductDetails.WorkstepWizard.DeletePopup.Cancel">Abbrechen</text>
+
+        <!--Max cost popup-->
+        <text name="ProductDetails.MaxCostPopup.Title">Maximalkosten eintragen</text>
+        <text name="ProductDetails.MaxCostPopup.Description">Bitte tragen Sie die maximalen Kosten für dieses Produkt ein.</text>
+        <text name="ProductDetails.MaxCostPopup.InputLabel">Maximalkosten</text>
+        <text name="ProductDetails.MaxCostPopup.Unit">Euro (Netto)</text>
+        <text name="ProductDetails.MaxCostPopup.Placeholder">Maximalkosten</text>
+        <text name="ProductDetails.MaxCostPopup.Confirm">Optionen berechnen</text>
+        <text name="ProductDetails.MaxCostPopup.Cancel">Abbrechen</text>
+
+        <!--Product export-->
+        <text name="ProductExport.PublishProduct">Produkt veröffentlichen</text>
+        <text name="ProductExport.MakeChanges">Änderungen vornehmen</text>
+        <text name="ProductExport.ConfirmPopup.Title">Produkt veröffentlichen</text>
+        <text name="ProductExport.ConfirmPopup.Description">Das Produkt ist an den Shop übertragen worden. Bitte gehe in den Shop und kontrolliere das Produkt. Anschließend kannst du das Produkt über den Shop veröffentlichen.</text>
+        <text name="ProductExport.ConfirmPopup.Confirm">Bestätigen</text>
+        <text name="ProductExport.ConfirmPopup.Cancel">Abbrechen</text>
+
+        <text name="ProductOfferExport.PublishProduct">Wertkettenauswahl freigeben</text>
+        <text name="ProductOfferExport.ConfirmPopup.Title">Wertkettenauswahl freigeben</text>
+        <text name="ProductOfferExport.ConfirmPopup.Description">Die von dir gewählten Wertketten wurden dem Entwickler zur Auswahl vorgelegt. Sobald dieser eine der Optionen zur Produktion beauftragt hat erhältst du eine Info und kannst die Produktion dann final bei den beteiligten Produzenten in Auftrag geben.</text>
+        
+        <!--Edit mode-->
+        <text name="EditMode.TabCard.Tabs.Live">Aktuelles Liveprodukt</text>
+        <text name="EditMode.TabCard.Tabs.Edit">Änderungsmodus</text>
+        <text name="EditMode.TabCard.Buttons.Cancel">Änderungen verwerfen</text>
+        <text name="EditMode.TabCard.Buttons.Save">Produkt aktualisieren</text>
+        <text name="EditMode.ConfirmPopup.Title">Änderungen am veröffentlichten Produkt vornehmen</text>
+        <text name="EditMode.ConfirmPopup.Description">Bist du sicher, dass du Änderungen an dem bereits veröffentlichten Produkt vornehmen möchtest? Für die Bearbeitung wird eine Kopie erstellt, welche erneut veröffentlicht werden muss, um die Änderungen in den Shop zu übertragen.</text>
+        <text name="EditMode.CancelPopup.Title">Änderungen verwerfen</text>
+        <text name="EditMode.CancelPopup.Description">Bist du sicher, dass du Änderungen wieder verwerfen möchtest? Diese werden dann unwiderruflich zurückgesetzt.</text>
+        <text name="EditMode.PublishPopup.Title">Produkt aktualisieren</text>
+        <text name="EditMode.PublishPopup.Description">Bist du sicher, dass du das Produkt neu veröffentlichen möchtest? Das Produkt wird dann mit dem nächsten Import zum nächstmöglichen Zeitpunkt aktualisiert.</text>
+        <text name="EditMode.Popup.Confirm">Bestätigen</text>
+        <text name="EditMode.Popup.Cancel">Abbrechen</text>
+
+        <!--Order management-->
+        <!--Order overview table-->
+        <text name="OrderOverviewTable.OrderTitle">Auftragsübersicht</text>
+        <text name="OrderOverviewTable.Header.OrderNumber">Auftragsnummer</text>
+        <text name="OrderOverviewTable.Header.ProductNumber">Produktnummer</text>
+        <text name="OrderOverviewTable.Header.ProductName">Produktname</text>
+        <text name="OrderOverviewTable.Header.OrderDate">Bestelldatum</text>
+        <text name="OrderOverviewTable.Header.OrderStatus">Status</text>
+        <text name="OrderOverviewTable.Header.OrderDetails">Details</text>
+        <text name="OrderOverviewTable.Total">Gesamt</text>
+        <text name="OrderOverviewTable.SearchLabel">Suche</text>
+        <text name="OrderOverviewTable.SearchPlaceholder">Gib einen Suchbegriff ein</text>
+        <text name="OrderOverviewTable.FilterLabel">Filtern nach</text>
+        <text name="OrderOverviewTable.FilterPlaceholder">Zustand auswählen</text>
+        <text name="OrderOverviewTable.Filter.NoFilter">kein Filter</text>
+        <text name="OrderOverviewTable.Filter.Open">Offen</text>
+        <text name="OrderOverviewTable.Filter.Commissioned">Bearbeitung</text>
+        <text name="OrderOverviewTable.Filter.InProgress">In Bearbeitung</text>
+        <text name="OrderOverviewTable.Filter.Completed">Abgeschlossen</text>
+        <text name="OrderOverviewTable.Filter.NotDone">Nicht erfolgt</text>
+        <text name="OrderOverviewTable.Filter.Cancelled">Storniert</text>
+
+        <!--Order details admin-->
+        <text name="OrderDetails.ValueChainTable.Material">Rohmaterial/Schritt</text>
+        <text name="OrderDetails.ValueChainTable.StartState">Startzustand</text>
+        <text name="OrderDetails.ValueChainTable.FinalState">Ergebniszustand</text>
+        <text name="OrderDetails.ValueChainTable.Status">Status</text>
+        <text name="OrderDetails.ValueChainTable.ProcessingTime">Auftragsbearbeitungszeit</text>
+        <text name="OrderDetails.ValueChainTable.ProcessingFrom">Bearbeitung ab</text>
+        <text name="OrderDetails.ValueChainTable.ProcessingTo">Bearbeitung bis</text>
+        <text name="OrderDetails.ValueChainTable.ProducerName">Name d. Produzenten</text>
+        <text name="OrderDetails.ValueChainTable.WorkType">Gewerk</text>
+        <text name="OrderDetails.ValueChainTable.Address">Anschrift</text>
+        <text name="OrderDetails.ValueChainTable.Email">E-Mail-Adresse</text>
+        <text name="OrderDetails.ValueChainTable.PhoneNumber">Telefonnummer</text>
+        <text name="OrderDetails.CancelButtonLabel">Auftrag stornieren</text>
+        <text name="OrderDetails.ValueChainCard.RequestValueChain">angefragte Wertkette</text>
+        <text name="OrderDetails.ValueChainCard.Description">In der folgenden Tabelle kannst du die verschiedenen Arbeitsschritte und den aktuellen Status der angefragten Wertkette einsehen.</text>
+        <text name="OrderDetails.ValueChainCard.RequestDate">Datum der Anfrage</text>
+        <text name="OrderDetails.ValueChainCard.CommissionBtn">Wertschöpfungskette beauftragen</text>
+        <text name="OrderDetails.ValueChainCard.Status.Commissioned">Beauftragt</text>
+        <text name="OrderDetails.ValueChainCard.Status.Rejected">Nicht zustande gekommen</text>
+        <text name="OrderDetails.ValueChainCard.Status.InProgress">In Bearbeitung</text>
+        <text name="OrderDetails.ValueChainCard.Status.Completed">Abgeschlossen</text>
+        <text name="OrderDetails.ValueChainCard.Status.Canceled">Storniert</text>
+        <text name="OrderDetails.ValueChainTable.ActionStatus.Open">Offen</text>
+        <text name="OrderDetails.ValueChainTable.ActionStatus.Rejected">Anfrage abgelehnt</text>
+        <text name="OrderDetails.ValueChainTable.ActionStatus.Accepted">Anfrage angenommen</text>
+        <text name="OrderDetails.ValueChainTable.ActionStatus.Commissioned">Beauftragt</text>
+        <text name="OrderDetails.ValueChainTable.ActionStatus.NotCommissioned">Nicht beauftragt</text>
+        <text name="OrderDetails.ValueChainTable.ActionStatus.InProgress">In Bearbeitung</text>
+        <text name="OrderDetails.ValueChainTable.ActionStatus.Completed">Abgeschlossen</text>
+        <text name="OrderDetails.ValueChainTable.ActionStatus.Cancelled">Storniert</text>
+
+        <!--Producer action request card-->
+        <text name="OrderDetails.ProducerRequestCard.Title">Anfrage zum Arbeitsschritt</text>
+        <text name="OrderDetails.ProducerRequestCard.Description">Wenn du den Auftrag zu dem hier aufgeführten Arbeitsschritt annehmen kannst, bestätige bitte die Anfrage. Sollte dir die Bearbeitung des Auftrags zur Zeit nicht möglich sein, klicke bitte auf „Auftrag ablehnen“. </text>
+        <text name="OrderDetails.ProducerRequestCard.BaseInfo.Title">Angaben zum angefragten Produkt</text>
+        <text name="OrderDetails.ProducerRequestCard.BaseInfo.Measurement">Größe (H, B, T)</text>
+        <text name="OrderDetails.ProducerRequestCard.BaseInfo.Material">Angaben zum angefragten Produkt</text>
+        <text name="OrderDetails.ProducerRequestCard.BaseInfo.DeliveryTime">Voraussichtliche Auslieferung an den Kunden</text>
+        <text name="OrderDetails.ProducerRequestCard.WorkTime.Title">Meine Arbeitszeit</text>
+        <text name="OrderDetails.ProducerRequestCard.WorkTime.ProcessingTime">Voraussichtliche Auftragsbearbeitungszeit</text>
+        <text name="OrderDetails.ProducerRequestCard.WorkTime.WorkHours">Arbeitszeit in Stunden</text>
+        <text name="OrderDetails.ProducerRequestCard.WorkTime.ProcessingFrom">Voraussichtliche Bearbeitung ab</text>
+        <text name="OrderDetails.ProducerRequestCard.WorkTime.ProcessingTo">Voraussichtliche Bearbeitung bis</text>
+        <text name="OrderDetails.ProducerRequestCard.Costs.Title.Income">Mein Verdienst am Arbeitsschritt</text>
+        <text name="OrderDetails.ProducerRequestCard.Costs.Title.Calculated">Meine Kalkulation für den Arbeitsschritt </text>
+        <text name="OrderDetails.ProducerRequestCard.Costs.WorkCost">Arbeitskosten</text>
+        <text name="OrderDetails.ProducerRequestCard.Costs.MaterialAndTransport">Material- &amp; Transportkosten</text>
+        <text name="OrderDetails.ProducerRequestCard.Costs.Total">Gesamt-Verdienst</text>
+        <text name="OrderDetails.ProducerRequestCard.Btn.Accept">Anfrage annehmen</text>
+        <text name="OrderDetails.ProducerRequestCard.Btn.Reject">Anfrage ablehnen</text>
+        <text name="OrderDetails.ProducerRequestCard.Badge.Accept">Anfrage angenommen</text>
+        <text name="OrderDetails.ProducerRequestCard.Badge.Reject">Anfrage abgelehnt</text>
+        <text name="OrderDetails.ProducerRequestCard.ConfirmPopup.Title">Auftrag annehmen</text>
+        <text name="OrderDetails.ProducerRequestCard.ConfirmPopup.Description">Wenn du den Auftrag annimmst, bestätigst du, diesen in der von dir genannten voraussichtlichen Auftragsbearbeitungszeit erledigen zu können. Der Auftrag wird dann als angenommen ausgewiesen und kann nur durch den Admin wieder zurückgesetzt werden.</text>
+        <text name="OrderDetails.ProducerRequestCard.ConfirmPopup.Confirm">Bestätigen</text>
+        <text name="OrderDetails.ProducerRequestCard.ConfirmPopup.Cancel">Abbrechen</text>
+
+        <!--Order product info card-->
+        <text name="OrderDetails.ProductInfoCard.Title">Details zum beauftragten Produkt</text>
+        <text name="OrderDetails.ProductInfoCard.ProductInfo.Title">Angaben zum Produkt</text>
+        <text name="OrderDetails.ProductInfoCard.ProductInfo.OrderNumber">Auftragsnummer</text>
+        <text name="OrderDetails.ProductInfoCard.ProductInfo.Measurements">Größe (H, B, T)</text>
+        <text name="OrderDetails.ProductInfoCard.ProductInfo.Material">Material</text>
+        <text name="OrderDetails.ProductInfoCard.ProductInfo.NettoPrice">Nettopreis für den Kunden</text>
+        <text name="OrderDetails.ProductInfoCard.PayOut.Title">Auszahlung (Netto)</text>
+        <text name="OrderDetails.ProductInfoCard.PayOut.Developer">Entwickler</text>
+        <text name="OrderDetails.ProductInfoCard.PayOut.Platform">Anteil Plattform</text>
+        <text name="OrderDetails.ProductInfoCard.Documents.Title">Dokumente</text>
+
+        <!--Customer info card-->
+        <text name="OrderDetails.CustomerInfoCard.Title">Details zum Kunden</text>
+        <text name="OrderDetails.CustomerInfoCard.Name">Name</text>
+        <text name="OrderDetails.CustomerInfoCard.PhoneNumber">Telefon</text>
+        <text name="OrderDetails.CustomerInfoCard.EmailAddress">E-Mail</text>
+        <text name="OrderDetails.CustomerInfoCard.Street">Straße</text>
+        <text name="OrderDetails.CustomerInfoCard.Zip">PLZ</text>
+        <text name="OrderDetails.CustomerInfoCard.City">Ort</text>
+
+        <!--ProductionProcessCard-->
+        <text name="OrderDetails.ProductionProcessCard.Title">Beauftragte Wertkette</text>
+        <text name="OrderDetails.ProductionProcessCard.StartButton">Bearbeitung starten</text>
+        <text name="OrderDetails.ProductionProcessCard.FinishButton">Bearbeitung beenden</text>
+        <text name="OrderDetails.ProductionProcessCard.CompleteOrderButton">Auftrag abschließen</text>
+        <text name="OrderDetails.ProductionProcessCard.Description">In der folgenden Tabelle kannst du die verschiedenen Arbeitsschritte und den aktuellen Status der beauftragten Wertkette einsehen. Wenn du mit einem Arbeitsschritt beginnst oder diesen abgeschlossen hast, kannst du dies über die Aktivierung der Buttons kennzeichnen. Solltest du mehrere Arbeitsschritte haben, ist eine mehrfache Tätigung der Buttons möglich. Deine Arbeitsschritte sind gehighlightet.</text>
+        <text name="OrderDetails.ProductionProcessCard.ConfirmPopupStart.Title">Bearbeitung starten</text>
+        <text name="OrderDetails.ProductionProcessCard.ConfirmPopupStart.Description">Wenn du mit der Bearbeitung beginnst, kennzeichnen wir dies entsprechend im System. Bitte denke daran auf den Button “Bearbeitung beenden” zu klicken, sobald du die Bearbeitung deines Arbeitsschrittes abgeschlossen hast.</text>
+        <text name="OrderDetails.ProductionProcessCard.ConfirmPopupFinish.Title">Bestätigung Beenden</text>
+        <text name="OrderDetails.ProductionProcessCard.ConfirmPopupFinish.Description">Wenn du die Bearbeitung beendest, kennzeichnen wir dies entsprechend im System. Solltest du für mehrere Arbeitsschritte in der Wertkette zuständig sein, wird der Button „Bearbeitung starten“ erneut aktiviert.</text>
+        <text name="OrderDetails.ProductionProcessCard.CompleteOrderPopup.Title">Auftrag abschließen</text>
+        <text name="OrderDetails.ProductionProcessCard.CompleteOrderPopup.Description">Wenn du einen Auftrag abschließt, bestätigst du, dass das Produkt erfolgreich beim Endkunden eingetroffen und gegebenenfalls montiert worden ist. Füge bitte eine entsprechende Lieferbestätigung hinzu. Wenn du diesen Schritt bestätigt hast, kannst du ihn nicht mehr widerrufen.</text>
+        <text name="OrderDetails.ProductionProcessCard.ConfirmPopup.Confirm">Bestätigen</text>
+        <text name="OrderDetails.ProductionProcessCard.ConfirmPopup.Cancel">Abbrechen</text>
+        <text name="OrderDetails.ProductionProcessCard.UploadField.UploadText">Drag &amp; Drop oder {0} zum Upload</text>
+        <text name="OrderDetails.ProductionProcessCard.UploadField.UploadTextLabel">wähle eine Datei</text>
+        <text name="OrderDetails.ProductionProcessCard.UploadField.FileTag">Lieferbestätigung (PDF-Datei)</text>
+
+        <!--Users-->
+        <!--UserTrades-->
+        <text name="UserProfile.WorkType.Carpentry">Schreinerei</text>
+        <text name="UserProfile.WorkType.GlassWork">Glaserei</text>
+        <text name="UserProfile.WorkType.MetalWork">Metallbauer</text>
+        <text name="UserProfile.WorkType.Other">Sonstiges</text>
+        <text name="UserProfile.WorkType.Unknown">-</text>
+
+        <!--Producer ratings-->
+        <text name="UserProfile.ProducerRatings.Name">Wertketten Parameter</text>
+        <text name="UserProfile.ProducerRatings.SocialCommitment">Soziales Engagement</text>
+        <text name="UserProfile.ProducerRatings.Sustainability">Nachhaltigkeit</text>
+        <text name="UserProfile.ProducerRatings.FamilyFriendly">Familienfreundlich</text>
+
+        <!--Request to Producer status-->
+        <text name="UserProfile.ProducerProductStatus.Requested">Angefragt</text>
+        <text name="UserProfile.ProducerProductStatus.Accepted">Angenommen</text>
+        <text name="UserProfile.ProducerProductStatus.Rejected">Abgelehnt</text>
+
+        <!--RoleNames-->
+        <text name="RoleName.Admin">Admin</text>
+        <text name="RoleName.PlatformAdmin">Admin</text>
+        <text name="RoleName.Developer">Entwickler</text>
+        <text name="RoleName.Producer">Produzent</text>
+
+        <!--Profiles-->
+        <!--General -->
+        <text name="Profile.UndefinedRating">Keine Angabe</text>
+        <text name="Profile.State.Active">Aktiv</text>
+        <text name="Profile.State.InActive">Inaktiv</text>
+        <text name="Profile.State.Invited">Eingeladen</text>
+
+        <!--Admin profile-->
+        <text name="EditProfile.Admin.PopupTitle">Mein Profil</text>
+        <text name="EditProfile.Admin.PopupSubtitle">Allgemeine Angaben</text>
+        <text name="EditProfile.Admin.Name">Vor- und Nachname</text>
+        <text name="EditProfile.Admin.EmailAddress">E-Mail-Adresse</text>
+        <text name="EditProfile.Admin.Save">Speichern</text>
+        <text name="EditProfile.Admin.Cancel">Abbrechen</text>
+
+        <!--Developer profile (current) -->
+        <text name="EditProfile.Developer.PopupTitle">Mein Profil</text>
+        <text name="EditProfile.Developer.PopupSubtitle">Allgemeine Angaben</text>
+        <text name="EditProfile.Developer.Name">Name</text>
+        <text name="EditProfile.Developer.Country">Land</text>
+        <text name="EditProfile.Developer.PseudonymName">Name (Pseudonym)</text>
+        <text name="EditProfile.Developer.EmailAddress">E-Mail-Adresse</text>
+        <text name="EditProfile.Developer.StreetAndNumber">Straße und Haus-Nr.</text>
+        <text name="EditProfile.Developer.PhoneNumber">Telefon-Nr.</text>
+        <text name="EditProfile.Developer.ZipCode">PLZ</text>
+        <text name="EditProfile.Developer.City">Ort</text>
+        <text name="EditProfile.Developer.State">Status</text>
+        <text name="EditProfile.Developer.RegionOrState">Region/Bundesland</text>
+        <text name="EditProfile.Developer.Save">Speichern</text>
+        <text name="EditProfile.Developer.Cancel">Abbrechen</text>
+
+        <!--Developer profile for admin (edit) -->
+        <text name="AdminDeveloperProfileEdit.Labels.Cancel">Abbrechen</text>
+        <text name="AdminDeveloperProfileEdit.Labels.City">Ort</text>
+        <text name="AdminDeveloperProfileEdit.Labels.Country">Land</text>
+        <text name="AdminDeveloperProfileEdit.Labels.Email">E-Mail-Adresse</text>
+        <text name="AdminDeveloperProfileEdit.Labels.FullName">Name</text>
+        <text name="AdminDeveloperProfileEdit.Labels.Note">Notiz</text>
+        <text name="AdminDeveloperProfileEdit.Labels.PhoneNumber">Telefon-Nr.</text>
+        <text name="AdminDeveloperProfileEdit.Labels.Pseudonym">Name (Pseudonym)</text>
+        <text name="AdminDeveloperProfileEdit.Labels.Region">Region/Bundesland</text>
+        <text name="AdminDeveloperProfileEdit.Labels.Save">Speichern</text>
+        <text name="AdminDeveloperProfileEdit.Labels.State">Status</text>
+        <text name="AdminDeveloperProfileEdit.Labels.Street">Straße und Haus-Nr.</text>
+        <text name="AdminDeveloperProfileEdit.Labels.ZipCode">PLZ</text>
+        <text name="AdminDeveloperProfileEdit.Misc.NotePlaceholder">Hier kannst du eine Notiz hinzufügen. Die Notiz ist für den Entwickler nicht sichtbar.</text>
+        <text name="AdminDeveloperProfileEdit.Misc.FormIntroduction">Die Angaben zum Entwickler können jederzeit angepasst werden.</text>
+        <text name="AdminDeveloperProfileEdit.Misc.FormTitle">Allgemeine Angaben</text>
+        <text name="AdminDeveloperProfileEdit.Misc.PopupTitle">Entwickler bearbeiten</text>
+
+        <!--Developer profile for admin (view) -->
+        <text name="AdminDeveloperProfileView.Labels.City">Ort:</text>
+        <text name="AdminDeveloperProfileView.Labels.Country">Land:</text>
+        <text name="AdminDeveloperProfileView.Labels.Email">E-Mail-Adresse:</text>
+        <text name="AdminDeveloperProfileView.Labels.FullName">Name:</text>
+        <text name="AdminDeveloperProfileView.Labels.Note">Notiz:</text>
+        <text name="AdminDeveloperProfileView.Labels.NumberOfDraftedProducts">Produktentwürfe gesamt:</text>
+        <text name="AdminDeveloperProfileView.Labels.NumberOfProducts">Produkte im Shop:</text>
+        <text name="AdminDeveloperProfileView.Labels.PhoneNumber">Telefon-Nr.:</text>
+        <text name="AdminDeveloperProfileView.Labels.Pseudonym">Name (Pseudonym):</text>
+        <text name="AdminDeveloperProfileView.Labels.Region">Bundesland/Region:</text>
+        <text name="AdminDeveloperProfileView.Labels.Street">Straße und Haus Nr.:</text>
+        <text name="AdminDeveloperProfileView.Labels.ZipCode">PLZ:</text>
+        <text name="AdminDeveloperProfileView.Misc.PlaceholderValue">-</text>
+        <text name="AdminDeveloperProfileView.Titles.GeneralInformation">Angaben zum Entwickler</text>
+        <text name="AdminDeveloperProfileView.Titles.ProductInformation">Angaben zu den Produkten</text>
+
+        <!--Producer profile (current) -->
+        <text name="EditProfile.Producer.PopupTitle">Mein Profil</text>
+        <text name="EditProfile.Producer.PopupSubtitle">Angaben zum Unternehmen</text>
+        <text name="EditProfile.Producer.RateUnit">Euro</text>
+        <text name="EditProfile.Producer.CompanyName">Name d. Unternehmens</text>
+        <text name="EditProfile.Producer.Country">Land</text>
+        <text name="EditProfile.Producer.TradeType">Gewerk</text>
+        <text name="EditProfile.Producer.Mail">E-Mail-Adresse</text>
+        <text name="EditProfile.Producer.NumberOfEmployees">Anzahl Mitarbeiter</text>
+        <text name="EditProfile.Producer.PhoneNumber">Telefon-Nr.</text>
+        <text name="EditProfile.Producer.ZipCode">PLZ</text>
+        <text name="EditProfile.Producer.City">Ort</text>
+        <text name="EditProfile.Producer.State">Status</text>
+        <text name="EditProfile.Producer.Region">Region/Bundesland</text>
+        <text name="EditProfile.Producer.Save">Speichern</text>
+        <text name="EditProfile.Producer.Cancel">Abbrechen</text>
+        <text name="EditProfile.Producer.Rate">Stundenlohn</text>
+        <text name="EditProfile.Producer.Street">Straße und Haus-Nr.</text>
+        <text name="EditProfile.Producer.ContactPerson">Ansprechpartner</text>
+        <text name="EditProfile.Producer.ParameterTitle">Wertkettenparameter</text>
+        <text name="EditProfile.Producer.RatingTitleSeparation">:</text>
+        <text name="EditProfile.Producer.RatingValueSeparator">/</text>
+
+        <!--Producer profile for admin (edit) -->
+        <text name="AdminProducerProfileEdit.Labels.Cancel">Abbrechen</text>
+        <text name="AdminProducerProfileEdit.Labels.City">Ort</text>
+        <text name="AdminProducerProfileEdit.Labels.CompanyName">Name d. Unternehmens</text>
+        <text name="AdminProducerProfileEdit.Labels.ContactPersonFullName">Ansprechpartner im Unternehmen</text>
+        <text name="AdminProducerProfileEdit.Labels.Mail">E-Mail-Adresse</text>
+        <text name="AdminProducerProfileEdit.Labels.Note">Notiz</text>
+        <text name="AdminProducerProfileEdit.Labels.NumberOfEmployees">Anzahl Mitarbeiter</text>
+        <text name="AdminProducerProfileEdit.Labels.PhoneNumber">Telefon-Nr.</text>
+        <text name="AdminProducerProfileEdit.Labels.Rate">Stundenlohn</text>
+        <text name="AdminProducerProfileEdit.Labels.Save">Speichern</text>
+        <text name="AdminProducerProfileEdit.Labels.State">Status</text>
+        <text name="AdminProducerProfileEdit.Labels.Street">Straße und Haus Nr.</text>
+        <text name="AdminProducerProfileEdit.Labels.TradeType">Gewerk</text>
+        <text name="AdminProducerProfileEdit.Labels.ZipCode">PLZ</text>
+        <text name="AdminProducerProfileEdit.NotePlaceholder">Hier kannst du eine Notiz hinzufügen. Die Notiz ist für den Produzent nicht sichtbar.</text>
+        <text name="AdminProducerProfileEdit.ParameterTitle">Wertkettenparameter</text>
+        <text name="AdminProducerProfileEdit.PopupSubtitle">Angaben zum Unternehmen</text>
+        <text name="AdminProducerProfileEdit.PopupTitle">Mein Profil</text>
+        <text name="AdminProducerProfileEdit.RateUnit">Euro</text>
+        <text name="AdminProducerProfileEdit.RatingTitleSeparation">:</text>
+        <text name="AdminProducerProfileEdit.RatingValueSeparator">/</text>
+        <text name="AdminProducerProfileEdit.UndefinedRating">Not Specified</text>
+
+        <!--Producer profile for admin (view) -->
+        <text name="AdminProducerProfileView.Labels.CompanyName">Name d. Unternehmens:</text>
+        <text name="AdminProducerProfileView.Labels.TradeType">Gewerk:</text>
+        <text name="AdminProducerProfileView.Labels.Mail">E-Mail-Adresse:</text>
+        <text name="AdminProducerProfileView.Labels.NumberOfEmployees">Anzahl Mitarbeiter:</text>
+        <text name="AdminProducerProfileView.Labels.PhoneNumber">Telefon-Nr.:</text>
+        <text name="AdminProducerProfileView.Labels.ZipCode">PLZ:</text>
+        <text name="AdminProducerProfileView.Labels.City">Ort:</text>
+        <text name="AdminProducerProfileView.Labels.Street">Straße und Haus Nr.:</text>
+        <text name="AdminProducerProfileView.Labels.Note">Notiz:</text>
+        <text name="AdminProducerProfileView.Labels.AssociatedProducts">Beteiligte Produkte:</text>
+        <text name="AdminProducerProfileView.Labels.AlreadyProducedFurniture">Bereits produzierte Möbel:</text>
+        <text name="AdminProducerProfileView.Labels.CurrentOrders">Derzeitige Aufträge:</text>
+        <text name="AdminProducerProfileView.Titles.CompanyInformation">Angaben zum Unternehmen</text>
+        <text name="AdminProducerProfileView.Titles.Parameter">Wertkettenparameter</text>
+        <text name="AdminProducerProfileView.Titles.ProductsAndServices">Produkte und Aufträge</text>
+        <text name="AdminProducerProfileView.Ratings.TitleSeparation">:</text>
+
+        <!--Profile for admin (delete confirmation popup) -->
+        <text name="AdminProfile.ConfirmDeletePopup.Description">Wenn du die Aktion bestätigst, wird der {0} aus dem System gelöscht.</text>
+        <text name="AdminProfile.ConfirmDeletePopup.Title">{0} löschen</text>
+
+        <!--Profile for admin (impersonation confirmation popup) -->
+        <text name="AdminProfile.ConfirmImpersonationPopup.Description">Bist du sicher, dass du in die Ansicht des gewählten Nutzers wechseln möchtest? Hiermit würdest du deine Administrationsansicht verlassen.</text>
+        <text name="AdminProfile.ConfirmImpersonationPopup.Title">Als {0} anmelden</text>
+
+        <!--Developer overview table-->
+        <text name="DeveloperOverview.Title">Entwickler</text>
+        <text name="DeveloperOverview.SearchBar.Label">Suche</text>
+        <text name="DeveloperOverview.SearchBar.Placeholder">Gib einen Suchbegriff ein</text>
+        <text name="DeveloperOverview.Button.Label">Neuen Entwickler eintragen</text>
+        <text name="DeveloperTableHeader.Name">Name</text>
+        <text name="DeveloperTableHeader.Address">Anschrift</text>
+        <text name="DeveloperTableHeader.Mail">E-Mail-Adresse</text>
+        <text name="DeveloperTableHeader.Phone">Telefonnummer</text>
+        <text name="DeveloperTableHeader.Products">Anzahl Produkte</text>
+        <text name="DeveloperTableHeader.State">Status</text>
+        <text name="DeveloperTableHeader.Details">Details</text>
+
+        <!--Invite developer popup-->
+        <text name="InviteDeveloperPopup.Title">Neuen Entwickler eintragen</text>
+        <text name="InviteDeveloperPopup.Description">Um einen Entwickler auf die Plattform einzuladen, sind die mit * gekennzeichneten Felder Pflicht. Ohne diese Angaben kann kein Account erstellt werden.</text>
+        <text name="InviteDeveloperPopup.SubTitle">Angaben zum Entwickler</text>
+        <text name="InviteDeveloperPopup.InputName.Label">Name</text>
+        <text name="InviteDeveloperPopup.InputName.Placeholder">Namen eingeben</text>
+        <text name="InviteDeveloperPopup.InputMail.Label">E-Mail-Adresse</text>
+        <text name="InviteDeveloperPopup.InputMail.Placeholder">E-Mail-Adresse eingeben</text>
+        <text name="InviteDeveloperPopup.CancelButton.Label">Abbrechen</text>
+        <text name="InviteDeveloperPopup.InviteButton.Label">Einladung senden</text>
+
+        <!--Producer overview table-->
+        <text name="ProducerOverview.Title">Produzenten</text>
+        <text name="ProducerOverview.SearchBar.Label">Suche</text>
+        <text name="ProducerOverview.SearchBar.Placeholder">Gib einen Suchbegriff ein</text>
+        <text name="ProducerOverview.InviteButton.Label">Neuen Produzenten eintragen</text>
+        <text name="ProducerTableHeader.Name">Name</text>
+        <text name="ProducerTableHeader.TradeType">Gewerk</text>
+        <text name="ProducerTableHeader.Address">Anschrift</text>
+        <text name="ProducerTableHeader.Mail">E-Mail-Adresse</text>
+        <text name="ProducerTableHeader.Phone">Telefonnummer</text>
+        <text name="ProducerTableHeader.State">Status</text>
+        <text name="ProducerTableHeader.Details">Details</text>
+
+        <!-- Invite producer popup -->
+        <text name="InviteProducerPopup.Title">Neuen Produzenten eintragen</text>
+        <text name="InviteProducerPopup.Description">Um einen Produzenten auf die Plattform einzuladen, sind die mit * gekennzeichneten Felder Pflicht. Ohne diese Angaben kann kein Account erstellt werden. Die Wertkettenparameter kannst du nach der Registrierung des Produzenten eintragen.</text>
+        <text name="InviteProducerPopup.ButtonText.Cancel">Abbrechen</text>
+        <text name="InviteProducerPopup.ButtonText.Invite">Einladung senden</text>
+        <text name="InviteProducerPopup.Form.Title">Angaben zum Unternehmen</text>
+        <text name="InviteProducerPopup.Form.CompanyName.Label">Name d. Unternehmens</text>
+        <text name="InviteProducerPopup.Form.CompanyName.Placeholder">Unternehmen eingeben</text>
+        <text name="InviteProducerPopup.Form.Trade.Label">Gewerk</text>
+        <text name="InviteProducerPopup.Form.Trade.Placeholder">Gewerk auswählen</text>
+        <text name="InviteProducerPopup.Form.Email.Label">E-Mail-Adresse</text>
+        <text name="InviteProducerPopup.Form.Email.Placeholder">E-Mail-Adresse eingeben</text>
+        <text name="InviteProducerPopup.Form.ContactPerson.Label">Ansprechpartner im Unternehmen</text>
+        <text name="InviteProducerPopup.Form.ContactPerson.Placeholder">Ansprechpartner angeben</text>
+
+        <!--Registrations-->
+        <!--Shared -->
+        <text name="Registration.Title">Registrieren</text>
+        <text name="Registration.ButtonLabel">Registrieren</text>
+
+        <text name="Registration.Input.Street.Label">Straße und Haus-Nr.</text>
+        <text name="Registration.Input.Street.Placeholder">Straße und Haus-Nr. eingeben</text>
+        <text name="Registration.Input.ZIP.Label">PLZ</text>
+        <text name="Registration.Input.ZIP.Placeholder">PLZ eingeben</text>
+        <text name="Registration.Input.City.Label">Ort</text>
+        <text name="Registration.Input.City.Placeholder">Ort eingeben</text>
+        <text name="Registration.Input.Region.Label">Region/Bundesland</text>
+        <text name="Registration.Input.Region.Placeholder">Region/Bundesland eingeben</text>
+        <text name="Registration.Input.Country.Label">Land</text>
+        <text name="Registration.Input.Country.Placeholder">Land eingeben</text>
+        <text name="Registration.Input.Mail.Label">E-Mail-Addresse</text>
+        <text name="Registration.Input.Mail.Placeholder">E-Mail-Addresse eingeben</text>
+        <text name="Registration.Input.Phone.Label">Telefon-Nr.</text>
+        <text name="Registration.Input.Phone.Placeholder">Telefon-Nr. eingeben</text>
+        <text name="Registration.Input.Password.Label">Passwort</text>
+        <text name="Registration.Input.Password.Placeholder">Passwort eingeben</text>
+        <text name="Registration.Input.RepeatPassword.Label">Passwort wiederholen</text>
+        <text name="Registration.Input.RepeatPassword.Placeholder">Passwort wiederholt eingeben</text>
+
+        <!--Developer registration -->
+        <text name="Registration.Developer.Banner">Wenn du ein Pseudonym einträgst, wird dieses für dich im Shop angezeigt. Das Pseudonym kann nachträglich nicht mehr bearbeitet werden.</text>
+        <text name="Registration.Developer.Input.Name.Label">Name</text>
+        <text name="Registration.Developer.Input.Name.Placeholder">Name eingeben</text>
+        <text name="Registration.Developer.Input.Pseudonym.Label">Name (Pseudonym)</text>
+        <text name="Registration.Developer.Input.Pseudonym.Placeholder">Name (Pseudonym) eingeben</text>
+
+        <!--Producer registration -->
+        <text name="Registration.Producer.State.IsActive">Aktiv</text>
+        <text name="Registration.Producer.State.IsInactive">Inaktiv</text>
+        <text name="Registration.Producer.HourlyWage.Unit">Euro</text>
+
+        <text name="Registration.Producer.Input.CompanyName.Label">Name d. Unternehmens</text>
+        <text name="Registration.Producer.Input.CompanyName.Placeholder">Unternehmen eingeben</text>
+        <text name="Registration.Producer.Input.TradeType.Label">Gewerk</text>
+        <text name="Registration.Producer.Input.TradeType.Placeholder">Gewerk auswählen</text>
+        <text name="Registration.Producer.Input.Employees.Label">Anzahl Mitarbeiter</text>
+        <text name="Registration.Producer.Input.Employees.Placeholder">Anzahl d. Mitarbeiter eingeben</text>
+        <text name="Registration.Producer.Input.State.Label">Status</text>
+        <text name="Registration.Producer.Input.State.Placeholder">Status setzen</text>
+        <text name="Registration.Producer.Input.HourlyWage.Label">Stundenlohn</text>
+        <text name="Registration.Producer.Input.HourlyWage.Placeholder">100.00</text>
+        <text name="Registration.Producer.Input.ContactPerson.Label">Ansprechpartner im Unternehmen</text>
+        <text name="Registration.Producer.Input.ContactPerson.Placeholder">Ansprechpartner angeben</text>
+
+
+        <!--Emails-->
+        <!--Users-->
+        <text name="User.PasswordReset.Title">Passwort zurücksetzen</text>
+        <text name="User.PasswordReset.ButtonText">Passwort zurücksetzen</text>
+        <text name="User.PasswordReset.Introduction">Hallo</text>
+        <text name="User.PasswordReset.BodyText">diese E-Mail wurde versendet, um dein Passwort zurückzusetzen und ein neues zu vergeben</text>
+        <text name="User.PasswordReset.NameSurname">Vorname, Nachname</text>
+        <text name="User.PasswordReset.Username">Nutzername</text>
+        <text name="User.PasswordReset.ResetCode">Reset Code</text>
+        <text name="User.PasswordReset.ClickTheBtn">Klicke auf den Button, um dein Passwort zurückzusetzen:</text>
+
+        <text name="User.Invitation.Title">Einladung zur Registrierung</text>
+        <text name="User.Invitation.BodyText">Du wurdest eingeladen, dich auf der Plattform von Production Next Door zu registrieren. Klicke auf den Button, um den Registrierungsprozess zu starten:</text>
+        <text name="User.Invitation.ButtonText">Registrieren</text>
+
+        <!--Product-->
+        <text name="ProductEmail.NewProductNotificationToDeveloper.Title">Ein neues Produkt wurde zur Bearbeitung freigegeben</text>
+        <text name="ProductEmail.NewProductNotificationToDeveloper.ButtonText">Zur Produktübersicht</text>
+        <text name="ProductEmail.NewProductNotificationToDeveloper.Introduction">Hallo Entwickler</text>
+        <text name="ProductEmail.NewProductNotificationToDeveloper.BodyText">dir wurde das neue Produkt „{0}“ zur Bearbeitung freigegeben. Bitte trag alle Informationen, die zur Produktherstellung notwendig sind, dort ein. Anschließend kannst du das Produkt bei uns einreichen.</text>
+
+        <text name="ProductEmail.ProcessingDeadlineUpdate.Subject">Verlängerung der Bearbeitungsfrist für das Produkt {0}</text>
+        <text name="ProductEmail.ProcessingDeadlineUpdate.Title">Verlängerung der Bearbeitungsfrist für das Produkt {0}</text>
+        <text name="ProductEmail.ProcessingDeadlineUpdate.ButtonText">Produkt ansehen</text>
+        <text name="ProductEmail.ProcessingDeadlineUpdate.Introduction">Hallo</text>
+        <text name="ProductEmail.ProcessingDeadlineUpdate.BodyText.P1">Produkt {0} wurde bis zum {1} verlängert.</text>
+        <text name="ProductEmail.ProcessingDeadlineUpdate.BodyText.P2">Klicke auf den Button, um direkt zum Produkt zu gelangen:</text>
+
+        <text name="ProductEmail.ProcessingOfferDeadlineUpdate.Subject">Verlängerung der Bearbeitungsfrist für das Produkt {0}</text>
+        <text name="ProductEmail.ProcessingOfferDeadlineUpdate.Title">Verlängerung der Bearbeitungsfrist für das Produkt {0}</text>
+        <text name="ProductEmail.ProcessingOfferDeadlineUpdate.ButtonText">Produkt ansehen</text>
+        <text name="ProductEmail.ProcessingOfferDeadlineUpdate.Introduction">Hallo</text>
+        <text name="ProductEmail.ProcessingOfferDeadlineUpdate.BodyText.P1">die Bearbeitungsfrist für das Produkt {0} wurde bis zum {1} verlängert.</text>
+        <text name="ProductEmail.ProcessingOfferDeadlineUpdate.BodyText.P2">Klicke auf den Button, um direkt zum Produkt zu gelangen:</text>
+
+        <text name="ProductEmail.NewProductNotificationToProducer.Title">Planungsanfrage für ein neues Produkt</text>
+        <text name="ProductEmail.NewProductNotificationToProducer.ButtonText">Produkt ansehen</text>
+        <text name="ProductEmail.NewProductNotificationToProducer.Introduction">Hallo</text>
+        <text name="ProductEmail.NewProductNotificationToProducer.BodyText">für das Produkt „{0}“ liegt eine neue Planungsanfrage vor. Bitte klicke auf den Button „Produkt ansehen“ und gib uns eine Rückmeldung, ob du an der Planung teilnehmen kannst. Anschließend kannst du deine Arbeitsschritte für das Produkt bis zum {1} eintragen.</text>
+
+        <text name="ProductEmail.NewProductOfferNotificationToProducer.Title">Anfrage für ein Angebot für ein neues Produkt</text>
+        <text name="ProductEmail.NewProductOfferNotificationToProducer.ButtonText">Produkt ansehen</text>
+        <text name="ProductEmail.NewProductOfferNotificationToProducer.Introduction">Hallo</text>
+        <text name="ProductEmail.NewProductOfferNotificationToProducer.BodyText">du hast eine neue Anfrage zur Abgabe eines Angebots für deine Beteiligung an der Planung und Produktion des Produkts "{0}". Bitte klicke auf den Button "Produkt ansehen" und gib uns eine Rückmeldung, ob du dich an der Planung und - sollte der Kunde dein Angebot annehmen - anschließenden Produktion beteiligen möchtest und kannst. Anschließend kannst du bis zum {1} die Produktionsschritte, die du im vorgegebenen Zeitrahmen übernehmen würdest, eintragen und dein Angebot dafür abgeben.</text>
+
+        <!--Errors-->
+        <text name="Error.GeneralError">Fehler</text>
+
+        <!--Product-->
+        <text name="Error.Product.ProductNotFound.Title">Produkt nicht gefunden</text>
+        <text name="Error.Product.ProductNotFound.Text">Produkt mit der ID = {0} nicht gefunden</text>
+        <text name="Error.Product.NotReadyForDev.Title">Nicht erlaubt</text>
+        <text name="Error.Product.NotReadyForDev.Text">Das Produkt mit der ID = {0} ist nicht für den Entwickler bereit</text>
+        <text name="Error.Product.NoEditAllowed.Title">Nicht erlaubt</text>
+        <text name="Error.Product.NoEditAllowed.Text">Die Produkt mit der ID = {0} kann nicht bearbeitet werden.</text>
+        <text name="Error.Product.NoDeveloperSelected.Title">Kein aktiver Entwickler ausgewählt</text>
+        <text name="Error.Product.NoDeveloperSelected.Text">Sie müssen einen aktiven Entwickler für ein Produkt auswählen</text>
+        <text name="Error.Product.NoProducerAssigned.Title">Nutzer ist nicht zugewiesen</text>
+        <text name="Error.Product.NoProducerAssigned.Text">Der aktuelle Nutzer ist diesem Produkt nicht zugwiesen.</text>
+
+        <text name="Error.Product.ProductValidations.Title">Erforderliche Daten fehlen</text>
+        <text name="Error.Product.ProductValidations.Text.NoDescription">Beschreibung fehlt</text>
+        <text name="Error.Product.ProductValidations.Text.GeneralInfoMissing">Nicht alle allgemeinen Informationen sind ausgefüllt</text>
+        <text name="Error.Product.ProductValidations.Text.WorkpiecesMissing">Es sollte mindestens eine Materialgruppe festgelegt sein</text>
+        <text name="Error.Product.ProductValidations.Text.FilesMissing">Dateien fehlen</text>
+        <text name="Error.Product.ProductValidations.Text.Quantity">Die Menge ist erforderlich</text>
+        <text name="Error.Product.ProductValidations.Text.OfferDeadline">Die Angebotsfrist ist erforderlich</text>
+        <text name="Error.Product.ProductValidations.Text.ProductionDeadLine">Die Produktionsfrist ist erforderlich</text>
+        <text name="Error.Product.ProductValidations.Text.OfferBeforeProduction">>Die Produktionsfrist kann nicht vor der Angebotsfrist liegen</text>
+        <text name="Error.Product.ProductValidations.Text.OfferDataMissing">Menge, Produktionsfrist oder Angebotsfrist fehlt</text>
+
+        <text name="Error.Product.MaterialGroups.NoFinalState.Title">Etwas stimmt nicht</text>
+        <text name="Error.Product.MaterialGroups.NoFinalState.Text">Das Produkt wurde nicht ordnungsgemäß erstellt</text>
+        <text name="Error.Product.MaterialGroups.WorkPieces.Title">Falsche Werkstücke</text>
+        <text name="Error.Product.MaterialGroups.WorkPieces.Text">Werkstücke mit den IDs = {0} existieren nicht.</text>
+        <text name="Error.Product.MaterialGroups.Surfaces.Title">Fehler im Werkstück</text>
+        <text name="Error.Product.MaterialGroups.Surfaces.Text">Die ausgewählte Oberflächenbeschaffenheit existiert nicht</text>
+        <text name="Error.Product.MaterialGroups.DuplicateFinishedState.Title">Doppelter finaler Zustand</text>
+        <text name="Error.Product.MaterialGroups.DuplicateFinishedState.Text">'{0}' wird mehrfach als finaler Zustand verwendet. Dieser muss jedoch eindeutig sein.</text>
+
+        <text name="Error.Product.Variants.Measurement.Title">Falsche Größenangabe</text>
+        <text name="Error.Product.Variants.Measurement.Text">Größenvarianten mit den IDs = {0} existieren nicht</text>
+        <text name="Error.Product.Variants.WorkPieceVariants.Title">Falsche Produktvarianten</text>
+        <text name="Error.Product.Variants.WorkPieceVariants.Text">Produktvarianten mit den IDs = {0} existieren nicht</text>
+        <text name="Error.Product.Variants.Surfaces.Title">Fehler bei Materialvarianten</text>
+        <text name="Error.Product.Variants.Surfaces.Text">Die ausgewählte Materialgruppe existiert nicht</text>
+
+        <text name="Error.ProductFile.NotAllowed">Nicht erlaubt</text>
+        <text name="Error.ProductFile.NotFound">Datei nicht gefunden</text>
+        <text name="Error.ProductFile.FileRemoved">Datei nicht gefunden</text>
+
+        <text name="Error.InputField.RequiredMissing">Erforderliches Feld</text>
+
+        <text name="Error.ProcessingDeadLine.WrongDate">Die Bearbeitungsfrist ist ungültig</text>
+
+        <!--ValueChainPlanning-->
+        <text name="Error.ValueChainPlanning.NonSelected">Es muss mindestens eine Wertschöpfungskette ausgewählt werden</text>
+
+        <text name="Error.ValueChainPlanning.States.Reset.Title">Zurücksetzen nicht möglich</text>
+        <text name="Error.ValueChainPlanning.States.Reset.Text">Der Status ist durch einen anderen Benutzer gesperrt oder nicht gesperrt</text>
+
+        <text name="Error.ValueChainPlanning.States.Locked.Title">Status gesperrt</text>
+        <text name="Error.ValueChainPlanning.States.Locked.Text">Status wird derzeit von einem anderen Benutzer gesperrt</text>
+
+        <text name="Error.ValueChainPlanning.States.Changed.Title">Status geändert</text>
+        <text name="Error.ValueChainPlanning.States.Changed.Text">Neuer Zustand wurde dem Produktionszweig hinzugefügt. Passe die Daten entsprechend an den neuen Zustand an.</text>
+
+        <text name="Error.ValueChainPlanning.States.CantAdd.Title">Status kann nicht hinzugefügt werden</text>
+        <text name="Error.ValueChainPlanning.States.CantAdd.Text">An dieser Stelle kann kein neuer Status hinzugefügt werden</text>
+
+        <text name="Error.ValueChainPlanning.States.CantDelete.Title">Status kann nicht gelöscht werden</text>
+        <text name="Error.ValueChainPlanning.States.CantDelete.Text">Der aktuelle Status kann nicht gelöscht werden</text>
+
+        <text name="Error.ValueChainPlanning.WrongDate.Title">Die Bearbeitungsfrist ist abgelaufen</text>
+        <text name="Error.ValueChainPlanning.WrongDate.Text">"Das Produkt kann nicht mehr bearbeitet werden. Die Bearbeitungsfrist ist abgelaufen."</text>
+
+        <!--ImportExport-->
+        <text name="Error.ImportExport.ProductNotReady.Title">Produkt noch nicht produktionsbereit</text>
+        <text name="Error.ImportExport.ProductNotReady.Text">Produkte die noch nicht den Status 'Produktionsbereit' erhalten haben, können nicht exportiert werden.</text>
+
+        <!--User-->
+        <text name="Error.User.NotARoleName.Title">Kein {0}</text>
+        <text name="Error.User.NotARoleName.Text">Aktueller Benutzer ist kein {0}</text>
+
+        <text name="Error.User.Password.Invalid">Passwort ungültig</text>
+        <text name="Error.User.Password.NotMatch">Passwörter stimmen nicht überein</text>
+
+        <text name="Error.User.Invite.InviteEmpty.Title">Einladungscode leer</text>
+        <text name="Error.User.Invite.InviteEmpty.Text">Einladungscode ist erforderlich</text>
+
+        <text name="Error.User.Invite.WrongInvite.Title">Falscher Einladungscode</text>
+        <text name="Error.User.Invite.WrongInvite.Text">Einladungscode ist ungültig</text>
+
+        <text name="Error.User.Invite.WrongTrade.Title">Falscher Handelstyp</text>
+        <text name="Error.User.Invite.WrongTrade.Text">Sie müssen einen Handelstyp aus der Liste wählen</text>
+
+        <text name="Error.User.Delete.Title">Kann nicht gelöscht werden</text>
+        <text name="Error.User.Delete.Text">Nur Benutzer, die die Registrierung nicht abgeschlossen haben, können entfernt werden</text>
+
+        <!--Statistics-->
+        <text name="Error.Statistics.NoData">Keine Daten verfügbar</text>
+
+        <!--Order Managment-->
+        <!--Producer request-->
+        <text name="OrderManagement.ProducerRequest.Subject">Neue Produktionsanfrage</text>
+        <text name="OrderManagement.ProducerRequest.Title">Neue Produktionsanfrage</text>
+        <text name="OrderManagement.ProducerRequest.ButtonText">Produktionsanfrage ansehen</text>
+        <text name="OrderManagement.ProducerRequest.Introduction">Hallo</text>
+        <text name="OrderManagement.ProducerRequest.BodyText">für das Produkt „{0}“ liegt eine neue Produktionsanfrage vor. Bitte nehme die Anfrage innerhalb der nächsten 3 Werktage an oder lehne sie ab. Sollten wir in dieser Zeit keine Rückmeldung bekommen, gilt die Anfrage automatisch als abgelehnt. Klicke auf den Button „Produktionsanfrage ansehen“, um direkt zur Anfrage zu gelangen.</text>
+        <text name="OrderManagement.CommissionValueChain.PopupTitle">Wertschöpfungskette beauftragen</text>
+        <text name="OrderManagement.CommissionValueChain.PopupDescription">Sind Sie sicher, dass Sie diese Bestellung zur Beauftragung freigeben möchten?</text>
+
+        <!--Producer commissioned-->
+        <text name="OrderManagement.ProducerCommissioned.Title">Beauftragung zur Produktion</text>
+        <text name="OrderManagement.ProducerCommissioned.ButtonText">Zu den Auftragsdetails</text>
+        <text name="OrderManagement.ProducerCommissioned.Text">Moin {0},
+
+            du hast vor kurzem die Produktionsanfrage für das Möbelstück
+            '{1}' angenommen.
+            Erfreulicherweise haben alle beteiligten Produzenten die Anfrage
+            bestätigt, weswegen hiermit die Beauftragung erfolgt.
+
+            Über den unterstehenden Button gelangst du zu den Auftragsdetails. Hier
+            siehst du auch dein geplantes Zeitfenster für die Auftragsbearbeitung,
+            sowie Informationen zu den anderen Produzenten, den
+            Produktspezifikationen und zum Kunden bzw. zur Kundin.
+
+            Bitte nimm den Auftrag entsprechend dieser Informationen in deine
+            Produktionsplanung mit auf.
+        </text>
+        <text name="OrderManagement.ProducerCommissioned.Subject">Beauftragung zur Produktion</text>
+
+        <text name="OrderManagement.ProducerOfferCommissioned.Title">Beauftragung zur Produktion</text>
+        <text name="OrderManagement.ProducerOfferCommissioned.ButtonText">Zu den Auftragsdetails</text>
+        <text name="OrderManagement.ProducerOfferCommissioned.Text">Moin {0},
+
+            du hast vor kurzem ein Angebot für deine Beteiligung an der Herstellung
+            des Produkts "{1}" abgegeben. Der Kunde hat sich entschieden, das Angebot
+            anzunehmen, sodass der Auftrag hiermit erteilt wird. Über den unterstehenden 
+            Button gelangst du zu den Auftragsdetails. Dort findest du den Zeitrahmen für 
+            deinen Produktionsprozess, sowie den Termin, bis zu dem das Produkt entweder 
+            an den nächsten Produzenten oder an den Kunden geliefert werden muss. 
+            Du kannst auch Informationen über die anderen Hersteller, die Produktspezifikationen 
+            und den Kunden einsehen. 
+            
+            Bitte achte darauf, dass du diesen Auftrag entsprechend der
+            gegebenen Spezifiaktionen in eure interne Produktionsplanung einfließen lässt.
+        </text>
+        <text name="OrderManagement.ProducerOfferCommissioned.Subject">Beauftragung zur Produktion</text>
+
+        <text name="OrderManagement.ProductNotProducibleMail.Admin.Title">Für die Bestellung {0} des Produktes '{1}' ist keine Wertkette zustande gekommen.</text>
+        <text name="OrderManagement.ProductNotProducibleMail.Admin.ButtonText">Zur Bestellung</text>
+        <text name="OrderManagement.ProductNotProducibleMail.Admin.Introduction">Lieber Admin,</text>
+        <text name="OrderManagement.ProductNotProducibleMail.Admin.BodyText">
+            für die Bestellung mit der Nummer {0} des Produktes '{1}' vom {2} ist keine Wertkette zustande gekommen.
+            Bitte setze dich mit den Produzenten in Verbindung und prüfe manuell, ob das Produkt nicht doch gefertigt werden kann. Die angefragten Wertketten mit den Rückmeldungen der Produzenten sind im Auftragsmanagement gelistet. Du kannst dazu dort auch den Neu-Anfrage Button links neben den Prozessschritten der Wertkettenoptionen nutzen.
+            Kontaktiere auch, falls nötig, den Kunden bzw. die Kundin, um eventuelle Verzögerungen bei der Lieferung zu entschuldigen. Die Kundeninformationen sind ebenfalls im Auftragsmanagement zu finden. Wenn das Produkt weiterhin nicht produzierbar ist, informiere den Kunden/die Kundin über die Kaufrückabwicklung und die Möglichkeiten für eine erneute, spätere Bestellung.
+        </text>
+        <text name="OrderManagement.ProductNotProducibleMail.Admin.Greeting">Beste Grüße
+
+            Ihr ProNeD-Team</text>
+        <text name="OrderManagement.ProductNotProducibleMail.Admin.Subject">Für die Bestellung {0} des Produktes '{1}' ist keine Wertkette zustande gekommen.</text>
+
+        <!--Order completed-->
+        <text name="OrderManagement.OrderCompleted.Admin.Title">Bestellung {0} abgeschlossen</text>
+        <text name="OrderManagement.OrderCompleted.Admin.ButtonText">Zur Bestellung</text>
+        <text name="OrderManagement.OrderCompleted.Admin.Introduction">Hallo Admin,</text>
+        <text name="OrderManagement.OrderCompleted.Admin.BodyText">Die Bestellung {0} wurde abgeschlossen. Sie können die Lieferdokumente auf der Bestelldetailseite einsehen.</text>
+        <text name="OrderManagement.OrderCompleted.Admin.Subject">Bestellung {0} abgeschlossen</text>
+
+        <!--Cancel Order-->
+        <text name="OrderManagement.CancelOrder.PopupTitle">Auftrag stornieren</text>
+        <text name="OrderManagement.CancelOrder.PopupDescription">Bist du dir sicher, dass du diesen Auftrag stornieren möchtest?</text>
+
+        <!--Statistiscs-->
+        <text name="Statistics.HeaderTitle">Statistiken</text>
+        <text name="Statistics.Tabs.Products">Produkte</text>
+        <text name="Statistics.Tabs.Producers">Produzenten</text>
+        <text name="Statistics.Cards.ProducerRequest.Title">Statistiken zu Produzentenanfragen</text>
+        <text name="Statistics.Cards.ProducerRequest.FilterInput.Label">Produzenten-E-Mail</text>
+        <text name="Statistics.Cards.ProducerRequest.FilterInput.Placeholder">Produzenten-E-Mail</text>
+        <text name="Statistics.Cards.ProductSteps.Title">Statistiken zu Arbeitsschritten</text>
+        <text name="Statistics.Cards.ProductSteps.FilterInput.Label">Produktnummer</text>
+        <text name="Statistics.Cards.ProductSteps.FilterInput.Placeholder">Produktnummer</text>
+        <text name="Statistics.Cards.ProductValueChains.Title">Statistiken zu Wertketten</text>
+        <text name="Statistics.Cards.ProductValueChains.FilterInput.Label">Produktnummer</text>
+        <text name="Statistics.Cards.ProductValueChains.FilterInput.Placeholder">Produktnummer</text>
+        <text name="Statistics.Cards.DateFrom.Label">Datum von</text>
+        <text name="Statistics.Cards.DateFrom.Placeholder">Datum von</text>
+        <text name="Statistics.Cards.DateTo.Label">Datum bis</text>
+        <text name="Statistics.Cards.DateTo.Placeholder">Datum bis</text>
+        <text name="Statistics.Cards.ButtonLabel">CSV herunterladen</text>
+
+        <!--Producer request-->
+        <text name="Statistics.ProducerRequests.FileName">ProduzentenAnfragen</text>
+        <text name="Statistics.ProducerRequests.ProducerName">Produzentenname</text>
+        <text name="Statistics.ProducerRequests.ProducerEmail">Produzenten E-Mail</text>
+        <text name="Statistics.ProducerRequests.TotalRequests">Gesamtanfragen</text>
+        <text name="Statistics.ProducerRequests.AcceptedRequests">Akzeptierte Anfragen</text>
+        <text name="Statistics.ProducerRequests.RejectedRequests">Abgelehnte Anfragen</text>
+        <text name="Statistics.ProducerRequests.ProductName">Produktname</text>
+        <text name="Statistics.ProducerRequests.ProductNumber">Produktnummer</text>
+        <text name="Statistics.ProducerRequests.RequestDate">Anfragedatum</text>
+        <text name="Statistics.ProducerRequests.RequestStatus">Anfragestatus</text>
+
+        <!--Product value chains-->
+        <text name="Statistics.ProductValueChain.FileName">ProduktWertketten</text>
+        <text name="Statistics.ProductValueChain.ProductNumber">Produktnummer</text>
+        <text name="Statistics.ProductValueChain.ProductName">Produktname</text>
+        <text name="Statistics.ProductValueChain.MaterialGroupsCount">Gesamtanzahl der Materialgruppen</text>
+        <text name="Statistics.ProductValueChain.WorkTypeCount">Gesamtanzahl der Gewerke</text>
+        <text name="Statistics.ProductValueChain.ProductProducersCount">Gesamtanzahl der Produzenten</text>
+        <text name="Statistics.ProductValueChain.ValueChainsCount">Gesamtanzahl der Wertketten</text>
+        <text name="Statistics.ProductValueChain.ProducersPerValueChainAvg">Durchschnittliche Produzenten pro Wertkette</text>
+        <text name="Statistics.ProductValueChain.ProducersPerValueChainMin">Minimale Produzenten pro Wertkette</text>
+        <text name="Statistics.ProductValueChain.ProducersPerValueChainMax">Maximale Produzenten pro Wertkette</text>
+        <text name="Statistics.ProductValueChain.ValueChainValueAvg">Durchschnittliche Wertkettenkosten</text>
+        <text name="Statistics.ProductValueChain.ValueChainValueMin">Minimale Wertkettenkosten</text>
+        <text name="Statistics.ProductValueChain.ValueChainValueMax">Maximale Wertkettenkosten</text>
+        <text name="Statistics.ProductValueChain.ValueChainDurationAvg">Durchschnittliche Wertkettendauer</text>
+        <text name="Statistics.ProductValueChain.ValueChainDurationMin">Minimale Wertkettendauer</text>
+        <text name="Statistics.ProductValueChain.ValueChainDurationMax">Maximale Wertkettendauer</text>
+
+        <!--Product steps-->
+        <text name="Statistics.ProductStep.FileName">ProduktSchritte</text>
+        <text name="Statistics.ProductStep.ProductNumber">Produktnummer</text>
+        <text name="Statistics.ProductStep.ProductName">Produktname</text>
+        <text name="Statistics.ProductStep.StartStateType">Anfangszustandstyp</text>
+        <text name="Statistics.ProductStep.StartStateName">Anfangszustandsname</text>
+        <text name="Statistics.ProductStep.FinalStateType">Endzustandstyp</text>
+        <text name="Statistics.ProductStep.FinalStateName">Endzustandsname</text>
+        <text name="Statistics.ProductStep.ProducerName">Produzentenname</text>
+        <text name="Statistics.ProductStep.StepProcessingInWeeks">Bearbeitungszeit in Wochen</text>
+        <text name="Statistics.ProductStep.PreProcessedInWeeks">Vorverarbeitung in Wochen</text>
+        <text name="Statistics.ProductStep.WorkingTimeHours">Arbeitszeit in Stunden</text>
+        <text name="Statistics.ProductStep.TransportAndAssemblyCost">Transport- und Montagekosten</text>
+        <text name="Statistics.ProductStep.AdditionalMaterialsCost">Zusätzliche Materialkosten</text>
+        <text name="Statistics.ProductStep.MaterialName">Materialname</text>
+        <text name="Statistics.ProductStep.MaterialCost">Materialkosten</text>
+        <text name="Statistics.ProductStep.StateType.WorkPieceStart">Absoluter Anfang/Rohmaterial</text>
+        <text name="Statistics.ProductStep.StateType.WorkPieceIntermediate">Zwischenschritt</text>
+        <text name="Statistics.ProductStep.StateType.WorkPieceFinal">Finaler Zustand der Rohmaterialgruppe</text>
+        <text name="Statistics.ProductStep.StateType.ProductFinal">Anfangszustand</text>
+        <text name="Statistics.ProductStep.CostPerHour">Kosten pro Stunde</text>
+        <text name="Statistics.ProductStep.TotalVariantCost">Gesamtkosten der Variante</text>
+
+
+    </texts>
+</localizationDictionary>

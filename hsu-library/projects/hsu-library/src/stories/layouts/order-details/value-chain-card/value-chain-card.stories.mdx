@@ -1,0 +1,72 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmOrderValueChainCardComponent } from '../../../../lib/layouts/pm-order-details/pm-order-value-chain-card/pm-order-value-chain-card.component';
+import { getComponentStoryMeta } from '../../../ComponentDependencies';
+import { valueChainCardData } from './value-chain-card.data';
+import { 
+EValueChainCommissionMode, 
+EValueChainStatus 
+} from '../../../../lib/layouts/pm-order-details/pm-order-value-chain-card/pm-order-value-chain-card.shared';
+import { action } from '@storybook/addon-actions';
+
+
+<Meta title="Layouts/Order-Details/ValueChainCard" component={PmOrderValueChainCardComponent} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmOrderValueChainCardComponent)),
+]}/>
+
+<Description of={PmOrderValueChainCardComponent}/>
+<Description markdown={`# Value chain card `}/>
+
+export const actionsData = {
+    onActionClicked: action('on action clicked:'),
+    onCommissionClicked: action('on Commission clicked:')
+};
+
+export const Template = args => ({
+    props: {
+        ...valueChainCardData,
+        ...args,
+        ...actionsData
+    },
+});
+
+<br/><br/>
+
+## Value Chain card No Badge
+
+<Canvas withToolbar>
+    <Story name="NoBadge">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Value Chain card With Badge
+
+<Canvas withToolbar>
+    <Story name="Badge" args={{
+        status: EValueChainStatus['Commissioned'],
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Value Chain card With Manual selection
+<Canvas withToolbar>
+    <Story name="Manual Selection" args={{
+        commissionMode: EValueChainCommissionMode['Manual'],
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+
+## Design
+[![XD-ValueChainCard](https://img.shields.io/badge/-ValueChainCard-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/60e78961-ae6c-4fb3-944e-6831bc3d1086-35b4/screen/e164435c-d61f-4945-acf7-b1aae8377324/)

@@ -1,0 +1,67 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmHeaderComponent } from "../../../lib/layouts/pm-header/pm-header.component";
+import { PmButtonComponent } from "../../../lib/components/pm-button/pm-button.component";
+import { HeaderData } from "./header.data";
+import { storybookHelper } from "../../StorybookHelper";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+
+<Meta title="Layouts/Header/Header" component={PmHeaderComponent} argTypes={{
+    Icon: {
+        table: {
+            disable: true
+        }
+    },
+    IconSize: {
+        table: {
+            disable: true
+        }
+    },
+    ngContent: {
+        table: {
+            disable: true
+        }
+    },
+    headerButtonsTemplate: {
+        table: {
+            disable: true
+        }
+    },
+}}
+      decorators={[
+          moduleMetadata(getComponentStoryMeta(
+              PmHeaderComponent,
+              [
+                  PmButtonComponent
+              ]
+          )),
+      ]}
+/>
+
+<Description of={PmHeaderComponent}/>
+<Description markdown={`# Header `}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-header', HeaderData);
+
+This contains definitions for the **Header**.
+
+## Header
+
+<Canvas withToolbar isColumn>
+    <Story name="Header" args={{...HeaderData}}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-Header](https://img.shields.io/badge/-login-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/227e28b9-0fa3-482d-9231-74f4637a5da5-772d/screen/da757796-eef6-4ee6-9626-52a9b3d3ce6c/)

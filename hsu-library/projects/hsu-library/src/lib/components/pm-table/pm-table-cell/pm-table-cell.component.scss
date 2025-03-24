@@ -1,0 +1,33 @@
+@use '../../../styles/utils/functions' as f;
+@use '../../../styles/base/fonts' as fonts;
+
+.cell {
+  width: 100%;
+
+  &__text {
+    @include fonts.font-copy-m1();
+
+    display: block;
+    white-space: nowrap;
+    color: f.color(neutrals, 300);
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+
+    &-icon {
+      color: f.color(neutrals, 500);
+      line-height: 1;
+      margin-right: f.rem(8);
+
+      &--best {
+        color: f.color(primary, 100);
+      }
+
+      &--worst {
+        color: f.color(semantic, 100);
+      }
+    }
+  }
+}

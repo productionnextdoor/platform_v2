@@ -1,0 +1,24 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+.product-overview{
+
+  &__top-toolbar{
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: f.rem(24);
+    margin: f.rem(0) f.rem(24) f.rem(42);
+
+    &--search{
+      flex:3 3 0;
+    }
+
+    &--filter{
+      flex:1 1 0;
+      min-width: f.rem(318);
+    }
+  }
+  &__pagination{
+    padding: f.rem(36) f.rem(24) f.rem(0);
+  }
+}

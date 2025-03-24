@@ -1,0 +1,36 @@
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { PmProducerOverviewComponent } from "../../../lib/layouts/pm-producer-overview/pm-producer-overview.component";
+import { ProducerOverviewData } from "./producer-overview.data";
+
+
+<Meta title="Layouts/Producer-Overview/Producer-Overview" component={PmProducerOverviewComponent} argTypes={{}} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProducerOverviewComponent))
+]}/>
+
+<Description of={PmProducerOverviewComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...ProducerOverviewData,
+        ...args,
+    },
+});
+
+# Producer Overview
+
+This contains the story for the layout **Producer Overview**.
+
+<Canvas withToolbar>
+    <Story name="ProducerOverview">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-ProducerOverview](https://img.shields.io/badge/-ProducerOverview-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/5eaac6bc-674a-4f5f-8e05-73d2d71058a0-0bf9/screen/41c92ccd-e605-4d21-b092-b01603964bd2/)

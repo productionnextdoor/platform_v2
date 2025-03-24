@@ -1,0 +1,56 @@
+<ng-container
+    class="cell"
+    [ngSwitch]="cell.type"
+>
+    <ng-container *ngIf="loading">
+        <pm-skeleton/>
+    </ng-container>
+
+    <ng-container *ngIf="!loading">
+        <!--TextCell-->
+        <span
+            *ngSwitchCase="CellType.TEXT_CELL"
+            class="cell__text"
+        >{{(cell | getTextCell).text}}</span>
+
+        <!--StatusCell-->
+        <span
+            *ngSwitchCase="CellType.STATUS_CELL"
+            class="cell__text"
+        >{{(cell | getStatusCell).text}}</span>
+
+        <!--CheckboxCell-->
+        <pm-checkbox class="cell__checkbox"
+                     *ngSwitchCase="CellType.CHECKBOX_CELL"
+                     [disabled]="(cell | getCheckboxCell).disabled || checkboxDisabled"
+                     [state]="(cell | getCheckboxCell).value"
+                     (stateChange)="onSelectCheckbox($event)"
+        />
+
+        <!--ActionCell-->
+        <pm-table-action-buttons
+            *ngSwitchCase="CellType.ACTION_CELL"
+            [actions]="(cell | getActionCell).actions"
+            [buttonType]="(cell | getActionCell).buttonType"
+            [disabled]="(cell | getActionCell).disabled ?? false"
+            (onEntryClicked)="onClickActionEntry($event)"
+        />
+
+        <div *ngSwitchCase="CellType.RATING_CELL" class="cell__rating">
+            <pm-icon
+                class="cell__rating-icon"
+                [ngClass]="{
+                  'cell__rating-icon--best': (cell | getRatingCell).ratingType === ERatingType.BEST,
+                  'cell__rating-icon--worst': (cell | getRatingCell).ratingType === ERatingType.WORST,
+                 }"
+                [icon]="Icon.STAR_RATE"
+                [size]="IconSize.XS"
+            />
+
+            <span>{{(cell | getRatingCell).ratingScore}}</span>
+        </div>
+
+        <!--Default-->
+        <p *ngSwitchDefault>-</p>
+    </ng-container>
+</ng-container>

@@ -1,0 +1,37 @@
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { PmDeveloperOverviewComponent } from "../../../lib/layouts/pm-developer-overview/pm-developer-overview.component"
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { DeveloperOverviewData } from "./developer-overview.data";
+
+<Meta title="Layouts/Developer-Overview/Developer-Overview" component={PmDeveloperOverviewComponent} argTypes={{}} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmDeveloperOverviewComponent))
+]}/>
+
+<Description of={PmDeveloperOverviewComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...DeveloperOverviewData,
+        ...args,
+    },
+});
+
+# Developer Overview
+
+This contains the story for the layout **Developer Overview**.
+
+<Canvas withToolbar>
+    <Story name="DeveloperOverview">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-DeveloperOverview](https://img.shields.io/badge/-DeveloperOverview-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/55ea5651-4ed1-4549-8329-f6fb75a2cf4e-00b9/screen/bee7f737-e879-48f7-81f3-f805be2ecb0d/)

@@ -1,0 +1,12 @@
+@use '../../styles/utils/functions' as f;
+
+.value-chain-table{
+
+  &__table {
+    margin: f.rem(40) 0 0;
+  }
+
+  &__pagination{
+    padding: f.rem(32) f.rem(24) 0;
+  }
+}

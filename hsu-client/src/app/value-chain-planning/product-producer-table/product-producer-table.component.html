@@ -1,0 +1,16 @@
+<pm-producer-table
+    [localisations]="localisations"
+    [loading]="loading"
+    [noShadow]="true"
+    [columnHeaders]="columnHeaders"
+    [editDisabled]="producerEditDisabled"
+    [rowData]="producerRowData"
+    [totalItems]="totalProducers"
+    [itemsPerPageOptions]="itemsPerPageOptions"
+    [confirmedDeadlineDate]="deadlineDate"
+    (onSortingClicked)="onProducerSortingClicked($event)"
+    (onPageClicked)="onProducerPageClicked($event)"
+    (onActionClicked)="onViewProducerProducts($event)"
+    (onPopupConfirmClicked)="onUpdateDeadLine($event)"
+    (onSendRequestProducersClicked)="onSendProducersRequest($event)"
+></pm-producer-table>

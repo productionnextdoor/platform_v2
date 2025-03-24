@@ -1,0 +1,45 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmConfirmPopupComponent } from "../../../lib/layouts/pm-confirm-popup/pm-confirm-popup.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { confirmPopupData } from "./confirm-popup.data";
+
+
+<Meta title="Layouts/Confirm-Popup/Confirm-Popup" component={PmConfirmPopupComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmConfirmPopupComponent))
+]}/>
+
+<Description of={PmConfirmPopupComponent}/>
+
+export const actionsData = {
+    onCancel: action('on cancel'),
+    onConfirm: action('on confirm'),
+};
+
+export const Template = args => ({
+    props: {
+        ...confirmPopupData,
+        ...args,
+        ...actionsData
+    },
+});
+
+# Confirm Popup
+
+This contains the story for the layout **Confirm Popup**.
+
+<Canvas withToolbar>
+  <Story name="ConfirmPopup" height={'500px'}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-ConfirmPopup](https://img.shields.io/badge/-ConfirmPopup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3638c49c-04ca-4b7a-b1e3-357683196a8d-636b/screen/acb5fa12-b343-4753-936e-c0fab22297f8/)

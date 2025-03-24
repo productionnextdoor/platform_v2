@@ -1,0 +1,176 @@
+name: Build Backend
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+    branches:
+      - 'development'
+      - 'stage'
+      # - 'master'
+  workflow_dispatch:
+env:
+  ASPNET_PROJECT_NAME: ${{ vars.ASPNET_PROJECT_NAME }} # aspnet folders prefix 
+  SDK_VERSION: ${{ vars.SDK_VERSION }} # ex. 7.0.100
+  SDK_GLOBAL_VERSION: ${{ vars.SDK_GLOBAL_VERSION }} # ex. 7.0.0
+  PROJECT_SHORT_NAME: ${{ vars.PROJECT_SHORT_NAME }} # used in slack channel
+  DOCKER_REGISTRY: ${{ vars.DOCKER_REGISTRY }}
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+  DOCKER_IMAGE: ${{ vars.DOCKER_IMAGE }}
+  JUMP_SSH_USER: ${{ vars.JUMP_SSH_USER }}
+  JUMP_SSH_HOST: ${{ vars.JUMP_SSH_HOST }}
+
+jobs:
+  Backend:
+    runs-on: ubuntu-latest
+    env:
+      BACKUP_TAG: ${{ github.event_name != 'workflow_dispatch' &&  github.run_number || github.sha }}
+    environment:
+      name: ${{ startsWith(github.ref, 'refs/heads/development') && 'development' || startsWith(github.ref, 'refs/heads/stage') && 'stage' ||  startsWith(github.ref, 'refs/heads/master') && 'production' || 'unknown' }}
+
+    steps:
+    - name: Set env
+      run: |
+        BRANCH_NAME=${GITHUB_REF##*/}
+        echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+    - name: Check ENVs
+      run: |
+        echo "ASPNET Project Name: " ${ASPNET_PROJECT_NAME}
+        echo "SDK Version: " ${SDK_VERSION}
+        echo "Branch: " ${BRANCH_NAME}
+        echo "Backup Tag: " ${BACKUP_TAG}
+
+    - name: Check Branch and prepare initializations
+      env:
+        CONN_STRING_PROD: ${{ secrets.CONN_STRING_PROD }}
+        CONN_STRING_DEV: ${{ secrets.CONN_STRING_DEV }}
+        CONN_STRING_STAGE: ${{ secrets.CONN_STRING_STAGE }}
+      run: |
+        if [ $BRANCH_NAME = "master" ]; then
+          echo "IMAGE_TAG=prod" >> $GITHUB_ENV;
+          echo "CONFIG_FILE=appsettings.Production.json" >> $GITHUB_ENV;
+          echo "CONNECTIONSTRINGS__DEFAULT=${CONN_STRING_PROD}" >> $GITHUB_ENV;
+        elif [ $BRANCH_NAME = "stage" ]; then
+          echo "IMAGE_TAG=stage" >> $GITHUB_ENV;
+          echo "CONFIG_FILE=appsettings.Staging.json" >> $GITHUB_ENV;
+          echo "CONNECTIONSTRINGS__DEFAULT=${CONN_STRING_STAGE}" >> $GITHUB_ENV;
+        elif [ $BRANCH_NAME = "development" ]; then
+          echo "IMAGE_TAG=dev" >> $GITHUB_ENV;
+          echo "CONFIG_FILE=appsettings.Dev.json" >> $GITHUB_ENV;
+          echo "CONNECTIONSTRINGS__DEFAULT=${CONN_STRING_DEV}" >> $GITHUB_ENV;
+        else
+          echo "No matches, setting unknown settings "
+          echo "IMAGE_TAG=unknown" >> $GITHUB_ENV;
+          echo "CONFIG_FILE=appsettings.unknown.json" >> $GITHUB_ENV;
+        fi
+
+    - name: Check Config File and Image Tag
+      run: |
+        echo "CONFIG_FILE: " ${CONFIG_FILE}
+        echo "IMAGE_TAG: " ${IMAGE_TAG}
+
+    - name: Notifying on start
+      continue-on-error: true
+      uses: pmagentur/pm_slack_notifier@v0.2
+      env:
+        SLACK_CHANNEL: "proj-hsu-platform-build"
+        SLACK_COLOR: '#FFA500'
+        SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
+        SLACK_MESSAGE: 'Deployment to ${{ env.ASPNET_PROJECT_NAME }} backend  ${{ env.BRANCH_NAME }} is started'
+        SLACK_TITLE: 'Deployment to ${{ env.ASPNET_PROJECT_NAME }} backend ${{ env.BRANCH_NAME }}'
+        SLACK_USERNAME: "PM's whisperer"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.SDK_VERSION }}
+
+    - name: Check if migration should be applied
+      if: ${{ github.event_name != 'workflow_dispatch' }}
+      id: files
+      uses: jitterbit/get-changed-files@v1
+
+    - name: Apply migrations
+      continue-on-error: true
+      if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name != 'workflow_dispatch' && contains(steps.files.outputs.all, 'EntityFrameworkCore/Migrations')) }}
+      env:
+        CONNECTIONSTRINGS__DEFAULT: ${{ env.CONNECTIONSTRINGS__DEFAULT }}
+        JUMP_SSH_KEY: ${{  secrets.JUMP_SSH_KEY }}
+      run: |
+          if [ $BRANCH_NAME = "master" ]; then
+            mkdir ~/.ssh
+            echo -e "${JUMP_SSH_KEY}" >~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -L 11433:localhost:1433 -N -f ${{ env.JUMP_SSH_USER }}@${{ env.JUMP_SSH_HOST }}            
+          fi
+          export ConnectionStrings__Default=${CONNECTIONSTRINGS__DEFAULT}
+          cd backend/src/${ASPNET_PROJECT_NAME}.Web.Host
+          cp appsettings.json appsettings_backup.json
+          cp ${CONFIG_FILE} appsettings.json
+          cd ../${ASPNET_PROJECT_NAME}.EntityFrameworkCore/
+          dotnet tool install --global dotnet-ef --version ${SDK_GLOBAL_VERSION}
+          dotnet tool restore
+          ~/.dotnet/tools/dotnet-ef database update
+          cd ../${ASPNET_PROJECT_NAME}.Web.Host
+          cp appsettings_backup.json appsettings.json
+
+    - name: Build Backend
+      run: |
+        dotnet --version
+        echo ${BACKUP_TAG}
+        cd backend
+        echo ${DOCKER_USER}
+        echo ${DOCKER_REGISTRY}
+        docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} ${DOCKER_REGISTRY}
+        cd src/${ASPNET_PROJECT_NAME}.Web.Host
+        dotnet publish --output ./outputs --configuration Debug
+        cp ./outputs/Dockerfile ../../
+        cd ../../
+
+        docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${IMAGE_TAG} .
+        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${IMAGE_TAG}
+
+        docker tag ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${IMAGE_TAG} ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BACKUP_TAG}
+        docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${BACKUP_TAG}
+
+  failure:
+    needs: [Backend]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notifying on error
+      continue-on-error: true
+      uses: pmagentur/pm_slack_notifier@v0.2
+      env:
+        SLACK_CHANNEL: "proj-hsu-platform-build"
+        SLACK_COLOR: '#FF0000'
+        SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
+        SLACK_MESSAGE: '${{ env.ASPNET_PROJECT_NAME }} backend Dev failed :x:'
+        SLACK_TITLE: 'Deployment to ${{ env.ASPNET_PROJECT_NAME }} backend DEV'
+        SLACK_USERNAME: "PM's whisperer"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+  successed:
+    needs: [Backend]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notifying on success
+      continue-on-error: true
+      uses: pmagentur/pm_slack_notifier@v0.2
+      env:
+        SLACK_CHANNEL: "proj-hsu-platform-build"
+        SLACK_COLOR: '#006400'
+        SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
+        SLACK_MESSAGE: 'Successfully deployed ${{ env.ASPNET_PROJECT_NAME }} backend Dev :white_check_mark:'
+        SLACK_TITLE: 'Deployment to ${{ env.ASPNET_PROJECT_NAME }} backend DEV'
+        SLACK_USERNAME: "PM's whisperer"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

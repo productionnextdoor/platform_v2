@@ -1,0 +1,17 @@
+<pm-popup
+    class="pm-confirm"
+    [title]="localisations.title"
+    [type]="PopupType.SMALL"
+    (onClose)="onConfirm.emit()"
+>
+    <p>{{localisations.description}}</p>
+
+    <div footer class="pm-confirm__actions">
+        <pm-button
+            [type]="ButtonType.PRIMARY"
+            [label]="localisations.confirm"
+            (onClicked)="onConfirm.emit()"
+            class="pm-confirm__action"
+        />
+    </div>
+</pm-popup>

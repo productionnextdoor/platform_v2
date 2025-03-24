@@ -1,0 +1,34 @@
+@use '../../styles/utils/functions' as f;
+
+.login {
+  &__form-input {
+    display: block;
+    margin-bottom: f.rem(8);
+  }
+
+  &__form-toolbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: f.rem(32);
+
+    &_password-link {
+      color: f.color(primary, 100);
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
+
+  &__imprint {
+    display: block;
+    margin-top: f.rem(16);
+
+    &-item {
+      cursor: pointer;
+
+        &:hover {
+            color: f.color(primary, 100);
+        }
+    }
+  }
+}

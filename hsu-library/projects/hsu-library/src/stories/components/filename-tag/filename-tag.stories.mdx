@@ -1,0 +1,54 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmFilenameTagComponent } from "../../../lib/components/pm-filename-tag/pm-filename-tag.component";
+import { FilenameTagData } from "./filename-tag.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/FilenameTag/FilenameTag" component={PmFilenameTagComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmFilenameTagComponent)),
+]}/>
+
+<Description of={PmFilenameTagComponent}/>
+
+export const actionsData = {
+    onClick: action('clicked on button:'),
+};
+
+export const Template = args => ({
+    props: {
+        ...FilenameTagData,
+        ...args,
+        onClick: actionsData.onClick
+    },
+});
+
+## Filename Tag
+
+<Canvas withToolbar>
+    <Story name="Filename Tag">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Filename Tag Active
+
+<Canvas>
+    <Story name="Filename Tag Active" args={{}}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-Filename-Tag](https://img.shields.io/badge/-FilenameTag-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/93c7a94a-260d-4646-bd8e-4d7c04093354/)

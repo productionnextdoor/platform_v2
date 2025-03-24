@@ -1,0 +1,48 @@
+import { Meta, Story, Canvas, Description } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmProductFileUploadComponent } from "../../../lib/layouts/pm-file-upload/pm-file-upload.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { fileUploadData } from "./file-upload.data";
+import { action } from "@storybook/addon-actions";
+import { PmUploadComponent } from "../../../lib/components/pm-upload/pm-upload.component";
+import { storybookHelper } from "../../StorybookHelper";
+
+<Meta title="Layouts/File-Upload/File-Upload" component={PmProductFileUploadComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductFileUploadComponent,
+        [
+            PmUploadComponent
+        ]
+    )),
+]}/>
+
+<Description of={PmProductFileUploadComponent}/>
+
+export const actionsData = {
+    onCloseBanner: action('banner closed'),
+    onClick: action('Upload file'),
+}
+
+
+export const Template = storybookHelper.RenderNgContent(
+    'pm-file-upload',
+    {
+        ...actionsData,
+        ...fileUploadData,
+    }
+);
+
+## Product File Upload
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-FileUpload](https://img.shields.io/badge/-FileUpload-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/50389cc1-7d26-4963-ae37-e438ed024cd3-056b/screen/f5a1c758-d36a-48a6-92de-991cd52003c6/)

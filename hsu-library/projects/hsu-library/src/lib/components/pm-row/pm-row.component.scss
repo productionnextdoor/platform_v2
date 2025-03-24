@@ -1,0 +1,9 @@
+.pm-row {
+  --row-gap: 0;
+  --row-template: 1fr;
+
+  display: grid;
+  grid-template-columns: var(--row-template);
+  grid-template-rows: auto;
+  grid-gap: var(--row-gap);
+}

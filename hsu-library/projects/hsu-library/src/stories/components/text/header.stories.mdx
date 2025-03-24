@@ -1,0 +1,74 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from "@storybook/angular";
+
+import { PmTextComponent } from "../../../lib/components/pm-text/pm-text.component";
+import { TextType } from "../../../lib/components/pm-text/pm-text.shared";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { storybookHelper } from "../../StorybookHelper";
+
+<Meta title="Components/Typography/Headers" component={PmTextComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmTextComponent)),
+]}/>
+
+<Description of={PmTextComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-text')
+
+
+This contains definitions for all **Headers**.
+
+<br/><br/>
+
+
+## Headers
+
+<Canvas withToolbar>
+    <Story name="H1" args={{
+        type: TextType.H1,
+        ngContent: 'H1 - Karla Bold - Fontsize:Tablet=26px/Desktop=26px - #333333 - N900',
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="H2" args={{
+        type: TextType.H2,
+        ngContent: 'H2 - Karla Bold - Fontsize:Tablet=22px/Desktop=22px - #333333 - N900'
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="H3" args={{
+        type: TextType.H3,
+        ngContent: 'H3 - Karla Bold - Fontsize:Tablet=18px/Desktop=18px - #333333 - N900'
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="H4" args={{
+        type: TextType.H4,
+        ngContent: 'H4 - Karla Bold - Fontsize:Tablet=16px/Desktop=16px - #333333 - N900'
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/>
+
+> **Note**: The margin @Input() utilizes the `CMargin` class to replicate the behavior of CSS margins.\
+> For instance, in CSS, we often use declarations like `margin: 30px 60px;` or `margin: 10px 30px 20px;`.\
+> So by using CMargin class, you can achieve the same effect by using `new CMargin(30, 60)` or `new CMargin(10, 30, 20)`.\
+> This provides a more structured and programmatic way to manage margins within your application.
+
+<br/>
+<br/>
+
+## Design
+
+[![XD-Typography](https://img.shields.io/badge/-Typography-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/348942e5-07b0-4d41-a231-e791ef8e0345/specs/)

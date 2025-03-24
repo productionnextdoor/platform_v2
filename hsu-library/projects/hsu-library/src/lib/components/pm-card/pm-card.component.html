@@ -1,0 +1,67 @@
+<div class="card"
+     [ngClass]="{
+        'card--no-content-padding': !contentPadding,
+        'card--full-height': fullHeight,
+        'card--collapsed': collapsed,
+        'card--disabled': disabled,
+        'card--no-shadow': noShadow
+     }"
+>
+    <div *ngIf="hasHeader" class="card__header">
+        <div class="card__header-columns">
+            <div class="card__header-left">
+                <pm-badge
+                    *ngIf="!collapsed && badgeText"
+                    class="card__header-badge"
+                    [text]="badgeText"
+                    [negative]="badgeNegative"
+                ></pm-badge>
+                <div class="card__header-text">
+                    <pm-icon
+                        *ngIf="titleIcon"
+                        class="card__title-icon"
+                        [size]="IconSize.M"
+                        [icon]="titleIcon"
+                    ></pm-icon>
+                    <h2 class="card__title-wrapper">
+                        <span *ngIf="context" class="card__context">
+                            {{context}}
+                        </span>
+                        <span class="card__title">
+                            {{title}}
+                        </span>
+                    </h2>
+                </div>
+            </div>
+            <div class="card__header-right">
+                <div class="card__header-content">
+                    <ng-content select="[header]"></ng-content>
+                </div>
+                <pm-button *ngIf="collapsible && !fullHeight"
+                           class="card__btn"
+                           [type]="EButtonType.ICON"
+                           [icon]="EIcon.CHEVRON"
+                           [iconRotation]="collapsed ? 0 : 180"
+                           (onClicked)="onCollapseHandler()">
+                </pm-button>
+
+                <pm-button *ngIf="closable"
+                           class="card__btn"
+                           [type]="EButtonType.ICON"
+                           [icon]="EIcon.CLOSE"
+                           (onClicked)="onCloseHandler()">
+                </pm-button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card__collapsible" [@collapse]="collapsed">
+        <div class="card__content">
+            <ng-content/>
+        </div>
+
+        <div class="card__footer">
+            <ng-content select="[footer]"></ng-content>
+        </div>
+    </div>
+</div>

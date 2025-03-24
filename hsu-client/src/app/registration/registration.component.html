@@ -1,0 +1,14 @@
+<div class="container">
+    <ng-container *ngIf="isDeveloper">
+        <developer-registration
+            [verificationCode]="verificationCode"
+        />
+    </ng-container>
+
+    <ng-container *ngIf="isProducer">
+        <producer-registration
+            [verificationCode]="verificationCode"
+        />
+    </ng-container>
+
+</div>

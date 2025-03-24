@@ -1,0 +1,92 @@
+import {
+    Meta,
+    Story,
+    Canvas,
+    Description
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmUploadComponent } from "../../../lib/components/pm-upload/pm-upload.component";
+import { UploadData } from "./upload.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { action } from "@storybook/addon-actions";
+
+
+<Meta title="Components/Upload/Upload" component={PmUploadComponent} argTypes={{}} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    //👇 Import nested components
+    moduleMetadata(getComponentStoryMeta(PmUploadComponent)),
+]}/>
+
+<Description of={PmUploadComponent}/>
+
+export const actionsData = {
+    onFilesSelected: action('Files selected'),
+};
+
+export const Template = args => ({
+    props: {
+        ...UploadData,
+        ...actionsData,
+        ...args,
+    },
+});
+
+# Upload Field
+
+This contains the **Upload fields**.
+
+## Upload Field Default
+
+<Canvas withToolbar>
+    <Story name="Upload Field">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Upload Field Required
+
+<Canvas withToolbar>
+    <Story name="Upload Field Required" args={{
+        required: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+## Upload Field Hover
+
+<Canvas>
+  <Story name="Upload Field Hover" args={{
+    hovered: true,
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+## Upload Field Active
+
+<Canvas>
+    <Story name="Upload Field Active" args={{
+      active: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Upload Field Disabled
+
+<Canvas>
+    <Story name="Upload Field Disabled" args={{
+      disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-Upload](https://img.shields.io/badge/-UploadField-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/93c7a94a-260d-4646-bd8e-4d7c04093354/)

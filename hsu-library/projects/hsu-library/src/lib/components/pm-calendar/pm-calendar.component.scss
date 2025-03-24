@@ -1,0 +1,96 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+@use '../../styles/utils/icons' as i;
+
+.pm-calendar {
+  --calendar-font-color: #{f.color('neutrals', 100)};
+  --calendar-btn-size: #{f.rem(32)};
+  --calendar-btn-color: #{f.color('neutrals', 100)};
+  --calendar-control-width: #{f.rem(210)};
+  --calendar-control-padding: #{f.rem(8)};
+  --calendar-control-bg-color: #{f.color(neutrals, 900)};
+  --calendar-border-width: #{f.rem(1)};
+  --calendar-cell-size: #{f.rem(32)};
+  --calendar-cell-bg-color: #{f.color('neutrals', 1100)};
+  --calendar-cell-boarder: none;
+  --calendar-cell-cursor: pointer;
+
+  &--disabled {
+    --calendar-cell-cursor: default;
+  }
+
+  &__control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--calendar-control-padding);
+    border-bottom: var(--calendar-border-width) solid var(--input-border-color);
+    background-color: var(--calendar-control-bg-color);
+
+    &-btn {
+      height: var(--datepicker-btn-size);
+      width: var(--datepicker-btn-size);
+      padding: 0;
+      border: none;
+      background: none;
+      color: var(--calendar-btn-color);
+      cursor: pointer;
+    }
+
+    &-title {
+      @include fonts.font-copy-m1();
+
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      flex: 1 1 0;
+      max-width: var(--calendar-control-width);
+    }
+  }
+
+  &__table {
+    width: 100%;
+    padding: f.rem(4) f.rem(8);
+    @include m.user-select(none);
+
+    &-header {
+      --calendar-font-color: #{f.color('neutrals', 500)};
+      --calendar-cell-cursor: default;
+    }
+
+    &-cell {
+      @include fonts.font-copy-m1();
+
+      width: var(--calendar-cell-size);
+      height: var(--calendar-cell-size);
+      margin: 0;
+      padding: 0;
+      border: var(--calendar-cell-boarder);
+      border-radius: f.rem(4);
+      background-color: var(--calendar-cell-bg-color);
+      color: var(--calendar-font-color);
+      text-align: center;
+      cursor: var(--calendar-cell-cursor);
+
+      &--hover {
+        --calendar-cell-bg-color: #{f.color('neutrals', 900)};
+      }
+
+      &--disabled {
+        --calendar-font-color: #{f.color('neutrals', 700)};
+        --calendar-cell-cursor: not-allowed;
+      }
+
+      &--today {
+        --calendar-cell-boarder: #{f.rem(1)} solid #{f.color('primary', 300)};
+      }
+
+      &--selected {
+        --calendar-cell-bg-color: #{f.color('primary', 500)};
+      }
+    }
+  }
+
+
+}

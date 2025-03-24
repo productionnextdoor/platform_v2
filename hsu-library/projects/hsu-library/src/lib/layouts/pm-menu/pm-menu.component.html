@@ -1,0 +1,25 @@
+<div class="menu">
+    <ul class="menu__items">
+        <li class="menu__item"
+            *ngFor="let item of menuItems"
+            (click)="itemClicked(item)"
+            [ngClass]="{
+                'menu__active': item.menuId === activeMenuId
+            }"
+        >
+            <pm-icon class="menu__icon"
+                     [size]="EIconSize.S"
+                     [icon]="item.logo"
+            />
+            <span class="menu__text">{{item.text}}</span>
+        </li>
+    </ul>
+    <div class="menu__footer">
+        <pm-contact-card
+            [localisationStrings]="contactCardLocalisation"
+            [contacts]="contactCardContacts"
+            [contactCardLinks]="contactCardLinks"
+            (onContactCardItemSelect)="onSelectContactCardItem.emit($event)"
+        />
+    </div>
+</div>

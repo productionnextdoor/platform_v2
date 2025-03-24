@@ -1,0 +1,15 @@
+<pm-workstep-wizard
+    *ngIf="!loading"
+    [localisations]="localisations"
+    [stepId]="stepId"
+    [startStateName]="startState?.label ?? ''"
+    [finalStateName]="endState?.label ?? ''"
+    [productStepsData]="productStepsData"
+    [readonly]="readonly"
+    [assemblyOnly] = "startState?.type === EProductStateType.WorkPieceFinal "
+    [assemblyInvolved] = "endState?.type === EProductStateType.ProductFinal"
+    [productFinalWorkPiecesCount]="productFinalWorkPiecesCount"
+    (onClose)="onClose.emit()"
+    (onFinalize)="onFinalize($event)"
+    (onDelete)="onDelete($event)"
+/>

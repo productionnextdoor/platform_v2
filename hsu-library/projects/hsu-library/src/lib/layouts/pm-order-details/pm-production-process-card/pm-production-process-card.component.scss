@@ -1,0 +1,12 @@
+@use '../../../styles/utils/functions' as f;
+
+.production-process-card {
+
+  &__popup-content {
+    margin-top: f.rem(32);
+
+    &-filetag {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+<pm-login
+  [email]="email"
+  [password]="password"
+  [logoPath]="logoPath"
+  [loginPageTexts]="loginPageTexts"
+  [imprintLinks]="imprintLinks"
+  (onLogin)="loginHandler($event)"
+  (onForgotPassword)="navigateToForgotPassword()"
+  (onClickImprintLink)="onImprintLinkClicked($event)"
+/>

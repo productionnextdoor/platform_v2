@@ -1,0 +1,14 @@
+@import "styles/hsu";
+
+//storybook modification
+.css-15erloe > div {
+  height: 40px;
+}
+
+.sb-show-main.sb-main-padded {
+  padding: 0;
+}
+
+body.inheritCursors * {
+  cursor: inherit !important;
+}

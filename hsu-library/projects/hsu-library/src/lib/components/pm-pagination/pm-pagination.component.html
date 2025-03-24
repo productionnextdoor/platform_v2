@@ -1,0 +1,49 @@
+<div class="pagination">
+    <span class="pagination__amount">{{totalText}}: {{totalItems}}</span>
+    <div *ngIf="totalPages != 0"
+             class="pagination__paginator"
+    >
+        <div class="pagination__pages">
+            <pm-button
+                class="pagination__button"
+                [type]="ButtonType.ICON_GHOST"
+                [icon]="Icon.FORWARD"
+                [iconRotation]="180"
+                [active]="false"
+                [disabled]="currentPage === 1 || loading"
+                (onClicked)="onClickPreviousPage()"
+            />
+            <pm-button
+                *ngFor="let item of pageRange;"
+                class="pagination__button"
+                [type]="ButtonType.ICON_GHOST"
+                [label]="item.toString()"
+                [value]="item.toString()"
+                [active]="item === currentPage"
+                [disabled]="loading"
+                (onClicked)="onPageClick($event)"
+            />
+            <pm-button
+                class="pagination__button"
+                [type]="ButtonType.ICON_GHOST"
+                [icon]="Icon.FORWARD"
+                [iconRotation]="0"
+                [active]="false"
+                [disabled]="currentPage === totalPages || loading"
+                (onClicked)="onClickNextPage()"
+            />
+        </div>
+        <pm-dropdown
+            *ngIf="totalItems && itemsPerPageOptions"
+            [options]="itemsPerPageOptions"
+            [value]="perPage.toString()"
+            [disabled]="loading"
+            [hideErrorMessages]="true"
+            (valueChange)="onSelectItemsPerPage($event)"
+        />
+    </div>
+
+</div>
+
+
+

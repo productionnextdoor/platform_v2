@@ -1,0 +1,60 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+.product-details-developer {
+  --section-margin-bottom: #{f.rem(32)};
+  --padding-inline: #{f.rem(16)};
+
+  @include fonts.font-copy-m1();
+  color: f.color(neutrals, 100);
+
+  &__section {
+    margin-bottom: var(--section-margin-bottom);
+  }
+
+  &__label {
+    color: f.color(neutrals, 500);
+
+    &:after {
+      content: ': ';
+    }
+  }
+
+  &__description {
+    margin-bottom: var(--section-margin-bottom);
+  }
+
+  &__uploaded-files {
+    padding-top: f.rem(24);
+  }
+
+  &__uploaded-files-title {
+    display: flex;
+    align-items: center;
+  }
+
+  &__actions {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  &__files {
+    display: flex;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    padding-right: f.rem(8);
+    color: f.color(neutrals, 100);
+
+    &-link {
+      cursor: pointer;
+    }
+  }
+
+  &__image {
+    display: block;
+    margin-bottom: f.rem(32);
+  }
+}

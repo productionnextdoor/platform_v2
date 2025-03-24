@@ -1,0 +1,32 @@
+@use 'sass:math';
+@use 'zindex' as zindex;
+@use 'layouts' as layouts;
+
+$baseFontSize: 16 !default;
+
+/// Strips the unit from a number
+/// @param {Number} $value - The value to strip the unit from
+/// @return {Number} - The value without a unit
+@function strip-unit($value) {
+  @return math.div($value, $value * 0 + 1);
+}
+
+/// Converts pixels to rems
+/// @param {Number} $pixels - The pixel value to convert
+/// @param {Number} $context - The base font size to use
+/// @return {Number} - The rem value
+@function rem($pixels, $context: $baseFontSize) {
+  @return math.div(strip-unit($pixels), strip-unit($context)) * 1rem;
+}
+
+@function color($group, $key) {
+  @return var(--clr-#{$group}-#{$key});
+}
+
+@function z-index($key) {
+  @return map-get(zindex.$zindexes, $key);
+}
+
+@function width($key) {
+  @return map-get(layouts.$widths, $key);
+}

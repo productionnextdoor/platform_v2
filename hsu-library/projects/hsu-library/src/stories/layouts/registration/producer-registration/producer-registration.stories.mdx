@@ -1,0 +1,36 @@
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { getComponentStoryMeta } from "../../../ComponentDependencies";
+import { moduleMetadata } from "@storybook/angular";
+import { PmProducerRegistrationComponent } from "../../../../lib/layouts/pm-registration/pm-producer-registration/pm-producer-registration.component";
+import { producerRegistrationData } from "./producer-registration.data";
+
+<Meta title="Layouts/Registrations/ProducerRegistration" component={PmProducerRegistrationComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProducerRegistrationComponent)),
+]}/>
+
+<Description of={PmProducerRegistrationComponent}/>
+<Description markdown={`# Producer Registration Page`}/>
+
+export const Template = args => ({
+    props: {
+        ...producerRegistrationData,
+        ...args,
+    },
+});
+
+<br/><br/>
+
+## Producer Registration Page
+
+<Canvas withToolbar>
+    <Story name="Default" height={'1000px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-ProducerRegistration](https://img.shields.io/badge/-ProducerRegistration-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/ad578526-483c-4d39-9d86-c9f5cf19a116-f804/screen/b1a1a122-8160-428f-8cba-a0e6b372ac7b)

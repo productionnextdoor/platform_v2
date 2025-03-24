@@ -1,0 +1,45 @@
+import {Meta, Story, Canvas, Description} from '@storybook/addon-docs';
+import {moduleMetadata} from '@storybook/angular';
+import {action} from "@storybook/addon-actions";
+import {getComponentStoryMeta} from "../../ComponentDependencies";
+import {productVariantsData} from "./product-variants.data";
+import {PmProductVariantsComponent} from "../../../lib/layouts/pm-product-variants/pm-product-variants.component";
+
+
+<Meta title="Layouts/Product-Variants/Product-Variants" component={PmProductVariantsComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductVariantsComponent)),
+]}/>
+
+<Description of={PmProductVariantsComponent}/>
+
+export const actionsData = {
+    onCloseBanner: action('banner closed'),
+    measurementsChange: action('measurements Changed'),
+    workPieceVariantsChange: action('workPieceVariants Changed'),
+    isValidChange: action('isValid Changed'),
+};
+
+
+export const Template = args => ({
+    props: {
+        ...actionsData,
+        ...productVariantsData,
+        ...args,
+    },
+});
+
+## Product-Variants
+
+<Canvas withToolbar isColumn>
+    <Story name="Product-Variants">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-ProductVariants](https://img.shields.io/badge/-ProductVariantst-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/00f72310-aad8-49bf-a8bb-89819ccd969c-55a4/screen/5b49a770-bb08-4eef-b0e4-795c51864df4/)

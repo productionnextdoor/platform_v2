@@ -1,0 +1,42 @@
+import { Meta, Story, Canvas, Description } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmMaterialItemComponent } from "../../../lib/layouts/pm-material-item/pm-material-item.component";
+import { action } from "@storybook/addon-actions";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { materialItemData } from "./material-item.data";
+
+
+<Meta title="Layouts/Material-Item/Material-Item" component={PmMaterialItemComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmMaterialItemComponent)),
+]}/>
+
+<Description of={PmMaterialItemComponent}/>
+
+export const actionsData = {
+    workingPiecesChange: action('Working Piece Change'),
+    workingPieceDeleted: action('delete Working Piece'),
+};
+
+export const Template = args => ({
+    props: {
+        ...materialItemData,
+        ...args,
+        ...actionsData
+    },
+});
+
+## Material Item
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-MaterialItem](https://img.shields.io/badge/-MaterialItem-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/b2c3775d-2901-4bf0-b018-145694fed6a2-e790/screen/757c9918-1ab6-43c9-863c-425de62aae99/)

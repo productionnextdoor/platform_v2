@@ -1,0 +1,10 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hsu-storybook
+    ports:
+      - 6006:6006
+    volumes:
+      - ./:/app

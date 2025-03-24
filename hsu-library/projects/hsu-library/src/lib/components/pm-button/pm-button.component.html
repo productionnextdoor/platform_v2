@@ -1,0 +1,34 @@
+<button class="button"
+        [ngClass]="{
+            'button--primary': type === ButtonType.PRIMARY,
+            'button--secondary': type === ButtonType.SECONDARY,
+            'button--icon': type === ButtonType.ICON || type === ButtonType.ICON_GREEN || type === ButtonType.ICON_GHOST || type === ButtonType.ICON_RED,
+            'button--icon_green': type === ButtonType.ICON_GREEN,
+            'button--icon_ghost': type === ButtonType.ICON_GHOST,
+            'button--icon_red': type === ButtonType.ICON_RED,
+            'button--active': active,
+            'button--disabled': disabled,
+            'button--full-width': fullWidth,
+        }"
+        [style.--button-margin]="margin | marginConverter"
+        (click)="clickOnButton()"
+>
+
+    <pm-icon
+        *ngIf="!(type === ButtonType.ICON_GHOST && label) && icon && iconPosition === IconPosition.LEFT"
+        class="button__icon button__icon--before"
+        [icon]="icon ?? Icon.ADD"
+        [size]="IconSize.S"
+        [rotate]="iconRotation"
+    />
+    <span *ngIf="type !== ButtonType.ICON && type !== ButtonType.ICON_GREEN && label"
+          class="button__text"
+    >{{label}}</span>
+    <pm-icon
+        *ngIf="!(type === ButtonType.ICON_GHOST && label) && icon && iconPosition === IconPosition.RIGHT"
+        class="button__icon button__icon--after"
+        [icon]="icon ?? Icon.ADD"
+        [size]="IconSize.S"
+        [rotate]="iconRotation"
+    />
+</button>

@@ -1,0 +1,17 @@
+<div [style.--banner-margin]="margin | marginConverter"
+     class="banner">
+    <pm-icon
+        class="banner__icon"
+        [icon]="bannerType === EBannerType.INFO ? EIcon.INFO : EIcon.ATTENTION"
+        [size]="EIconSize.S"
+    />
+    <div class="banner__content">
+        <p class="banner__text">{{bannerText}}</p>
+    </div>
+    <pm-icon
+        class="banner__close"
+        [icon]="EIcon.CLOSE"
+        [size]="EIconSize.S"
+        (click)="onCloseBannerHandler()"
+    />
+</div>

@@ -1,0 +1,68 @@
+export enum Icon {
+  ADD = 'add',
+  ARROW = 'arrow',
+  ARROW_CHAIN_LEFT = 'arrow_chain_left',
+  ARROW_CHAIN_RIGHT = 'arrow_chain_right',
+  ATTENTION = 'attention',
+  BURGER_MENU = 'burger_menu',
+  CAD_FILE = 'cad_file',
+  CALENDER = 'calender',
+  CHEVRON = 'chevron',
+  CLOSE = 'close',
+  DASHBOARD = 'dashboard',
+  DELETE = 'delete',
+  DEVELOPER = 'developer',
+  DOWNLOAD = 'download',
+  DRAG = 'drag',
+  EDIT = 'edit',
+  EXIT_FULLSCREEN = 'exit_fullscreen',
+  EXL_FILE = 'exl_file',
+  FLAG = 'flag',
+  FORWARD = 'forward',
+  FULLSCREEN = 'fullscreen',
+  GROUP = 'group',
+  HIDE = 'hide',
+  IMG_FILE = 'img_file',
+  INFO = 'info',
+  INFO_CIRCLE = 'info_circle',
+  LOCK = 'lock',
+  LOG_OUT = 'log_out',
+  MAIL = 'mail',
+  MINIMIZE = 'minimize',
+  MOUSE = 'mouse',
+  NEW_WINDOW = 'new_window',
+  ORDER_OVERVIEW = 'order_overview',
+  PDF_FILE = 'pdf_file',
+  PHONE = 'phone',
+  PRODUCERS = 'producers',
+  PRODUCT_INFORMATION = 'product_information',
+  PRODUCT_OVERVIEW = 'product_overview',
+  PROFILE = 'profile',
+  RELOAD = 'reload',
+  STAR = 'star',
+  STAR_HALF_RATE = 'star_half_rate',
+  STAR_RATE = 'star_rate',
+  RESET_TIME = 'reset_time',
+  SEARCH = 'search',
+  SHOW = 'show',
+  SORT_DOWN = 'sort_down',
+  SORT_UP = 'sort_up',
+  TABLE_SORT = 'table_sort',
+  TIMER = 'timer',
+  UPLOAD = 'upload',
+}
+
+// Icon sizes
+export const XXS_ICON_SIZE: number = 12;
+export const XS_ICON_SIZE: number = 16;
+export const SMALL_ICON_SIZE: number = 20;
+export const MEDIUM_ICON_SIZE: number = 36;
+export const XL_ICON_SIZE: number = 64;
+
+export enum IconSize {
+  XXS = XXS_ICON_SIZE,
+  XS = XS_ICON_SIZE,
+  S = SMALL_ICON_SIZE,
+  M = MEDIUM_ICON_SIZE,
+  XL = XL_ICON_SIZE,
+}

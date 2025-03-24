@@ -1,0 +1,24 @@
+<div class="profile">
+    <pm-current-admin-profile
+        *ngIf="profileType === ProfileType.ADMIN"
+        [admin]="admin"
+        [localisations]="adminProfileLocalisation"
+        (onCancel)="this.onClose.emit()"
+        (onSave)="this.onUpdateAdmin($event)"
+    ></pm-current-admin-profile>
+    <pm-current-developer-profile
+        *ngIf="profileType === ProfileType.DEVELOPER"
+        [developer]="developer"
+        [localisations]="developerProfileLocalisation"
+        (onCancel)="this.onClose.emit()"
+        (onSave)="this.onUpdateDeveloper($event)">
+    </pm-current-developer-profile>
+    <pm-current-producer-profile
+        *ngIf="profileType === ProfileType.PRODUCER"
+        [producer]="producer"
+        [localisations]="producerProfileLocalisation"
+        [producerRatingMaxValue]="producerRatingMaxValue"
+        (onCancel)="this.onClose.emit()"
+        (onSave)="this.onUpdateProducer($event)">
+    </pm-current-producer-profile>
+</div>

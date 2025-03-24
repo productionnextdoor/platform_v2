@@ -1,0 +1,16 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+.pm-error-message {
+  &__icon {
+    display: flex;
+    margin-right: f.rem(4);
+  }
+
+  &__wrapper {
+    @include fonts.font-copy-s1();
+    display: flex;
+    align-items: center;
+    color: f.color('semantic', 100);
+  }
+}

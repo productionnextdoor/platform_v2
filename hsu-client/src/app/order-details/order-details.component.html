@@ -1,0 +1,15 @@
+<div class="container">
+    <ng-container [ngSwitch]="detailsPageType">
+        <ng-container *ngSwitchCase="EOrderDetailsPageType.ADMIN">
+            <order-details-admin
+                [orderId]="orderId"
+            />
+        </ng-container>
+
+        <ng-container *ngSwitchCase="EOrderDetailsPageType.PRODUCER">
+            <order-details-producer
+                [orderId]="orderId"
+            />
+        </ng-container>
+    </ng-container>
+</div>

@@ -1,0 +1,28 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+.developer-revenue-card {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    @include fonts.font-h3();
+    display: inline-block;
+    margin: 0 0 f.rem(8) 0;
+  }
+
+  &__text {
+    @include fonts.font-copy-m1();
+    display: inline-block;
+    color: f.color(neutrals, 500);
+
+
+    &::after {
+      content: ':\00a0'; // non-breaking space
+    }
+  }
+
+  &__value {
+    @include fonts.font-copy-m1();
+  }
+}

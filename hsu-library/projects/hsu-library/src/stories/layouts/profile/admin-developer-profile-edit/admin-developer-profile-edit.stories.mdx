@@ -1,0 +1,48 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story,
+    ArgsTable
+} from '@storybook/addon-docs';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmAdminDeveloperProfileEditComponent } from "../../../../lib/layouts/pm-profile/pm-admin-developer-profile-edit/pm-admin-developer-profile-edit.component";
+import { adminDeveloperProfileEditProfileData } from "./admin-developer-profile-edit.data";
+import { getComponentStoryMeta } from "../../../ComponentDependencies";
+
+<Meta title="Layouts/Profiles/AdminDeveloperProfileEdit" component={PmAdminDeveloperProfileEditComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmAdminDeveloperProfileEditComponent)),
+]}/>
+
+<Description of={PmAdminDeveloperProfileEditComponent}/>
+
+export const actionsData = {
+    onSave: action('on save'),
+    onClose: action('on close'),
+};
+export const Template = args => ({
+    props: {
+        ...adminDeveloperProfileEditProfileData,
+        ...args,
+        ...actionsData,
+    },
+});
+
+<br/><br/>
+
+## Developer Profile Popup
+
+<Canvas withToolbar>
+    <Story name="Default" height={'1250px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Default"/>
+
+## Design
+[![XD-AdminDeveloperProfileEdit](https://img.shields.io/badge/-AdminDeveloperProfileEdit-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/a71263f2-2f8c-4ba0-b6dc-6f25df1c0dea-f241/screen/f2707dfa-5e76-443d-b4b7-e56897b4a765/specs/)

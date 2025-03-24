@@ -1,0 +1,21 @@
+<pm-header class="producer-overview__header"
+           [breadcrumbs]="breadcrumbs"
+>
+    <pm-button
+        [type]="ButtonType.PRIMARY"
+        [disabled]="cancelDisabled"
+        [label]="cancelButtonLabel"
+        (onClicked)="onShowPopup()"
+    />
+</pm-header>
+
+<div>
+    <ng-content/>
+</div>
+
+<pm-confirm-popup
+    *ngIf="showPopup"
+    [localisations]="cancelPopupLocalisations"
+    (onCancel)="onDiscardCancel()"
+    (onConfirm)="onConfirmCancel()"
+/>

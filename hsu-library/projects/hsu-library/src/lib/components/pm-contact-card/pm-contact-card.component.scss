@@ -1,0 +1,40 @@
+@use '../../styles/base/fonts' as fonts;
+@use '../../styles/utils/functions' as f;
+
+.contact-card {
+  --text-default-color: #{f.color(neutrals, 500)};
+  --link-default-color: #{f.color(neutrals, 500)};
+  --link-hover-color: #{f.color(neutrals, 100)};
+  width: #{f.rem(270)};
+
+  &__title {
+    @include fonts.font-h3();
+    margin-bottom: #{f.rem(8)};
+  }
+
+  &__text {
+    @include fonts.font-copy-m1();
+    color: var(--text-default-color);
+    margin-bottom: #{f.rem(32)};
+  }
+
+  &__links {
+    padding: 0;
+    list-style-type: none;
+  }
+
+  &__link, &__contact {
+    @include fonts.font-copy-m2();
+    display: blocK;
+    color: var(--link-default-color);
+    cursor: pointer;
+
+    &:not(:last-of-type) {
+      margin-bottom: #{f.rem(18)};
+    }
+
+    &:hover {
+      color: var(--link-hover-color);
+    }
+  }
+}

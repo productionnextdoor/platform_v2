@@ -1,0 +1,23 @@
+<ng-container [ngSwitch]="type">
+    <ng-template #text>
+        <ng-content/>
+    </ng-template>
+
+    <h1 *ngSwitchCase="ETextType.H1"
+        [style.--typography-margin]="margin | marginConverter"
+        class="typography {{type}}"><ng-container [ngTemplateOutlet]="text" /></h1>
+    <h2 *ngSwitchCase="ETextType.H2"
+        [style.--typography-margin]="margin | marginConverter"
+        class="typography {{type}}"><ng-container [ngTemplateOutlet]="text" /></h2>
+    <h3 *ngSwitchCase="ETextType.H3"
+        [style.--typography-margin]="margin | marginConverter"
+        class="typography {{type}}"><ng-container [ngTemplateOutlet]="text" /></h3>
+    <h4 *ngSwitchCase="ETextType.H4"
+        [style.--typography-margin]="margin | marginConverter"
+        class="typography {{type}}"><ng-container [ngTemplateOutlet]="text" /></h4>
+
+    <p *ngSwitchDefault
+       [style.--typography-margin]="margin | marginConverter"
+       class="typography {{type}}"
+    ><ng-container [ngTemplateOutlet]="text" /></p>
+</ng-container>

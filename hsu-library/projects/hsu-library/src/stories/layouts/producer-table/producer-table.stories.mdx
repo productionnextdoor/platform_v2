@@ -1,0 +1,38 @@
+import { PmProducerTableComponent } from "../../../lib/layouts/pm-producer-table/pm-producer-table.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { moduleMetadata } from "@storybook/angular";
+import {
+    Canvas, Description, Meta, Story
+} from "@storybook/addon-docs";
+import { ProducerTableData } from "./producer-table.data";
+
+<Meta title="Layouts/Producer-table/Producer-table" component={PmProducerTableComponent} argTypes={{}} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProducerTableComponent)),
+]}/>
+
+<Description of={PmProducerTableComponent}/>
+<Description markdown={`# Producer table `}/>
+
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...ProducerTableData,
+        ...args
+    },
+});
+
+This contains definitions for the **Producer table**.
+
+## Producer table
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Design
+[![XD-ProducerTable](https://img.shields.io/badge/-ProducerTable-%235c5c5c?logo=adobexd&labelProducerTable=450034)](https://xd.adobe.com/view/4b6cca74-1250-424c-8c3c-3ab8c470fe13-1e3f/screen/80dbd9f1-b489-4d52-a87f-b4837f78204e/)

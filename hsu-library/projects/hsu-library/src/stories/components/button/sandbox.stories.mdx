@@ -1,0 +1,118 @@
+import {
+    ArgsTable,
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmButtonComponent, } from '../../../lib/components/pm-button/pm-button.component';
+import { PmIconComponent } from '../../../lib/components/pm-icon/pm-icon.component';
+import { action } from '@storybook/addon-actions';
+import { ButtonData } from './button.data'
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Button/Sandbox" component={PmButtonComponent} argTypes={{
+    label: {
+        description: 'The label of the Button. Should be empty for ghost-icon type with icon.',
+        table: {
+            category: 'Texts',
+        },
+    },
+    margin: {
+        description: 'Defines the margin of the input',
+        table: {
+            category: 'Texts',
+        },
+    },
+    type: {
+        description: 'Defines the visual behaviour',
+        table: {
+            category: 'Visual',
+        },
+    },
+    fullWidth: {
+        description: 'Defines the fullwidth behaviour',
+        table: {
+            category: 'Visual',
+        },
+    },
+    icon: {
+        description: 'Defines the icon',
+        table: {
+            category: 'Visual',
+        },
+    },
+    iconPosition: {
+        description: 'Defines the position of the icon',
+        table: {
+            category: 'Visual',
+        },
+    },
+    iconRotation: {
+        description: 'Defines the rotation of the icon',
+        table: {
+            category: 'Visual',
+        },
+    },
+    active: {
+        description: 'Defines the active State',
+        table: {
+            category: 'Visual',
+        },
+    },
+    disabled: {
+        description: 'Defines the disabled behaviour',
+        table: {
+            category: 'Visual'
+        },
+    },
+    onClicked: {
+        description: "Will be notified when this button is clicked.",
+        table: {
+            category: 'Events',
+        },
+    },
+}} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmButtonComponent))
+]}/>
+
+<Description of={PmIconComponent}/>
+<Description markdown={`# Buttons`}/>
+
+export const actionsData = {
+    onClicked: action('clicked on button:'),
+};
+export const Template = args => ({
+    props: {
+        ...ButtonData,
+        ...args,
+        onClicked: actionsData.onClicked
+    },
+});
+
+
+
+This contains the **Buttons-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox" args={{
+        label: "Button",
+        icon: undefined
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+
+[![XD-Buttons](https://img.shields.io/badge/-Buttons-%235c5c5c?logo=adobexd&labelButtons=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/a365fa37-9f9b-4fd9-9c93-68391e7d29d7)

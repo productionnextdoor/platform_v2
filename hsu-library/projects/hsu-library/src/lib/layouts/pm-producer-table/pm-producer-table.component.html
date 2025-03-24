@@ -1,0 +1,108 @@
+<div class="producer-table">
+    <pm-background-card
+        [title]="localisations.cardTitle"
+        [collapsible]="true"
+        [datepicker]="true"
+        [noShadow]="noShadow"
+        [datepickerDisabled]="editDisabled"
+        [datepickerDate]="confirmedDeadlineDate"
+        [datepickerTitle]="localisations.deadline"
+        (onClicked)="datePickerButtonClicked()"
+    >
+        <div class="producer-table__description">
+            {{ localisations.description }}
+        </div>
+
+        <div class="producer-table__table">
+            <pm-table
+                [loading]="loading"
+                [columnHeaders]="columnHeaders"
+                [checkboxesDisabled]="editDisabled"
+                [(rows)]="rowData"
+                (onActionClicked)="actionClicked($event)"
+                (onSort)="sortingClicked($event)"
+                (onCheckboxStateChange)="onCheckboxStateChange($event)"
+            ></pm-table>
+        </div>
+
+        <div class="producer-table__footer">
+            <pm-pagination
+                [totalItems]="totalItems"
+                [totalText]="localisations.paginationTotalText"
+                [currentPage]="paginationData.CurrentPage"
+                [itemsPerPageOptions]="itemsPerPageOptions"
+                (onShowPage)="paginationChanged($event)"
+            />
+
+            <pm-button
+                [disabled] = "editDisabled || !allowRequest || confirmedDeadlineDate.length === 0"
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.requestButtonLabel"
+                (onClicked)="showProducerRequestPopup=true"
+            ></pm-button>
+        </div>
+    </pm-background-card>
+
+    <pm-popup
+        *ngIf="showDeadlinePopup"
+        class="producer-table__popup"
+        [title]="localisations.popup.title"
+        [type]="PopupType.SMALL"
+        (onClose)="popupCancelClicked()"
+    >
+        <span class="producer-table__popup-description">{{ localisations.popup.description }}</span>
+
+        <div class="producer-table__popup-datepicker">
+            <pm-input
+                [type]="EPmInputType.DATE"
+                [label]="localisations.popup.inputLabel"
+                [value]="deadlineDate"
+                (valueChange)="dateSelected($event)"
+            ></pm-input>
+        </div>
+
+        <div class="producer-table__popup-actions">
+            <pm-button
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.popup.cancelButtonLabel"
+                (onClicked)="popupCancelClicked()"
+                class="producer-table__popup-button"
+            />
+
+            <pm-button
+                [disabled]="!deadlineDate"
+                [type]="ButtonType.PRIMARY"
+                [label]="localisations.popup.confirmButtonLabel"
+                (onClicked)="popupConfirmClicked()"
+                class="producer-table__popup-button"
+            />
+        </div>
+    </pm-popup>
+
+    <pm-popup
+        *ngIf="showProducerRequestPopup"
+        [title]="localisations.requestPopup.title"
+        [type]="PopupType.SMALL"
+        (onClose)="showProducerRequestPopup = false"
+    >
+        <ng-container>
+           {{localisations.requestPopup.description}}
+        </ng-container>
+        <ng-container footer>
+            <div class="producer-table__popup-actions">
+            <pm-button
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.requestPopup.cancelButtonLabel"
+                (onClicked)="showProducerRequestPopup = false"
+                class="producer-table__popup-button"
+            />
+            <pm-button
+                [type]="ButtonType.PRIMARY"
+                [label]="localisations.requestPopup.confirmButtonLabel"
+                (onClicked)="sendRequest()"
+                class="producer-table__popup-button"
+            />
+            </div>
+        </ng-container>
+    </pm-popup>
+</div>

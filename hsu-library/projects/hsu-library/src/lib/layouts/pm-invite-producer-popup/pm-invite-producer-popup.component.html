@@ -1,0 +1,85 @@
+<div class="invite-producer-popup">
+    <pm-popup
+        [title]="localisations.title"
+        [type]="PopupType.MEDIUM"
+        (onClose)="onClose.emit()"
+    >
+        <div class="invite-producer-popup__description">
+            {{ localisations.description }}
+        </div>
+
+        <div class="invite-producer-popup__form">
+            <div class="invite-producer-popup__form-title">
+                <pm-text [type]="TextType.H3">
+                    {{ localisations.form.title }}
+                </pm-text>
+            </div>
+
+            <pm-row [template]="'1fr 1fr'" [gap]="DefaultMargins.XLarge">
+                <pm-col >
+                    <pm-input
+                        [type]="EPmInputType.TEXT"
+                        [label]="localisations.form.companyNameLabel"
+                        [name]="localisations.form.companyNameLabel"
+                        [placeholder]="localisations.form.companyNamePlaceholder"
+                        [required]="true"
+                        [(value)]="producerBaseData.companyName"
+                        (valueChange)="validateData()"
+                    />
+
+                    <pm-dropdown
+                        [label]="localisations.form.tradeLabel"
+                        [name]="localisations.form.tradeLabel"
+                        [placeholder]="localisations.form.tradePlaceholder"
+                        [required]="true"
+                        [options]="tradeOptions"
+                        [(value)]="producerBaseData.trade.key"
+                        (valueChange)="validateData()"
+                    />
+                </pm-col>
+
+                <pm-col>
+                    <pm-input
+                        [type]="EPmInputType.EMAIL"
+                        [label]="localisations.form.emailLabel"
+                        [name]="localisations.form.emailLabel"
+                        [placeholder]="localisations.form.emailPlaceholder"
+                        [required]="true"
+                        [(value)]="producerBaseData.email"
+                        (valueChange)="validateEmailData()"
+                        [hasError]="hasEmailError"
+                        [errorMessages]="[localisations.emailNotValidError]"
+                    />
+
+                    <pm-input
+                        [type]="EPmInputType.TEXT"
+                        [label]="localisations.form.contactPersonLabel"
+                        [name]="localisations.form.contactPersonLabel"
+                        [placeholder]="localisations.form.contactPersonPlaceholder"
+                        [required]="true"
+                        [(value)]="producerBaseData.contactPerson"
+                        (valueChange)="validateData()"
+                    />
+                </pm-col>
+            </pm-row>
+        </div>
+
+        <div class="invite-producer-popup__footer">
+            <pm-button
+                class="invite-producer-popup__button"
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.cancelButtonLabel"
+                (onClicked)="onClose.emit()"
+            />
+
+            <pm-button
+                class="invite-producer-popup__button"
+                [type]="ButtonType.PRIMARY"
+                [label]="localisations.inviteButtonLabel"
+                [disabled]="!isValid"
+                (onClicked)="onInviteClick()"
+            />
+        </div>
+    </pm-popup>
+</div>
+

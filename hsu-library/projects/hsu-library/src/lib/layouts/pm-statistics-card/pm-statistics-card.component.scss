@@ -1,0 +1,8 @@
+@use '../../styles/utils/functions' as f;
+
+.statistics-card {
+  &__footer {
+    padding: f.rem(8) 0;
+    text-align: right;
+  }
+}

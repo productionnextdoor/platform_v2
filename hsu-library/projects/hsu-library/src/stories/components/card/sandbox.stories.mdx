@@ -1,0 +1,97 @@
+import {
+    ArgsTable,
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from "@storybook/angular";
+
+import { PmCardComponent } from "../../../lib/components/pm-card/pm-card.component";
+import { cardData } from "./card.data";
+import { storybookHelper } from "../../StorybookHelper";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Card/Sandbox" component={PmCardComponent} argTypes={{
+    hasHeader: {
+        description: 'Defines if the card has a header',
+        table: {
+            category: 'Visual',
+        },
+    },
+    context: {
+        description: 'Defines the context of the card',
+        table: {
+            category: 'Visual',
+        },
+    },
+    title: {
+        description: 'Defines the text in the title of the card',
+        table: {
+            category: 'Text',
+        },
+  },
+  closable: {
+    description: 'Defines if the card is closable',
+    table: {
+      category: 'State',
+    },
+  },
+  collapsible: {
+    description: 'Defines if the card is collapsible',
+    table: {
+      category: 'State',
+    },
+  },
+  collapsed: {
+    description: 'Defines if the card is collapsed',
+    table: {
+      category: 'State',
+    },
+  },
+  disabled: {
+    description: 'Defines if the card is disabled',
+    table: {
+      category: 'Pseudo',
+    },
+  },
+  ngContent: {
+    control: 'text',
+    description: 'ng-content of the card',
+    table: {
+      category: 'Text',
+    },
+  },
+}} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmCardComponent)),
+]}/>
+
+<Description of={PmCardComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-card', cardData);
+
+
+
+This contains the **Card-Sandbox**.
+
+<br/><br/>
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/>
+<br/>
+
+## Design
+
+[![XD-Card](https://img.shields.io/badge/-Typography-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/162fe405-e223-4dcb-98dd-1af22094405b/specs/)

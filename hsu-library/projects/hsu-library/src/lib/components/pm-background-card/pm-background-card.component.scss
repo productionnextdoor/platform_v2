@@ -1,0 +1,32 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.background-card {
+  display: block;
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+
+  &__btn {
+    margin: 0 0 0 f.rem(12);
+  }
+
+  &__datepicker {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__text {
+    @include fonts.font-copy-m2;
+    color: f.color(neutrals, 500);
+  }
+
+  &__date {
+    @include fonts.font-copy-m2;
+    padding-left: f.rem(3);
+  }
+}

@@ -1,0 +1,105 @@
+<ng-container *ngIf="generalData">
+    <pm-banner *ngIf="isBannerVisible"
+               [bannerText]="'ProductCreateOrEditGeneral.Note' | localize"
+               [bannerType]="BannerType.INFO"
+               (onCloseBanner)="onCLoseBanner()"
+    />
+    <pm-text
+        [type]="TextType.H3"
+        [margin]="isAdminView ? titleMarginWithoutDescription : titleMargin"
+    >
+        {{'ProductCreateOrEditGeneral.Title' | localize}}
+    </pm-text>
+    <pm-text
+        *ngIf="!isAdminView"
+        [type]="TextType.COPY_M1"
+        [margin]="descriptionMargin"
+    >
+        {{AppConsts.IsOffer? 'ProductOfferCreateOrEditGeneral.Description' : 'ProductCreateOrEditGeneral.Description' | localize}}
+    </pm-text>
+    <pm-row [template]="'1fr 1fr 1fr'" [gap]="DefaultMargins.XLarge">
+        <pm-col>
+            <pm-input
+                [name]="'name'"
+                [label]="'ProductCreateOrEditGeneral.Name' | localize"
+                [placeholder]="'ProductCreateOrEditGeneral.Name' | localize"
+                [(value)]="generalData.productName"
+                [required]="true"
+                [errorMessages]="['Error.InputField.RequiredMissing' | localize]"
+                (valueChange)="validateFormData()"
+            />
+            <pm-text [type]="TextType.COPY_M1">
+                {{'ProductCreateOrEditGeneral.ProductNumber' | localize}}: {{generalData.productNumber}}<br />
+                {{'ProductCreateOrEditGeneral.CreationDate' | localize}}: {{generalData.creationTime}}
+            </pm-text>
+        </pm-col>
+        <pm-col>
+            <pm-input
+                [type]="EPmInputType.NUMBER"
+                [name]="'height'"
+                [label]="'Measurement.Height' | localize"
+                [placeholder]="'Measurement.Height' | localize"
+                [unit]="'Measurement.Unit' | localize"
+                [(value)]="generalData.height"
+                [required]="true"
+                [errorMessages]="['Error.InputField.RequiredMissing' | localize]"
+                (valueChange)="validateFormData()"
+            />
+            <pm-input
+                [type]="EPmInputType.NUMBER"
+                [name]="'width'"
+                [label]="'Measurement.Width' | localize"
+                [placeholder]="'Measurement.Width' | localize"
+                [unit]="'Measurement.Unit' | localize"
+                [(value)]="generalData.width"
+                [required]="true"
+                [errorMessages]="['Error.InputField.RequiredMissing' | localize]"
+                (valueChange)="validateFormData()"
+            />
+            <pm-input
+                [type]="EPmInputType.NUMBER"
+                [name]="'depth'"
+                [label]="'Measurement.Depth' | localize"
+                [placeholder]="'Measurement.Depth' | localize"
+                [unit]="'Measurement.Unit' | localize"
+                [(value)]="generalData.depth"
+                [required]="true"
+                [errorMessages]="['Error.InputField.RequiredMissing' | localize]"
+                (valueChange)="validateFormData()"
+            />
+        </pm-col>
+        <pm-col *ngIf="AppConsts.IsOffer">
+            <pm-input
+                [type]="EPmInputType.NUMBER"
+                [name]="'quantity'"
+                [label]="'ProductCreateOrEditGeneral.Quantity' | localize"
+                [placeholder]="'ProductCreateOrEditGeneral.Quantity' | localize"
+                [(value)]="generalData.quantity"
+                [required]="true"
+                [errorMessages]="['Error.InputField.RequiredMissing' | localize]"
+                (valueChange)="validateFormData()"
+            />
+            <pm-input
+                [type]="EPmInputType.DATE"
+                [name]="'offerDeadline'"
+                [label]="'ProductCreateOrEditGeneral.OfferDeadline' | localize"
+                [placeholder]="'ProductCreateOrEditGeneral.OfferDeadline' | localize"
+                [(value)]="generalData.offerDeadline"
+                [required]="true"
+                [errorMessages]="['Error.InputField.RequiredMissing' | localize]"
+                (valueChange)="validateFormData()"
+            />
+            <pm-input
+                [type]="EPmInputType.DATE"
+                [name]="'productionDeadline'"
+                [label]="'ProductCreateOrEditGeneral.ProductionDeadline' | localize"
+                [placeholder]="'ProductCreateOrEditGeneral.ProductionDeadline' | localize"
+                [(value)]="generalData.productionDeadLine"
+                [required]="true"
+                [errorMessages]="['Error.InputField.RequiredMissing' | localize]"
+                (valueChange)="validateFormData()"
+            />
+
+        </pm-col>
+    </pm-row>
+</ng-container>

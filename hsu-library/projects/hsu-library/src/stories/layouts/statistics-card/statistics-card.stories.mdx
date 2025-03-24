@@ -1,0 +1,37 @@
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmStatisticsCardComponent } from '../../../lib/layouts/pm-statistics-card/pm-statistics-card.component';
+import { getComponentStoryMeta } from '../../ComponentDependencies';
+import { statisticsCard } from './statistics-card';
+import { action } from '@storybook/addon-actions';
+
+<Meta title='Layouts/Statistics/StatisticsCard' component={PmStatisticsCardComponent} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmStatisticsCardComponent)),
+]}/>
+
+<Description of={PmStatisticsCardComponent}/>
+<Description markdown={`# Statistics card `}/>
+
+export const actionsData = {
+    onDownloadClicked: action('on download clicked')    
+};
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...args,
+        ...statisticsCard,
+        ...actionsData
+    },
+});
+
+This contains definitions for the **Statistics card**.
+
+<Canvas withToolbar isColumn>
+    <Story name='Default'>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+

@@ -1,0 +1,32 @@
+<edit-current-profile
+    *ngIf="hasProfileOpen"
+    (onClose)="onCloseProfile()">
+</edit-current-profile>
+<pm-grid
+  [isFullScreen]="isFullScreen"
+  [menuExpanded]=true>
+  <pm-sidebar
+    sidebar
+    [logoPath]="logoPath"
+    [isAuthenticated]="isAuthenticated()"
+    [isImpersonated]="isImpersonatedLogin()"
+    (onLogout)="onHandleLogout()"
+    (onOpenProfile)="hasProfileOpen = true"
+    (onLogoutImpersonation)="onLogoutImpersonation()"
+  >
+  </pm-sidebar>
+  <pm-menu
+    menu
+    [activeMenuId]="activeMenuId"
+    [menuItems]="accessibleMenuItems"
+    (onSelectMenuItem)="onSelectMenuItem($event)"
+    [contactCardLocalisation]="contactLocalisations"
+    [contactCardContacts]="contacts"
+    [contactCardLinks]="contactCardLinks"
+    (onSelectContactCardItem)="onSelectContactCardItem($event)"
+  >
+  </pm-menu>
+  <router-outlet>
+
+  </router-outlet>
+</pm-grid>

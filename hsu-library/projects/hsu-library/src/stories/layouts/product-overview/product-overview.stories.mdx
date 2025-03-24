@@ -1,0 +1,58 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { TableData } from './product-overview.data';
+import { PmProductOverviewComponent } from "../../../lib/layouts/pm-product-overview/pm-product-overview.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Layouts/Product-overview/Product-overview" component={PmProductOverviewComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductOverviewComponent)),
+]}/>
+
+<Description of={PmProductOverviewComponent}/>
+<Description markdown={`# Product overview `}/>
+
+export const actionsData = {
+    onActionClicked: action('on action clicked:'),
+    onSortingClicked: action('on sort clicked'),
+    onPageClicked: action('on page clicked'),
+    onPerPageClicked: action('on per page clicked'),
+    onSearchTermChanged: action('search term changed')
+};
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...TableData,
+        ...args,
+        onActionClicked: actionsData.onActionClicked,
+        onSortingClicked: actionsData.onSortingClicked,
+        onPageClicked: actionsData.onPageClicked,
+        onPerPageClicked: actionsData.onPerPageClicked,
+        onSearchTermChanged: actionsData.onSearchTermChanged
+    },
+});
+
+This contains definitions for the **Product overview**.
+
+## Product overview
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+<br/><br/>
+
+## Design
+[![XD-Table](https://img.shields.io/badge/-Table-%235c5c5c?logo=adobexd&labelTable=450034)](https://xd.adobe.com/view/227e28b9-0fa3-482d-9231-74f4637a5da5-772d/)
+

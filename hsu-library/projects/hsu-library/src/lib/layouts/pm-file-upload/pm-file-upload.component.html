@@ -1,0 +1,66 @@
+<pm-banner
+    *ngIf="visibleNote"
+    [bannerText]="localisations.bannerText"
+    [bannerType]="BannerType.INFO"
+    (onCloseBanner)="onCLoseBanner()"
+/>
+
+<pm-text
+    [type]="TextType.H3"
+    [margin]="isAdminView ? titleMarginWithoutDescription : titleMargin"
+>
+    {{localisations.titleText}}
+</pm-text>
+
+<pm-text
+    *ngIf="!isAdminView"
+    [type]="TextType.COPY_M1"
+    [margin]="descriptionMargin"
+>
+    {{localisations.descriptionText}}
+</pm-text>
+
+<pm-row [template]="'1fr 1fr 1fr'" [gap]="DefaultMargins.XLarge">
+    <pm-input
+        [type]="EPmInputType.TEXT"
+        [label]="localisations.sharepointLinkLabel"
+        [placeholder]="localisations.sharepointLinkPlaceholder"
+        [(value)]="sharepointLink"
+        (valueChange)="sharepointLinkChange.emit(sharepointLink)"
+        [bold]="true"
+    />
+
+    <pm-input
+        [type]="EPmInputType.TEXTAREA"
+        [label]="localisations.descriptionLabel"
+        [placeholder]="localisations.descriptionPlaceholder"
+        [(value)]="productDescription"
+        (valueChange)="productDescriptionChange.emit(productDescription)"
+        [required]="true"
+        [bold]="true"
+        [dynamicSize]="true"
+        [errorMessages]="localisations.inputErrorMessages"
+    />
+
+    <ng-container *ngFor="let uploadTemplate of uploadTemplates">
+         <ng-container *ngTemplateOutlet="uploadTemplate" />
+    </ng-container>
+</pm-row>
+
+<ng-container *ngFor="let category of categories">
+    <ng-container *ngIf="(fileData | FileTagsByCategory:category).length > 0">
+        <pm-text
+            [type]="TextType.COPY_M3"
+            [margin]="titleMargin"
+        > {{localisations.categoryNames[category]}}
+        </pm-text>
+
+        <div class="pm-file-upload__files">
+            <pm-filename-tag *ngFor="let file of fileData | FileTagsByCategory:category"
+            [label]="file.fileName"
+            [icon]="file.fileName | FiletypeIcon"
+            (onClick)="onFileTagClose(file)"
+            />
+        </div>
+    </ng-container>
+</ng-container>

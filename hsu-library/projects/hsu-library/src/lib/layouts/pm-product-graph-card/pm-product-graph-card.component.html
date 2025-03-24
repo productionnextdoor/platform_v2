@@ -1,0 +1,89 @@
+<pm-card
+    [hasHeader]="true"
+    [title]="localisations.cardTitle"
+    [collapsible]="true"
+    [noShadow]="noShadow"
+    class="product-graph-card"
+>
+    <div class="product-graph-card__description">
+        <pm-icon
+            [icon]="Icon.MOUSE"
+            [size]="IconSize.M"
+        />
+        <pm-text
+            *ngIf="!isProducerCard"
+            [type]="TextType.COPY_M1"
+            [margin]="descriptionMargin"
+        >
+            {{localisations.descriptionAdmin}}
+        </pm-text>
+        <pm-text
+            *ngIf="isProducerCard"
+            [type]="TextType.COPY_M1"
+            [margin]="descriptionMargin"
+        >
+            {{localisations.descriptionProducer}}
+        </pm-text>
+    </div>
+
+    <div class="product-graph-card__content">
+        <ng-content select="[graph]"/>
+    </div>
+
+    <div footer class="product-graph-card__footer">
+        <div class="product-graph-card__graph-card">
+            <div class="product-graph-card__graph-keys">
+                <pm-icon
+                    [icon]="Icon.FLAG"
+                    [size]="IconSize.S"
+                    class="product-graph-card__flag-icon"
+                />
+                <pm-text
+                    [type]="TextType.COPY_M1"
+                    [margin]="keyMargin"
+                >
+                    {{graphKeys.finalState}}
+                </pm-text>
+            </div>
+
+            <div class="product-graph-card__graph-keys">
+                <div class="product-graph-card__chain"></div>
+                <pm-text
+                    [type]="TextType.COPY_M1"
+                    [margin]="keyMargin"
+                >
+                    {{graphKeys.stepWithoutProducer}}
+                </pm-text>
+            </div>
+
+            <div class="product-graph-card__graph-keys">
+                <div class="product-graph-card__step-inactive"></div>
+                <pm-text
+                    [type]="TextType.COPY_M1"
+                    [margin]="keyMargin"
+                >
+                    {{graphKeys.stepWithProducer}}
+                </pm-text>
+            </div>
+
+            <div *ngIf="isProducerCard" class="product-graph-card__graph-keys">
+                <div class="product-graph-card__step"></div>
+                <pm-text
+                    [type]="TextType.COPY_M1"
+                    [margin]="keyMargin"
+                >
+                    {{graphKeys.stepCurrentProducer}}
+                </pm-text>
+            </div>
+        </div>
+
+        <pm-button
+            *ngIf="!isProducerCard"
+            [type]="ButtonType.SECONDARY"
+            [label]="localisations.buttonLabel"
+            [disabled]="!readyForCalculating"
+            (onClicked)="onClicked.emit($event)"
+            class="product-graph-card__button"
+        />
+    </div>
+</pm-card>

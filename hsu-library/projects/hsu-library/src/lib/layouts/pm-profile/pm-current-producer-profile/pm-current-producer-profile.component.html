@@ -1,0 +1,186 @@
+<div class="current-producer-profile">
+    <pm-popup
+        [type]="PopupType.MEDIUM"
+        [title]="localisations.popupTitle"
+        (onClose)="onCancelClick()">
+        <div class="current-producer-profile__subtitle">
+            {{ localisations.popupSubtitle }}
+        </div>
+        <pm-row [template]="'1fr 1fr'" [gap]="margins.XLarge">
+            <pm-col [gap]="margins.XSmall">
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="localisations.labels.companyName"
+                    [label]="localisations.labels.companyName"
+                    [placeholder]="localisations.labels.companyName"
+                    [hasError]="producerProfileErrors.companyName"
+                    [(value)]="producer.companyName"
+                    [required]="true"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-input>
+                <pm-dropdown
+                    [name]="localisations.labels.tradeType"
+                    [label]="localisations.labels.tradeType"
+                    [placeholder]="producer.trade?.value ?? ''"
+                    [required]="true"
+                    [disabled]="true"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-dropdown>
+                <pm-input
+                    [type]="EPmInputType.NUMBER"
+                    [allowEmptyNumber]="true"
+                    [name]="localisations.labels.numberOfEmployees"
+                    [label]="localisations.labels.numberOfEmployees"
+                    [placeholder]="localisations.labels.numberOfEmployees"
+                    [hasError]="producerProfileErrors.numberOfEmployees"
+                    [(value)]="producer.numberOfEmployees"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-input>
+                <pm-dropdown
+                    [name]="localisations.labels.state"
+                    [label]="localisations.labels.state"
+                    [placeholder]="producer?.isActive ? localisations.statuses.active : localisations.statuses.inactive"
+                    [disabled]="true"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-dropdown>
+                <pm-input
+                    [type]="EPmInputType.NUMBER"
+                    [unit]="localisations.rateUnit"
+                    [name]="localisations.labels.rate"
+                    [label]="localisations.labels.rate"
+                    [placeholder]="localisations.labels.rate"
+                    [hasError]="producerProfileErrors.rate"
+                    [(value)]="producer.rate"
+                    [required]="true"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-input>
+            </pm-col>
+            <pm-col [gap]="margins.XSmall">
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="localisations.labels.street"
+                    [label]="localisations.labels.street"
+                    [placeholder]="localisations.labels.street"
+                    [required]="true"
+                    [hasError]="producerProfileErrors.street"
+                    [(value)]="producer.street"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-input>
+                <pm-row class="current-producer-profile__zip-code-city-row" template="1fr 1fr" [gap]="margins.Small">
+                    <pm-input
+                        [type]="EPmInputType.TEXT"
+                        [name]="localisations.labels.zipCode"
+                        [label]="localisations.labels.zipCode"
+                        [placeholder]="localisations.labels.zipCode"
+                        [hasError]="producerProfileErrors.zipCode"
+                        [(value)]="producer.zipCode"
+                        [required]="true"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (click)="resetFormErrors()"
+                        (valueChange)="resetFormErrors()"
+                        class="current-producer-profile__input">
+                    </pm-input>
+                    <pm-input
+                        [type]="EPmInputType.TEXT"
+                        [name]="localisations.labels.city"
+                        [label]="localisations.labels.city"
+                        [placeholder]="localisations.labels.city"
+                        [hasError]="producerProfileErrors.city"
+                        [(value)]="producer.city"
+                        [required]="true"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (click)="resetFormErrors()"
+                        (valueChange)="resetFormErrors()"
+                        class="current-producer-profile__input">
+                    </pm-input>
+                </pm-row>
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="localisations.labels.email"
+                    [label]="localisations.labels.email"
+                    [placeholder]="localisations.labels.email"
+                    [required]="true"
+                    [hasError]="producerProfileErrors.email"
+                    [(value)]="producer.email"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-input>
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="localisations.labels.phoneNumber"
+                    [label]="localisations.labels.phoneNumber"
+                    [placeholder]="localisations.labels.phoneNumber"
+                    [required]="true"
+                    [hasError]="producerProfileErrors.phoneNumber"
+                    [(value)]="producer.phoneNumber"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-input>
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="localisations.labels.contactPersonFullName"
+                    [label]="localisations.labels.contactPersonFullName"
+                    [placeholder]="localisations.labels.contactPersonFullName"
+                    [required]="true"
+                    [hasError]="producerProfileErrors.contactPersonFullName"
+                    [(value)]="producer.contactPersonFullName"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (click)="resetFormErrors()"
+                    (valueChange)="resetFormErrors()"
+                    class="current-producer-profile__input">
+                </pm-input>
+            </pm-col>
+        </pm-row>
+        <div class="current-producer-profile__parameters-title">
+            {{localisations.parameterTitle}}
+        </div>
+        <div class="current-producer-profile__parameters">
+            <div *ngFor="let rating of producer.producerRatings"
+                 class="current-producer-profile__parameter">
+                <pm-icon
+                    [icon]="Icon.STAR_RATE"
+                    [size]="IconSize.S">
+                </pm-icon>
+                <span *ngIf="rating.type"
+                      class="current-producer-profile__parameter-title">
+                    {{ rating.type }}{{localisations.ratingTitleSeparation}}
+                </span>
+                <span class="current-producer-profile__parameter-rating">
+                    {{ rating.rating | ratingOf : producerRatingMaxValue }}
+                </span>
+            </div>
+        </div>
+        <div footer class="current-producer-profile__footer">
+            <pm-button
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.labels.cancel"
+                (onClicked)="onCancelClick()"
+                class="current-producer-profile__cancel">
+            </pm-button>
+            <pm-button
+                [type]="ButtonType.PRIMARY"
+                [label]="localisations.labels.save"
+                (onClicked)="onSaveClick()">
+            </pm-button>
+        </div>
+    </pm-popup>
+</div>

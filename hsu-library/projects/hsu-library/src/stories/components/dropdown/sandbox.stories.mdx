@@ -1,0 +1,110 @@
+import { moduleMetadata } from '@storybook/angular';
+import { ArgsTable, Canvas, Description, Meta, Story, Source } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { PmDropdownComponent } from "../../../lib/components/pm-dropdown/pm-dropdown.component";
+import { DropdownData } from './dropdown.data';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Dropdown/Sandbox" component={PmDropdownComponent} argTypes={{
+    label: {
+        description: 'The label above the dropdown',
+        table: {
+            category: 'Texts',
+        },
+    },
+    name: {
+        description: 'The name of the dropdown',
+        table: {
+            category: 'Texts',
+        },
+    },
+    placeholder: {
+        description: 'The placeholder text',
+        table: {
+            category: 'Texts',
+        },
+    },
+    value: {
+        description: 'The selected value in the input',
+        table: {
+            category: 'Texts',
+        },
+    },
+    margin: {
+        description: 'Defines the margin of the input',
+        table: {
+            category: 'Texts',
+        },
+    },
+    active: {
+        description: 'active state',
+        table: {
+            category: 'Pseudo',
+        },
+    },
+    disabled: {
+        description: 'disabled state',
+        table: {
+            category: 'Pseudo',
+        },
+    },
+    hovered: {
+        description: 'hovered state',
+        table: {
+            category: 'Pseudo',
+        },
+    },
+    required: {
+        description: 'Defines if the dropdown is required',
+        table: {
+            category: 'State',
+        },
+    },
+    searchable: {
+        description: 'Defines if the dropdown options are searchable',
+        table: {
+            category: 'State',
+        },
+    },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmDropdownComponent)),
+]} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}}/>
+
+<Description of={PmDropdownComponent}/>
+
+export const actionsData = {
+    onOpen: action('dropdown open'),
+    onClose: action('dropdown close'),
+    onSelect: action('dropdown select'),
+    onFilterOptions: action('dropdown filter options'),
+};
+export const Template = args => ({
+    props: {
+        ...DropdownData,
+        ...args,
+        ...actionsData,
+    },
+});
+
+This contains the **Inputs-Sandbox**.
+
+## Sandbox
+
+<Story name="Sandbox">
+    {Template.bind({})}
+</Story>
+<Source dark>
+    {Template.bind({})}
+</Source>
+
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+[![XD-Dropdown](https://img.shields.io/badge/-Dropdown-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

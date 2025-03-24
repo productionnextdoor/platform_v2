@@ -1,0 +1,38 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from '../../../ComponentDependencies';
+import { PmOrderDetailsAdminComponent } from '../../../../lib/layouts/pm-order-details/pm-order-details-admin/pm-order-details-admin.component';
+import { orderDetailsAdminData } from './order-details-admin.data';
+import { storybookHelper } from '../../../StorybookHelper';
+
+
+<Meta title="Layouts/Order-Details/OrderDetailsAdmin" component={PmOrderDetailsAdminComponent} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmOrderDetailsAdminComponent)),
+]}/>
+
+<Description of={PmOrderDetailsAdminComponent}/>
+<Description markdown={`# Order Details Admin `}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-order-details-admin', {
+    ...orderDetailsAdminData,
+});
+
+
+## Order Details Admin
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+## Design
+[![XD-OrderDetailsAdmin](https://img.shields.io/badge/-OrderDetailsAdmin-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/b3f82606-958f-443f-99a3-9afdd9e2cfc7-e6ab/screen/d14e0ea9-8557-4645-bf15-d9479bb966e5/)

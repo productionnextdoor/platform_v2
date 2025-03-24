@@ -1,0 +1,24 @@
+<pm-producer-overview
+    [loading]="loading"
+    [showDetailsColumn]="canViewProducerProfile()"
+    [localisationStrings]="overviewLocalisations"
+    [columnHeaders]="columnHeaders"
+    [rowData]="rowData"
+    [currentPage]="paginationData.CurrentPage"
+    [totalItems]="totalItems"
+    [itemsPerPageOptions]="itemsPerPageOptions"
+    [showInviteButton]="isAdmin"
+    (onSortingClicked)="onSortingClicked($event)"
+    (onPageClicked)="onPageClicked($event)"
+    (onSearchTermChanged)="onSearchTermChanged($event)"
+    (onActionClicked)="onViewProducerDetails($event)"
+    (onInviteButtonClicked)="openInvitePopup()"
+/>
+
+<pm-invite-producer-popup
+    *ngIf="showInvitePopup"
+    [localisations]="popupLocalisations"
+    [tradeOptions]="tradeDropdownOptions"
+    (onClose)="closeInvitePopup()"
+    (onInvite)="onInviteProducer($event)"
+/>

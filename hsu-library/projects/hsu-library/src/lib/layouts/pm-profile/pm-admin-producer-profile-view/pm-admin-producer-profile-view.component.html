@@ -1,0 +1,84 @@
+<div class="admin-producer-profile-view">
+    <pm-header
+        [breadcrumbs]="breadcrumbs">
+    </pm-header>
+    <pm-card [hasHeader]="false"
+             [contentPadding]="true">
+
+        <div class="admin-producer-profile-view__top-bar">
+            <pm-badge
+                *ngIf="producer.status"
+                class="admin-producer-profile-view__badge"
+                [text]="getBadgeText()"
+                [negative]="producer.status !== EUserStatus.Active">
+            </pm-badge>
+            <div class="admin-producer-profile-view__actions">
+                <pm-button
+                    class="admin-producer-profile-view__action-button"
+                    [type]="ButtonType.ICON"
+                    [icon]="Icon.GROUP"
+                    (onClicked)="this.onImpersonateButtonClick.emit()"/>
+                <pm-button
+                    *ngIf="producer.status !== EUserStatus.Invited"
+                    class="admin-producer-profile-view__action-button"
+                    [type]="ButtonType.ICON"
+                    [icon]="Icon.EDIT"
+                    (onClicked)="this.onEditButtonClick.emit()"/>
+                <pm-button
+                    *ngIf="producer.status === EUserStatus.Invited"
+                    class="admin-producer-profile-view__action-button"
+                    [type]="ButtonType.ICON"
+                    [icon]="Icon.DELETE"
+                    (onClicked)="this.onDeleteButtonClick.emit()"/>
+            </div>
+        </div>
+
+        <pm-text [type]="TextType.H3"
+                 [margin]="firstTitleMargin">
+            {{ localisations.companyInformationTitle }}
+        </pm-text>
+        <div class="admin-producer-profile-view__section">
+            <div *ngFor="let entry of companySectionData">
+                <pm-text [type]="TextType.COPY_M1">
+                    <span class="admin-producer-profile-view__property-label">
+                        {{ entry.key }}
+                    </span>
+                    {{ entry.value }}
+                </pm-text>
+            </div>
+        </div>
+
+        <pm-text [type]="TextType.H3"
+                 [margin]="defaultTitleMargin">
+            {{ localisations.parameterTitle }}
+        </pm-text>
+        <div *ngIf="this.producer.producerRatings"
+            class="admin-producer-profile-view__section admin-producer-profile-view__section--rating">
+            <div *ngFor="let rating of producer.producerRatings">
+                <span class="admin-producer-profile-view__property-label" *ngIf="rating.type">
+                    <pm-icon class="admin-producer-profile-view__rating-icon"
+                             [icon]="Icon.STAR_RATE"
+                             [size]="IconSize.S">
+                    </pm-icon>
+                    {{ rating.type }}{{ localisations.ratingTitleSeparation }}
+                </span>
+                {{ rating.rating | ratingOf : ratingMaxValue }}
+            </div>
+        </div>
+
+        <pm-text [type]="TextType.H3"
+                 [margin]="defaultTitleMargin">
+            {{ localisations.productsAndServicesTitle }}
+        </pm-text>
+        <div class="admin-producer-profile-view__section">
+            <div *ngFor="let entry of productsAndServicesSectionData">
+                <pm-text [type]="TextType.COPY_M1">
+                    <span class="admin-producer-profile-view__property-label">
+                        {{ entry.key }}
+                    </span>
+                    {{ entry.value }}
+                </pm-text>
+            </div>
+        </div>
+    </pm-card>
+</div>

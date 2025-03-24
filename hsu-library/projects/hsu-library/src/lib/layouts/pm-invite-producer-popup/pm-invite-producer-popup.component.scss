@@ -1,0 +1,19 @@
+@use '../../styles/utils/functions' as f;
+
+.invite-producer-popup {
+  &__form {
+    margin: f.rem(40) 0 f.rem(16);
+
+    &-title {
+      margin-bottom: f.rem(24);
+    }
+  }
+
+  &__footer {
+    text-align: right;
+  }
+
+  &__button {
+    margin-left: f.rem(24);
+  }
+}

@@ -1,0 +1,39 @@
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { PmWorkStepPopupComponent } from "../../../lib/layouts/pm-work-step-popup/pm-work-step-popup.component";
+import { workStepPopupData } from "./work-step-popup.data";
+
+
+
+<Meta title="Layouts/WorkStepPopup/WorkStepPopup" component={PmWorkStepPopupComponent} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmWorkStepPopupComponent))
+]}/>
+
+<Description of={PmWorkStepPopupComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...workStepPopupData,
+        ...args,
+    },
+});
+
+# Work Step Popup
+
+This contains the story for the layout **Work Step Popup**.
+
+<Canvas withToolbar>
+    <Story name="Default" height={'700px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-WorkStepPopup](https://img.shields.io/badge/-WorkStepPopup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/e57bf720-89e3-4a84-bf53-1d2c827de594-b028/screen/4b5431ee-2800-4717-a86a-b3217b85843c/)

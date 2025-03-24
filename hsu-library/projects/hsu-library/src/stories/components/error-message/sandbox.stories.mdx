@@ -1,0 +1,45 @@
+import {
+    ArgsTable,
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmErrorMessageComponent } from "../../../lib/components/pm-error-message/pm-error-message.component";
+import { errorMessageData } from "./error-message.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/ErrorMessage/Sandbox" component={PmErrorMessageComponent} argTypes={{}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmErrorMessageComponent))
+]} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}}/>
+
+<Description of={PmErrorMessageComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...errorMessageData,
+        ...args,
+    },
+});
+
+This contains the **Input-Error-Message-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+[![XD-Inputfields-And-Dropdowns](https://img.shields.io/badge/-Inputfields_and_Dropdowns-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

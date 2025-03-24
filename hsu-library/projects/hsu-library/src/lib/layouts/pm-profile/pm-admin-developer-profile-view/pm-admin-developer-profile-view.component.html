@@ -1,0 +1,66 @@
+<div class="admin-developer-profile-view">
+    <pm-header
+        [breadcrumbs]="breadcrumbs">
+    </pm-header>
+    <pm-card [hasHeader]="false"
+             [contentPadding]="true">
+
+        <div class="admin-developer-profile-view__top-bar">
+            <pm-badge
+                *ngIf="developer.status"
+                class="admin-producer-profile-view__badge"
+                [text]="getBadgeText()"
+                [negative]="developer.status !== EUserStatus.Active">
+            </pm-badge>
+            <div class="admin-developer-profile-view__actions">
+                <pm-button
+                    class="admin-developer-profile-view__action-button"
+                    [type]="ButtonType.ICON"
+                    [icon]="Icon.GROUP"
+                    (onClicked)="this.onImpersonateButtonClick.emit()"/>
+                <pm-button
+                    *ngIf="developer.status !== EUserStatus.Invited"
+                    class="admin-developer-profile-view__action-button"
+                    [type]="ButtonType.ICON"
+                    [icon]="Icon.EDIT"
+                    (onClicked)="this.onEditButtonClick.emit()"/>
+                <pm-button
+                    *ngIf="developer.status === EUserStatus.Invited"
+                    class="admin-developer-profile-view__action-button"
+                    [type]="ButtonType.ICON"
+                    [icon]="Icon.DELETE"
+                    (onClicked)="this.onDeleteButtonClick.emit()"/>
+            </div>
+        </div>
+
+        <pm-text [type]="TextType.H3"
+                 [margin]="firstTitleMargin">
+            {{ localisations.generalInformationTitle }}
+        </pm-text>
+        <div class="admin-developer-profile-view__section">
+            <div *ngFor="let entry of companySectionData">
+                <pm-text [type]="TextType.COPY_M1">
+                    <span class="admin-developer-profile-view__property-label">
+                        {{ entry.key }}
+                    </span>
+                    {{ entry.value ?? localisations.placeholderValue }}
+                </pm-text>
+            </div>
+        </div>
+
+        <pm-text [type]="TextType.H3"
+                 [margin]="defaultTitleMargin">
+            {{ localisations.productInformationTitle }}
+        </pm-text>
+        <div class="admin-developer-profile-view__section">
+            <div *ngFor="let entry of productsAndServicesSectionData">
+                <pm-text [type]="TextType.COPY_M1">
+                    <span class="admin-developer-profile-view__property-label">
+                        {{ entry.key }}
+                    </span>
+                    {{ entry.value ?? localisations.placeholderValue }}
+                </pm-text>
+            </div>
+        </div>
+    </pm-card>
+</div>

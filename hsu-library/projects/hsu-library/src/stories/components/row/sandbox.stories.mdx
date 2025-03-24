@@ -1,0 +1,56 @@
+import { ArgsTable, Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from "@storybook/angular";
+
+import { PmButtonComponent } from "../../../lib/components/pm-button/pm-button.component";
+import { PmInputComponent } from "../../../lib/components/pm-input/pm-input.component";
+import { DEFAULT_ROW_GAP, PmRowComponent } from "../../../lib/components/pm-row/pm-row.component";
+import { PmTextComponent } from "../../../lib/components/pm-text/pm-text.component";
+import { storybookHelper } from "../../StorybookHelper";
+import { rowData } from "./row.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Row/Sandbox" component={PmRowComponent} argTypes={{
+    gap: {
+        description: 'Gap between the columns',
+        table: {
+            defaultValue: {summary: DEFAULT_ROW_GAP},
+            category: 'Text',
+        },
+    },
+    template: {
+        description: 'grid template to define the width for each column',
+        table: {
+            category: 'Text',
+        },
+    },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(
+        PmRowComponent,
+        [
+            PmInputComponent,
+            PmTextComponent,
+            PmButtonComponent
+        ]
+    )),
+]} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}}/>
+
+<Description of={PmRowComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-row', rowData);
+
+This contains the **row-Sandbox**
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>

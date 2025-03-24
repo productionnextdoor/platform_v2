@@ -1,0 +1,40 @@
+<div class="value-chain-table">
+    <pm-background-card
+        [title]="localisations.cardTitle"
+        [datepickerOnlyDate]="true"
+        [datepickerDate]="lastCalculationDate"
+        [datepickerTitle]="localisations.datepickerTitle"
+        [collapsible]="true"
+        [noShadow]="true"
+    >
+        <div class="value-chain-table__description">
+            <pm-text
+                [type]="TextType.COPY_M1"
+            >
+                {{localisations.description}}
+            </pm-text>
+        </div>
+
+       <div class="value-chain-table__table">
+           <pm-table
+               [loading]="loading"
+               [columnHeaders]="columnHeaders"
+               [checkboxesDisabled] = "editDisabled"
+               [(rows)]="rowData"
+               (onSort)="sortingClicked($event)"
+               (onCheckboxStateChange)="onToggleValueChainsActive.emit($event)"
+               (onActionClicked)="onSelectValueChain.emit($event)"
+           />
+       </div>
+
+        <div class="value-chain-table__pagination">
+            <pm-pagination
+                [totalItems]="totalItems"
+                [totalText]="localisations.paginationTotalText"
+                [currentPage]="paginationData.CurrentPage"
+                [itemsPerPageOptions]="itemsPerPageOptions"
+                (onShowPage)="paginationChanged($event)"
+            />
+        </div>
+    </pm-background-card>
+</div>

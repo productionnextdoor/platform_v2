@@ -1,0 +1,17 @@
+<pm-workstep-table
+    [loading]="workStepLoading"
+    [noShadow]="true"
+    [localisations]="localisations"
+    [rowData]="workStepRowData"
+    [columnHeaders]="workStepColumnHeaders"
+    [totalItems]="totalItemsWorkSteps"
+    (onSortingClicked)="onSortWorkStepClicked($event)"
+    (onActionClicked)="onWorkStepClick($event)"
+/>
+
+<pm-work-step-popup
+    *ngIf="showPopup"
+    [workStepData]="popupWorkStepData"
+    [localisations]="popupLocalisations"
+    (onReturn)="showPopup = false"
+></pm-work-step-popup>

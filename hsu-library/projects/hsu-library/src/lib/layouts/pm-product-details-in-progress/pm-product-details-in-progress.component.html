@@ -1,0 +1,13 @@
+<pm-text
+    [type]="TextType.COPY_M1"
+    [margin]="descriptionMargin"
+>
+    {{ localisations.description }}
+</pm-text>
+<pm-text
+    [type]="TextType.COPY_M2"
+>
+    <span class="product-in-progress__label"> {{ localisations.lastEditTitle }}</span>
+    <span class="product-in-progress__date"> {{ lastEditDate }}</span>
+</pm-text>
+

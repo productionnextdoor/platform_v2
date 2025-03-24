@@ -1,0 +1,89 @@
+import {
+    ArgsTable,
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmCalendarComponent } from "../../../lib/components/pm-calendar/pm-calendar.component";
+import { CalendarData } from './Calendar.data';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Calendar/Sandbox" component={PmCalendarComponent} argTypes={{
+    value: {
+        description: 'The selected date (Default of 01.01.1970)',
+        control: {type: 'date'},
+        table: {
+            category: 'Data',
+        },
+    },
+    activeDate: {
+        description: 'Defines the date used to determine which month to show',
+        table: {
+            category: 'Data',
+        },
+    },
+    disabled: {
+        description: 'disabled state',
+        table: {
+            category: 'Pseudo',
+        },
+    },
+    onInit: {
+        description: 'emitted when input changes',
+        table: {
+            category: 'Event',
+        },
+    },
+    onSelect: {
+        description: 'emitted when enter is clicked',
+        table: {
+            category: 'Event',
+        },
+    },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmCalendarComponent))
+]} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}}/>
+
+<Description of={PmCalendarComponent}/>
+
+export const actionsData = {
+    onInput: action('input to field:'),
+    onEnter: action('on enter clicked:'),
+    onClick: action('on click'),
+    onEmpty: action('on empty'),
+};
+export const Template = args => ({
+    props: {
+        ...args,
+        onInput: actionsData.onInput,
+        onEnter: actionsData.onEnter,
+        onClick: actionsData.onClick,
+        onEmpty: actionsData.onEmpty,
+    },
+});
+
+This contains the **Calendar-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox" args={{
+        ...CalendarData
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+[![XD-Calendar](https://img.shields.io/badge/-Calendar-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

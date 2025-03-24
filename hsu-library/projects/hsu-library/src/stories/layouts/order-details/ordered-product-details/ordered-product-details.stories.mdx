@@ -1,0 +1,44 @@
+import { 
+    Canvas, 
+    Description, 
+    Meta, 
+    Story 
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from '../../../ComponentDependencies';
+import { PmOrderedProductDetailsComponent } from '../../../../lib/layouts/pm-order-details/pm-ordered-product-details/pm-ordered-product-details.component';
+import { orderedProductDetailsCardDara } from './ordered-product-details.data';
+
+
+
+<Meta title="Layouts/Order-Details/OrderedProductDetails" component={PmOrderedProductDetailsComponent} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmOrderedProductDetailsComponent))
+]}/>
+
+<Description of={PmOrderedProductDetailsComponent}/>
+
+# OrderedProductDetails
+export const Template = args => ({
+    props: {
+        ...orderedProductDetailsCardDara,
+        ...args,
+    },
+});
+
+
+This contains the story for the layout **PmOrderedProductDetailsComponent**.
+
+<Canvas withToolbar>
+    <Story name="Default" height={'700px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-OrderedProductDetails](https://img.shields.io/badge/-OrderedProductDetails-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/b3f82606-958f-443f-99a3-9afdd9e2cfc7-e6ab/screen/d14e0ea9-8557-4645-bf15-d9479bb966e5/)

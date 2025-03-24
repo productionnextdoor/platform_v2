@@ -1,0 +1,140 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmDropdownComponent } from "../../../lib/components/pm-dropdown/pm-dropdown.component";
+import { DropdownData } from './dropdown.data';
+import { PmComponentMargin } from "../../../lib/utils/pm-component-margin";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Dropdown/Dropdown" component={PmDropdownComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmDropdownComponent)),
+    //👇 Wraps our stories with a decorator
+    componentWrapperDecorator(story => `<div style="margin-bottom: 250px;">${story}</div>`),
+]}/>
+
+<Description of={PmDropdownComponent}/>
+
+export const actionsData = {
+    onOpen: action('dropdown open'),
+    onClose: action('dropdown close'),
+    onSelect: action('dropdown select'),
+    onFilterOptions: action('dropdown filter options'),
+};
+export const Template = args => ({
+    props: {
+        ...DropdownData,
+        ...args,
+        ...actionsData,
+    },
+});
+
+## Dropdown
+
+> **Note:** Dropdowns are not working properly in Storybook Docs. Please use the specific stories to see the dropdowns in action.
+Due to that issue, the dropdown popups are not positioned correctly.
+This is caused by the Zoom in Storybook (or to be more precise, its CSS `transform` property in combination with the JavaScript function `getBoundingClientRect()`).
+
+<br/>
+### Dropdown Demo
+<Story name="Demo" parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}}>
+    {Template.bind({})}
+</Story>
+### Dropdown Default
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+### Dropdown Hovered
+<Canvas withToolbar>
+    <Story name="Hovered" args={{
+        hovered: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+### Dropdown Active
+<Canvas withToolbar>
+    <Story name="Active" args={{
+        active: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+### Dropdown Selected
+<Canvas withToolbar>
+    <Story name="Selected" args={{
+        value: '3'
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+### Dropdown Searchable
+<Canvas withToolbar>
+    <Story name="Searchable" args={{
+        searchable: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+### Dropdown Required
+<Canvas withToolbar>
+    <Story name="Required" args={{
+        required: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+### Dropdown Disabled
+<Canvas withToolbar>
+    <Story name="Disabled" args={{
+        disabled: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+### Dropdown Error
+<Canvas withToolbar>
+    <Story name="Error" args={{
+        hasError: true,
+        value: '3',
+        errorMessages: ['Error Message']
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+## Dropdown Margin
+
+> **Note**: The margin @Input() utilizes the `CMargin` class to replicate the behavior of CSS margins.\
+> For instance, in CSS, we often use declarations like `margin: 30px 60px;` or `margin: 10px 30px 20px;`.\
+> So by using CMargin class, you can achieve the same effect by using `new CMargin(30, 60)` or `new CMargin(10, 30, 20)`.\
+> This provides a more structured and programmatic way to manage margins within your application.
+
+<Canvas withToolbar>
+    <Story name="margin example-one" args={{
+        margin: new PmComponentMargin(10, 30, 20),
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+<br/><br/>
+
+
+
+## Design
+[![XD-Dropdown](https://img.shields.io/badge/-Dropdown-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

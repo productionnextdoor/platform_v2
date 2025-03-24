@@ -1,0 +1,21 @@
+<div class="request-card">
+    <pm-text
+        [type]="TextType.COPY_M1"
+        [margin]="defaultTextMargin"
+    >{{localisationStrings.cardText}}</pm-text>
+
+    <div footer class="pm-confirm__actions">
+        <pm-button
+            [type]="ButtonType.SECONDARY"
+            [label]="localisationStrings.rejectButtonText"
+            (onClicked)="onButtonClick.emit(false)"
+            class="pm-confirm__action"
+        />
+        <pm-button
+            [type]="ButtonType.PRIMARY"
+            [label]="localisationStrings.acceptButtonText"
+            (onClicked)="onButtonClick.emit(true)"
+            class="pm-confirm__action"
+        />
+    </div>
+</div>

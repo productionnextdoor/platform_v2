@@ -1,0 +1,32 @@
+<pm-admin-developer-profile-view
+    [developer]="developer"
+    [breadcrumbs]="getBreadcrumbs()"
+    [localisations]="viewProfileLocalisation"
+    (onEditButtonClick)="this.openEditPopup()"
+    (onDeleteButtonClick)="openConfirmDeletePopup()"
+    (onImpersonateButtonClick)="openConfirmImpersonationPopup()">
+</pm-admin-developer-profile-view>
+
+<pm-confirm-popup
+    *ngIf="confirmDeletePopupIsActive"
+    [localisations]="confirmDeletePopupLocalisation"
+    (onCancel)="closeConfirmDeletePopup()"
+    (onConfirm)="deleteDeveloper()"
+></pm-confirm-popup>
+
+<pm-confirm-popup
+    *ngIf="confirmImpersonationPopupIsActive"
+    [localisations]="confirmImpersonationPopupLocalisation"
+    (onCancel)="closeConfirmImpersonationPopup()"
+    (onConfirm)="loginAsDeveloper()"
+></pm-confirm-popup>
+
+
+<pm-admin-developer-profile-edit
+    *ngIf="editPopupIsActive"
+    (onCancel)=this.closeEditPopup()
+    (onSave)="saveDeveloper($event)"
+    [localisations]="editProfileLocalisation"
+    [stateDropdownOptions]="stateDropdownOptions"
+    [developer]="developer">
+</pm-admin-developer-profile-edit>

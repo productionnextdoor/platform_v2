@@ -1,0 +1,23 @@
+<div class="tab-card">
+    <div class="tab-card__tabs">
+        <div *ngFor="let tab of tabs" class="tab-card__tabs-tab" [ngClass]="{ 'active': tab.active }"
+             (click)="onTabClick(tab)">
+            {{ tab.text }}
+        </div>
+    </div>
+
+    <div
+        class="tab-card__buttons"
+        *ngIf="buttons.length > 0"
+    >
+        <pm-button
+            *ngFor="let button of buttons"
+            [label]="button.text"
+            [value]="button.value"
+            [type]="button.type"
+            [disabled]="button.disabled"
+            [margin]="margin"
+            (onClicked)="onButtonClicked.emit($event)"
+        ></pm-button>
+    </div>
+</div>

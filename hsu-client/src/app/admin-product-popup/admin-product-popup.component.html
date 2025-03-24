@@ -1,0 +1,12 @@
+<div class="container">
+  <pm-product-popup
+    [productModel]="productModel"
+    [popupStrings]="popupStrings"
+    [buttonLabel]="buttonLabel"
+    [optionsDeveloper]="developerOptions"
+    (onSave)="saveProduct()"
+    (onPublish)="publishProduct()"
+    (onClose)="closePopup()"
+  >
+  </pm-product-popup>
+</div>

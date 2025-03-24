@@ -1,0 +1,116 @@
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+
+.checkbox {
+  --checkbox-background-color: #{f.color('neutrals', 1100)};
+  --checkbox-border-color: #{f.color('neutrals', 500)};
+  --checkbox-size: #{f.rem(16)};
+
+  --checkbox-checkmark-left: #{f.rem(4)};
+  --checkbox-checkmark-width: #{f.rem(6)};
+  --checkbox-checkmark-height: #{f.rem(10.5)};
+  --checkbox-checkmark-top: #{f.rem(0)};
+  --checkbox-checkmark-border-radius: #{f.rem(0)};
+  --checkbox-checkmark-border-width: #{0 f.rem(1.5) f.rem(1.5) 0};
+  --checkbox-checkmark-border-rotation: #{rotate(45deg)};
+  --checkbox-checkmark-after-border-color: #{unset};
+  --checkbox-checkmark-cursor: #{pointer};
+  --checkbox-hover-background-color: #{f.color('neutrals', 1100)};
+  --checkbox-hover-border-color: #{f.color('neutrals', 100)};
+  --checkbox-disabled-border-color: #{f.color('neutrals', 500)};
+  --checkbox-error-border-color: #{f.color('semantic', 100)};
+  --checkbox-mark-display: none;
+
+  display: flex;
+
+  &__field {
+    appearance: none;
+    display: inline-block;
+    position: relative;
+    height: var(--checkbox-size);
+    width: var(--checkbox-size);
+    border: f.rem(1) solid var(--checkbox-border-color);
+    @include m.border-radius(f.rem(4));
+    background: var(--checkbox-background-color);
+    cursor: var(--checkbox-checkmark-cursor);
+    vertical-align: text-top;
+    margin-block: f.rem(4);
+    margin-inline: 0 f.rem(8);
+    flex: 0 0 auto;
+
+    // Fix for the checkbox input user-select when appearance is none.
+    font-size: 0;
+
+    &:active ~ &--disabled {
+      --checkbox-background-color: #{f.color('neutrals', 900)};
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      display: var(--checkbox-mark-display);
+      left: var(--checkbox-checkmark-left);
+      top: var(--checkbox-checkmark-top);
+      width: var(--checkbox-checkmark-width);
+      height: var(--checkbox-checkmark-height);
+      border: solid var(--checkbox-checkmark-after-border-color);
+      border-width: var(--checkbox-checkmark-border-width);
+      @include m.border-radius(var(--checkbox-checkmark-border-radius));
+      @include m.transform(scale(0.9) var(--checkbox-checkmark-border-rotation));
+    }
+  }
+
+  &__label {
+    @include fonts.apply-font-copy-m1();
+    @include m.user-select(none);
+  }
+
+  &--checked,
+  &--checkedmulti {
+    --checkbox-background-color: #{f.color('primary', 100)};
+    --checkbox-checkmark-after-border-color: #{f.color('neutrals', 1100)};
+    --checkbox-border-color: #{f.color('primary', 100)};
+    --checkbox-hover-background-color: #{f.color('primary', 100)};
+    --checkbox-hover-border-color: #{f.color('primary', 100)};
+    --checkbox-disabled-border-color: #{f.color('neutrals', 700)};
+    --checkbox-mark-display: block;
+  }
+
+  &--checkedmulti {
+    --checkbox-checkmark-left: #{f.rem(2)};
+    --checkbox-checkmark-width: #{f.rem(10)};
+    --checkbox-checkmark-height: f.rem(1);
+    --checkbox-checkmark-border-width: #{0 0 f.rem(1.5) 0};
+    --checkbox-checkmark-border-rotation: #{0};
+    --checkbox-checkmark-top: #{f.rem(6)};
+    --checkbox-checkmark-border-radius: #{f.rem(0)};
+  }
+
+  &--disabled {
+    --checkbox-border-color: var(--checkbox-disabled-border-color);
+    --checkbox-background-color: #{f.color('neutrals', 700)};
+    --checkbox-hover-background-color: #{f.color('primary', 700)};
+    --checkbox-hover-border-color: #{f.color('neutrals', 500)};
+    --checkbox-checkmark-after-border-color: #{f.color('neutrals', 500)};
+    --checkbox-checkmark-cursor: default;
+    pointer-events: none;
+  }
+
+  &--hasError {
+    --checkbox-border-color: var(--checkbox-error-border-color);
+    --checkbox-background-color: var(--checkbox-background-color);
+    --checkbox-checkmark-after-border-color: var(--checkbox-error-border-color);
+  }
+
+  &--hasError#{&}--hovered, &--hasError#{&}:hover {
+    --checkbox-border-color: var(--checkbox-error-border-color);
+    --checkbox-background-color: #{f.color('neutrals', 900)};
+  }
+
+  &--hovered, &:hover {
+    --checkbox-border-color: var(--checkbox-hover-border-color);
+    --checkbox-background-color: var(--checkbox-hover-background-color);
+  }
+}

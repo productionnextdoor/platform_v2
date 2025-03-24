@@ -1,0 +1,54 @@
+<div class="grid"
+     [ngClass]="{
+         'grid--fullscreen': isFullScreen
+     }"
+>
+    <div class="grid__navigation"
+         [ngClass]="{
+            'grid__navigation--open': menuExpanded && !isFullScreen,
+            'grid__navigation--fullscreen': isFullScreen,
+        }"
+    >
+        <div class="grid__navigation-inner">
+            <div class="grid__navigation-sidebar">
+                <ng-content select="[sidebar]"/>
+            </div>
+            <div class="grid__navigation-menu">
+                <div class="grid__navigation-menu-inner">
+                    <ng-content select="[menu]"/>
+                </div>
+            </div>
+            <pm-button
+                class="grid__navigation-toggle"
+                [type]="ButtonType.ICON_GREEN"
+                [icon]="Icon.ARROW"
+                [iconRotation]="menuExpanded ? 180 : 0"
+                (click)="onClickToggleMenu()"
+            />
+            <pm-button
+                class="grid__navigation-close"
+                [type]="ButtonType.ICON"
+                [icon]="Icon.CLOSE"
+                (click)="onClickCloseNavigation()"
+            />
+        </div>
+    </div>
+
+    <div class="grid__wrapper"
+         [ngClass]="{
+            'grid__overlay': menuExpanded && !isFullScreen,
+         }"
+    >
+        <div class="grid__header">
+            <pm-button
+                class="grid__open"
+                [type]="ButtonType.ICON"
+                [icon]="Icon.BURGER_MENU"
+                (click)="onClickOpenNavigation()"
+            />
+        </div>
+        <div class="grid__content">
+            <ng-content/>
+        </div>
+    </div>
+</div>

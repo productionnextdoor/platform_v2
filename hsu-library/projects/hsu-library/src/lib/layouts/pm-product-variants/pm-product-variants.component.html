@@ -1,0 +1,114 @@
+<pm-banner *ngIf="isBannerVisible"
+    [bannerText]="localisations.bannerText"
+    [bannerType]="EBannerType.INFO"
+    (onCloseBanner)="onCLoseBanner()"
+/>
+<pm-text
+    [type]="ETextType.H3"
+    [margin]="isAdminView ? titleMarginWithoutDescription : titleMargin"
+>{{localisations.titleText}}</pm-text>
+<pm-text
+    *ngIf="!isAdminView"
+    [type]="ETextType.COPY_M1"
+    [margin]="descriptionMargin"
+>{{localisations.descriptionText}}</pm-text>
+<pm-row template="1fr 1fr 1fr" [gap]="margins.XLarge">
+    <pm-col template="1fr" [gap]="margins.XSmall">
+        <pm-text [type]="ETextType.H4">{{localisations.measurementVariantsTitle}}</pm-text>
+        <ng-container *ngFor="let measurement of measurements; let i = index">
+            <pm-row [gap]="margins.Small" template="1fr auto">
+                <pm-col [gap]="margins.XSmall">
+                    <pm-input
+                        [type]="EPmInputType.NUMBER"
+                        [name]="'height_' + i"
+                        [inputId]="'height_' + i"
+                        [label]="localisations.heightLabel"
+                        [placeholder]="localisations.heightPlaceholder"
+                        [(value)]="measurement.height"
+                        [unit]="'cm'"
+                        [required]="true"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="validateFormData()"
+                    />
+                    <pm-input
+                        [type]="EPmInputType.NUMBER"
+                        [name]="'width_' + i"
+                        [inputId]="'width_' + i"
+                        [label]="localisations.widthLabel"
+                        [placeholder]="localisations.widthPlaceholder"
+                        [(value)]="measurement.width"
+                        [unit]="'cm'"
+                        [required]="true"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="validateFormData()"
+                    />
+                    <pm-input
+                        [type]="EPmInputType.NUMBER"
+                        [name]="'depth_' + i"
+                        [inputId]="'depth_' + i"
+                        [label]="localisations.depthLabel"
+                        [placeholder]="localisations.depthPlaceholder"
+                        [(value)]="measurement.depth"
+                        [unit]="'cm'"
+                        [required]="true"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="validateFormData()"
+                    />
+                </pm-col>
+                <pm-button
+                    [type]="EButtonType.ICON"
+                    [icon]="EIcon.DELETE"
+                    [margin]="deleteBtnMargin"
+                    (onClicked)="deleteMeasurement(i)"
+                />
+            </pm-row>
+        </ng-container>
+        <pm-button
+            [type]="EButtonType.ICON"
+            [icon]="EIcon.ADD"
+            (onClicked)="addMeasurement()"
+        />
+    </pm-col>
+    <pm-col template="1fr" [gap]="margins.XSmall">
+        <pm-text [type]="ETextType.H4">{{localisations.workPieceVariantsTitle}}</pm-text>
+        <ng-container *ngFor="let workPieceVariant of workPieceVariants; let i = index">
+            <pm-row [gap]="margins.Small" template="1fr auto">
+                <pm-col [gap]="margins.XSmall">
+                    <pm-dropdown
+                        [label]="localisations.workPieceDropdownLabel"
+                        [placeholder]="localisations.workPieceDropdownPlaceholder"
+                        [options]="workPieceOptions"
+                        [(value)]="workPieceVariant.workPieceId"
+                        [required]="true"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="validateFormData()"
+                    />
+                    <pm-input
+                        [required]="true"
+                        [disabled]="workPieceVariant.workPieceId < 1"
+                        [type]="EPmInputType.TEXT"
+                        [name]="'materialType_' + i"
+                        [inputId]="'materialType_' + i"
+                        [label]="localisations.workPieceVariantLabel"
+                        [placeholder]="localisations.workPieceVariantPlaceholder"
+                        [(value)]="workPieceVariant.description"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="validateFormData()"
+                    />
+                </pm-col>
+                <pm-button
+                    [type]="EButtonType.ICON"
+                    [icon]="EIcon.DELETE"
+                    [margin]="deleteBtnMargin"
+                    (onClicked)="deleteWorkPieceVariant(i)"
+                />
+            </pm-row>
+        </ng-container>
+        <pm-button
+            [type]="EButtonType.ICON"
+            [icon]="EIcon.ADD"
+            (onClicked)="addWorkPieceVariant()"
+        />
+    </pm-col>
+</pm-row>
+

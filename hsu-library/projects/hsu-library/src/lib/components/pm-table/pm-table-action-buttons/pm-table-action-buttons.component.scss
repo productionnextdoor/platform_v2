@@ -1,0 +1,17 @@
+@use '../../../styles/utils/functions' as f;
+
+.action-container {
+  display: flex;
+  flex-wrap: nowrap;
+
+  &__button {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &--disabled {
+    color: #{f.color('neutrals', 700)};
+    pointer-events: none;
+  }
+}

@@ -1,0 +1,166 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.pm-dropdown {
+  // Dropdown General
+  --dropdown-size: #{f.rem(48)};
+  --dropdown-border-radius: #{f.rem(8)};
+  --dropdown-border-width: #{f.rem(1)};
+  --dropdown-border-color: #{f.color(neutrals, 500)};
+  --dropdown-bg-color: #{f.color(neutrals, 1100)};
+  --dropdown-margin: 0;
+
+  // Dropdown Head
+  --dropdown-placeholder-color: #{f.color(neutrals, 500)};
+  --dropdown-value-color: var(--dropdown-placeholder-color);
+  --dropdown-search-color: #{f.color(neutrals, 100)};
+  --dropdown-option-head-cursor: pointer;
+
+  // Dropdown Arrow
+  --dropdown-arrow-color: #{f.color(neutrals, 100)};
+  --dropdown-arrow-rotate: 0deg;
+
+  // Dropdown Options
+  --dropdown-options-max-items: 5;
+
+  // Dropdown Option
+  --dropdown-option-size: #{f.rem(48)};
+  --dropdown-option-padding-x: #{f.rem(16)};
+  --dropdown-option-bg-color: #{f.color(neutrals, 1100)};
+  --dropdown-option-hover-bg-color: #{f.color(primary, 500)};
+  --dropdown-option-selected-bg-color: #{f.color(primary, 500)};
+
+  @include fonts.font-copy-m1();
+
+  position: relative;
+  margin: var(--dropdown-margin);
+  padding: 0;
+  border: none;
+
+  &--hover, &--focus {
+    --dropdown-border-color: #{f.color(neutrals, 100)};
+  }
+
+  &--filled {
+    --dropdown-value-color: #{f.color(neutrals, 100)};
+  }
+
+  &--open {
+    --dropdown-border-color: #{f.color(neutrals, 100)};
+    --dropdown-arrow-rotate: 180deg;
+  }
+
+  &--disabled {
+    --dropdown-bg-color: #{f.color(neutrals, 700)};
+    --dropdown-value-color: #{f.color(neutrals, 500)};
+    --dropdown-arrow-color: #{f.color(neutrals, 500)};
+    --dropdown-option-head-cursor: default;
+  }
+
+  &--error {
+    --dropdown-border-color: #{f.color(semantic, 100)};
+    --dropdown-value-color: #{f.color(semantic, 100)};
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  &__label {
+    display: inline-block;
+    margin: 0 0 f.rem(8);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    height: var(--dropdown-size);
+    border: var(--dropdown-border-width) solid var(--dropdown-border-color);
+    background-color: var(--dropdown-bg-color);
+    @include m.border-radius(var(--dropdown-border-radius));
+    overflow: hidden;
+    cursor: var(--dropdown-option-head-cursor);
+    @include m.user-select(none);
+  }
+
+  &__value, &__search {
+    flex: 1 1 auto;
+    padding: 0 f.rem(8);
+    color: var(--dropdown-value-color);
+  }
+
+  &__search {
+    height: 100%;
+    border: none;
+    color: var(--dropdown-search-color);
+
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      opacity: 1;
+      color: var(--dropdown-placeholder-color);
+    }
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 f.rem(16);
+    @include m.transform(rotate(var(--dropdown-arrow-rotate)));
+    color: var(--dropdown-arrow-color);
+    @include m.transition(transform, 0.2s);
+  }
+
+  &__body {
+    position: fixed;
+    inset: 100% 0 auto;
+    border: var(--dropdown-border-width) solid var(--dropdown-border-color);
+    @include m.border-radius(var(--dropdown-border-radius));
+    background-color: f.color(neutrals,1100);
+    z-index: f.z-index('dropdown-list');
+    overflow: hidden;
+  }
+
+  &__options {
+    max-height: calc(var(--dropdown-options-max-items) * var(--dropdown-option-size));
+    margin: 0;
+    padding: 0;
+    overflow: hidden auto;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    height: var(--dropdown-option-size);
+    padding: 0 var(--dropdown-option-padding-x);
+    @include m.border-radius(var(--dropdown-border-radius));
+    background-color: var(--dropdown-option-bg-color);
+    list-style: none;
+    cursor: pointer;
+
+    &:hover, &:focus {
+      --dropdown-option-bg-color: var(--dropdown-option-hover-bg-color);
+    }
+
+    &--selected {
+      &, &:hover, &:focus {
+        --dropdown-option-bg-color: var(--dropdown-option-selected-bg-color);
+      }
+    }
+  }
+
+  &__error {
+    &-messages {
+      min-height: 1lh;
+    }
+
+    &-message {
+      display: inline-block;
+      vertical-align: bottom;
+    }
+  }
+}

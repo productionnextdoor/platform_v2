@@ -1,0 +1,31 @@
+<fieldset
+    class="pm-upload"
+    [ngClass]="{
+        'pm-upload--active': active && !disabled,
+        'pm-upload--hover': hovered && !disabled,
+        'pm-upload--disabled': disabled,
+        'pm-upload--required': required
+    }"
+>
+    <pm-label class="pm-upload__label"
+              *ngIf="uploadLabel"
+              [text]="uploadLabel"
+              [for]="uploadId"
+              [bold]="true"
+              [required]="required"
+    />
+    <div class="pm-upload__field">
+        <pm-icon class="pm-upload__icon"
+                 [icon]="Icon.UPLOAD"
+                 [size]="IconSize.S"
+        />
+        <div class="pm-upload__text" #label></div>
+        <template #urlLabel>
+            <label for='file-input-{{uploadId}}' class="pm-upload__text--url-text">{{ uploadTextLabel }}</label>
+        </template>
+
+        <div class="pm-upload__subtext">{{ fileTag }}</div>
+        <input [disabled]="disabled" id="file-input-{{uploadId}}" type="file" style="display:none" [multiple]="true"
+               (change)="onFileInputChange($event)">
+    </div>
+</fieldset>

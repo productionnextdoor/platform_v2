@@ -1,0 +1,296 @@
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { EPmInputType, PmInputComponent } from "../../../lib/components/pm-input/pm-input.component";
+import { InputData } from './input.data';
+import { PmComponentMargin } from "../../../lib/utils/pm-component-margin";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Input/Inputfield" component={PmInputComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmInputComponent)),
+]}/>
+
+<Description of={PmInputComponent}/>
+
+export const actionsData = {
+    onInput: action('input to field:'),
+    onEmpty: action('on empty'),
+};
+export const Template = args => ({
+    props: {
+        ...InputData,
+        ...args,
+        name: 'example',
+        inputId: 'example',
+        onInput: actionsData.onInput,
+        onEmpty: actionsData.onEmpty,
+    },
+});
+
+# Inputfield
+
+This contains the **Inputfields**.
+
+## Default Inputfield
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Hover" args={{
+        label: 'Hover Input',
+        hovered: true
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Active" args={{
+        label: 'Active Input',
+        active: true
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Required" args={{
+        label: 'Required Input',
+        required: true
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Filled" args={{
+        label: 'Filled Input',
+        value: 'Filled Input'
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Number Input" args={{
+        type: EPmInputType.NUMBER,
+        label: 'Number Input',
+        value: 42
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Disabled" args={{
+        label: 'Disabled Input',
+        disabled: true
+    }}>
+        {Template.bind({})}
+    </Story>
+    
+    <Story name="Error" args={{
+        label: 'Error Input',
+        value: 'Filled Input',
+        hasError: true,
+        errorMessages: ['Error Message']
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Inputfield Unit
+
+<Canvas withToolbar isColumn>
+    <Story name="Unit" args={{
+        unit: 'Stunden',
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Disabled Unit" args={{
+        unit: 'Stunden',
+        disabled: true
+    }}>
+        {Template.bind({})}
+    </Story>
+    
+    <Story name="Error Unit" args={{
+        unit: 'Stunden',
+        value: 4,
+        hasError: true,
+        errorMessages: ['Error Message']
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Search Inputfield
+
+<Canvas withToolbar isColumn>
+    <Story name="Search" args={{
+        type: EPmInputType.SEARCH,
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Disabled Search" args={{
+        type: EPmInputType.SEARCH,
+        disabled: true
+    }}>
+        {Template.bind({})}
+    </Story>
+    
+    <Story name="Error Search" args={{
+        type: EPmInputType.SEARCH,
+        value: 'Filled Search Input',
+        hasError: true,
+        errorMessages: ['Error Message']
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Password Inputfield
+
+<Canvas withToolbar isColumn>
+    <Story name="Password" args={{
+        type: EPmInputType.PASSWORD,
+        showPassword: false,
+        value: 'Geheim'
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Password Shown" args={{
+        type: EPmInputType.PASSWORD,
+        showPassword: true,
+        value: 'Geheim'
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Password Disabled" args={{
+        type: EPmInputType.PASSWORD,
+        disabled: true,
+        value: 'Geheim'
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Password Error" args={{
+        type: EPmInputType.PASSWORD,
+        value: 'Geheim',
+        showPassword: false,
+        hasError: true,
+        errorMessages: ['Error Message']
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Inputfield with Suggestions
+
+<Canvas withToolbar isColumn>
+    <Story name="Suggestions" args={{
+        type: EPmInputType.TEXT,
+        value: 'Sugg',
+        showBody: true,
+        suggestions: ['Suggestion 1', 'Suggestion 2', 'Suggestion 3'],
+    }} height={'500px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Textarea
+
+<Canvas withToolbar isColumn>
+    <Story name="Textarea" args={{
+        type: EPmInputType.TEXTAREA,
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Textarea Disabled" args={{
+        type: EPmInputType.TEXTAREA,
+        disabled: true
+    }}>
+        {Template.bind({})}
+    </Story>
+    
+    <Story name="Textarea Error" args={{
+        value: 'Text Area Filled',
+        type: EPmInputType.TEXTAREA,
+        hasError: true,
+        errorMessages: ['Error Message']
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Datepicker
+
+The canvas height is set, so that the datepicker can be expanded.
+
+### Default Datepicker
+<Canvas withToolbar isColumn>
+    <Story name="Datepicker" args={{
+        type: EPmInputType.DATE,
+    }} height={'390px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+### Datepicker Open
+<Canvas withToolbar isColumn>
+    <Story name="Datepicker Open" args={{
+        type: EPmInputType.DATE,
+        showBody: true,
+        // Set active date to January 2023 for chromatic to not take a screenshot of the current date
+        activeDate: new Date('2023-01-01'),
+    }} height={'390px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+### Datepicker Filled
+<Canvas withToolbar isColumn>
+    <Story name="Datepicker Filled" args={{
+        type: EPmInputType.DATE,
+        value: '06.10.2023',
+    }} height={'390px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+### Datepicker Error
+<Canvas withToolbar isColumn>
+    <Story name="Datepicker Error" args={{
+        type: EPmInputType.DATE,
+        value: '06.10.2023',
+        hasError: true,
+        errorMessages: ['Error Message']
+    }} height={'390px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Inputfield Margin
+
+> **Note**: The margin @Input() utilizes the `CMargin` class to replicate the behavior of CSS margins.\
+> For instance, in CSS, we often use declarations like `margin: 30px 60px;` or `margin: 10px 30px 20px;`.\
+> So by using CMargin class, you can achieve the same effect by using `new CMargin(30, 60)` or `new CMargin(10, 30, 20)`.\
+> This provides a more structured and programmatic way to manage margins within your application.
+
+<Canvas withToolbar isColumn>
+    <Story name="margin example-one" args={{
+        margin: new PmComponentMargin(10, 30, 20),
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="margin example-two" args={{
+        margin: new PmComponentMargin(30, 60),
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-Inputfields](https://img.shields.io/badge/-Inputfields-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

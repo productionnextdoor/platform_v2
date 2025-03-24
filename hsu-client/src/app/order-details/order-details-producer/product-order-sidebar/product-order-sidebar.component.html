@@ -1,0 +1,13 @@
+<pm-product-details-sidebar
+    [sharePointLink]="sharePointLink"
+    [localisations]="localisations"
+    [fileData]="fileData"
+    [uploadCategories]="uploadCategories"
+    [productDataSidebar]="productDataSidebar"
+    [productImagePath]="previewImagePath"
+    [productImagePathFull]="previewImagePathFull"
+    [(sidebarCollapsed)]="sidebarCollapsed"
+    (sidebarCollapsedChange)="sidebarCollapsedChange.emit(sidebarCollapsed)"
+    (onDownload)="downloadAllFiles()"
+    (onClickLink)="openLink()"
+/>

@@ -1,0 +1,14 @@
+@use '../../styles/utils/functions' as f;
+
+.product-in-progress {
+
+  color: f.color(neutrals, 100);
+
+  &__label {
+    color: f.color(neutrals, 500);
+
+    &:after {
+      content: ': ';
+    }
+  }
+}

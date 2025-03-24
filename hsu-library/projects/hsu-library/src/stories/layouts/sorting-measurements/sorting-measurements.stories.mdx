@@ -1,0 +1,35 @@
+import { Meta, Story, Canvas, Description } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { PmSortingMeasurementsComponent } from "../../../lib/layouts/pm-sorting-measurements/pm-sorting-measurements.component";
+import { sortingData } from "./sorting-measurements.data";
+
+
+<Meta title="Layouts/Sorting-Measurement/Sorting-Measurement" component={PmSortingMeasurementsComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmSortingMeasurementsComponent)),
+]}/>
+
+<Description of={PmSortingMeasurementsComponent}/>
+
+
+export const Template = args => ({
+    props: {
+        ...sortingData,
+        ...args,
+    },
+});
+
+## Sorting Measurements
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+## Design
+
+[![XD-SortingMeasurements](https://img.shields.io/badge/-SortingMeasurements-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/702cda57-4349-48fa-910d-dcc072b2ff1d-257f/screen/11778d52-b07f-4324-a7c6-209cc233bdd4/)

@@ -1,0 +1,99 @@
+<pm-card
+    class="request-card"
+    [hasHeader]="true"
+    [title]="orderRequestData.startStateName + ' - ' + orderRequestData.endStateName"
+    [context]="localisations.context"
+    [collapsible]="true"
+    [noShadow]="true"
+    [badgeText]="badgeText"
+    [badgeNegative]="badgeNegative"
+>
+    <pm-text
+        [margin]="descriptionMargin"
+        [type]="TextType.COPY_M1"
+    >
+        {{ localisations.description }}
+    </pm-text>
+
+    <pm-row template="1fr 1fr" [gap]="margins.Large">
+        <div class="request-card__column">
+            <div class="request-card__producer">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="sectionMargin"
+                >
+                    {{ orderRequestData.baseInfo.title }}
+                </pm-text>
+
+                <div *ngFor="let properties of orderRequestData.baseInfo.properties">
+                    <span class="request-card__label">{{ properties.key }}</span>
+                    <span class="request-card__value">{{ properties.value }}</span>
+                </div>
+            </div>
+
+            <div class="request-card__workTime">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="topMargin"
+                >
+                    {{ orderRequestData.workTime.title }}
+                </pm-text>
+                <div *ngFor="let properties of orderRequestData.workTime.properties">
+                    <span class="request-card__label">{{ properties.key }}</span>
+                    <span class="request-card__value">{{ properties.value }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="request-card__column">
+            <div class="request-card__workStep">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="sectionMargin"
+                >
+                    {{ orderRequestData.income.title }}
+                </pm-text>
+
+                <div *ngFor="let properties of orderRequestData.income.properties">
+                    <span class="request-card__label">{{ properties.key }}</span>
+                    <span class="request-card__value">{{ properties.value }}</span>
+                </div>
+            </div>
+
+            <div class="request-card__calculation">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="topMargin"
+                >
+                    {{ orderRequestData.calculation.title }}
+                </pm-text>
+                <div *ngFor="let properties of orderRequestData.calculation.properties">
+                    <span class="request-card__label">{{ properties.key }}</span>
+                    <span class="request-card__value">{{ properties.value }}</span>
+                </div>
+            </div>
+        </div>
+    </pm-row>
+    <div *ngIf="responseNeeded" footer class="request-card__footer">
+        <pm-button
+            [margin]="buttonMargin"
+            [label]="localisations.rejectBtnLabel"
+            [type]="ButtonType.SECONDARY"
+            [disabled]="loading"
+            (onClicked)="onProducerAction(false)"
+        />
+        <pm-button
+            [label]="localisations.acceptBtnLabel"
+            [type]="ButtonType.PRIMARY"
+            [disabled]="loading"
+            (onClicked)="showConfirmPopup = true"
+        />
+    </div>
+</pm-card>
+
+<pm-confirm-popup
+    *ngIf="showConfirmPopup"
+    [localisations]="localisations.confirmPopup"
+    (onCancel)="showConfirmPopup = false"
+    (onConfirm)="onAccept()"
+></pm-confirm-popup>

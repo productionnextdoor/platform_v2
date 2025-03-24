@@ -1,0 +1,46 @@
+<pm-header
+    [breadcrumbs]="getBreadcrumbs()"
+/>
+
+<pm-row>
+    <pm-product-details-developer
+        [localisations]="localisations.infoCardLocalisations"
+        [productImagePath]="previewImagePath"
+        [productImagePathFull]="previewImagePathFull"
+        [offerInformation]="offerInformation"
+        [generalInformation]="generalInformation"
+        [productDataDetailCard]="productDataDetailCard"
+        [productDetailsBaseData]="productDetailsBaseData"
+        [fileData]="fileData"
+        [uploadCategories]="uploadCategories"
+        (onDownload)="onDownloadFiles.emit()"
+        (onClickLink)="onOpenLink.emit()"
+    />
+
+    <developer-revenue-card
+        *ngIf="!AppConsts.IsOffer"
+        [productId]="productId"
+    />
+
+    <ng-container *ngIf="AppConsts.IsOffer">
+        <value-chain-table
+            *ngIf="productState >= ProductState.ProductionPlanningFinalized"
+            [tableMode]="EValueChainTableMode.DEVELOPER"
+            [productionDetailsId]="productionDetails"
+            [itemsPerPageOptions]="itemsPerPageOptions"
+            [editDisabled]="true"
+            [localisations]="localisations.valueChainLocalisations"
+        />
+
+        <production-process-card
+            *ngIf="productState >= ProductState.CommissionedToProduction"
+            [productId]="productId"
+        />
+        <delivery-documents-card
+            *ngIf="productState == ProductState.Completed"
+            [productId]="productId"
+        />
+
+    </ng-container>
+
+</pm-row>

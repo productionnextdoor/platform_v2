@@ -1,0 +1,148 @@
+import { action } from "@storybook/addon-actions";
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { PmProductGraphComponent } from "../../../lib/components/pm-product-graph/pm-product-graph.component";
+import { EProductGraphMode } from "../../../lib/components/pm-product-graph/pm-product-graph.shared";
+import { simpleGraphData, advancedGraphData } from "./product-graph.data";
+
+<Meta title="Components/ProductGraph/ProductGraph" component={PmProductGraphComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}}/>
+
+<Description of={PmProductGraphComponent}/>
+
+export const actionsData = {
+    stateClick: action('clicked on state'),
+    stateLeftClick: action('clicked on state left button'),
+    stateRightClick: action('clicked on state right button'),
+    addStep: action('add a new step'),
+    addState: action('add a new state'),
+    editStep: action('edit a step'),
+    infoClick: action('clicked on info button'),
+};
+
+export const Template = args => ({
+    props: {
+        ...actionsData,
+        ...simpleGraphData,
+        ...args
+    }
+});
+
+<br/><br/>
+
+
+## Product Graph View Mode
+
+<Canvas withToolbar>
+    <Story name="View Mode">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Product Graph Edit Mode
+
+<Canvas withToolbar>
+    <Story name="Edit Mode" args={{
+        mode: EProductGraphMode.EDIT
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Product Graph Admin Mode
+
+<Canvas withToolbar>
+    <Story name="Admin Mode" args={{
+        mode: EProductGraphMode.ADMIN
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Product Graph Advanced View Mode
+
+<Canvas withToolbar>
+    <Story name="Advanced View Mode" args={{
+        ...advancedGraphData
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Product Graph Advanced Edit Mode
+
+<Canvas withToolbar>
+    <Story name="Advanced Edit Mode" args={{
+        ...advancedGraphData,
+        mode: EProductGraphMode.EDIT
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Product Graph Advanced Admin Mode
+
+<Canvas withToolbar>
+    <Story name="Advanced Admin Mode" args={{
+        ...advancedGraphData,
+        mode: EProductGraphMode.ADMIN
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Product Graph Advanced View Mode No Producers
+
+<Canvas withToolbar>
+    <Story name="No Producers" args={{
+        ...advancedGraphData,
+        producers: [],
+        producerId: null
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Product Graph in a Edge Case
+
+One of the known bugs with the current implementation is that the step hover can be rendered incorrectly.
+This is visible when hovering over the center of the (i) icon right next to the "Montiertes Gestell" or
+"Fertige Glasplatte" where the hover will then show a different step instead of the one that should be actually hovered.
+
+<Canvas withToolbar>
+    <Story name="Edge Case" args={{
+        ...advancedGraphData,
+        steps: [
+            ...advancedGraphData.steps,
+            {
+                stepId: 5,
+                start: 4,
+                end: 11,
+                producerId: 100,
+                productId: 1
+            },
+            {
+                stepId: 5,
+                start: 6,
+                end: 11,
+                producerId: 100,
+                productId: 1
+            },
+        ]
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/>
+<br/>
+
+
+
+## Design
+[![XD-ProductGraph](https://img.shields.io/badge/-ProductGraph-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/82d81ac1-d912-4969-8770-5060d0244c37/)

@@ -1,0 +1,31 @@
+<pm-popup
+    class="pm-max-cost"
+    [type]="PopupType.SMALL"
+    [title]="localisations.title"
+    [titleIcon]="Icon.ATTENTION"
+    (onClose)="onCancel.emit()"
+>
+    <p>{{localisations.description}}</p>
+    <pm-input
+        [(value)]="maxCost"
+        [label]="localisations.inputLabel"
+        [placeholder]="localisations.placeholder"
+        [unit]="localisations.unit"
+        [margin]="inputMargin"
+    ></pm-input>
+
+    <div footer class="pm-max-cost__actions">
+        <pm-button
+            [type]="ButtonType.SECONDARY"
+            [label]="localisations.cancel"
+            (onClicked)="onCancel.emit()"
+            class="pm-max-cost__action"
+        />
+        <pm-button
+            [type]="ButtonType.PRIMARY"
+            [label]="localisations.confirm"
+            (onClicked)="onConfirm.emit(maxCost)"
+            class="pm-max-cost__action"
+        />
+    </div>
+</pm-popup>

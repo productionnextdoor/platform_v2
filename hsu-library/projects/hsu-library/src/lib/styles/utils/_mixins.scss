@@ -1,0 +1,212 @@
+@use 'sass:list';
+
+@use "preferences" as p;
+@use "breakpoints" as b;
+@use 'fonts' as fonts;
+
+@mixin mode($key) {
+  $modes: map-get(p.$preferences, "modes");
+  $mode: map-get($modes, $key);
+
+  @media (prefers-color-scheme: $mode) {
+    @content
+  }
+}
+
+@mixin mq($key) {
+  $size: map-get(b.$breakpoints, $key);
+
+  @media only screen and (min-width: $size) {
+    @content;
+  }
+}
+
+@mixin transition($property, $time) {
+  -webkit-transition: $property $time linear;
+  -moz-transition: $property $time linear;
+  -o-transition: $property $time linear;
+  -ms-transition: $property $time linear;
+  transition: $property $time linear;
+}
+
+@mixin transform($transforms) {
+  -webkit-transform: $transforms;
+  -moz-transform: $transforms;
+  -ms-transform: $transforms;
+  transform: $transforms;
+}
+
+@mixin user-select($user-select) {
+  -webkit-user-select: $user-select;
+  -moz-user-select: $user-select;
+  -ms-user-select: $user-select;
+  user-select: $user-select;
+}
+
+@mixin border-radius($radius) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin icon($name, $type: before) {
+  &:#{$type} {
+    content: $name;
+
+    font-family: "HSU", serif;
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+
+    display: inline-block;
+    text-decoration: inherit;
+    text-align: center;
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    padding: 0;
+    margin: 0;
+
+    @content
+  }
+}
+
+@mixin animateFromTop() {
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  @-webkit-keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+
+  @keyframes animatetop {
+    from {
+      top: -300px;
+      opacity: 0
+    }
+    to {
+      top: 0;
+      opacity: 1
+    }
+  }
+}
+
+/// Font mixin helper.
+/// Apply the defined font properties.
+/// @param {Map} $font - The font properties.
+///
+/// The font properties can be defined in the following way:
+/// $font: (
+///   {property}: {value},
+///   sizes: (
+///     {viewport}: (
+///       {property}: {value}
+///     )
+///   ),
+///   states: (
+///     {state}: (
+///       {property}: {value}
+///     )
+///   ),
+///   variants: (
+///     {variant}: (
+///       {property}: {value}
+///     )
+///   )
+/// );
+///
+/// Variants and sizes are optional.
+/// Variants dont support sizes, they are supposed to be used for e.g. different font-weights, font-styles, colors, etc.
+@mixin font-mixin($font, $prefix: null) {
+  @each $prop, $value in $font {
+    @if $prop == variants {
+      // Store the block to extend it later
+      $block: &;
+      // Apply variant styling
+      @each $variantName, $variantValues in $value {
+        &#{$variantName} {
+          @extend #{$block};
+          @if $prefix == null {
+            @include font-mixin($variantValues);
+          } @else {
+            @include font-mixin($variantValues, #{$prefix}-#{$variantName});
+          }
+        }
+      }
+    } @else if $prop == states {
+      // Apply state styling
+      @each $state, $stateValues in $value {
+        &:#{$state} {
+          @if $prefix == null {
+            @include font-mixin($stateValues);
+          } @else {
+            @include font-mixin($stateValues, #{$prefix}-#{$state});
+          }
+        }
+      }
+    } @else if $prop == sizes {
+      // Apply responsive styling
+      @each $sizeName, $sizeValues in $value {
+        @include mq($sizeName) {
+          @each $sizeProp, $sizeValue in $sizeValues {
+            @if $prefix == null {
+              #{$sizeProp}: $sizeValue;
+            } @else {
+              #{$sizeProp}: var(#{$prefix}-#{$sizeProp});
+            }
+          }
+        }
+      }
+    } @else {
+      @if $prefix == null {
+        #{$prop}: $value;
+      } @else {
+        #{$prop}: var(#{$prefix}-#{$prop});
+      }
+    }
+  }
+}
+
+@mixin include-font($name) {
+  @include font-mixin(map-get(fonts.$fonts, $name), --font-#{$name});
+}
+
+/// Converts a map to css variables.
+/// @param {Map} $map - The map to convert.
+/// @param {String} $prefix - The prefix for the css variables.
+/// @param {List} $ignoreKeys - A list of ignored keys to output.
+@mixin map-to-var($map, $prefix, $ignoreKeys: null) {
+  @each $key, $val in $map {
+    // check if the list includes the key
+    @if $ignoreKeys and list.index($ignoreKeys, #{$key}) {
+      @if type-of($val) == 'map' {
+        @include map-to-var($val, $prefix, $ignoreKeys);
+      } @else {
+        #{$prefix}: #{$val};
+      }
+    } @else {
+      @if type-of($val) == 'map' {
+        @include map-to-var($val, #{$prefix}-#{$key}, $ignoreKeys);
+      } @else {
+        #{$prefix}-#{$key}: #{$val};
+      }
+    }
+  }
+}
+
+@mixin vh($height) {
+  height: #{$height}vh;
+  height: #{$height}dvh;
+}

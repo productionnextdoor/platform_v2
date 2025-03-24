@@ -1,0 +1,53 @@
+<pm-col template="1fr" [gap]="margins.Large">
+    <ng-container *ngFor="let form of workingPieces; let i = index">
+        <pm-row [gap]="margins.Small" template="1fr auto">
+            <figure>
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="'material_' + i"
+                    [inputId]="'material_' + i"
+                    [label]="localisations.materialLabel"
+                    [placeholder]="localisations.materialPlaceholder"
+                    [(value)]="form.material"
+                    [required]="true"
+                    [margin]="inputFieldsMargin"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (valueChange) ="valueChange()"
+                />
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="'finalState_' + i"
+                    [inputId]="'finalState_' + i"
+                    [label]="localisations.finalStateLabel"
+                    [placeholder]="localisations.finalStatePlaceholder"
+                    [(value)]="form.finalState"
+                    [required]="true"
+                    [margin]="inputFieldsMargin"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (valueChange) ="valueChange()"
+                />
+                <pm-dropdown
+                    *ngIf="surfaceFinishes.length > 0"
+                    [label]="localisations.surfaceFinishLabel"
+                    [placeholder]="localisations.surfaceFinishPlaceholder"
+                    [options]="surfaceFinishes"
+                    [(value)]="form.surfaceFinishId"
+                    [required]="true"
+                    [errorMessages]="localisations.inputErrorMessages"
+                    (valueChange) ="valueChange()"
+                />
+            </figure>
+            <pm-button
+                [type]="ButtonType.ICON"
+                [icon]="Icon.DELETE"
+                [margin]="deleteBtnMargin"
+                (onClicked)="deleteForm(i)"
+            />
+        </pm-row>
+    </ng-container>
+    <pm-button
+        [type]="ButtonType.ICON"
+        [icon]="Icon.ADD"
+        (onClicked)="addForm()"
+    />
+</pm-col>

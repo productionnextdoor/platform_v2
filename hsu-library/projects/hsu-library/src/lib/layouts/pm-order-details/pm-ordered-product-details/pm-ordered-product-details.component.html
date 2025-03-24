@@ -1,0 +1,67 @@
+<pm-card
+    [hasHeader]="true"
+    [title]="title"
+    [noShadow]="false"
+>
+    <pm-row [template]="hideDocuments? '1fr 1fr' : '4fr 4fr 4fr 1fr'" [gap]="margins.Large">
+        <div class="product-details-card__column">
+            <pm-text
+                [type]="TextType.H3"
+                [margin]="sectionMargin"
+            >
+                {{ detailData.productDetails.title }}
+            </pm-text>
+
+            <div *ngFor="let properties of detailData.productDetails.properties">
+                <span class="product-details-card__label">{{ properties.key }}</span>
+                <span class="product-details-card__value">{{ properties.value }}</span>
+            </div>
+        </div>
+        <div class="product-details-card__column">
+            <pm-text
+                [type]="TextType.H3"
+                [margin]="sectionMargin"
+            >
+                {{ detailData.payouts.title }}
+            </pm-text>
+
+            <div *ngFor="let properties of detailData.payouts.properties">
+                <span class="product-details-card__label">{{ properties.key }}</span>
+                <span class="product-details-card__value">{{ properties.value }}</span>
+            </div>
+        </div>
+        <ng-container
+            *ngIf="!hideDocuments"
+        >
+            <div class="product-details-card__column">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="sectionMargin"
+                >
+                    {{ detailData.documents.title }}
+                </pm-text>
+
+                <div *ngFor="let properties of detailData.documents.properties"
+                     class="product-details-card__document">
+                    <pm-icon
+                        [icon]="properties.value | FiletypeIcon"
+                        [size]="IconSize.XXS"
+                        class="product-details-card__document-icon"
+                    />
+                    <pm-text
+                        [type]="TextType.COPY_M1"
+                        class="product-details-card__document-text"
+                    >
+                        {{ properties.value }}
+                    </pm-text>
+                </div>
+            </div>
+            <pm-button
+                [disabled]="detailData.documents.properties.length == 0"
+                [type]="ButtonType.ICON"
+                [icon]="Icon.DOWNLOAD"
+                (onClicked)="onDownloadClick.emit()"
+            ></pm-button>
+        </ng-container>
+    </pm-row>
+</pm-card>

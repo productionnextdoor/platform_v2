@@ -1,0 +1,36 @@
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { moduleMetadata } from "@storybook/angular";
+import { productDetailsSidebarData } from "./product-details-sidebar.data";
+import { PmProductDetailsSidebarComponent } from "../../../lib/layouts/pm-product-details-sidebar/pm-product-details-sidebar.component";
+
+<Meta title="Layouts/Product-Details-Sidebar/Product-Details-Sidebar" component={PmProductDetailsSidebarComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductDetailsSidebarComponent)),
+]}/>
+
+<Description of={PmProductDetailsSidebarComponent}/>
+<Description markdown={`# Product Details Sidebar`}/>
+
+export const Template = args => ({
+    props: {
+        ...productDetailsSidebarData,
+        ...args,
+    },
+});
+
+This contains definitions for the **Product-Details-Sidebar**.
+
+## Product Details Sidebar
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-ProductDetailsSidebar](https://img.shields.io/badge/-ProductDetailsSidebar-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/226bcc35-1c12-47e3-88d2-5f63be07b605/)

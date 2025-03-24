@@ -1,0 +1,69 @@
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/_fonts.scss' as fonts;
+
+.radio {
+  --radiobutton-dot-color: #{f.color('primary', 100)};
+  --radiobutton-border-color: #{f.color('neutrals', 500)};
+  --radiobutton-background-color: #{f.color('neutrals', 1100)};
+  --radiobutton-cursor: pointer;
+  --radiobutton-hover-border-color: #{f.color('neutrals', 100)};
+  --radiobutton-checked-border-color: var(--radiobutton-hover-border-color);
+  --radiobutton-dot-size: #{f.rem(11)};
+  --radiobutton-size: #{f.rem(16)};
+  --radiobutton-border-radius: 100%;
+  --radiobutton-label-text-color: inherit;
+  --radiobutton-border-width: #{f.rem(1)};
+  --radiobutton-transition-time: 0.25s;
+  // 1px offset for the size of the dot to fix some browser zoom steps showing a white pixel in the center
+  --radiobutton-shadow-size: calc(var(--radiobutton-size) / 2 + 1px);
+  // space between the dot and the border
+  --radiobutton-dot-spacing: calc((var(--radiobutton-size) - var(--radiobutton-dot-size)) / 2);
+  --radiobutton-box-shadow:
+      0 0 0 #{var(--radiobutton-border-width)} #{var(--radiobutton-border-color)} inset,
+      0 0 0 #{var(--radiobutton-shadow-size)} #{var(--radiobutton-background-color)} inset;
+
+  position: relative;
+  display: flex;
+
+  &:hover {
+    --radiobutton-border-color: var(--radiobutton-hover-border-color);
+  }
+
+  &__label {
+    color: var(--radiobutton-label-text-color);
+  }
+
+  &__input {
+    display: inline-block;
+    transform: translateZ(1px);  // Little trick to render the checkbox on the GPU instead of the CPU
+    height: var(--radiobutton-size);
+    width: var(--radiobutton-size);
+    transition: box-shadow var(--radiobutton-transition-time) ease-in-out;
+    box-shadow: var(--radiobutton-box-shadow);
+    @include m.border-radius(var(--radiobutton-border-radius));
+    cursor: var(--radiobutton-cursor);
+    appearance: none;
+    margin-block: f.rem(4);
+    margin-inline: 0 f.rem(8);;
+    font-size: 0;
+    flex: 0 0 auto;
+  }
+
+  &--checked {
+    --radiobutton-box-shadow:
+      0 0 0 #{var(--radiobutton-border-width)} #{var(--radiobutton-checked-border-color)} inset,
+      0 0 0 #{var(--radiobutton-dot-spacing)} #{var(--radiobutton-background-color)} inset,
+      0 0 0 #{var(--radiobutton-shadow-size)} #{var(--radiobutton-dot-color)} inset;
+  }
+
+  &--disabled {
+    --radiobutton-border-color: #{f.color('neutrals', 500)};
+    --radiobutton-cursor: default;
+    --radiobutton-background-color: #{f.color('neutrals', 700)};
+    --radiobutton-dot-color: var(--radiobutton-border-color);
+    --radiobutton-hover-border-color: #{f.color('neutrals', 500)};
+    --radiobutton-label-text-color: #{f.color('neutrals', 500)};
+    --radiobutton-checked-border-color: #{f.color('neutrals', 500)};
+  }
+}

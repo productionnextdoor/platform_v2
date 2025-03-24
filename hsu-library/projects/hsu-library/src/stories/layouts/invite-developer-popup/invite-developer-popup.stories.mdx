@@ -1,0 +1,49 @@
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { PmInviteDeveloperPopupComponent } from "../../../lib/layouts/pm-invite-developer-popup/pm-invite-developer-popup.component";
+import { inviteDeveloperPopupData } from "./invite-developer-popup.data";
+
+
+<Meta title="Layouts/Invite-Popup/Invite-Developer-Popup" component={PmInviteDeveloperPopupComponent} argTypes={{}} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmInviteDeveloperPopupComponent))
+]}/>
+
+<Description of={PmInviteDeveloperPopupComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...inviteDeveloperPopupData,
+        ...args,
+    },
+});
+
+# Invite Developer Popup
+
+<Canvas withToolbar>
+    <Story name="Default" height={'700px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+# Invite Developer Popup Filled
+
+<Canvas withToolbar>
+    <Story name="Filled" height={'700px'} args={{
+        developerBaseData: {
+            developerName: 'Felix Kuester',
+            email: 'felix.kuester@web.de'  
+        }
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-InviteDeveloperPopup](https://img.shields.io/badge/-InviteDeveloperPopup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/07d0b825-e182-4a85-9a24-b1574bb8612d-5283/screen/271c0087-0217-477b-8760-524d4ed27a8f/)

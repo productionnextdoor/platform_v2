@@ -1,0 +1,36 @@
+<div class="container">
+  <pm-product-overview
+    [showCreatProductButton]="canCreateNewProduct()"
+    [columnHeaders]="columnHeaders"
+    [rowData]="rowData"
+    [totalItems]="totalCount"
+    [currentPage]="currentPage"
+    [localisationStrings] ="localisationStrings"
+    [statusFilterOptions] ="statusFilterOptions"
+    [loading]="loading"
+    (onSortingClicked)="onSortData($event)"
+    (onPageClicked)="onPageChange($event)"
+    (onSearchTermChanged)="onSearchTermChanged($event)"
+    (onStatusFilterChanged) ="onStatusChange($event)"
+    (onActionClicked)="onActionClicked($event)"
+    (onNewProduct)="onProductCreate()"
+  />
+
+  <ng-container [ngSwitch]="wizardType">
+    <ng-container *ngSwitchCase="EWizardType.BaseProductWizard">
+      <admin-product-popup
+          *ngIf="actionPopupOpen"
+          [productId]="productId"
+          (onClose)="closeActionPopup()"
+      />
+    </ng-container>
+    <ng-container *ngSwitchCase="EWizardType.DeveloperProductWizard">
+      <product-developer-wizard
+          *ngIf="actionPopupOpen"
+          [productId]="productId"
+          [title]="productName"
+          (onClose)="closeActionPopup()"
+      />
+    </ng-container>
+  </ng-container>
+</div>

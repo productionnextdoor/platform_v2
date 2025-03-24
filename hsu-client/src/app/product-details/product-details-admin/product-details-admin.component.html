@@ -1,0 +1,139 @@
+<pm-content-with-sidebar
+    class="product-details"
+    [breadcrumbs]="getBreadcrumbs()"
+    [sidebarCollapsed]="sidebarCollapsed"
+    (onSidebarOpen)="openSidebar()"
+>
+    <pm-button
+        headerButtons
+        *ngIf="!productionDetailsEditId && topActionButton.buttonLabel.length>0"
+        [type]="topActionButton.buttonType"
+        [label]="topActionButton.buttonLabel"
+        [margin]="buttonMargin"
+        [disabled]="topActionButton.buttonIsDisabled"
+        (onClicked)="topActionButtonClicked()"
+    />
+    <pm-product-details-sidebar
+        detailsSidebar
+        [localisations]="localisations.sidebar"
+        [sharePointLink]="productDetailsBaseData.sharePointLink"
+        [fileData]="fileData"
+        [uploadCategories]="uploadCategories"
+        [productDataSidebar]="productDataSidebar"
+        [productImagePath]="previewImagePath"
+        [productImagePathFull]="previewImagePathFull"
+        [showEditButton]="productState == ProductState.ReadyForValueChainPlanning"
+        [(sidebarCollapsed)]="sidebarCollapsed"
+        (onDownload)="onDownloadFiles.emit()"
+        (onProductEditClicked)="onProductEditClicked()"
+        (onClickLink)="onOpenLink.emit()"
+    />
+
+    <pm-product-details-in-progress
+        *ngIf="productState === ProductState.InProcessDeveloper"
+        [lastEditDate]="productDetailsBaseData.lastEditDate"
+        [localisations]="localisations.productDetailsInProgress"
+    />
+
+    <pm-row>
+        <pm-col>
+            <pm-tab-card
+                *ngIf="productionDetailsEditId"
+                [tabs]="tabCartTabs"
+                [buttons]="currentProductionDetailsId == productionDetailsEditId ? tabCartButtons : []"
+                (onTabChange)="editModeTabChange($event)"
+                (onButtonClicked)="editModeButtonClicked($event)"
+            />
+
+            <pm-product-graph-card
+                *ngIf="productState >= ProductState.ReadyForValueChainPlanning"
+                [isProducerCard]="false"
+                [noShadow]="true"
+                [readyForCalculating]="readyForCalculating"
+                [localisations]="localisations.productGraphCard"
+                [graphKeys]="localisations.graphKeys"
+                (onClicked)="showMaxCostPopup = true"
+
+            >
+                <product-graph
+                    graph
+                    [productionDetailsId]="currentProductionDetailsId"
+                    [graphMode]="graphMode"
+                    (loadingState)="graphLoading$.next($event)"
+                />
+            </pm-product-graph-card>
+
+            <value-chain-table
+                *ngIf="productState >= ProductState.InProcessProducer"
+                [productionDetailsId]="currentProductionDetailsId"
+                [itemsPerPageOptions]="itemsPerPageOptions"
+                [editDisabled] = "valueChainEditDisable"
+                [localisations] = "localisations.valueChainsTabe"
+                (onTotalItemsChange)="onTotalItemsChange($event)"
+                (loadingState)="valueChainTableLoading$.next($event)"
+            />
+
+            <work-step-table
+                *ngIf="productState >= ProductState.InProcessProducer"
+                [productionDetailsId]="currentProductionDetailsId"
+                [localisations]="localisations.workstepTable"
+                [(totalItemsWorkSteps)]="totalWorkSteps"
+                (totalItemsWorkStepsChange)="setPageMode()"
+                (loadingState)="workStepTableLoading$.next($event)"
+
+            />
+
+            <product-producer-table
+                *ngIf="productState >= ProductState.ReadyForValueChainPlanning"
+                [productId]="productId"
+                [productionDetailsId]="currentProductionDetailsId"
+                [itemsPerPageOptions]="itemsPerPageOptions"
+                [localisations]="localisations.producerTable"
+                [producerEditDisabled] = "producerEditDisabled"
+                [(deadlineDate)] ="deadlineDate"
+                (deadlineDateChange)="setPageMode()"
+                (loadingState)="productProducerTableLoading$.next($event)"
+
+            />
+
+            <product-developer-wizard
+                *ngIf="showProductEditWizard"
+                [productId]="productId"
+                [title]="productName"
+                [isAdminView]="true"
+                (onClose)="onCloseWizard()"
+            />
+
+            <pm-confirm-popup
+                *ngIf="showExportConfirmPopup"
+                [localisations]="localisations.confirmExportPopup"
+                (onCancel)="showExportConfirmPopup = false"
+                (onConfirm)="exportProduct()"
+            ></pm-confirm-popup>
+            <pm-max-cost-popup
+                *ngIf="showMaxCostPopup"
+                [localisations]="localisations.maxCostPopup"
+                (onCancel)="showMaxCostPopup = false"
+                (onConfirm)="sendProductToPlanning($event)"
+            ></pm-max-cost-popup>
+            <pm-confirm-popup
+                *ngIf="showEditModeConfirmPopup"
+                [localisations]="localisations.confirmEditModePopup"
+                (onCancel)="showEditModeConfirmPopup = false"
+                (onConfirm)="enableEditMode()"
+            ></pm-confirm-popup>
+            <pm-confirm-popup
+                *ngIf="showEditModeCancelPopup"
+                [localisations]="localisations.cancelEditModePopup"
+                (onCancel)="showEditModeCancelPopup = false"
+                (onConfirm)="cancelEditMode()"
+            ></pm-confirm-popup>
+            <pm-confirm-popup
+                *ngIf="showEditModePublishPopup"
+                [localisations]="localisations.publishEditModePopup"
+                (onCancel)="showEditModePublishPopup = false"
+                (onConfirm)="confirmEditMode()"
+            ></pm-confirm-popup>
+        </pm-col>
+    </pm-row>
+</pm-content-with-sidebar>

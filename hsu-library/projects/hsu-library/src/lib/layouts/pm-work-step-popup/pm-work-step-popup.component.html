@@ -1,0 +1,77 @@
+<pm-popup class="work-step-popup"
+          [type]="PopupType.MEDIUM"
+          [closable]="true"
+          [hasHeader]="true"
+          [context]="localisations.context"
+          [title]="localisations.title"
+          (onClose)="onReturn.emit()"
+>
+    <pm-row template="1fr 1fr" [gap]="margins.Large">
+        <div class="work-step-popup__column">
+            <div class="work-step-popup__producer">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="sectionMargin"
+                >
+                    {{ workStepData.producer.title }}
+                </pm-text>
+
+                <div *ngFor="let properties of workStepData.producer.properties">
+                    <span class="work-step-popup__label">{{ properties.key }}</span>
+                    <span class="work-step-popup__value">{{ properties.value }}</span>
+                </div>
+            </div>
+
+            <div class="work-step-popup__workTime">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="topMargin"
+                >
+                    {{ workStepData.workTime.title }}
+                </pm-text>
+                <div *ngFor="let properties of workStepData.workTime.properties">
+                    <span class="work-step-popup__label">{{ properties.key }}</span>
+                    <span class="work-step-popup__value">{{ properties.value }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-step-popup__column">
+            <div class="work-step-popup__workStep">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="sectionMargin"
+                >
+                    {{ workStepData.workStep.title }}
+                </pm-text>
+
+                <div *ngFor="let properties of workStepData.workStep.properties">
+                    <span class="work-step-popup__label">{{ properties.key }}</span>
+                    <span class="work-step-popup__value">{{ properties.value }}</span>
+                </div>
+            </div>
+
+            <div class="work-step-popup__calculation">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="topMargin"
+                >
+                    {{ workStepData.calculation.title }}
+                </pm-text>
+                <div *ngFor="let properties of workStepData.calculation.properties">
+                    <span class="work-step-popup__label">{{ properties.key }}</span>
+                    <span class="work-step-popup__value">{{ properties.value }}</span>
+                </div>
+            </div>
+        </div>
+    </pm-row>
+
+
+    <div footer class="work-step-popup__footer">
+        <pm-button
+            [label]="localisations.buttonLabel"
+            [type]="ButtonType.PRIMARY"
+            (onClicked)="onReturn.emit()"
+        />
+    </div>
+</pm-popup>

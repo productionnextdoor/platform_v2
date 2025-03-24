@@ -1,0 +1,59 @@
+<div class="pm-calendar"
+     [ngClass]="{
+         'pm-calendar--disabled': disabled,
+     }"
+>
+    <div class="pm-calendar__control">
+        <button class="pm-calendar__control-btn"
+                (click)="changeMonth(-1)"
+        >
+            <pm-icon [icon]="Icon.CHEVRON"
+                     [size]="IconSize.S"
+                     [rotate]="90"
+            />
+        </button>
+        <div class="pm-calendar__control-title">
+            <span class="pm-calendar__date pm-calendar__date--month">{{ activeDate | date: 'MMMM'}}</span>
+            <span class="pm-calendar__date pm-calendar__date--year">{{ activeDate | date: 'yyyy'}}</span>
+        </div>
+        <button class="pm-calendar__control-btn"
+                (click)="changeMonth(1)"
+        >
+            <pm-icon [icon]="Icon.CHEVRON"
+                     [size]="IconSize.S"
+                     [rotate]="270"
+            />
+        </button>
+    </div>
+    <table class="pm-calendar__table" role="grid">
+        <thead class="pm-calendar__table-header">
+        <tr>
+            <th *ngFor="let day of weekdays"
+                class="pm-calendar__table-cell pm-calendar__table-cell--head"
+                scope="col"
+                [title]="day.long"
+            >
+                {{day.narrow}}
+            </th>
+        </tr>
+        </thead>
+        <tbody class="pm-calendar__table-body">
+        <tr *ngFor="let week of weeks">
+            <td *ngFor="let day of week"
+                class="pm-calendar__table-cell"
+                [ngClass]="{
+                      'pm-calendar__table-cell--hover': day.hover,
+                      'pm-calendar__table-cell--disabled': day.disabled,
+                      'pm-calendar__table-cell--today': day.today,
+                      'pm-calendar__table-cell--selected': day.selected,
+                  }"
+                (click)="selectDay(day)"
+                (mouseenter)="hoverDay(day)"
+                (mouseleave)="unhoverDay(day)"
+            >
+                <span class="pm-calendar__table-day-inner">{{day.date | date:'dd'}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

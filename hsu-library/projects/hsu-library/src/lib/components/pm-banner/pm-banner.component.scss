@@ -1,0 +1,39 @@
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/utils/functions' as f;
+@use "../../styles/base/fonts" as fonts;
+
+.banner {
+  --banner-background-color: #{f.color('neutrals', 700)};
+  --banner-color: #{f.color('neutrals', 100)};
+  --banner-radius: #{f.rem(8)};
+  --banner-box-shadow: #{f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 320)};
+  --banner-box-shadow-hover: #{f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 340)};
+  --banner-margin: 0;
+
+  display: flex;
+  align-items: flex-start;
+  @include m.transition(box-shadow, 0.2s);
+  margin: var(--banner-margin);
+  padding: f.rem(16) f.rem(12);
+  @include m.border-radius(var(--banner-radius));
+  box-shadow: var(--banner-box-shadow);
+  background-color: var(--banner-background-color);
+  color: var(--banner-color);
+
+  &__content {
+    margin-right: auto;
+    padding-inline: f.rem(16) f.rem(4);
+  }
+
+  &__text {
+    @include fonts.font-copy-m1();
+  }
+
+  &__close {
+    cursor: pointer;
+  }
+
+  &:hover {
+    box-shadow: var(--banner-box-shadow-hover);
+  }
+}

@@ -1,0 +1,51 @@
+<pm-popup
+    class="pm-state-popup"
+    [title]="localisations.title"
+    [type]="PopupType.SMALL"
+    (onClose)="onCancel.emit()"
+>
+    <pm-timer
+        header
+        (onReset)="onTimerReset.emit()"
+        (timerFinished)="onTimerFinished.emit()"
+        [countdown]="countdown"
+    ></pm-timer>
+
+    <p class="pm-state-popup__description">{{localisations.description}}</p>
+
+    <pm-input
+        [label]="localisations.state"
+        [placeholder]="localisations.statePlaceholder"
+        [(value)]="stateName"
+        (valueChange)="stateNameChange.emit(stateName)"
+        [required]="true"
+        [suggestions]="suggestions"
+    />
+
+    <div footer class="pm-state-popup__footer">
+        <div *ngIf="stateId" class="pm-state-popup__actions pm-state-popup__actions--left">
+            <pm-button
+                [disabled]="!canDelete"
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.delete"
+                (onClicked)="onDelete.emit()"
+                class="pm-state-popup__action"
+            />
+        </div>
+        <div class="pm-state-popup__actions pm-state-popup__actions--right">
+            <pm-button
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.cancel"
+                (onClicked)="onCancel.emit()"
+                class="pm-state-popup__action"
+            />
+            <pm-button
+                [type]="ButtonType.PRIMARY"
+                [disabled]="!stateName"
+                [label]="localisations.confirm"
+                (onClicked)="onConfirm.emit(stateName)"
+                class="pm-state-popup__action"
+            />
+        </div>
+    </div>
+</pm-popup>

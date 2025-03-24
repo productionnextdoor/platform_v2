@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props"></Import>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>PMHelmutSchmidtPortal</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.Web.Common" Version="8.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PMHelmutSchmidtPortal.Core.Shared\PMHelmutSchmidtPortal.Core.Shared.csproj" />
+  </ItemGroup>
+</Project>

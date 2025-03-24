@@ -1,0 +1,8 @@
+<ng-container *ngIf="deliveryAddress">
+    <pm-product-delivery-address
+        [deliveryAddress]="deliveryAddress"
+        [isAdminView]="isAdminView"
+        [productDeliveryAddressLocalisations]="localisations"
+        (productDeliveryAddressDataChange)="validateFormData()"
+    />
+</ng-container>

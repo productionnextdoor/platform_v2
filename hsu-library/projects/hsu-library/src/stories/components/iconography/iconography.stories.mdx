@@ -1,0 +1,442 @@
+import {
+    Description,
+    IconGallery,
+    IconItem,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+
+import { PmIconComponent } from "../../../lib/components/pm-icon/pm-icon.component";
+import { Icon } from "../../../lib/components/pm-icon/pm-icon.shared";
+import { IconographyData } from "./iconography.data";
+
+<Meta title="Components/Iconography/Gallery" component={PmIconComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}}/>
+
+<Description of={PmIconComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...IconographyData,
+        ...args,
+    },
+});
+
+## Default Icons
+
+<IconGallery>
+    <IconItem name="add">
+        <Story name="Default ADD"></Story>
+    </IconItem>
+    <IconItem name="arrow">
+        <Story name="Default ARROW"></Story>
+    </IconItem>
+    <IconItem name="arrow_chain_left">
+        <Story name="Default ARROW_CHAIN_LEFT"></Story>
+    </IconItem>
+    <IconItem name="arrow_chain_right">
+        <Story name="Default ARROW_CHAIN_RIGHT"></Story>
+    </IconItem>
+    <IconItem name="attention">
+        <Story name="Default ATTENTION"></Story>
+    </IconItem>
+    <IconItem name="cad_file">
+        <Story name="Default CAD_FILE"></Story>
+    </IconItem>
+    <IconItem name="burger_menu">
+        <Story name="Default BURGER_MENU"></Story>
+    </IconItem>
+    <IconItem name="calender">
+        <Story name="Default CALENDER"></Story>
+    </IconItem>
+    <IconItem name="chevron">
+        <Story name="Default CHEVRON"></Story>
+    </IconItem>
+    <IconItem name="close">
+        <Story name="Default CLOSE"></Story>
+    </IconItem>
+    <IconItem name="dashboard">
+        <Story name="Default DASHBOARD"></Story>
+    </IconItem>
+    <IconItem name="delete">
+        <Story name="Default DELETE"></Story>
+    </IconItem>
+    <IconItem name="developer">
+        <Story name="Default DEVELOPER"></Story>
+    </IconItem>
+    <IconItem name="download">
+        <Story name="Default DOWNLOAD"></Story>
+    </IconItem>
+    <IconItem name="drag">
+        <Story name="Default DRAG"></Story>
+    </IconItem>
+    <IconItem name="edit">
+        <Story name="Default EDIT"></Story>
+    </IconItem>
+    <IconItem name="exit_fullscreen">
+        <Story name="Default EXIT_FULLSCREEN"></Story>
+    </IconItem>
+    <IconItem name="exl_file">
+        <Story name="Default EXL_FILE"></Story>
+    </IconItem>
+    <IconItem name="flag">
+        <Story name="Default FLAG"></Story>
+    </IconItem>
+    <IconItem name="forward">
+        <Story name="Default FORWARD"></Story>
+    </IconItem>
+    <IconItem name="fullscreen">
+        <Story name="Default FULLSCREEN"></Story>
+    </IconItem>
+    <IconItem name="group">
+        <Story name="Default GROUP"></Story>
+    </IconItem>
+    <IconItem name="img_file">
+        <Story name="Default IMG_FILE"></Story>
+    </IconItem>
+    <IconItem name="info">
+        <Story name="Default INFO"></Story>
+    </IconItem>
+    <IconItem name="info_circle">
+        <Story name="Default INFO_CIRCLE"></Story>
+    </IconItem>
+    <IconItem name="lock">
+        <Story name="Default LOCK"></Story>
+    </IconItem>
+    <IconItem name="log_out">
+        <Story name="Default LOG_OUT"></Story>
+    </IconItem>
+    <IconItem name="mouse">
+        <Story name="Default MOUSE"></Story>
+    </IconItem>
+    <IconItem name="minimize">
+        <Story name="Default MINIMIZE"></Story>
+    </IconItem>
+    <IconItem name="new_window">
+        <Story name="Default NEW_WINDOW"></Story>
+    </IconItem>
+    <IconItem name="order_overview">
+        <Story name="Default ORDER_OVERVIEW"></Story>
+    </IconItem>
+    <IconItem name="pdf_file">
+        <Story name="Default PDF_FILE"></Story>
+    </IconItem>
+    <IconItem name="phone">
+        <Story name="Default PHONE"></Story>
+    </IconItem>
+    <IconItem name="producers">
+        <Story name="Default PRODUCERS"></Story>
+    </IconItem>
+    <IconItem name="product_information">
+        <Story name="Default PRODUCT_INFORMATION"></Story>
+    </IconItem>
+    <IconItem name="product_overview">
+        <Story name="Default PRODUCT_OVERVIEW"></Story>
+    </IconItem>
+    <IconItem name="profile">
+        <Story name="Default PROFILE"></Story>
+    </IconItem>
+    <IconItem name="reload">
+        <Story name="Default RELOAD"></Story>
+    </IconItem>
+    <IconItem name="reset_time">
+        <Story name="Default RESET_TIME"></Story>
+    </IconItem>
+    <IconItem name="sort_down">
+        <Story name="Default SORT_DOWN"></Story>
+    </IconItem>
+    <IconItem name="sort_up">
+        <Story name="Default SORT_UP"></Story>
+    </IconItem>
+    <IconItem name="star_half_rate">
+        <Story name="Default STAR_HALF_RATE"></Story>
+    </IconItem>
+    <IconItem name="star_rate">
+        <Story name="Default STAR_RATE"></Story>
+    </IconItem>
+    <IconItem name="star">
+        <Story name="Default STAR"></Story>
+    </IconItem>
+    <IconItem name="table_sort">
+        <Story name="Default TABLE_SORT"></Story>
+    </IconItem>
+    <IconItem name="timer">
+        <Story name="Default TIMER"></Story>
+    </IconItem>
+    <IconItem name="upload">
+        <Story name="Default UPLOAD"></Story>
+    </IconItem>
+    <IconItem name="hide">
+        <Story name="Default HIDE"></Story>
+    </IconItem>
+    <IconItem name="show">
+        <Story name="Default SHOW"></Story>
+    </IconItem>
+    <IconItem name="search">
+        <Story name="Default SEARCH"></Story>
+    </IconItem>
+</IconGallery>
+
+<Story name="Default ADD" args={{
+    icon: Icon.ADD,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default ARROW" args={{
+    icon: Icon.ARROW,
+}}>
+    {Template.bind({})}
+</Story>
+<Story name="Default ARROW_CHAIN_LEFT" args={{
+    icon: Icon.ARROW_CHAIN_LEFT,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default ARROW_CHAIN_RIGHT" args={{
+    icon: Icon.ARROW_CHAIN_RIGHT,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default ATTENTION" args={{
+    icon: Icon.ATTENTION,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default CAD_FILE" args={{
+    icon: Icon.CAD_FILE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default BURGER_MENU" args={{
+    icon: Icon.BURGER_MENU,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default CALENDER" args={{
+    icon: Icon.CALENDER,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default CHEVRON" args={{
+    icon: Icon.CHEVRON,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default CLOSE" args={{
+    icon: Icon.CLOSE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default DASHBOARD" args={{
+    icon: Icon.DASHBOARD,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default DELETE" args={{
+    icon: Icon.DELETE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default DEVELOPER" args={{
+    icon: Icon.DEVELOPER,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default DOWNLOAD" args={{
+    icon: Icon.DOWNLOAD,
+}}>
+    {Template.bind({})}
+</Story>
+    <Story name="Default DRAG" args={{
+    icon: Icon.DRAG,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default EDIT" args={{
+    icon: Icon.EDIT,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default EXIT_FULLSCREEN" args={{
+    icon: Icon.EXIT_FULLSCREEN,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default EXL_FILE" args={{
+    icon: Icon.EXL_FILE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default FLAG" args={{
+    icon: Icon.FLAG,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default FORWARD" args={{
+    icon: Icon.FORWARD,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default FULLSCREEN" args={{
+    icon: Icon.FULLSCREEN,
+}}>
+    {Template.bind({})}
+</Story>
+<Story name="Default GROUP" args={{
+    icon: Icon.GROUP,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default IMG_FILE" args={{
+    icon: Icon.IMG_FILE,
+}}>
+    {Template.bind({})}
+</Story>
+   <Story name="Default INFO" args={{
+    icon: Icon.INFO,
+}}>
+    {Template.bind({})}>
+</Story>
+<Story name="Default INFO_CIRCLE" args={{
+    icon: Icon.INFO_CIRCLE,
+}}>
+    {Template.bind({})}>
+</Story>
+<Story name="Default LOCK" args={{
+    icon: Icon.LOCK,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default LOG_OUT" args={{
+    icon: Icon.LOG_OUT,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default MINIMIZE" args={{
+    icon: Icon.MINIMIZE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default MOUSE" args={{
+    icon: Icon.MOUSE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default NEW_WINDOW" args={{
+    icon: Icon.NEW_WINDOW,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default ORDER_OVERVIEW" args={{
+    icon: Icon.ORDER_OVERVIEW,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default PDF_FILE" args={{
+    icon: Icon.PDF_FILE,
+}}>
+    {Template.bind({})}
+</Story>
+<Story name="Default PHONE" args={{
+    icon: Icon.PHONE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default PRODUCERS" args={{
+    icon: Icon.PRODUCERS,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default PRODUCT_INFORMATION" args={{
+    icon: Icon.PRODUCT_INFORMATION,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default PRODUCT_OVERVIEW" args={{
+    icon: Icon.PRODUCT_OVERVIEW,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default PROFILE" args={{
+    icon: Icon.PROFILE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default RELOAD" args={{
+    icon: Icon.RELOAD,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default RESET_TIME" args={{
+    ...IconographyData,
+    icon: Icon.RESET_TIME,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default SORT_DOWN" args={{
+    icon: Icon.SORT_DOWN,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default SORT_UP" args={{
+    icon: Icon.SORT_UP,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default STAR_HALF_RATE" args={{
+    icon: Icon.STAR_HALF_RATE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default STAR_RATE" args={{
+    icon: Icon.STAR_RATE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default STAR" args={{
+    icon: Icon.STAR,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default TIMER" args={{
+    icon: Icon.TIMER,
+}}>
+    {Template.bind({})}
+</Story>
+<Story name="Default TABLE_SORT" args={{
+    icon: Icon.TABLE_SORT,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default UPLOAD" args={{
+    icon: Icon.UPLOAD,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default HIDE" args={{
+    icon: Icon.HIDE,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default SHOW" args={{
+    icon: Icon.SHOW,
+}}>
+    {Template.bind({})}
+</Story>
+  <Story name="Default SEARCH" args={{
+    icon: Icon.SEARCH,
+}}>
+    {Template.bind({})}
+</Story>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-Iconography](https://img.shields.io/badge/-Iconography-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/bbad0d5b-ee53-4287-a7f6-cf1f2317772f/specs/)
+
+[![XD-ListOfIconsInButton](https://img.shields.io/badge/-ListOfIconsInButton-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/a365fa37-9f9b-4fd9-9c93-68391e7d29d7/specs/)
+
+[![XD-Inputfields](https://img.shields.io/badge/-Inputfields-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

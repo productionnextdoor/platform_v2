@@ -1,0 +1,75 @@
+<pm-wizard
+    [context]="localisations.context"
+    [title]="startStateName + ' - ' + finalStateName"
+    [steps]="wizardStepNames"
+    [localisations]="localisations.wizard"
+    [step]="0"
+    [progress]="0"
+    [isValid]="isValid"
+    [ignoreStepSaving]="true"
+    [wizardSize]="PopupType.MEDIUM"
+    [processingNextStepSuccess]="processingNextStepSuccess.asObservable()"
+    [disableSave]="readonly"
+    (onStepChange)="changeStep($event)"
+    (onCancel)="onClose.emit()"
+    (onFinalize)="saveMeasurementVariants()"
+>
+    //This solution is not ideal, since productStepsData not always has all 3 indexes.
+    //*ngFor and *ngIf don't work here, I suspect it's because the templates created before the input data is taken.
+    //Currently it only works because of the wizard behaviour. All of the templates generated here, even with missing data.
+    //But since the steps calculated based on other variable we simply don't use the broken templates
+    <ng-template>
+        <pm-workstep-data
+            [localisations]="localisations.workstepData"
+            [(productStepData)]="productStepsData[0]"
+            [readonly]="readonly"
+            [assemblyOnly]="assemblyOnly"
+            [showSupplyOtherCraftsInWeeksInput]="showSupplyOtherCraftsInWeeksInput"
+            (productStepDataChange)="wizardInputValidation($event)"
+        ></pm-workstep-data>
+    </ng-template>
+
+    <ng-template>
+        <pm-workstep-data
+            [localisations]="localisations.workstepData"
+            [showInfoBanner]=showInfoBanner
+            [infoBannerText]="localisations.infoBanner"
+            [productStepData]="productStepsData[1]"
+            [readonly]="readonly"
+            [assemblyOnly]="assemblyOnly"
+            [showSupplyOtherCraftsInWeeksInput]="showSupplyOtherCraftsInWeeksInput"
+            (productStepDataChange)="wizardInputValidation($event)"
+            (onBannerClose)="showInfoBanner = false"
+        ></pm-workstep-data>
+    </ng-template>
+
+    <ng-template>
+        <pm-workstep-data
+            [localisations]="localisations.workstepData"
+            [showInfoBanner]="showInfoBanner"
+            [infoBannerText]="localisations.infoBanner"
+            [productStepData]="productStepsData[2]"
+            [readonly]="readonly"
+            [assemblyOnly]="assemblyOnly"
+            [showSupplyOtherCraftsInWeeksInput]="showSupplyOtherCraftsInWeeksInput"
+            (onBannerClose)="showInfoBanner = false"
+            (productStepDataChange)="wizardInputValidation($event)"
+        ></pm-workstep-data>
+    </ng-template>
+
+    <pm-button
+        actions
+        *ngIf="stepId > 0"
+        [disabled]="readonly"
+        [type]="ButtonType.SECONDARY"
+        [label]="localisations.deleteBtn"
+        (onClicked)="showConfirmOnDelete = true"
+    />
+</pm-wizard>
+
+<pm-confirm-popup
+    *ngIf="showConfirmOnDelete"
+    [localisations]="localisations.confirmDeletePopup"
+    (onCancel)="showConfirmOnDelete = false"
+    (onConfirm)="onConfirmDelete()"
+></pm-confirm-popup>

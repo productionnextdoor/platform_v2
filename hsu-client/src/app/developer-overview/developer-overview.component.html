@@ -1,0 +1,21 @@
+<pm-developer-overview
+    [loading]="loading"
+    [localisationStrings]="overviewLocalisations"
+    [columnHeaders]="columnHeaders"
+    [rowData]="rowData"
+    [currentPage]="paginationData.CurrentPage"
+    [totalItems]="totalItems"
+    [itemsPerPageOptions]="itemsPerPageOptions"
+    (onActionClicked)="onActionClicked($event)"
+    (onSortingClicked)="onSortingClicked($event)"
+    (onPageClicked)="onPageClicked($event)"
+    (onSearchTermChanged)="onSearchTermChanged($event)"
+    (onButtonClicked)="openInvitePopup()"
+/>
+
+<pm-invite-developer-popup
+    *ngIf="showInvitePopup"
+    [localisations]="popupLocalisations"
+    (onClose)="closeInvitePopup()"
+    (onInvite)="onInviteDeveloper($event)"
+/>

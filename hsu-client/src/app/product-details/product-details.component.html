@@ -1,0 +1,59 @@
+<div class="container">
+    <ng-container [ngSwitch]="detailsPageType">
+
+        <ng-container *ngSwitchCase="EDetailsPageType.ADMIN">
+            <product-details-admin
+                [productId]="productId"
+                [productName]="productName"
+                [productionDetailsLiveId]="productionDetailsLiveId"
+                [productionDetailsEditId]="productionDetailsEditId"
+                [productDataSidebar]="productDataSidebar"
+                [productDetailsBaseData]="productDetailsBaseData"
+                [fileData]="fileData"
+                [uploadCategories]="uploadCategories"
+                [previewImagePath]="previewImagePath"
+                [previewImagePathFull]="previewImagePathFull"
+                [productState]="productState"
+                (onDownloadFiles)="downloadAllFiles()"
+                (onCloseProductWizard)="fetchProductDetailsSidebarData()"
+                (onOpenLink)="openLink()"
+            />
+        </ng-container>
+
+        <ng-container *ngSwitchCase="EDetailsPageType.DEVELOPER">
+            <product-details-developer
+                [productId]="productId"
+                [productDetailsBaseData]="productDetailsBaseData"
+                [productName]="productName"
+                [productState]="productState"
+                [productionDetails]="productionDetailsLiveId"
+                [previewImagePath]="previewImagePath"
+                [previewImagePathFull]="previewImagePathFull"
+                [offerInformation]="offerInformation"
+                [generalInformation]="generalInformation"
+                [productDataDetailCard]="productDataDetailCard"
+                [fileData]="fileData"
+                [uploadCategories]="uploadCategories"
+                (onDownloadFiles)="downloadAllFiles()"
+                (onOpenLink)="openLink()"
+            />
+        </ng-container>
+
+        <ng-container *ngSwitchCase="EDetailsPageType.PRODUCER">
+            <product-details-producer
+                [productName]="productName"
+                [productionDetailsLiveId]="productionDetailsLiveId"
+                [productionDetailsEditId]="productionDetailsEditId"
+                [productDataSidebar]="productDataSidebar"
+                [productDetailsBaseData]="productDetailsBaseData"
+                [fileData]="fileData"
+                [uploadCategories]="uploadCategories"
+                [previewImagePath]="previewImagePath"
+                [previewImagePathFull]="previewImagePathFull"
+                (onDownloadFiles)="downloadAllFiles()"
+                (onOpenLink)="openLink()"
+            />
+        </ng-container>
+
+    </ng-container>
+</div>

@@ -1,0 +1,16 @@
+name: build
+
+concurrency: development
+
+on:
+  push:
+    branches:
+      - development
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - name: my-step
+        run: echo "Build success"

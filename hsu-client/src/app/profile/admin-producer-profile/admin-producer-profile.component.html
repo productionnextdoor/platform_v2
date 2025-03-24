@@ -1,0 +1,34 @@
+<pm-admin-producer-profile-view
+    [producer]="producer"
+    [breadcrumbs]="getBreadcrumbs()"
+    [ratingMaxValue]="ratingMaxValue"
+    [localisations]="viewProfileLocalisation"
+    (onEditButtonClick)="openEditPopup()"
+    (onDeleteButtonClick)="openConfirmDeletePopup()"
+    (onImpersonateButtonClick)="openConfirmImpersonationPopup()"
+></pm-admin-producer-profile-view>
+
+<pm-confirm-popup
+    *ngIf="confirmDeletePopupIsActive"
+    [localisations]="confirmDeletePopupLocalisation"
+    (onCancel)="closeConfirmDeletePopup()"
+    (onConfirm)="deleteProducer()"
+></pm-confirm-popup>
+
+<pm-confirm-popup
+    *ngIf="confirmImpersonationPopupIsActive"
+    [localisations]="confirmImpersonationPopupLocalisation"
+    (onCancel)="closeConfirmImpersonationPopup()"
+    (onConfirm)="loginAsProducer()"
+></pm-confirm-popup>
+
+<pm-admin-producer-profile-edit
+    *ngIf="editPopupIsActive"
+    (onCancel)=closeEditPopup()
+    (onSave)="saveProducer($event)"
+    [localisations]="editProfileLocalisation"
+    [tradeDropdownOptions]="tradeDropdownOptions"
+    [stateDropdownOptions]="stateDropdownOptions"
+    [ratingDropdownOptions]="ratingDropdownOptions"
+    [producer]="producer">
+</pm-admin-producer-profile-edit>

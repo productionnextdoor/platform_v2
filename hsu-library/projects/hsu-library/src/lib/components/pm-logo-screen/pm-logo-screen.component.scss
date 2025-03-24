@@ -1,0 +1,37 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+
+.logo-screen {
+  --logo-screen-bg-color: #{f.color('neutrals', '900')};
+  --logo-screen-margin: #{f.rem(75)};
+  --logo-screen-logo-width: #{f.rem(275)};
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: var(--logo-screen-bg-color);
+
+  &--limitWidth {
+    --logo-screen-content-width: #{f.rem(484)};
+
+    @include m.vh(100);
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: var(--logo-screen-margin) 0;
+  }
+
+  &__logo {
+    @include m.user-select(none);
+    width: var(--logo-screen-logo-width);
+    margin-bottom: var(--logo-screen-margin);
+  }
+
+  &__content {
+    width: var(--logo-screen-content-width);
+  }
+}

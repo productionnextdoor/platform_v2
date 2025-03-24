@@ -1,0 +1,80 @@
+<fieldset class="pm-dropdown"
+          [ngClass]="{
+              'pm-dropdown--disabled': disabled,
+              'pm-dropdown--error': hasError,
+              'pm-dropdown--filled': value || isZeroOptionSelected,
+              'pm-dropdown--focus': focused && !disabled,
+              'pm-dropdown--hover': hovered && !disabled,
+              'pm-dropdown--open': active && !disabled,
+              'pm-dropdown--required': required,
+          }"
+          [style.--dropdown-margin]="margin | marginConverter"
+>
+    <pm-label
+        *ngIf="label"
+        class="pm-dropdown__label"
+        [text]="label"
+        [for]="inputId"
+        [required]="required"
+    />
+    <div #dropdownField
+         class="pm-dropdown__field"
+         (mouseover)="inputOnHover(true)"
+         (mouseout)="inputOnHover(false)"
+         (focusin)="inputOnFocus(true)"
+         (focusout)="inputOnFocus(false)"
+    >
+        <div class="pm-dropdown__head"
+             tabindex="0"
+             (click)="toggleDropdown($event)"
+             (keyup.space)="toggleDropdown($event)"
+             (mouseover)="inputOnHeadHover(true)"
+             (mouseout)="inputOnHeadHover(false)"
+        >
+            <div *ngIf="!searchable || !active"
+                 class="pm-dropdown__value"
+            >{{ text ? text : placeholder }}</div>
+            <input #dropdownSearch
+                   *ngIf="searchable && active"
+                   class="pm-dropdown__search"
+                   [placeholder]="text ? text : placeholder"
+                   (keyup)="updateOptions()"
+            >
+            <pm-icon class="pm-dropdown__arrow"
+                     [icon]="Icon.CHEVRON"
+                     [size]="IconSize.S"
+            />
+        </div>
+        <div *ngIf="active && !disabled && filteredOptions.length > 0"
+             #dropdownBody
+             class="pm-dropdown__body"
+        >
+            <ul class="pm-dropdown__options" tabindex="-1">
+                <li *ngFor="let option of filteredOptions"
+                    class="pm-dropdown__option"
+                    tabindex="0"
+                    [ngClass]="{
+                'pm-dropdown__option--selected': option.key === value,
+            }"
+                    [value]="option.key"
+                    (click)="selectOption(option)"
+                    (keydown.enter)="selectOption(option)"
+                >{{ option.value }}</li>
+            </ul>
+        </div>
+    </div>
+    <input type="hidden"
+           [name]="name"
+           [value]="value"
+           [disabled]="disabled"
+           [required]="required"
+    >
+
+    <div *ngIf="!hideErrorMessages" class="pm-dropdown__error-messages">
+        <pm-error-message
+            *ngIf="hasError"
+            [errorMessages]="errorMessages"
+            class="pm-dropdown__error-message"
+        />
+    </div>
+</fieldset>

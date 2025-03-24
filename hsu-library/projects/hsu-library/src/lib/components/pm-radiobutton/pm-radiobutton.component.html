@@ -1,0 +1,22 @@
+<div class="radio"
+     [ngClass]="{
+         'radio--disabled': disabled,
+         'radio--checked': checked,
+    }"
+>
+    <input [id]="radioId"
+           [name]="name"
+           type="radio"
+           class="radio__input"
+           [disabled]="disabled"
+           [checked]="checked"
+           [value]="label"
+           (change)="onClick($event)"
+    >
+    <pm-label *ngIf="label"
+              [text]="label"
+              [for]="radioId"
+              [inline]="true"
+              class="radio__label"
+    />
+</div>

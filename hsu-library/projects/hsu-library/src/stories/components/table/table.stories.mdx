@@ -1,0 +1,53 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmTableComponent } from '../../../lib/components/pm-table/pm-table.component';
+import { TableData } from './table.data';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Table/Table" component={PmTableComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmTableComponent)),
+]}/>
+
+<Description of={PmTableComponent}/>
+<Description markdown={`# Table `}/>
+
+export const actionsData = {
+    onActionClicked: action('on action clicked:'),
+    onSort: action('on sort clicked:'),
+    stateChange: action('clicked on checkbox:')
+};
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...TableData,
+        ...args,
+        onActionClicked: actionsData.onActionClicked,
+        onSort: actionsData.onSort,
+        onCheckboxStateChange: actionsData.stateChange
+    },
+});
+
+This contains definitions for the **Table**.
+
+## Table
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-Table](https://img.shields.io/badge/-Table-%235c5c5c?logo=adobexd&labelTable=450034)](https://xd.adobe.com/view/227e28b9-0fa3-482d-9231-74f4637a5da5-772d/screen/da757796-eef6-4ee6-9626-52a9b3d3ce6c/specs/)
+

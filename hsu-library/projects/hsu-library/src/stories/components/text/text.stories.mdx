@@ -1,0 +1,102 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from "@storybook/addon-docs";
+import { moduleMetadata } from "@storybook/angular";
+
+import { PmTextComponent } from "../../../lib/components/pm-text/pm-text.component";
+import { TextType } from "../../../lib/components/pm-text/pm-text.shared";
+import { textData } from "./text.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { storybookHelper } from "../../StorybookHelper";
+
+<Meta
+    title="Components/Typography/Text"
+    component={PmTextComponent}
+    argTypes={{}}
+    parameters={{
+        controls: {disabled: true},
+    }}
+    decorators={[
+        moduleMetadata(getComponentStoryMeta(PmTextComponent)),
+    ]}
+/>
+
+<Description of={PmTextComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-text', textData);
+
+This contains definitions for all **texts**.
+
+<br/>
+<br/>
+
+## Copy-M
+
+<Canvas withToolbar>
+    <Story name="Copy-M1" args={{
+        type: TextType.COPY_M1,
+        ngContent: "Copy-M1 - Karla Regular - Fontsize:Tablet=16px/Desktop=16px - #333333 - N900"
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Copy-M2" args={{
+        type: TextType.COPY_M2,
+        ngContent: "Copy-M2 - Karla Medium - Fontsize:Tablet=16px/Desktop=16px - #333333 - N900"
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Copy-M3" args={{
+        type: TextType.COPY_M3,
+        ngContent: "Copy-M3 - Karla Bold - Fontsize:Tablet=16px/Desktop=16px - #333333 - N900"
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/>
+<br/>
+
+## Copy-S
+
+
+<Canvas withToolbar>
+    <Story name="Copy-S1" args={{
+        type: TextType.COPY_S1,
+        ngContent: "Copy-S1 - Karla Regular - Fontsize:Tablet=12px/Desktop=12px - #333333 - N900"
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Copy-S2" args={{
+        type: TextType.COPY_S2,
+        ngContent: "Copy-S2 - Karla Medium - Fontsize:Tablet=12px/Desktop=12px - #333333 - N900"
+    }}>
+        {Template.bind({})}
+    </Story>
+
+    <Story name="Copy-S3" args={{
+        type: TextType.COPY_S3,
+        ngContent: "Copy-S3 - Karla Bold - Fontsize:Tablet=12px/Desktop=12px - #333333 - N900"
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/>
+
+> **Note**: The margin @Input() utilizes the `CMargin` class to replicate the behavior of CSS margins.\
+> For instance, in CSS, we often use declarations like `margin: 30px 60px;` or `margin: 10px 30px 20px;`.\
+> So by using CMargin class, you can achieve the same effect by using `new CMargin(30, 60)` or `new CMargin(10, 30, 20)`.\
+> This provides a more structured and programmatic way to manage margins within your application.
+
+<br/>
+<br/>
+
+## Design
+
+[![XD-Typography](https://img.shields.io/badge/-Typography-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/348942e5-07b0-4d41-a231-e791ef8e0345/specs/)

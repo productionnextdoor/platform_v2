@@ -1,0 +1,49 @@
+<pm-content-with-sidebar class="product-details"
+                         [breadcrumbs]="getBreadcrumbs()"
+                         [sidebarCollapsed]="sidebarCollapsed"
+                         (onSidebarOpen)="openSidebar()"
+>
+    <pm-product-details-sidebar
+        detailsSidebar
+        [sharePointLink]="productDetailsBaseData.sharePointLink"
+        [localisations]="localisations.sidebar"
+        [fileData]="fileData"
+        [uploadCategories]="uploadCategories"
+        [productDataSidebar]="productDataSidebar"
+        [productImagePath]="previewImagePath"
+        [productImagePathFull]="previewImagePathFull"
+        [(sidebarCollapsed)]="sidebarCollapsed"
+        (onDownload)="onDownloadFiles.emit()"
+        (onClickLink)="onOpenLink.emit()"
+    />
+    <pm-col>
+        <pm-tab-card
+            *ngIf="productionDetailsEditId"
+            [tabs]="tabCardTabs"
+            (onTabChange)="editModeTabChange($event)"
+        />
+        <pm-banner *ngIf="showDeadlineBanner"
+                   (onCloseBanner)="closeDeadlineBanner()"
+                   [bannerText]="deadlineBannerText"
+                   [margin]="deadlineBannerMargin">
+        </pm-banner>
+        <pm-producer-request-card
+            *ngIf="assignmentStatus == ProducerAssignmentStatus.Requested && isActiveDeadline()"
+            [localisationStrings]="localisations.productRequestCard"
+            (onButtonClick)="onRequestAnswer($event)"
+
+        />
+        <pm-product-graph-card
+            [localisations]="localisations.productGraphCard"
+            [graphKeys]="localisations.graphKeys"
+            [isProducerCard]="true"
+        >
+            <product-graph
+                graph
+                [productionDetailsId]="currentProductionDetailsId"
+                [graphMode]="getGraphMode()"
+                (loadingState)="graphLoading$.next($event)"
+            />
+        </pm-product-graph-card>
+    </pm-col>
+</pm-content-with-sidebar>

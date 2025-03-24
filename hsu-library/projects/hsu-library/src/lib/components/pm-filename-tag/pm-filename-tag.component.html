@@ -1,0 +1,12 @@
+<div class="filename-tag">
+    <pm-icon class="filename-tag__icon"
+             [icon]="icon"
+             [size]="EIconSize.S"
+    />
+    <p class="filename-tag__text">{{label}}</p>
+    <pm-icon class="filename-tag__close"
+             [icon]="EIcon.CLOSE"
+             [size]="EIconSize.XS"
+             (click)="onClickButton()"
+    />
+</div>

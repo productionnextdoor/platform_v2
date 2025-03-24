@@ -1,0 +1,21 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.pm-label {
+  @include fonts.font-copy-s1();
+
+  &--inline {
+    @include fonts.apply-font-copy-m1();
+  }
+
+  &--required {
+    &:after {
+      content: '*';
+    }
+  }
+
+  &--bold {
+    @include fonts.apply-font-copy-m3();
+  }
+}

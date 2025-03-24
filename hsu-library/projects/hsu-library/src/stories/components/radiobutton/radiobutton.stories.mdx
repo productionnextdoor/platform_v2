@@ -1,0 +1,92 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmRadiobuttonComponent } from "../../../lib/components/pm-radiobutton/pm-radiobutton.component";
+import { radioButtonData } from "./radiobutton.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Radiobutton/Radiobutton" component={PmRadiobuttonComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmRadiobuttonComponent)),
+]}/>
+
+<Description of={PmRadiobuttonComponent}/>
+<Description markdown={`# Radiobutton`}/>
+
+export const actionsData = {
+    onActivate: action('clicked on radio button:'),
+};
+export const Template = args => ({
+    props: {
+        ...radioButtonData,
+        ...args,
+        onActivate: actionsData.onActivate
+    },
+});
+
+
+
+This contains the **Radiobuttons**.
+
+## Radiobutton - Default
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Radiobutton - Checked
+
+<Canvas withToolbar isColumn>
+    <Story name="Checked" args={{
+        checked: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Radiobutton - Disabled
+
+<Canvas withToolbar isColumn>
+    <Story name="Disabled" args={{
+        disabled: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Radiobutton - Disabled and Checked
+
+<Canvas withToolbar isColumn>
+    <Story name="Disabled and checked" args={{
+        disabled: true,
+        checked: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+## Radiobutton - With Label
+
+<Canvas withToolbar isColumn>
+    <Story name="With Label" args={{
+        label: 'With Label'
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-RadioButtons](https://img.shields.io/badge/-RadioButtons-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/fa0d840c-7331-46bb-bb25-243378b092b1/)

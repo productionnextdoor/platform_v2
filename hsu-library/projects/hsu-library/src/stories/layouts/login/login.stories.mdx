@@ -1,0 +1,51 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmLoginComponent } from "../../../lib/layouts/pm-login/pm-login.component";
+import { loginPageData } from "./login.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+
+<Meta title="Layouts/Login/Login" component={PmLoginComponent} argTypes={{}}
+      parameters={{
+          controls: {disabled: true}
+      }}
+      decorators={[
+          moduleMetadata(getComponentStoryMeta(PmLoginComponent)),
+      ]}/>
+
+<Description of={PmLoginComponent}/>
+
+export const actionsData = {
+    formData: action('on submit'),
+    onForgotPassword: action('on forgot password')
+};
+
+export const Template = args => ({
+    props: {
+        ...loginPageData,
+        ...args,
+        formData: actionsData.formData,
+    },
+});
+
+
+## Login
+
+<Canvas withToolbar isColumn>
+    <Story name="Login">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-Login](https://img.shields.io/badge/-login-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/6db2a224-abd8-4478-af5a-7099e15f2fc0-38e1/screen/dbe399b9-b91b-4361-9140-be812e797367/)

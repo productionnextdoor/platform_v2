@@ -1,0 +1,73 @@
+import { PmWorkstepWizardComponent } from "../../../lib/layouts/pm-workstep-wizard/pm-workstep-wizard.component";
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { WorkstepWizardData } from "./workstep-wizard.data";
+
+<Meta title="Layouts/Workstep-wizard/Workstep-wizard" component={PmWorkstepWizardComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmWorkstepWizardComponent)),
+]}/>
+
+<Description of={PmWorkstepWizardComponent}/>
+<Description markdown={`# Workstep wizard `}/>
+
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...WorkstepWizardData,
+        ...args
+    },
+});
+
+This contains definitions for the **Workstep wizard**.
+
+## Workstep wizard
+
+<Canvas withToolbar isColumn>
+    <Story name="Default" height={'700px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Readonly
+
+<Canvas withToolbar>
+    <Story name="ReadOnly" height={'700px'} args={{
+        readonly: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Assembly only
+
+<Canvas withToolbar>
+    <Story name="AssemblyOnly" height={'700px'} args={{
+        assemblyOnly: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Show input for SupplyOtherCraftsInWeeks 
+The field is shown if the following conditions are met:
+
+- Assembly is involved but not only.
+- The product has multiple branches/lines - so multiple final work pieces.
+
+<Canvas withToolbar>
+    <Story name="AssemblyInvolved" height={'700px'} args={{
+        assemblyOnly: false,
+        assemblyInvolved: true,
+        productFinalWorkPiecesCount: 2
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Design
+
+[![XD-WorkstepWizard](https://img.shields.io/badge/-WorkstepWizard-%235c5c5c?logo=adobexd&labelWorkstepWizard=450034)](https://xd.adobe.com/view/6e662e35-f7b5-4658-9803-76ad3cd632d1-3b35/)

@@ -1,0 +1,38 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { stateLockedPopup } from "./state-locked-popup";
+import { PmStateLockedPopupComponent } from "../../../lib/layouts/pm-state-locked-popup/pm-state-locked-popup.component";
+
+
+<Meta title="Layouts/State-Lock-Popup/State-Lock-Popup" component={PmStateLockedPopupComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmStateLockedPopupComponent))
+]}/>
+
+<Description of={PmStateLockedPopupComponent}/>
+
+export const actionsData = {
+    onConfirm: action('on confirm'),
+};
+
+export const Template = args => ({
+    props: {
+        ...stateLockedPopup,
+        ...args,
+        ...actionsData
+    },
+});
+
+# StateLock Popup
+
+<Canvas withToolbar>
+  <Story name="Default" height={'500px'}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+

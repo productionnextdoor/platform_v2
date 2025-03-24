@@ -1,0 +1,48 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+
+.pm-popup {
+  --popup-background-color: #{f.color('neutrals', 700)};
+  --popup-background-opacity: 0.5;
+  --popup-width: #{f.rem(688)};
+  --popup-padding: #{f.rem(40)};
+
+  position: fixed;
+  inset: var(--popup-padding);
+  z-index: f.z-index('popup');
+
+  &:after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-color: var(--popup-background-color);
+    opacity: var(--popup-background-opacity);
+    z-index: f.z-index('popup-overlay');
+  }
+
+  &--medium {
+    --popup-width: #{f.rem(960)};
+  }
+
+  &--large {
+    --popup-width: 100%;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: var(--popup-width);
+    height: 100%;
+    margin-inline: auto;
+  }
+
+  &__card {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: var(--popup-width);
+    height: 100%;
+    margin-inline: auto;
+  }
+}

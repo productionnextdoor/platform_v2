@@ -1,0 +1,31 @@
+<pm-row template="1fr 2fr" [gap]="margins.Large">
+    <pm-card
+        [hasHeader]="true"
+        [title]="localisations.mainTitle"
+        class="developer-revenue-card"
+    >
+        <pm-text
+            [type]="TextType.H3"
+            class="developer-revenue-card__title"
+        >
+            {{localisations.subTitle}}
+        </pm-text>
+
+        <div>
+            <span class="developer-revenue-card__text">{{localisations.totalOrders}}</span>
+            <span class="developer-revenue-card__value">{{revenueData.totalOrders}}</span>
+        </div>
+        <div>
+            <span class="developer-revenue-card__text">{{localisations.priceRange}}</span>
+            <span class="developer-revenue-card__value">{{revenueData.priceRange}} €</span>
+        </div>
+        <div>
+            <span class="developer-revenue-card__text">{{localisations.royaltyRate}}</span>
+            <span class="developer-revenue-card__value">{{revenueData.royaltyRate}}%</span>
+        </div>
+        <div>
+            <span class="developer-revenue-card__text">{{localisations.totalRevenue}}</span>
+            <span class="developer-revenue-card__value">{{revenueData.totalRevenue}} €</span>
+        </div>
+    </pm-card>
+</pm-row>

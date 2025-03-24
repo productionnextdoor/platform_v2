@@ -1,0 +1,48 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story,
+    ArgsTable
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { getComponentStoryMeta } from "../../../ComponentDependencies";
+import {PmCurrentAdminProfileComponent} from "../../../../lib/layouts/pm-profile/pm-current-admin-profile/pm-current-admin-profile.component";
+import {currentAdminProfileData} from "./current-admin-profile.data";
+
+<Meta title="Layouts/Profiles/CurrentAdminProfile" component={PmCurrentAdminProfileComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmCurrentAdminProfileComponent)),
+]}/>
+
+<Description of={PmCurrentAdminProfileComponent}/>
+
+export const actionsData = {
+    onSave: action('on save'),
+    onClose: action('on close'),
+};
+export const Template = args => ({
+    props: {
+        ...currentAdminProfileData,
+        ...args,
+        ...actionsData,
+    },
+});
+
+<br/><br/>
+
+## Admin Profile Popup
+
+<Canvas withToolbar>
+    <Story name="Default" height={'900px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Default"/>
+
+## Design
+[![XD-AdminProfile](https://img.shields.io/badge/-AdminProfile-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/ece31471-843c-40e5-b358-b0fbba72c25b-b9b0/screen/9e022254-e480-479e-93eb-d3c98aa61dcc/)

@@ -1,0 +1,96 @@
+<div class="table__container-wrapper">
+    <div class="table__container">
+        <table *ngIf="!draggable" class="table" #table>
+            <tr class="table__header-row">
+                <th *ngFor="let column of columnHeaders"
+                    class="table__column"
+                    [ngClass]="column.type === TableHeaderType.Checkbox ? 'table__column--checkbox-cell' : ''"
+                >
+                    <pm-table-header
+                        #headerComponent
+                        *ngIf="column.type !== TableHeaderType.Checkbox || multiselect"
+                        [column]="column"
+                        [disabled]="loading"
+                        [checkboxDisabled]="checkboxesDisabled"
+                        [(checkboxState)]="headerCheckboxState"
+                        (checkboxStateChange)="headerCheckboxStateChange(headerCheckboxState)"
+                        (onSort)="sort($event)"
+                    />
+                </th>
+            </tr>
+            <tr *ngFor="let row of rows;"
+                class="table__row"
+                [ngClass]="!loading && row.isHighlighted ? 'table__row--active' : ''"
+            >
+                <td *ngFor="let cell of row.cells"
+                    class="table__column"
+                    [ngClass]="cell.type === ECellType.CHECKBOX_CELL ? 'table__column--checkbox-cell' : ''"
+                >
+                    <pm-table-cell
+                        [cell]="cell"
+                        [loading]="loading"
+                        [checkboxDisabled]="checkboxesDisabled"
+                        (onExecuteAction)="executeActionOnCell($event, row.rowId)"
+                        (onCheckboxStateChange)="checkboxStateChange($event, row.rowId)"
+                    />
+                </td>
+            </tr>
+        </table>
+
+        <!--Table for sorting measurements component-->
+        <table *ngIf="draggable"
+               class="table"
+               cdkDropList
+               (cdkDropListDropped)="drop($event)"
+               #table>
+
+            <tr class="table__header-row">
+                <th class="table__column"
+                    *ngFor="let column of columnHeaders"
+                    [ngClass]="column.type === TableHeaderType.Checkbox ? 'table__column--checkbox-cell' : ''"
+                >
+                    <pm-table-header
+                        #headerComponent
+                        [column]="column"
+                        [disabled]="loading"
+                        [(checkboxState)]="headerCheckboxState"
+                        (checkboxStateChange)="headerCheckboxStateChange(headerCheckboxState)"
+                        (onSort)="sort($event)"
+                    />
+                </th>
+            </tr>
+
+            <ng-container  *ngFor="let row of rows">
+                <tr class="table__row"
+                    cdkDrag
+                    (cdkDragStarted)="dragStart($event)"
+                    [ngClass]="!loading && row.isHighlighted ? 'table__row--active' : ''"
+                >
+                    <div class="table__drag-placeholder" *cdkDragPlaceholder></div>
+                    <td *ngIf="draggable"
+                        class="table__column"
+                    >
+                        <pm-icon cdkDragHandle
+                                 class="table__icon-drag"
+                                 id="table__icon-drag"
+                                 *ngIf="draggable"
+                                 [icon]="Icon.DRAG"
+                                 [size]="IconSize.S"
+                        />
+                    </td>
+                    <td *ngFor="let cell of row.cells"
+                        class="table__column"
+                        [ngClass]="cell.type === ECellType.CHECKBOX_CELL ? 'table__column--checkbox-cell' : ''"
+                    >
+                        <pm-table-cell
+                            [cell]="cell"
+                            [loading]="loading"
+                            (onExecuteAction)="executeActionOnCell($event, row.rowId)"
+                            (onCheckboxStateChange)="checkboxStateChange($event, row.rowId)"
+                        />
+                    </td>
+                </tr>
+            </ng-container>
+        </table>
+    </div>
+</div>

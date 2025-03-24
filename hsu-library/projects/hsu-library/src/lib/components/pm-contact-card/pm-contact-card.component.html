@@ -1,0 +1,26 @@
+<div class="contact-card">
+    <div class="contact-card__title">{{ localisationStrings.title }}</div>
+    <div class="contact-card__text">{{ localisationStrings.text }}</div>
+    <a class="contact-card__contact"
+       *ngFor="let contact of contactCardContacts"
+       [href]="contact.href"
+    >
+        <pm-icon
+            [icon]="contact.icon"
+            [size]="IconSize.S"
+        />
+        {{ contact.text }}
+    </a>
+    <ul class="contact-card__links">
+        <li class="contact-card__link"
+            *ngFor="let link of contactCardLinks"
+            (click)="onContactCardLinkClicked(link)"
+        >
+            <pm-icon
+                [icon]="link.icon"
+                [size]="IconSize.S"
+            />
+            {{ link.title }}
+        </li>
+    </ul>
+</div>

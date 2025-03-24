@@ -1,0 +1,85 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use "../../styles/base/fonts" as fonts;
+
+.steps {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  counter-reset: step-counter;
+  overflow: auto;
+}
+
+.steps__wrapper {
+  // Step Number Variables
+  --step-number-size: #{f.rem(24)};
+  --step-number-background-color: #{f.color(secondary, 100)};
+
+  // Step Title Variables
+  --step-title-color: #{f.color(neutrals, 100)};
+  --step-cursor: pointer;
+
+  // Step Divider Variables
+  --step-divider: block;
+  --step-divider-width: #{f.rem(24)};
+  --step-divider-height: #{f.rem(1)};
+  --step-divider-color: #{f.color(neutrals, 100)};
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-shrink: 0;
+
+  &--active {
+    --step-number-background-color: #{f.color(primary, 100)};
+  }
+
+  &--disabled {
+    --step-number-background-color: #{f.color(neutrals, 500)};
+    --step-title-color: #{f.color(neutrals, 500)};
+    --step-divider-color: #{f.color(neutrals, 500)};
+    --step-cursor: no pointer;
+  }
+
+  &:before {
+    content: '';
+    display: var(--step-divider);
+    width: var(--step-divider-width);
+    margin-inline: f.rem(8);
+    height: var(--step-divider-height);
+    background-color: var(--step-divider-color);
+  }
+
+  &:first-child {
+    --step-divider: none;
+  }
+
+  &__title {
+    @include fonts.font-h3();
+
+    display: flex;
+    cursor: var(--step-cursor);
+    text-align: left;
+    color: var(--step-title-color);
+    @include m.user-select(none);
+
+    &:before {
+      @include fonts.font-copy-m2();
+
+      content: counters(step-counter, '');
+      counter-increment: step-counter;
+
+      display: inline-block;
+      width: var(--step-number-size);
+      height: var(--step-number-size);
+      margin-right: f.rem(8);
+      @include m.border-radius(50%);
+      background-color: var(--step-number-background-color);
+      text-align: center;
+      color: f.color(neutrals, 1100);
+    }
+  }
+}
+
+
+

@@ -1,0 +1,47 @@
+import { Meta, Story, Description, Canvas } from '@storybook/addon-docs';
+
+import { PmLabelComponent } from "../../../lib/components/pm-label/pm-label.component";
+import { labelData } from "./label.data";
+
+<Meta title="Components/Label/Label" component={PmLabelComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}}/>
+
+<Description of={PmLabelComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...labelData,
+        ...args,
+    },
+});
+
+## Label
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+    <Story name="Required" args={{
+        required: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Inline" args={{
+        inline: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Bold" args={{
+        bold: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-Label](https://img.shields.io/badge/-Label-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

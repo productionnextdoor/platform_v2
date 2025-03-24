@@ -1,0 +1,187 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmCardComponent } from "../../../lib/components/pm-card/pm-card.component";
+import { storybookHelper } from "../../StorybookHelper";
+import { cardData } from "./card.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Card/Card" component={PmCardComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmCardComponent)),
+]}/>
+
+<Description of={PmCardComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-card', cardData);
+
+<br/><br/>
+
+
+## Card Default
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+    <Story name="Context Card" args={{
+        context: 'My Context',
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Default Disabled" args={{
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Default no Shadow" args={{
+        noShadow: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+
+## Card Collapsible
+
+<Canvas withToolbar>
+    <Story name="Collapsible" args={{
+        collapsible: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Collapsible Disabled" args={{
+        collapsible: true,
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Collapsible no Shadow" args={{
+        collapsible: true,
+        noShadow: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+
+## Card Collapsed
+
+<Canvas withToolbar>
+    <Story name="Collapsed" args={{
+        collapsible: true,
+        collapsed: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Collapsed Disabled" args={{
+        collapsible: true,
+        collapsed: true,
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Card with badge
+
+<Canvas withToolbar>
+
+    <Story name="Card with badge" args={{
+        badgeText: 'Badge'
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Card with badge colapsable" args={{
+        collapsible: true,
+        badgeText: 'Badge'
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Card with badge colapsed" args={{
+        collapsible: true,
+        collapsed: true,
+        badgeText: 'Badge'
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+
+## Card Closable
+
+<Canvas withToolbar>
+    <Story name="Closable" args={{
+        closable: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Closable Disabled" args={{
+        closable: true,
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+
+## Card Full Features
+
+<Canvas withToolbar>
+    <Story name="Full Featured" args={{
+        collapsible: true,
+        closable: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Full Featured Disabled" args={{
+        collapsible: true,
+        closable: true,
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+
+## Card without Title
+
+<Canvas withToolbar>
+    <Story name="Wthout Header" args={{
+        hasHeader: false,
+        title: '',
+    }}>
+        {Template.bind({})}
+    </Story>
+    <Story name="Wthout Header Disabled" args={{
+        hasHeader: false,
+        title: '',
+        disabled: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+> **Note**: Card component has one optional content slot. <br/>
+> `header`: Header Area between the title and action buttons (optional) <br/><br/>
+> **Example**: <br/>
+> ```<ng-container header>Some Header Content</ng-container>```
+
+<br/>
+<br/>
+
+## Design
+
+[![XD-Card](https://img.shields.io/badge/-Card-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/162fe405-e223-4dcb-98dd-1af22094405b/specs/)

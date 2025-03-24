@@ -1,0 +1,79 @@
+import { moduleMetadata } from "@storybook/angular";
+import { ArgsTable, Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+
+import { PmButtonComponent } from "../../../lib/components/pm-button/pm-button.component";
+import { PmPopupComponent, PopupType } from '../../../lib/components/pm-popup/pm-popup.component';
+import { storybookHelper } from "../../StorybookHelper";
+import { popupData } from './popup.data';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Popup/Sandbox" component={PmPopupComponent} argTypes={{
+    hasHeader: {
+        control: 'boolean',
+        description: 'Defines if the card has a header',
+        table: {
+            category: 'Visual',
+        },
+    },
+    title: {
+        control: 'text',
+        description: 'Defines the text in the title of the card',
+        table: {
+            category: 'Text',
+        },
+    },
+    closable: {
+        control: 'boolean',
+        description: 'Defines if the card is closable',
+        table: {
+            category: 'State',
+        },
+    },
+    type: {
+        control: 'radio',
+        description: 'The type of the input',
+        options: PopupType,
+        table: {
+            category: 'Visual',
+        },
+    },
+    ngContent: {
+        control: 'text',
+        description: 'ng-content of the card',
+        table: {
+            category: 'Text',
+        },
+    },
+}} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(
+        PmPopupComponent,
+        [
+            PmButtonComponent
+        ]
+    )),
+]}/>
+
+<Description of={PmPopupComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-popup', popupData);
+
+This contains the **Popup-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar layout={'fullscreen'}>
+    <Story name="Sandbox" height={'500px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+[![XD-Popup](https://img.shields.io/badge/-Popup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/d3439fc0-406b-45a9-99c1-1a85233e44cb/)

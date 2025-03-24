@@ -1,0 +1,13 @@
+.pm-col {
+  --col-gap: 0;
+  --col-template: auto;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: var(--col-template);
+  grid-gap: var(--col-gap);
+
+  &--fullHeight {
+    height: 100%;
+  }
+}

@@ -1,0 +1,123 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.card {
+  --card-padding-x: #{f.rem(24)};
+  --card-padding-y: #{f.rem(32)};
+  --card-content-padding-x: var(--card-padding-x);
+  --card-background-color: #{f.color(neutrals, 1100)};
+  --card-border-radius: #{f.rem(16)};
+  --card-box-shadow: #{0 f.rem(2) f.rem(40) f.color('neutrals', 310)};
+  --card-context-color: #{f.color('neutrals', 500)};
+  --card-button-shadow-padding: #{f.rem(6)};
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  padding-top: var(--card-padding-y);
+  box-shadow: var(--card-box-shadow);
+  @include m.border-radius(var(--card-border-radius));
+  background-color: var(--card-background-color);
+
+  &--no-content-padding {
+    --card-content-padding-x: 0;
+  }
+
+  &--full-height {
+    height: 100%;
+  }
+
+  &--disabled {
+    --card-background-color: #{f.color('neutrals', 900)};
+  }
+
+  &--no-shadow {
+    --card-box-shadow: none;
+  }
+
+  &__header {
+    padding: 0 var(--card-padding-x) var(--card-padding-y);
+
+    &-columns {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-right {
+      display: flex;
+      align-items: center;
+      align-self: flex-start;
+    }
+
+    &-badge {
+      margin: 0 0 var(--card-padding-x);
+    }
+
+    &-text {
+      display: flex;
+      align-items: center;
+    }
+
+    &-content {
+      flex-grow: 1;
+
+      &:empty {
+        display: none;
+      }
+    }
+  }
+
+  &__footer {
+    // show button shadow in card-content but also have 32px bottom padding if card footer is not empty
+    padding: calc(var(--card-padding-y) - var(--card-button-shadow-padding)) var(--card-padding-x) var(--card-padding-y);
+
+    &:empty {
+      padding-bottom: 0;
+    }
+  }
+
+  &__title {
+    &-wrapper {
+      @include fonts.font-h2();
+      display: flex;
+      align-items: center;
+      margin-right: auto;
+      padding-right: f.rem(12);
+    }
+
+    &-icon {
+      margin-right: f.rem(12);
+    }
+  }
+
+  &__context {
+    color: var(--card-context-color);
+    margin-right: f.rem(8);
+  }
+
+  &__btn {
+    margin-left: f.rem(12);
+  }
+
+  &__collapsible {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding-inline: var(--card-content-padding-x);
+    padding-bottom: var(--card-button-shadow-padding);// show button shadow
+  }
+}

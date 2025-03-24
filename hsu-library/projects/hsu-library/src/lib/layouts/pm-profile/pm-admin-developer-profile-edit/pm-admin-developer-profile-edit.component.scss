@@ -1,0 +1,28 @@
+@use '../../../styles/utils/functions' as f;
+@use '../../../styles/base/fonts' as fonts;
+
+.admin-developer-profile-edit {
+  &__form {
+    &-title {
+      @include fonts.font-h3();
+      margin-bottom: f.rem(24);
+    }
+
+    &-introduction {
+      margin: f.rem(8) 0 f.rem(40);
+    }
+  }
+
+  &__note {
+    margin-top: f.rem(16);
+  }
+
+  &__footer {
+    padding: f.rem(8) 0;
+    text-align: right;
+  }
+
+  &__cancel {
+    margin-right: f.rem(24);
+  }
+}

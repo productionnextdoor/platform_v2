@@ -1,0 +1,12 @@
+<pm-producer-registration
+    [localisations]="localisations"
+    [logoPath]="logoPath"
+    [producer]="producer"
+    [tradeDropdownOptions]="tradeDropdownOptions"
+    [passwordComplexitySetting]="passwordComplexitySetting"
+    [termsAndConditionLink]="imprintLinks[0]"
+    [privacyPolicyLink]="imprintLinks[1]"
+    (onRegister)="registerProducer()"
+    (onClickImprintLink)="onImprintLinkClicked($event)"
+/>
+

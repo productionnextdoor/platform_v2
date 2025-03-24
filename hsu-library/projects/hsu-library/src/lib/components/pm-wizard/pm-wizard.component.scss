@@ -1,0 +1,43 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.pm-wizard {
+  --wizard-action-vertical-margin: #{f.rem(12)};
+  --wizard-action-horizontal-margin: #{f.rem(24)};
+
+  &__content {
+    padding: f.rem(40) 0 0;
+  }
+
+  &__footer {
+    margin-top: calc(var(--wizard-action-vertical-margin) * -1);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "left right";
+  }
+
+  &__custom-actions {
+    grid-area: left;
+  }
+
+  &__actions {
+    grid-area: right;
+  }
+
+  &__action,
+  &__custom-actions {
+    display: inline-block;
+    margin: var(--wizard-action-vertical-margin) 0 0 var(--wizard-action-horizontal-margin);
+
+    &:first-child {
+      --wizard-action-horizontal-margin: 0;
+    }
+  }
+
+  &__custom-actions {
+    &:empty {
+      display: none;
+    }
+  }
+}

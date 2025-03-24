@@ -1,0 +1,121 @@
+name: Build HSU-Client
+on:
+  push:
+    paths:
+      - 'hsu-client/**'
+      - 'hsu-library/**'
+    branches:
+      - 'development'
+      - 'stage'
+      # - 'master'
+  workflow_dispatch:
+    inputs:
+      BRANCH_NAME:
+        description: 'Define BRANCH_NAME branch'
+        required: true
+        default: 'development'
+
+env:
+  ProjectName: hsu-platform-2
+  BRANCH_NAME: ${{ github.event.inputs.BRANCH_NAME }}
+  BACKUP_TAG: ${{ github.event_name != 'workflow_dispatch' &&  github.run_number || github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ startsWith(github.ref, 'refs/heads/development') && 'development' || startsWith(github.ref, 'refs/heads/stage') && 'stage' || startsWith(github.ref, 'refs/heads/master') && 'master' || 'unknown' }}
+    steps:
+    - name: Set env
+      if: ${{ github.event_name != 'workflow_dispatch' }}
+      run: |
+        BRANCH_NAME=${GITHUB_REF##*/}
+        echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+    - name: Notifying on start
+      uses: pmagentur/pm_slack_notifier@v0.2
+      env:
+        SLACK_CHANNEL: proj-hsu-platform-build
+        SLACK_COLOR: '#FFA500'
+        SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
+        SLACK_MESSAGE: 'Deployment to ${{ env.ProjectName }} Client  ${{ env.BRANCH_NAME }} is started'
+        SLACK_TITLE: 'Deployment to ${{ env.ProjectName }} Client ${{ env.BRANCH_NAME }}'
+        SLACK_USERNAME: "PM's whisperer"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    - uses: actions/checkout@v1
+    - name: Installing NodeJS
+      uses: actions/setup-node@v1
+      with:
+        node-version: 16
+    - name: Installing angular
+      run: |
+        npm install -g @angular/cli@13.3.6
+        ng version
+
+    - name: build from script
+      env:
+        Docker_registry: ${{ vars.DOCKER_REGISTRY  }}
+        Docker_login: ${{ secrets.DOCKER_USER }}
+        Docker_pass: ${{ secrets.DOCKER_PASS }}
+        BRANCH_NAME: ${{ env.BRANCH_NAME }}
+      run: |
+        if [ ${BRANCH_NAME} = "master" ]; then ENV='production'; fi
+        if [ ${BRANCH_NAME} = "stage" ]; then ENV='stage'; fi
+        if [ ${BRANCH_NAME} = "development" ]; then ENV='dev'; fi
+        echo ${ENV}
+
+        export NODE_OPTIONS="--max_old_space_size=4096"
+        echo ${NODE_OPTIONS}
+        echo "Building storybook"
+        cd hsu-library
+        npm i
+        ng build
+        cd -
+        echo "Building storybook Done"
+        
+        cd hsu-client
+        npm install --legacy-peer-deps
+        ng build --configuration ${ENV}
+        mkdir ng
+        mv Dockerfile ng/
+        mv default.conf ng/
+        mv htpasswd ng/  
+        mv dist/hsu-client/* ng/
+        cd ng
+
+        docker login -u ${Docker_login} -p ${Docker_pass} ${Docker_registry}
+        docker build -t ${Docker_registry}/${{ env.ProjectName }}-client:${ENV} .
+        docker push ${Docker_registry}/${{ env.ProjectName }}-client:${ENV}
+        
+        docker tag ${Docker_registry}/${{ env.ProjectName }}-client:${ENV} ${Docker_registry}/${{ env.ProjectName }}-client:${BACKUP_TAG}
+        docker push ${Docker_registry}/${{ env.ProjectName }}-client:${BACKUP_TAG}
+  failure:
+    needs: [build]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notifying on error
+      uses: pmagentur/pm_slack_notifier@v0.2
+      env:
+        SLACK_CHANNEL: proj-hsu-platform-build
+        SLACK_COLOR: '#FF0000'
+        SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
+        SLACK_MESSAGE: '${{ env.ProjectName }} Client ${{ env.BRANCH_NAME }} failed :x:'
+        SLACK_TITLE: 'Deployment to ${{ env.ProjectName }} Client ${{ env.BRANCH_NAME }}'
+        SLACK_USERNAME: "PM's whisperer"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+  successed:
+    needs: [build]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Notifying on success
+      uses: pmagentur/pm_slack_notifier@v0.2
+      env:
+        SLACK_CHANNEL: proj-hsu-platform-build
+        SLACK_COLOR: '#006400'
+        SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
+        SLACK_MESSAGE: 'Successfully deployed ${{ env.ProjectName }} Client ${{ env.BRANCH_NAME }} :white_check_mark:'
+        SLACK_TITLE: 'Deployment to ${{ env.ProjectName }} Client ${{ env.BRANCH_NAME }}'
+        SLACK_USERNAME: "PM's whisperer"
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

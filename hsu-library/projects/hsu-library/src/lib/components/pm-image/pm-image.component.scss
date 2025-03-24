@@ -1,0 +1,52 @@
+@use '../../styles/utils/functions' as f;
+
+.pm-image {
+  --image-max-height: none;
+  --icon-top: #{f.rem(8)};
+  --icon-right: #{f.rem(8)};
+
+  position: relative;
+
+  &--limitHeight {
+      --image-max-height: #{f.rem(200)};
+  }
+
+  &__image {
+    --image-fit: contain;
+    --image-shadow: none;
+
+    overflow: auto;
+    height: 100%;
+    box-shadow: var(--image-shadow);
+    border-radius: f.rem(8);
+
+    &--thumbnail {
+      --image-fit: cover;
+      --image-shadow: #{f.rem(2)} #{f.rem(2)} #{f.rem(6)} #{f.color(neutrals, 500)};
+    }
+  }
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    max-height: var(--image-max-height);
+    object-fit: var(--image-fit);
+
+    &--full {
+      max-height: none;
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    top: var(--icon-top);
+    right: var(--icon-right);
+  }
+
+  &__popup {
+    --icon-top: #{f.rem(32)};
+    --icon-right: #{f.rem(32)};
+
+    position: relative;
+  }
+}

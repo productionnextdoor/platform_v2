@@ -1,0 +1,125 @@
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/utils/functions' as f;
+
+.table {
+  --table-border: #{f.rem(1)} dashed #{f.color(neutrals, 500)};
+
+  position: relative;
+  width: 100%;
+  border-collapse: collapse;
+
+
+  /*#region Horizontal scroll bar*/
+  &__container {
+    --scroll-bar-border-color: #{f.color(neutrals, 1100)};
+    --scroll-bar-bg-color: #{f.color(neutrals, 700)};
+    --scroll-bar-track-color: #{f.color(neutrals, 1100)};
+    overflow-x: auto;
+    scrollbar-width: auto;
+    scrollbar-color: var(--scroll-bar-bg-color) var(--scroll-bar-border-color);
+
+    &::-webkit-scrollbar {
+      width: f.rem(16);
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--scroll-bar-track-color);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scroll-bar-bg-color);
+      @include m.border-radius(f.rem(10));
+      border: f.rem(6) solid var(--scroll-bar-border-color)
+    }
+
+    &-wrapper {
+      // Scroll container fix
+      display: grid;
+    }
+  }
+
+  /*#endregion Horizontal scroll ba*/
+
+  &__column {
+    align-items: center;
+    height: f.rem(48);
+    padding-right: f.rem(40);
+
+    &:first-child {
+      padding-left: f.rem(24);
+    }
+
+    &:last-child {
+      padding-right: f.rem(24);
+    }
+
+    &--checkbox-cell {
+      width: f.rem(24);
+      padding-right: f.rem(15);
+    }
+  }
+
+  &__header-row {
+    position: relative;
+    align-items: start;
+    color: f.color(neutrals, 100);
+
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: f.rem(24);
+      right: f.rem(24);
+      height: f.rem(1);
+      border-bottom: var(--table-border);
+    }
+  }
+
+  &__row {
+    @extend .table__header-row;
+    color: f.color(neutrals, 300);
+
+    &:hover {
+      background-color: f.color(neutrals, 900);
+    }
+
+    &--active, {
+      background-color: f.color(primary, 500);
+    }
+  }
+
+  &__icon-drag {
+    cursor: grab;
+  }
+
+  &__icon-drag:active {
+    cursor: grabbing;
+  }
+
+  &__drag-placeholder {
+    min-height: f.rem(48);
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100vw;
+      height: f.rem(48);
+      background: f.color(neutrals, 700);
+    }
+  }
+}
+
+.cdk-drag-preview {
+  @extend .table;
+  width: 100%;
+  box-shadow: f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 320);
+  background-color: f.color(neutrals, 1100);
+
+    &.table__row {
+      @extend .table__header-row;
+      vertical-align: middle;
+      &:after {
+        border-bottom: none;
+      }
+    }
+}

@@ -1,0 +1,155 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+
+.grid {
+  --grid-display: flex;
+  --grid-header-display: block;
+  --grid-button-size: #{f.rem(40)};
+  --grid-default-padding: #{f.rem(32)};
+  --grid-content-background-color: #{f.color('neutrals', 900)};
+  --grid-overlay-color: #{f.color('neutrals', 300)};
+  --grid-overlay-opacity: 0.5;
+  --grid-navigation-toggle-display: none;
+  --grid-navigation-display: none;
+  --grid-overlay-display: none;
+
+  display: var(--grid-display);
+  @include m.vh(100);
+
+  @include m.mq(xl) {
+    --grid-overlay-color: var(--grid-content-background-color);
+    --grid-overlay-opacity: 1;
+    --grid-navigation-toggle-display: block;
+    --grid-header-display: none;
+  }
+
+  &--fullscreen {
+    --grid-display: block;
+    --grid-header-display: none;
+  }
+
+  &__navigation {
+    --grid-menu-width: 0;
+    --grid-menu-max-width: #{f.rem(322)};
+    --grid-sidebar-width: #{f.rem(69)};
+    --grid-menu-border-color: #{f.color('neutrals', 500)};
+    --grid-sidebar-border-color: #{f.color('neutrals', 500)};
+    --grid-menu-background-color: #{f.color('neutrals', 1100)};
+    --grid-sidebar-background-color: #{f.color('neutrals', 900)};
+
+    --grid-navigation-menu-border-width: 0;
+    --grid-navigation-menu-transition-time: 700ms;
+    --grid-navigation-position: fixed;
+
+    z-index: f.z-index('navigation');
+
+    @include m.mq(xl) {
+      --grid-menu-max-width: #{f.rem(317)};
+      --grid-sidebar-width: #{f.rem(99)};
+      --grid-navigation-display: flex;
+      --grid-navigation-position: relative;
+    }
+
+    &:after {
+      content: '';
+      display: var(--grid-overlay-display);
+      position: absolute;
+      z-index: f.z-index('content-overlay');
+      inset: 0;
+      opacity: var(--grid-overlay-opacity);
+      background-color: var(--grid-overlay-color);
+    }
+
+    &--open {
+      --grid-menu-width: var(--grid-menu-max-width);
+      --grid-navigation-menu-border-width: #{f.rem(1)};
+      --grid-navigation-menu-transition-time: 0ms;
+      --grid-navigation-display: flex;
+      --grid-overlay-display: block;
+
+      @include m.mq(xl) {
+        --grid-overlay-display: none;
+      }
+    }
+
+    &--fullscreen {
+      --grid-navigation-display: none;
+    }
+
+    &-inner {
+      position: var(--grid-navigation-position);
+      inset: 0 auto 0 0;
+      display: var(--grid-navigation-display);
+      height: 100%;
+    }
+
+    &-menu {
+      overflow: hidden;
+      transition: width 700ms, border-right-width 0ms var(--grid-navigation-menu-transition-time);
+      width: var(--grid-menu-width);
+      border-right: var(--grid-navigation-menu-border-width) solid var(--grid-menu-border-color);
+      min-height: 100%;
+      background-color: var(--grid-menu-background-color);
+
+      &-inner {
+        width: var(--grid-menu-max-width);
+      }
+    }
+
+    &-sidebar {
+      width: var(--grid-sidebar-width);
+      min-height: 100%;
+      border-right: f.rem(1) solid var(--grid-sidebar-border-color);
+      background-color: var(--grid-sidebar-background-color);
+    }
+
+    &-toggle {
+      position: absolute;
+      right: 0;
+      bottom: var(--grid-default-padding);
+      display: var(--grid-navigation-toggle-display);
+      @include m.transform(translateX(50%));
+      height: var(--grid-button-size);
+      width: var(--grid-button-size);
+    }
+
+    &-close {
+      position: absolute;
+      right: 0;
+      top: var(--grid-default-padding);
+      @include m.transform(translateX(#{calc(var(--grid-default-padding) + var(--grid-button-size))}));
+      height: var(--grid-button-size);
+      width: var(--grid-button-size);
+
+      @include m.mq(xl) {
+        display: none;
+      }
+    }
+  }
+
+  &__content {
+    margin: 0 var(--grid-default-padding) var(--grid-default-padding) var(--grid-default-padding);
+
+    @include m.mq(xl) {
+      margin: 0 var(--grid-default-padding);
+    }
+  }
+
+  &__header {
+    height: f.rem(87);
+    padding: var(--grid-default-padding) var(--grid-default-padding) f.rem(15) var(--grid-default-padding);
+    display: var(--grid-header-display);
+  }
+
+  &__open {
+    height: var(--grid-button-size);
+    width: var(--grid-button-size);
+    display: inline-block;
+  }
+
+  &__wrapper {
+    flex: 1 1 auto;
+    overflow-x: auto;
+    background-color: var(--grid-content-background-color);
+  }
+}

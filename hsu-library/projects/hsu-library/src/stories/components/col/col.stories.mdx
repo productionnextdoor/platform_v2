@@ -1,0 +1,51 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmButtonComponent } from "../../../lib/components/pm-button/pm-button.component";
+import { PmIconComponent } from "../../../lib/components/pm-icon/pm-icon.component";
+import { PmInputComponent } from "../../../lib/components/pm-input/pm-input.component";
+import { PmLabelComponent } from "../../../lib/components/pm-label/pm-label.component";
+import { PmColComponent } from "../../../lib/components/pm-col/pm-col.component";
+import { PmTextComponent } from "../../../lib/components/pm-text/pm-text.component";
+import { storybookHelper } from "../../StorybookHelper";
+import { colData } from "./col.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Col/Col" component={PmColComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(
+        PmColComponent,
+        [
+            PmIconComponent,
+            PmTextComponent,
+            PmButtonComponent,
+            PmInputComponent,
+            PmLabelComponent
+        ]
+    )),
+]}/>
+
+<Description of={PmColComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-col', colData);
+
+<br/><br/>
+
+
+## Col Default
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/>
+<br/>
+

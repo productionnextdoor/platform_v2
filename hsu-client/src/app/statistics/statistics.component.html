@@ -1,0 +1,43 @@
+<pm-header
+    [breadcrumbs]="breadcrumbs"
+/>
+
+
+<pm-col>
+    <pm-tab-card
+        [tabs]="tabCardTabs"
+        (onTabChange)="tabChange($event)"
+    />
+    <ng-container *ngIf="activeTab == 0">
+        <pm-row [template]="'1fr 1fr'" [gap]="DefaultMargins.XLarge">
+            <pm-statistics-card
+                [localisations]="localisations.productStepsLocalisations"
+                (onDownloadClicked)="downloadFile({
+                filter: $event,
+                type: StatisticsDataType.ProductSteps
+                })"
+            />
+            <pm-statistics-card
+                [localisations]="localisations.productValueChainsLocalisations"
+                (onDownloadClicked)="downloadFile({
+                filter: $event,
+                type: StatisticsDataType.ProductValueChains
+                })"
+            />
+        </pm-row>
+    </ng-container>
+
+    <ng-container *ngIf="activeTab == 1">
+        <pm-row [template]="'1fr 1fr'" [gap]="DefaultMargins.XLarge">
+            <pm-statistics-card
+                [localisations]="localisations.producerRequestLocalisations"
+                (onDownloadClicked)="downloadFile({
+                filter: $event,
+                type: StatisticsDataType.ProducerProductionRequests
+                })"
+            />
+        </pm-row>
+    </ng-container>
+
+</pm-col>
+

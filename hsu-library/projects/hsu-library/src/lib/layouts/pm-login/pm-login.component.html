@@ -1,0 +1,59 @@
+<pm-logo-screen [logoPath]="logoPath">
+        <pm-card
+            [title]="loginPageTexts.title"
+            class="login__form">
+            <pm-input
+                [type]="EPmInputType.TEXT"
+                [name]="loginPageTexts.emailName"
+                [label]="loginPageTexts.emailAddress"
+                [placeholder]="loginPageTexts.emailAddress"
+                [required]="true"
+                [(value)]="email"
+                [errorMessages]="loginPageTexts.inputErrorMessages"
+                class="login__form-input"
+            />
+            <pm-input
+                [type]="EPmInputType.PASSWORD"
+                [name]="loginPageTexts.passwordName"
+                [label]="loginPageTexts.password"
+                [placeholder]="loginPageTexts.password"
+                [required]="true"
+                [(value)]="password"
+                [errorMessages]="loginPageTexts.inputErrorMessages"
+                class="login__form-input"
+            />
+            <div class="login__form-toolbox">
+                <pm-checkbox class="login__form-toolbox_remember"
+                             [label]="loginPageTexts.rememberMe"
+                             [(state)]="rememberMe"
+                />
+                <pm-text
+                    class="login__form-toolbox_password-link"
+                    [type]="TextType.COPY_M2"
+                    (click)="onForgotPassword.emit()"
+                >{{loginPageTexts.forgotPassword}}
+                </pm-text>
+            </div>
+            <pm-button footer
+                [type]="EButtonType.PRIMARY"
+                [label]="loginPageTexts.submitTitle"
+                (onClicked)="onSubmit()"
+                [disabled]="!email || !password"
+                [fullWidth]="true"
+                class="login__form-submit"
+            />
+            <pm-row footer
+                    template="auto auto 1fr"
+                    class="login__imprint"
+                    [gap]="DefaultMargins.XSmall">
+                <pm-text
+                    class="login__imprint-item"
+                    *ngFor="let imprint of imprintLinks"
+                    [type]="TextType.COPY_S1"
+                    (click)="onImprintLinkClicked(imprint)"
+                >
+                    {{imprint.title}}
+                </pm-text>
+            </pm-row>
+        </pm-card>
+</pm-logo-screen>

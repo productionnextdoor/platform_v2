@@ -1,0 +1,41 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import {
+    PmFinalProductStepPopupComponent
+} from '../../../lib/layouts/pm-final-product-step-popup/pm-final-product-step-popup.component';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { finalProductStepPopup } from "./final-product-step-popup";
+
+
+<Meta title="Layouts/Final-Product-State-Popup/Final-Product-State-Popup" component={PmFinalProductStepPopupComponent} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmFinalProductStepPopupComponent))
+]}/>
+
+<Description of={PmFinalProductStepPopupComponent}/>
+
+export const actionsData = {
+    onCancel: action('on cancel'),
+    onConfirm: action('on confirm'),
+};
+
+export const Template = args => ({
+    props: {
+        ...finalProductStepPopup,
+        ...args,
+        ...actionsData
+    },
+});
+
+# Final Product State Popup
+
+<Canvas withToolbar>
+  <Story name="Default" height={'500px'}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+

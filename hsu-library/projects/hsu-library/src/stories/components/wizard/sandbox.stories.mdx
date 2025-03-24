@@ -1,0 +1,176 @@
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { moduleMetadata } from "@storybook/angular";
+import { ArgsTable, Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+
+import { PmButtonComponent } from "../../../lib/components/pm-button/pm-button.component";
+import { PmCardComponent } from "../../../lib/components/pm-card/pm-card.component";
+import { PmIconComponent } from "../../../lib/components/pm-icon/pm-icon.component";
+import { PmPopupComponent } from "../../../lib/components/pm-popup/pm-popup.component";
+import { PmStepsComponent } from "../../../lib/components/pm-steps/pm-steps.component";
+
+import { PmWizardComponent } from "../../../lib/components/pm-wizard/pm-wizard.component";
+import { storybookHelper } from "../../StorybookHelper";
+import { wizardData } from "./wizard.data";
+import { PmMarginConverterPipe } from "../../../lib/utils/pipes/pm-margin-converter.pipe";
+
+<Meta title="Components/Wizard/Sandbox" component={PmWizardComponent} argTypes={{
+  ButtonType: {
+    table: {
+      disable: true
+    }
+  },
+  Icon: {
+    table: {
+      disable: true
+    }
+  },
+  IconPosition: {
+    table: {
+      disable: true
+    }
+  },
+  PopupType: {
+    table: {
+      disable: true
+    }
+  },
+  ngOnChanges: {
+    table: {
+      disable: true
+    }
+  },
+  ngOnInit: {
+    table: {
+      disable: true
+    }
+  },
+  context: {
+    description: 'The context of the wizard',
+    table: {
+      category: 'Texts',
+    },
+  },
+  title: {
+    description: 'The title of the wizard',
+    table: {
+      category: 'Texts',
+    },
+  },
+  steps: {
+    description: 'The steps of the wizard',
+    table: {
+      category: 'Data',
+    },
+  },
+  step: {
+    description: 'The current step of the wizard',
+    table: {
+      category: 'State',
+    },
+  },
+  progress: {
+    description: 'The progress of the wizard',
+    table: {
+      category: 'State',
+    },
+  },
+  disableDraft: {
+    description: 'Disable the draft button',
+    table: {
+      category: 'State',
+    },
+  },
+  disablePrev: {
+    description: 'Disable the previous button',
+    table: {
+      category: 'State',
+    },
+  },
+  disableNext: {
+    description: 'Disable the next button',
+    table: {
+      category: 'State',
+    },
+  },
+  disableSave: {
+    description: 'Disable the save button',
+    table: {
+      category: 'State',
+    },
+  },
+  viewProfileLocalisation: {
+    description: 'The viewProfileLocalisation of the wizard',
+    table: {
+      category: 'object',
+    },
+  },
+  ngContent: {
+    control: 'text',
+    description: 'ng-content of the card',
+    table: {
+      category: 'Text',
+    },
+  },
+  onCancel: {
+    description: 'The cancel event of the wizard',
+    table: {
+      category: 'Events',
+    },
+  },
+  onChange: {
+    description: 'The change event of the wizard when the step changes',
+    table: {
+      category: 'Events',
+    },
+  },
+  onDraft: {
+    description: 'The draft event of the wizard',
+    table: {
+      category: 'Events',
+    },
+  },
+  onSave: {
+    description: 'The save event of the wizard',
+    table: {
+      category: 'Events',
+    },
+  },
+}} parameters={{
+  controls: { disabled: true },
+  chromatic: { disableSnapshot: true },
+}} decorators={[
+  moduleMetadata({
+    declarations: [
+      PmPopupComponent,
+      PmIconComponent,
+      PmButtonComponent,
+      PmCardComponent,
+      PmStepsComponent,
+      PmMarginConverterPipe
+    ], imports: [
+      BrowserAnimationsModule
+    ]
+  })
+]} />
+
+<Description of={PmWizardComponent} />
+
+export const Template = storybookHelper.RenderNgContent('pm-wizard', wizardData);
+
+This contains the **Wizard-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar>
+  <Story name="Sandbox" height={'700px'}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+
+<ArgsTable story="Sandbox" />
+
+<br /><br />
+
+## Design
+[![XD-Wizard](https://img.shields.io/badge/-Wizard-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/00f72310-aad8-49bf-a8bb-89819ccd969c-55a4/screen/7153bc02-2a19-4795-95ae-87c9a774e360/)

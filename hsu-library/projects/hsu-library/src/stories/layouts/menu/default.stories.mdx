@@ -1,0 +1,55 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { PmMenuComponent } from "../../../lib/layouts/pm-menu/pm-menu.component";
+import { menuData } from "./menu.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+
+<Meta title="Layouts/Menu/Menu-Default" component={PmMenuComponent} argTypes={{}}
+      parameters={{
+          controls: {disabled: true}
+      }}
+      decorators={[
+          moduleMetadata(getComponentStoryMeta(PmMenuComponent)),
+      ]}/>
+
+<Description of={PmMenuComponent}/>
+<Description markdown={`# Default Menu`}/>
+
+export const actionsData = {
+    onSelectMenuItem: action('An item select'),
+    onSelectContactCardItem: action('A contact card item select'),
+};
+
+export const Template = args => ({
+    props: {
+        ...args,
+        onSelectMenuItem: actionsData.onSelectMenuItem,
+        onSelectContactCardItem: actionsData.onSelectContactCardItem
+    },
+});
+
+
+This contains definitions for the **Base-Menu**.
+
+## Menu
+
+<Canvas withToolbar isColumn>
+    <Story name="Default" args={{
+        ...menuData
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-Menu](https://img.shields.io/badge/-Menu-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/b0876be7-0bfa-4a0f-85f7-d547573ad9f6-e5d4/screen/75c7dc87-a757-4728-8ce1-43dc586944a5/specs/)

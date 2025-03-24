@@ -1,0 +1,11 @@
+<div class="pm-error-message">
+    <div *ngFor="let item of errorMessages" class="pm-error-message__wrapper">
+        <pm-icon class="pm-error-message__icon"
+                 [icon]="Icon.INFO_CIRCLE"
+                 [size]="IconSize.XXS"
+        />
+        <div class="pm-error-message__text">
+            {{item}}
+        </div>
+    </div>
+</div>

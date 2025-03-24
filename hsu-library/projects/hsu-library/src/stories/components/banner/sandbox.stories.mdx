@@ -1,0 +1,62 @@
+import {
+    ArgsTable,
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmBannerComponent } from "../../../lib/components/pm-banner/pm-banner.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Banner/Sandbox" component={PmBannerComponent} argTypes={{
+    bannerType: {
+        description: 'The type of the Banner',
+        table: {
+            category: 'Type',
+        },
+    },
+    bannerText: {
+        description: 'Defines the text',
+        table: {
+            category: 'Text',
+        },
+    },
+}} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}} decorators={[
+    //👇 Import nested components
+    moduleMetadata(getComponentStoryMeta(PmBannerComponent))
+]}/>
+
+<Description of={PmBannerComponent}/>
+
+export const Template = (args) => <PmBannerComponent {...args} />
+
+
+
+This contains the **Banner-Sandbox**.
+
+<br/><br/>
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox" args={{
+        bannerText: 'This is an info message',
+        bannerType: 'attention'
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/>
+<br/>
+
+## Design
+
+[![XD-Banners](https://img.shields.io/badge/-Banners-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/537c8542-c68e-458a-a596-7c7f81917981/specs/)

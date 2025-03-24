@@ -1,0 +1,49 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmPaginationComponent } from '../../../lib/components/pm-pagination/pm-pagination.component';
+import { action } from '@storybook/addon-actions';
+import { PaginationData } from './pagination.data';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Pagination/Pagination" component={PmPaginationComponent} argTypes={{}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmPaginationComponent)),
+]}/>
+
+<Description of={PmPaginationComponent}/>
+<Description markdown={`# Pagination`}/>
+
+export const actionsData = {
+  onShowPage: action('on page clicked:'),
+};
+export const Template = args => ({
+  moduleMetadata: {},
+  props: {
+    ...PaginationData,
+    ...args,
+    onShowPage: actionsData.onShowPage
+  },
+});
+
+
+
+This contains the **Pagination-Sandbox**.
+
+## Sandbox
+
+<Canvas withToolbar>
+  <Story name="Default" height={'300px'}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-Pagination](https://img.shields.io/badge/-Pagination-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/afb022fa-1134-41dc-b38c-28a4974e1f06-fae3/screen/3dabef7d-de0c-4eef-8166-e19358e11210/)

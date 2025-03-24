@@ -1,0 +1,36 @@
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { moduleMetadata } from "@storybook/angular";
+import { PmProductDetailsInProgressComponent } from "../../../lib/layouts/pm-product-details-in-progress/pm-product-details-in-progress.component";
+import {productDetailsInProgressData} from "./product-details-in-progress.data";
+
+<Meta title="Layouts/Product-Details-In-Progress/Product-Details-In-Progress" component={PmProductDetailsInProgressComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductDetailsInProgressComponent)),
+]}/>
+
+<Description of={PmProductDetailsInProgressComponent}/>
+<Description markdown={`# Product Details In Progress`} />
+
+export const Template = args => ({
+    props: {
+        ...productDetailsInProgressData,
+        ...args,
+    },
+});
+
+This contains definitions for the **Product-Details-In-Progress**.
+
+## Product Details In Progress
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-ProductDetailsInProgress](https://img.shields.io/badge/-ProductDetailsInProgress-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/2c7cf7c7-c6c4-4852-9799-fc3f6c4a76c3-792f/)

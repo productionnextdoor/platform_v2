@@ -1,0 +1,35 @@
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import {PmDeveloperRevenueCardComponent} from '../../../lib/layouts/pm-developer-revenue-card/pm-developer-revenue-card.component';
+import {DeveloperRevenueCardData} from './developer-revenue-card.data';
+
+<Meta title="Layouts/Developer-Revenue/Developer-Revenue" component={PmDeveloperRevenueCardComponent} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmDeveloperRevenueCardComponent))
+]}/>
+
+<Description of={PmDeveloperRevenueCardComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...DeveloperRevenueCardData,
+        ...args,
+    },
+});
+
+# Developer Revenue Card
+
+This contains the story for the layout **Developer Revenue Card**.
+
+<Canvas withToolbar>
+    <Story name="DeveloperRevenueCard">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-DeveloperRevenueCard](https://img.shields.io/badge/-DeveloperRevenueCard-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/8a7c078a-c9b6-4177-ad4a-9f5ce81df68b-df2f/screen/1bd83410-304a-477b-a0bf-509d5ae62696)

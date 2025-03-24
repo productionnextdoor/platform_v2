@@ -1,0 +1,27 @@
+@use '../../../styles/utils/functions' as f;
+@use '../../../styles/base/fonts' as fonts;
+
+.value-chain-card {
+
+  &__date {
+
+    &-text {
+      @include fonts.font-copy-m2;
+      color: f.color(neutrals, 500);
+    }
+
+    &-value {
+      @include fonts.font-copy-m2;
+      padding-left: f.rem(3);
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__description {
+    margin: 0 f.rem(24) f.rem(32);
+  }
+}

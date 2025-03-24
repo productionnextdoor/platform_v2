@@ -1,0 +1,63 @@
+import { moduleMetadata } from "@storybook/angular";
+import { ArgsTable, Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+
+import { PmTextComponent } from "../../../lib/components/pm-text/pm-text.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { storybookHelper } from "../../StorybookHelper";
+import { textData } from "./text.data";
+
+<Meta title="Components/Typography/Sandbox" component={PmTextComponent} argTypes={{
+    type: {
+        description: 'The type/tag of the Text',
+        table: {
+            category: 'Type',
+        },
+    },
+    ngContent: {
+        description: 'Defines the ngContent',
+        table: {
+            category: 'Text',
+        },
+    },
+    margin: {
+        description: 'Defines the margin of the input',
+        table: {
+            category: 'Text',
+        },
+    },
+}} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmTextComponent)),
+]}/>
+
+<Description of={PmTextComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-text', textData)
+
+
+
+This contains the **Text-Sandbox**.
+
+<br/><br/>
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox" args={{
+        type: 'h1',
+        ngContent: 'Lorem Ipsum'
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/>
+<br/>
+
+## Design
+
+[![XD-Typography](https://img.shields.io/badge/-Typography-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/348942e5-07b0-4d41-a231-e791ef8e0345/specs/)

@@ -1,0 +1,127 @@
+<fieldset class="pm-input"
+          [className]="'pm-input--' + type"
+          [ngClass]="{
+              'pm-input--active': active && !disabled,
+              'pm-input--date': type === EPmInputType.DATE,
+              'pm-input--disabled': disabled,
+              'pm-input--error': hasError,
+              'pm-input--hover': hovered && !disabled,
+              'pm-input--password': type === EPmInputType.PASSWORD,
+              'pm-input--required': required,
+              'pm-input--search': type === EPmInputType.SEARCH,
+              'pm-input--bold': bold,
+              'pm-input--dynamic': dynamicSize,
+          }"
+          [style.--input-margin]="margin | marginConverter"
+>
+    <pm-label class="pm-input__label"
+              [text]="label"
+              [for]="inputId"
+              [required]="required"
+              [bold]="bold"
+    />
+    <div #inputField
+         class="pm-input__field"
+         (mouseenter)="inputOnHover(true)"
+         (mouseleave)="inputOnHover(false)"
+    >
+        <input *ngIf="type !== EPmInputType.TEXTAREA"
+               class="pm-input__input"
+               [type]="type === EPmInputType.PASSWORD && !showPassword ? 'password' : 'text'"
+               [id]="inputId"
+               [value]="value ?? ''"
+               [placeholder]="placeholder"
+               [disabled]="disabled"
+               [required]="required"
+
+               (input)="inputOnChange($event)"
+               (keyup)="inputOnChange($event)"
+               (focus)="inputOnFocus(true)"
+               (blur)="inputOnFocus(false)"
+        >
+        <textarea *ngIf="type === EPmInputType.TEXTAREA"
+                  class="pm-input__textarea"
+                  [id]="inputId"
+                  [placeholder]="placeholder"
+                  [disabled]="disabled"
+                  [required]="required"
+
+                  (input)="inputOnChange($event)"
+                  (keyup)="inputOnChange($event)"
+                  (mouseenter)="inputOnHover(true)"
+                  (mouseleave)="inputOnHover(false)"
+                  (focus)="inputOnFocus(true)"
+                  (blur)="inputOnFocus(false)"
+        >{{ value }}</textarea>
+
+        <div *ngIf="unit"
+             class="pm-input__unit"
+        >{{ unit }}</div>
+
+        <button *ngIf="type === EPmInputType.SEARCH"
+                [class.pm-input__button--green]="!hasError"
+                [class.pm-input__button--warning]="hasError"
+                class="pm-input__button"
+                type="submit"
+        >
+            <pm-icon [icon]="Icon.SEARCH"
+                     [size]="IconSize.S"
+            />
+        </button>
+
+        <button #toggle
+                *ngIf="type === EPmInputType.DATE"
+                class="pm-input__button"
+                type="submit"
+                (click)="toggleBodyVisibility()"
+        >
+            <pm-icon [icon]="Icon.CALENDER"
+                     [size]="IconSize.S"
+            />
+        </button>
+
+        <pm-icon *ngIf="type === EPmInputType.PASSWORD"
+                 class="pm-input__password-toggle"
+                 [icon]="showPassword ? Icon.HIDE : Icon.SHOW"
+                 [size]="IconSize.S"
+                 (click)="togglePasswordVisibility()"
+        />
+
+        <div #body
+             *ngIf="showBody"
+             class="pm-input__body"
+        >
+            <div #datepicker
+                 *ngIf="type === EPmInputType.DATE"
+                 class="pm-input__datepicker"
+            >
+                <pm-calendar [value]="date"
+                             [activeDate]="activeDate"
+                             (onSelect)="onDateSelect($event)"
+                />
+            </div>
+
+            <ul #suggestionList
+                *ngIf="type !== EPmInputType.DATE && matchingSuggestions.length > 0"
+                class="pm-input__suggestions"
+            >
+                <li *ngFor="let suggestion of matchingSuggestions"
+                    (click)="onSuggestionSelection(suggestion)"
+                    (keyup.space)="onSuggestionSelection(suggestion)"
+                    tabindex="0"
+                    class="pm-input__suggestion"
+                >
+                    {{ suggestion }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div *ngIf="!hideErrorMessages" class="pm-input__error-messages">
+        <pm-error-message
+            *ngIf="hasError"
+            [errorMessages]="errorMessages"
+            class="pm-input__error-message"
+        />
+    </div>
+</fieldset>

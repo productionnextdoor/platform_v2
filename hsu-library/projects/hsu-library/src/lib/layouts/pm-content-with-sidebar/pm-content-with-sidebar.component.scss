@@ -1,0 +1,20 @@
+@use '../../styles/utils/functions' as f;
+
+.content-with-sidebar {
+
+  //Sidebar display on the right side without any margin
+  margin-right: f.rem(-32);
+
+  &__col {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  &__content {
+    overflow: auto;
+  }
+
+  &__sidebar {
+    max-width: f.rem(374);
+  }
+}

@@ -1,0 +1,10 @@
+<pm-developer-registration
+    [localisations]="localisations"
+    [logoPath]="logoPath"
+    [developer]="developer"
+    [passwordComplexitySetting]="passwordComplexitySetting"
+    [termsAndConditionLink]="imprintLinks[0]"
+    [privacyPolicyLink]="imprintLinks[1]"
+    (onRegister)="registerDeveloper()"
+    (onClickImprintLink)="onImprintLinkClicked($event)"
+/>

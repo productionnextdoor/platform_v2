@@ -1,0 +1,27 @@
+<div class="workstep-table">
+    <pm-background-card
+        [title]="localisations.cardTitle"
+        [collapsible]="true"
+        [noShadow]="noShadow"
+    >
+        <div class="workstep-table__description">
+            {{ localisations.description }}
+        </div>
+
+        <div class="workstep-table__table">
+            <pm-table
+                [loading]="loading"
+                [columnHeaders]="columnHeaders"
+                [(rows)]="rowData"
+                (onActionClicked)="actionClicked($event)"
+                (onSort)="onSortingClicked.emit($event)"
+            />
+        </div>
+
+        <div class="workstep-table__footer">
+            <span class="workstep-table__item-count">
+                {{ localisations.totalItemsText }}: {{ totalItems }}
+            </span>
+        </div>
+    </pm-background-card>
+</div>

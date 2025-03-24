@@ -1,0 +1,21 @@
+@use '../../../styles/utils/functions' as f;
+
+.workstep-data {
+  &__banner {
+    margin-bottom: f.rem(32);
+  }
+
+  &__time {
+    margin: f.rem(32) 0 f.rem(40);
+  }
+
+  &__description {
+    margin: f.rem(8) 0 f.rem(32);
+  }
+
+  &__material-text {
+    &--highlighted {
+      color: f.color(neutrals, 500);
+    }
+  }
+}

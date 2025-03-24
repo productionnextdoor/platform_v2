@@ -1,0 +1,37 @@
+import { PmWorkstepTableComponent } from "../../../lib/layouts/pm-workstep-table/pm-workstep-table.component";
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { WorkstepTableData } from "./workstep-table.data";
+
+<Meta title="Layouts/Workstep-table/Workstep-table" component={PmWorkstepTableComponent} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmWorkstepTableComponent)),
+]}/>
+
+<Description of={PmWorkstepTableComponent}/>
+<Description markdown={`# Workstep table `}/>
+
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...WorkstepTableData,
+        ...args
+    },
+});
+
+This contains definitions for the **Workstep table**.
+
+## Workstep table
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Design
+
+[![XD-WorkstepTable](https://img.shields.io/badge/-WorkstepTable-%235c5c5c?logo=adobexd&labelWorkstepTable=450034)](https://xd.adobe.com/view/16218ffe-4774-44a8-b57f-a374ecee1907-4372/screen/551ea80a-1061-4a1e-a7f1-3ca1d57d3cfb/)

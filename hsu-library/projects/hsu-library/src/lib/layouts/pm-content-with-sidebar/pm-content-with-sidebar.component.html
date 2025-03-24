@@ -1,0 +1,36 @@
+<div class="content-with-sidebar">
+    <pm-row [template]="'1fr auto'"
+            class="content-with-sidebar__row">
+        <pm-col [template]="'auto 1fr'"
+                [hasFullHeight]="hasFullHeight"
+                [gap]="0"
+                class="content-with-sidebar__col"
+        >
+            <div class="content-with-sidebar__header">
+                <pm-header
+                    [breadcrumbs]="breadcrumbs"
+                >
+                    <ng-content select="[headerButtons]"/>
+
+                    <pm-button *ngIf="sidebarCollapsed"
+                               [type]="ButtonType.ICON"
+                               [icon]="Icon.PRODUCT_INFORMATION"
+                               (onClicked)="openSidebar()"
+                               class="content-with-sidebar__collapse-button"
+                    />
+                </pm-header>
+            </div>
+
+            <div class="content-with-sidebar__content">
+                <ng-content/>
+            </div>
+        </pm-col>
+
+        <div *ngIf="!sidebarCollapsed" class="content-with-sidebar__sidebar">
+            <div class="content-with-sidebar__sidebar-content">
+                <ng-content select="[detailsSidebar]"/>
+            </div>
+        </div>
+
+    </pm-row>
+</div>

@@ -1,0 +1,138 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use "../../styles/base/fonts" as fonts;
+
+.button {
+  --button-bg-disabled-color: #{f.color(neutrals, 700)};
+  --button-color: #{f.color(neutrals, 100)};
+  --button-color-hover: #{f.color(neutrals, 100)};
+  --button-color-active: #{f.color(neutrals, 100)};
+  --button-disabled-color: #{f.color(neutrals, 500)};
+  --button-height: #{f.rem(48)};
+  --button-padding: #{f.rem(15) f.rem(16) f.rem(14)};
+  --button-icon-height: #{f.rem(24)};
+  --button-border-radius: #{f.rem(8)};
+  --button-margin: 0;
+
+  --button-bg-color: transparent;
+  --button-bg-color-hover: transparent;
+  --button-bg-active-color: transparent;
+
+  --button-box-shadow: #{f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 320)};
+  --button-box-shadow-active: #{f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 340)};
+  --button-box-shadow-hover: #{f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 340)};
+
+  --button-icon-margin: #{f.rem(8)};
+
+  display: inline-flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  margin: var(--button-margin);
+  padding: var(--button-padding);
+  border: f.rem(0) solid transparent;
+  @include m.border-radius(var(--button-border-radius));
+  box-shadow: var(--button-box-shadow);
+  height: var(--button-height);
+  text-align: left;
+  min-width: f.rem(40);
+  background-color: var(--button-bg-color);
+  cursor: pointer;
+  @include m.user-select(none);
+
+  &--primary {
+    --button-color: #{f.color(neutrals, 1100)};
+    --button-color-hover: #{f.color(neutrals, 1100)};
+    --button-color-active: #{f.color(neutrals, 1100)};
+    --button-bg-color: #{f.color(primary, 100)};
+    --button-bg-color-hover: #{f.color(primary, 100)};
+    --button-bg-active-color: #{f.color(primary, 100)};
+  }
+
+  &--secondary {
+    --button-color: #{f.color(neutrals, 100)};
+    --button-color-hover: #{f.color(neutrals, 100)};
+    --button-bg-color: #{f.color(neutrals, 1100)};
+    --button-bg-color-hover: #{f.color(neutrals, 1100)};
+    --button-bg-active-color: #{f.color(neutrals, 1100)};
+  }
+
+  &--icon {
+    --button-bg-color: #{f.color(neutrals, 1100)};
+    --button-bg-color-hover: #{f.color(neutrals, 1100)};
+    --button-bg-active-color: #{f.color(neutrals, 700)};
+    --button-box-shadow-active: #{f.rem(0) f.rem(2) f.rem(6) f.color(neutrals, 320)};;
+    --button-height: #{f.rem(40)};
+    --button-border-radius: #{f.rem(4)};
+    --button-padding: 0;
+    --button-icon-margin: 0;
+
+    &_green {
+      --button-bg-active-color: #{f.color(primary, 100)};
+      --button-color: #{f.color(primary, 100)};
+      --button-color-hover: #{f.color(primary, 100)};
+      --button-color-active: #{f.color(neutrals, 1100)};
+    }
+
+    &_red {
+      --button-bg-color: #{f.color(semantic, 100)};
+      --button-bg-color-hover: #{f.color(neutrals, 1100)};
+      --button-color: #{f.color(neutrals, 1100)};
+      --button-color-hover: #{f.color(neutrals, 100)};
+      --button-color-active: #{f.color(neutrals, 100)};
+    }
+
+    &_ghost {
+      --button-box-shadow: none;
+      --button-bg-disabled-color: #{f.color(neutrals, 1100)};
+      --button-padding: #{f.rem(0) f.rem(5)};
+    }
+  }
+
+  &--full-width {
+    width: 100%;
+  }
+
+  &__icon {
+    height: var(--button-icon-height);
+    color: var(--button-color);
+
+    &--before {
+      margin-right: var(--button-icon-margin);
+    }
+
+    &--after {
+      margin-left: var(--button-icon-margin);
+    }
+  }
+
+  &__text {
+    @include fonts.font-copy-m3();
+    margin: auto;
+    grid-area: main;
+    color: var(--button-color);
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  &:hover, &--hover {
+    --button-color: var(--button-color-hover);
+
+    box-shadow: var(--button-box-shadow-hover);
+    background-color: var(--button-bg-color-hover);
+  }
+
+  &:active, &--active {
+    --button-color: var(--button-color-active);
+
+    box-shadow: var(--button-box-shadow-active);
+    background-color: var(--button-bg-active-color);
+  }
+
+  &--disabled, &:disabled {
+    --button-color: var(--button-disabled-color);
+
+    pointer-events: none;
+    background-color: var(--button-bg-disabled-color);
+  }
+}

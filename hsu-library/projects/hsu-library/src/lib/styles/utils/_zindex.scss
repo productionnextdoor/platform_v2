@@ -1,0 +1,12 @@
+$zindexes: (
+  // PM Grid Component
+  content-overlay: -1, // -1 of the navigation z-index
+  navigation: 100,
+
+  // PM Popup Component
+  popup-overlay: -1,
+  popup: 900,
+
+  //Pm Dropdown Component
+  dropdown-list: 50,
+);

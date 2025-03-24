@@ -1,0 +1,9 @@
+<div class="pm-timer">
+    <span class="pm-timer__text">{{timeRemaining}}</span>
+    <pm-button class="pm-timer__button"
+            [type]="EButtonType.ICON"
+            [icon]="EIcon.RESET_TIME"
+            [disabled]="disabled"
+            (click) ="handleResetTimer()"
+    ></pm-button>
+</div>

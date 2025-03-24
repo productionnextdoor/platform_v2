@@ -1,0 +1,25 @@
+@use '../../styles/utils/functions' as f;
+
+.producer-table {
+  &__table {
+    margin: f.rem(42) 0 f.rem(32);
+  }
+
+  &__footer {
+    display: flex;
+    gap: f.rem(32);
+    justify-content: flex-end;
+  }
+
+  &__popup {
+    &-datepicker {
+      margin: f.rem(40) 0;
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: f.rem(24);
+    }
+  }
+}

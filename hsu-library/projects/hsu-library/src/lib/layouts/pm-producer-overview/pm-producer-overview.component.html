@@ -1,0 +1,44 @@
+<pm-header class="producer-overview__header"
+           [breadcrumbs]="getBreadcrumbs()"
+>
+    <pm-button
+        *ngIf="showInviteButton"
+        [type]="ButtonType.PRIMARY"
+        [icon]="Icon.ADD"
+        [label]="localisationStrings.inviteButtonLabel"
+        (onClicked)="onInviteButtonClicked.emit()"
+    />
+</pm-header>
+<pm-card
+    class="producer-overview"
+    [hasHeader]="false"
+    [contentPadding]="false"
+>
+    <div class="producer-overview__top-toolbar">
+        <pm-input
+            class="producer-overview__top-toolbar--search"
+            [type]="EPmInputType.SEARCH"
+            [name]="'search'"
+            [label]="localisationStrings.searchBarLabel"
+            [placeholder]="localisationStrings.searchBarPlaceholder"
+            [hideErrorMessages]="true"
+            (valueChange)="onSearchTermChanged.emit($event)"
+        />
+    </div>
+    <pm-table
+        [loading]="loading"
+        [columnHeaders]="columnHeaders"
+        [rows]="rowData"
+        (onActionClicked)="actionClicked($event)"
+        (onSort)="onSortingClicked.emit($event)"
+    />
+    <div class="producer-overview__pagination">
+        <pm-pagination
+            [totalItems]="totalItems"
+            [totalText]="localisationStrings.totalText"
+            [currentPage]="currentPage"
+            [itemsPerPageOptions]="itemsPerPageOptions"
+            (onShowPage)="paginationChanged($event)"
+        />
+    </div>
+</pm-card>

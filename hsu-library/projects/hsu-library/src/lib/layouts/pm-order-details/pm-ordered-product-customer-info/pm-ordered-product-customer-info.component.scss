@@ -1,0 +1,25 @@
+@use '../../../styles/utils/functions' as f;
+@use '../../../styles/base/fonts' as fonts;
+
+.customer-info-card {
+
+  color: f.color(neutrals, 100);
+
+  &__label {
+    @include fonts.font-copy-m1();
+    color: f.color(neutrals, 500);
+
+    &:after {
+      content: ': ';
+    }
+  }
+
+  &__value {
+    @include fonts.font-copy-m1();
+  }
+
+  &__footer {
+    text-align: right;
+  }
+}
+

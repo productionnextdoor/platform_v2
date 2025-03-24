@@ -1,0 +1,90 @@
+import { moduleMetadata } from '@storybook/angular';
+import { ArgsTable, Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+
+import { PmIconComponent } from "../../../lib/components/pm-icon/pm-icon.component";
+import { PmButtonComponent } from "../../../lib/components/pm-button/pm-button.component";
+import { PmTimerComponent } from "../../../lib/components/pm-timer/pm-timer.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+
+
+<Meta title="Components/Timer/Sandbox" component={PmTimerComponent} argTypes={{
+    countdown: {
+        description: 'The time set for the timer',
+        table: {
+            category: 'Input',
+        },
+    },
+    timeRemaining: {
+        description: 'Displays the remaining time from the countdown',
+        table: {
+            category: 'Visual',
+        },
+    },
+    disabled: {
+        description: 'Whether the button is disabled or not',
+        table: {
+            category: 'Visual',
+        },
+    },
+    targetDate: {
+        description: 'Variable used to get the time via the Date type',
+        table: {
+            category: 'Parameters',
+        },
+    },
+    interval: {
+        description: 'Interval for the setInterval Method',
+        table: {
+            category: 'Parameters',
+        },
+    },
+    onReset: {
+        description: 'Triggers on countdown reset ',
+        table: {
+            category: 'Events',
+        },
+    },
+    timerFinished: {
+        description: 'Returns an event when the countdown is finished',
+        table: {
+            category: 'Events',
+        },
+    },
+}} parameters={{
+    controls: {disabled: true}, chromatic: {disableSnapshot: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmTimerComponent)),
+]}/>
+
+<Description of={PmIconComponent}/>
+<Description of={PmButtonComponent}/>
+<Description of={PmTimerComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...args,
+    },
+});
+
+
+This contains the **Timer-Sandbox**
+
+## Sandbox
+
+<Canvas withToolbar>
+    <Story name="Sandbox" args={{
+        disabled: false,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<ArgsTable story="Sandbox"/>
+
+<br/><br/>
+
+## Design
+
+[![XD-Timer](https://img.shields.io/badge/-Timer-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/3e628ad0-a77c-4fff-aee7-bc20b6d6a836-6b31/screen/162fe405-e223-4dcb-98dd-1af22094405b/)
+

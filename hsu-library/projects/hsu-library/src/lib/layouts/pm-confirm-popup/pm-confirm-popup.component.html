@@ -1,0 +1,25 @@
+<pm-popup
+    class="pm-confirm"
+    [title]="localisations.title"
+    [type]="PopupType.SMALL"
+    (onClose)="onCancel.emit()"
+>
+    <p class="pm-confirm_description">{{ localisations.description }}</p>
+    <ng-content select="[afterDescription]"/>
+
+    <div footer class="pm-confirm__actions">
+        <pm-button
+            [type]="ButtonType.SECONDARY"
+            [label]="localisations.cancel"
+            (onClicked)="onCancel.emit()"
+            class="pm-confirm__action"
+        />
+        <pm-button
+            [type]="ButtonType.PRIMARY"
+            [label]="localisations.confirm"
+            [disabled]="confirmDisabled"
+            (onClicked)="onConfirm.emit()"
+            class="pm-confirm__action"
+        />
+    </div>
+</pm-popup>

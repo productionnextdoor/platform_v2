@@ -1,0 +1,11 @@
+<div *ngFor="let radio of radioGroup" class="radio-group">
+    <pm-radiobutton
+        [disabled]="radio.disabled"
+        [checked]="radio.state"
+        [radioId]="radio.radioButtonId"
+        [name]="radio.groupName"
+        [label]="radio.text"
+        class="radio-group__radiobutton"
+        (onActivate)="onSelectHandler($event)"
+    ></pm-radiobutton>
+</div>

@@ -1,0 +1,63 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { action } from '@storybook/addon-actions';
+
+import { TableData } from './order-overview.data';
+import { PmOrdersOverviewComponent } from '../../../lib/layouts/pm-orders-overview/pm-orders-overview.component';
+import { getComponentStoryMeta } from '../../ComponentDependencies';
+
+<Meta title="Layouts/Orders-overview/Orders-overview" component={PmOrdersOverviewComponent} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmOrdersOverviewComponent)),
+]}/>
+
+<Description of={PmOrdersOverviewComponent}/>
+<Description markdown={`# Orders overview `}/>
+
+export const actionsData = {
+    onActionClicked: action('on action clicked:'),
+    onSortingClicked: action('on sort clicked'),
+    onPageClicked: action('on page clicked'),
+    onPerPageClicked: action('on per page clicked'),
+    onSearchTermChanged: action('search term changed')
+};
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...TableData,
+        ...args,
+        ...actionsData
+    },
+});
+
+This contains definitions for the **Orders overview**.
+
+## Orders overview
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+## Orders overview no filter
+<Canvas withToolbar isColumn>
+    <Story name="No filter" args={{
+        statusFilterOptions: [],
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+<br/><br/>
+
+## Design
+[![XD-OrdersTable](https://img.shields.io/badge/-OrdersTable-%235c5c5c?logo=adobexd&labelTable=450034)](https://xd.adobe.com/view/7e80764e-b16c-4d0e-84e2-4ead7155fb94-2bd3/)
+

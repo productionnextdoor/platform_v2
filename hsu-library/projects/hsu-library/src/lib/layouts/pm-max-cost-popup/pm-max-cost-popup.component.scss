@@ -1,0 +1,22 @@
+@use '../../styles/utils/functions' as f;
+
+.pm-max-cost {
+
+  &__header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__actions {
+    text-align: right;
+  }
+
+  &__action {
+    margin: 0 0 0 f.rem(24);
+
+    &:first-of-type {
+      margin: 0;
+    }
+  }
+}

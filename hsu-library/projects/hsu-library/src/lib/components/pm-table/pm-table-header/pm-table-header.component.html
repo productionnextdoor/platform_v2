@@ -1,0 +1,23 @@
+<div class="header-cell"
+     [class.header-cell__disabled]="disabled"
+>
+    <div class="header-cell__text-column" *ngIf="column.type === HeaderType.Text && textColumn">
+        <span class="header-cell__text">{{ textColumn.columnTitle }}</span>
+        <pm-icon
+            class="header-cell__icon"
+            *ngIf="textColumn.sortable"
+            [rotate]="0"
+            [size]="IconSize.S"
+            [icon]="icon"
+            (click)="sort()"
+        />
+    </div>
+
+    <div class="header-cell__checkbox-column" *ngIf="column.type === HeaderType.Checkbox && checkboxColumn">
+        <pm-checkbox
+            [disabled]="checkboxDisabled"
+            [(state)]="checkboxState"
+            (stateChange)="checkboxStateChange.emit($event)"
+        ></pm-checkbox>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+import {Meta, Story, Canvas, Description} from '@storybook/addon-docs';
+import {moduleMetadata} from '@storybook/angular';
+import {action} from "@storybook/addon-actions";
+import {getComponentStoryMeta} from "../../ComponentDependencies";
+import { PmProductDetailsDeveloperComponent } from "../../../lib/layouts/pm-product-details-developer/pm-product-details-developer.component";
+import {productDetailsDeveloperData} from "./product-details-developer.data";
+
+
+<Meta title="Layouts/Product-Details-Developer/Product-Details-Developer" component={PmProductDetailsDeveloperComponent} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmProductDetailsDeveloperComponent)),
+]}/>
+
+<Description of={PmProductDetailsDeveloperComponent}/>
+
+export const actionsData = {
+    onCloseBanner: action('image closed'),
+};
+
+
+export const Template = args => ({
+    props: {
+        ...productDetailsDeveloperData,
+        ...actionsData,
+        ...args,
+    },
+});
+
+## Product-Details-Developer
+
+<Canvas withToolbar>
+    <Story name="Product-Details-Developer">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-ProductDetailsDeveloper](https://img.shields.io/badge/-ProductDetailsDeveloper-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/8a7c078a-c9b6-4177-ad4a-9f5ce81df68b-df2f/screen/1bd83410-304a-477b-a0bf-509d5ae62696/)

@@ -1,0 +1,9 @@
+<pm-product-variants
+    [localisations]="localisations"
+    [(isValid)]="isValid"
+    [(measurements)]="measurementVariants"
+    [(workPieceVariants)]="workPieceVariants"
+    [workPieceOptions]="workPieceOptions"
+    [isAdminView]="isAdminView"
+    (isValidChange)="isValidChange.emit($event)"
+/>

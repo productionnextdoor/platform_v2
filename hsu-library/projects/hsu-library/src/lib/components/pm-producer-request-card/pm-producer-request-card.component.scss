@@ -1,0 +1,14 @@
+@use '../../styles/utils/functions' as f;
+
+.pm-confirm {
+  &__actions {
+    margin-bottom: f.rem(24)
+  }
+  &__action {
+    margin: 0 0 0 f.rem(24);
+
+    &:first-of-type {
+      margin: 0;
+    }
+  }
+}

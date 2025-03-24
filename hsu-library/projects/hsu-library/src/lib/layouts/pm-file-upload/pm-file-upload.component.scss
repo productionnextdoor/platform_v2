@@ -1,0 +1,7 @@
+@use '../../styles/utils/functions' as f;
+
+.pm-file-upload__files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: f.rem(16);
+}

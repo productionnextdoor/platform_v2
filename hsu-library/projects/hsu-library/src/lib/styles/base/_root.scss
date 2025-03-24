@@ -1,0 +1,26 @@
+@use '../utils/colors' as c;
+@use '../utils/mixins' as m;
+@use '../utils/fonts' as fvar;
+@use 'fonts' as fonts;
+
+:root {
+  @each $mode, $modes in c.$colors {
+    @include m.mode($mode) {
+      @each $type, $types in $modes {
+        @each $property, $color in $types {
+          --clr-#{$type}-#{$property}: #{$color};
+        }
+      }
+    }
+  }
+
+  // ignore these keys when mapping to css variables
+  $ignoredKeys: variants, states, sizes;
+
+  // map the fonts to css variables
+  @include m.map-to-var(fvar.$fonts, --font, $ignoredKeys);
+}
+
+body {
+  @include fonts.font-copy-m1();
+}

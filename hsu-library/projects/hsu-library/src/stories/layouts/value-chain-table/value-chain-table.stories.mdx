@@ -1,0 +1,60 @@
+import { PmValueChainTableComponent } from "../../../lib/layouts/pm-value-chain-table/pm-value-chain-table.component";
+import { 
+    Canvas, 
+    Description, 
+    Meta, 
+    Story } from "@storybook/addon-docs";
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { 
+    DevelopersValueChainTableData, 
+    ValueChainTableData 
+} from "./value-chain-table.data";
+
+<Meta title="Layouts/Value-chain-table/Value-chain-table" component={PmValueChainTableComponent} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmValueChainTableComponent)),
+]}/>
+
+<Description of={PmValueChainTableComponent}/>
+<Description markdown={`# Value chain table `}/>
+
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...ValueChainTableData,
+        ...args
+    },
+});
+
+export const DevelopersTemplate = args => ({
+    moduleMetadata: {},
+    props: {
+        ...DevelopersValueChainTableData,
+        ...args
+    },
+});
+
+This contains definitions for the **Value chain table**.
+
+## Value chain table
+
+<Canvas withToolbar isColumn>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Developers value chain table
+
+<Canvas withToolbar isColumn>
+    <Story name="Developers table">
+        {DevelopersTemplate.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Design
+[![XD-ValueChainTable](https://img.shields.io/badge/-ValueChainTable-%235c5c5c?logo=adobexd&labelValueChainTable=450034)](https://xd.adobe.com/view/6a2cfc97-7a9f-4ae2-8166-0f29178e8863-3f7f/screen/3b379590-600d-4fc2-b8ad-4cab68c11c18)

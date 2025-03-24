@@ -1,0 +1,51 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/base/fonts' as fonts;
+
+.menu {
+  --menu-list-item-padding: #{f.rem(17)} #{f.rem(26)};
+  --menu-contact-padding: #{f.rem(32)} #{f.rem(26)};
+  --menu-item-color: #{f.color('neutrals', 500)};
+  --menu-items-margin: #{f.rem(23)} 0 0 0;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  justify-content: space-between;
+
+  &__items {
+    margin: var(--menu-items-margin);
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    padding: var(--menu-list-item-padding);
+    cursor: pointer;
+    flex-grow: 1;
+
+    &:hover {
+      --menu-item-color: #{f.color('primary', 100)};
+    }
+  }
+
+  &__active {
+    --menu-item-color: #{f.color('primary', 100)};
+  }
+
+  &__icon {
+    color: var(--menu-item-color);
+  }
+
+  &__text {
+    @include fonts.font-copy-m3();
+    margin-left: f.rem(10);
+    color: var(--menu-item-color);
+  }
+
+  &__footer {
+    padding: var(--menu-contact-padding);
+  }
+}

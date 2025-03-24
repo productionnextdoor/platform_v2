@@ -1,0 +1,174 @@
+<pm-file-upload
+    [localisations]="localisations"
+    [(sharepointLink)]="sharepointLink"
+    [(productDescription)]="productDescription"
+    [fileData]="fileData"
+    [isAdminView]="isAdminView"
+    (onFileDelete)="onDeleteFile($event)"
+    (productDescriptionChange)="validateFormData()"
+    (sharepointLinkChange)="validateFormData()"
+>
+
+    <ng-template>
+        <pm-upload
+            ng2FileDrop
+            (fileOver)="fileOverDropZone({
+                fileOver: $event,
+                category: ProductFileCategory.ProductDescription
+            })"
+            (onFileDrop)="onFileDrop(
+            {
+                fileItems: $event,
+                category: ProductFileCategory.ProductDescription
+            }
+
+            )"
+            [active]="productDescriptionActive"
+            [disabled]="uploader.isUploading"
+            [uploadId]="ProductFileCategory.ProductDescription.toString()"
+            [uploadLabel]="'ProductCreateOrEditFiles.UploadCategory.ProductDescription' | localize"
+            [uploadText]="'ProductCreateOrEditFiles.UploadText' | localize"
+            [uploadTextLabel]="'ProductCreateOrEditFiles.uploadTextLabel' | localize"
+            [fileTag]="'ProductCreateOrEditFiles.FileTag' | localize"
+            [required]="true"
+            (onFilesSelected)="onFilesSelected($event)"
+        />
+    </ng-template>
+
+    <ng-template>
+        <pm-upload
+            ng2FileDrop
+            [active]="productPictureActive"
+            [disabled]="uploader.isUploading"
+            [uploadId]="ProductFileCategory.ProductPicture.toString()"
+            [uploadLabel]="'ProductCreateOrEditFiles.UploadCategory.ProductPicture' | localize"
+            [uploadText]="'ProductCreateOrEditFiles.UploadText' | localize"
+            [uploadTextLabel]="'ProductCreateOrEditFiles.uploadTextLabel' | localize"
+            [fileTag]="'ProductCreateOrEditFiles.FileTag' | localize"
+            [required]="true"
+            (fileOver)="fileOverDropZone({
+                fileOver: $event,
+                category: ProductFileCategory.ProductPicture
+                })"
+            (onFileDrop)="onFileDrop({
+                fileItems: $event,
+                category: ProductFileCategory.ProductPicture
+            })"
+            (onFilesSelected)="onFilesSelected($event)"
+        />
+    </ng-template>
+
+    <ng-template>
+        <pm-upload
+            ng2FileDrop
+            [active]="modelsAndDrawingsActive"
+            [disabled]="uploader.isUploading"
+            [uploadId]="ProductFileCategory.ModelsAndDrawings.toString()"
+            [uploadLabel]="'ProductCreateOrEditFiles.UploadCategory.ModelsAndDrawings' | localize"
+            [uploadText]="'ProductCreateOrEditFiles.UploadText' | localize"
+            [uploadTextLabel]="'ProductCreateOrEditFiles.uploadTextLabel' | localize"
+            [fileTag]="'ProductCreateOrEditFiles.FileTag' | localize"
+            [required]="true"
+            (fileOver)="fileOverDropZone({
+                fileOver: $event,
+                category: ProductFileCategory.ModelsAndDrawings
+                })"
+            (onFileDrop)="onFileDrop({
+                fileItems: $event,
+                category: ProductFileCategory.ModelsAndDrawings
+            })"
+            (onFilesSelected)="onFilesSelected($event)"
+        />
+    </ng-template>
+
+    <ng-template>
+        <pm-upload
+            ng2FileDrop
+            [active]="technicalDetailsActive"
+            [disabled]="uploader.isUploading"
+            [uploadId]="ProductFileCategory.TechnicalDetails.toString()"
+            [uploadLabel]="'ProductCreateOrEditFiles.UploadCategory.TechnicalDetails' | localize"
+            [uploadText]="'ProductCreateOrEditFiles.UploadText' | localize"
+            [uploadTextLabel]="'ProductCreateOrEditFiles.uploadTextLabel' | localize"
+            [fileTag]="'ProductCreateOrEditFiles.FileTag' | localize"
+            [required]="true"
+            (fileOver)="fileOverDropZone({
+                fileOver: $event,
+                category: ProductFileCategory.TechnicalDetails
+                })"
+            (onFileDrop)="onFileDrop({
+                fileItems: $event,
+                category: ProductFileCategory.TechnicalDetails
+            })"
+            (onFilesSelected)="onFilesSelected($event)"
+        />
+    </ng-template>
+
+    <ng-template>
+        <pm-upload
+            ng2FileDrop
+            [active]="manufacturingHintsActive"
+            [disabled]="uploader.isUploading"
+            [uploadId]="ProductFileCategory.ManufacturingHints.toString()"
+            [uploadLabel]="'ProductCreateOrEditFiles.UploadCategory.ManufacturingHints' | localize"
+            [uploadText]="'ProductCreateOrEditFiles.UploadText' | localize"
+            [uploadTextLabel]="'ProductCreateOrEditFiles.uploadTextLabel' | localize"
+            [fileTag]="'ProductCreateOrEditFiles.FileTag' | localize"
+            [required]="true"
+            (fileOver)="fileOverDropZone({
+                fileOver: $event,
+                category: ProductFileCategory.ManufacturingHints
+                })"
+            (onFileDrop)="onFileDrop({
+                fileItems: $event,
+                category: ProductFileCategory.ManufacturingHints
+            })"
+            (onFilesSelected)="onFilesSelected($event)"
+        />
+    </ng-template>
+
+    <ng-template>
+        <pm-upload
+            ng2FileDrop
+            [active]="installationAndUsageInstructions"
+            [disabled]="uploader.isUploading"
+            [uploadId]="ProductFileCategory.InstallationAndUsageInstructions.toString()"
+            [uploadLabel]="'ProductCreateOrEditFiles.UploadCategory.InstallationAndUsageInstructions' | localize"
+            [uploadText]="'ProductCreateOrEditFiles.UploadText' | localize"
+            [uploadTextLabel]="'ProductCreateOrEditFiles.uploadTextLabel' | localize"
+            [fileTag]="'ProductCreateOrEditFiles.FileTag' | localize"
+            [required]="true"
+            (fileOver)="fileOverDropZone({
+                fileOver: $event,
+                category: ProductFileCategory.InstallationAndUsageInstructions
+                })"
+            (onFileDrop)="onFileDrop({
+                fileItems: $event,
+                category: ProductFileCategory.InstallationAndUsageInstructions
+            })"
+            (onFilesSelected)="onFilesSelected($event)"
+        />
+    </ng-template>
+
+    <ng-template>
+        <pm-upload
+            ng2FileDrop
+            [active]="miscellaneousActive"
+            [disabled]="uploader.isUploading"
+            [uploadId]="ProductFileCategory.Miscellaneous.toString()"
+            [uploadLabel]="'ProductCreateOrEditFiles.UploadCategory.Miscellaneous' | localize"
+            [uploadText]="'ProductCreateOrEditFiles.UploadText' | localize"
+            [uploadTextLabel]="'ProductCreateOrEditFiles.uploadTextLabel' | localize"
+            [fileTag]="'ProductCreateOrEditFiles.FileTag' | localize"
+            (fileOver)="fileOverDropZone({
+                fileOver: $event,
+                category: ProductFileCategory.Miscellaneous
+                })"
+            (onFileDrop)="onFileDrop({
+                fileItems: $event,
+                category: ProductFileCategory.Miscellaneous
+            })"
+            (onFilesSelected)="onFilesSelected($event)"
+        />
+    </ng-template>
+</pm-file-upload>

@@ -1,0 +1,45 @@
+import { moduleMetadata } from '@storybook/angular';
+import { ArgsTable, Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { action } from '@storybook/addon-actions';
+
+import { radioGroupData } from "./radio-group.data";
+import { PmRadioGroupComponent } from "../../../lib/components/pm-radio-group/pm-radio-group.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Radio-Group/Sandbox" component={PmRadioGroupComponent} argTypes={{}} parameters={{
+  controls: { disabled: false },
+  chromatic: { disableSnapshot: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmRadioGroupComponent)),
+]}/>
+
+<Description of={PmRadioGroupComponent}/>
+
+export const actionsData = {
+  onChange: action('clicked on radio button:'),
+};
+export const Template = args => ({
+  props: {
+    ...radioGroupData,
+    ...args,
+    onSelect: actionsData.onChange
+  },
+});
+
+
+
+This contains the **Radio Group**.
+
+## Radio-Group - Default
+
+<Canvas withToolbar>
+  <Story name="Default">
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-RadioButtons](https://img.shields.io/badge/-RadioButtons-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/fa0d840c-7331-46bb-bb25-243378b092b1/)

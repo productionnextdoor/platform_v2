@@ -1,0 +1,87 @@
+import { action } from '@storybook/addon-actions';
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from "@storybook/angular";
+
+import { PmCalendarComponent } from "../../../lib/components/pm-calendar/pm-calendar.component";
+import { CalendarData } from './Calendar.data';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/Calendar/Calendar" component={PmCalendarComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmCalendarComponent))
+]}/>
+
+<Description of={PmCalendarComponent}/>
+
+export const actionsData = {
+    onInit: action('on init'),
+    onSelect: action('on select'),
+};
+export const Template = args => ({
+    props: {
+        ...args,
+        name: 'example',
+        inputId: 'example',
+        ...actionsData
+    },
+});
+
+## Datepicker
+
+<Canvas withToolbar isColumn>
+    <Story name="Default" args={{
+        ...CalendarData
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<Canvas withToolbar isColumn>
+    <Story name="Selected" args={{
+        ...CalendarData,
+        value: new Date()
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<Canvas withToolbar isColumn>
+    <Story name="Required" args={{
+        ...CalendarData,
+        required: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<Canvas withToolbar isColumn>
+    <Story name="Disabled" args={{
+        ...CalendarData,
+        disabled: true
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<Canvas withToolbar isColumn>
+    <Story name="Day Offset" args={{
+        ...CalendarData,
+        daysOffset: 3
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-Calendar](https://img.shields.io/badge/-Calendar-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

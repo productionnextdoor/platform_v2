@@ -1,0 +1,45 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from '../../../ComponentDependencies';
+import { PmOrderedProductCustomerInfoComponent } from '../../../../lib/layouts/pm-order-details/pm-ordered-product-customer-info/pm-ordered-product-customer-info.component';
+import { customerInfoCard } from './ordered-product-customer-info.data';
+
+
+
+
+<Meta title="Layouts/Order-Details/CustomerInfoCard" component={PmOrderedProductCustomerInfoComponent} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmOrderedProductCustomerInfoComponent))
+]}/>
+
+<Description of={PmOrderedProductCustomerInfoComponent}/>
+
+# Customer info card
+export const Template = args => ({
+    props: {
+        ...customerInfoCard,
+        ...args,
+    },
+});
+
+
+This contains the story for the layout **PmOrderedProductCustomerInfoComponent**.
+
+<Canvas withToolbar>
+    <Story name="Default" height={'700px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-CustomerInfoCard](https://img.shields.io/badge/-CustomerInfoCard-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/b3f82606-958f-443f-99a3-9afdd9e2cfc7-e6ab/screen/d14e0ea9-8557-4645-bf15-d9479bb966e5/)

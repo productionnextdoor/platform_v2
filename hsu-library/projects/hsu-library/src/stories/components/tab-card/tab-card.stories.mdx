@@ -1,0 +1,43 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmTabCardComponent } from '../../../lib/components/pm-tab-card/pm-tab-card.component';
+import { getComponentStoryMeta } from '../../ComponentDependencies';
+import { tabCardData } from './tab-card.data';
+import { action } from '@storybook/addon-actions';
+
+<Meta title="Components/TabCard/TabCard" component={PmTabCardComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmTabCardComponent)),
+]}/>
+
+<Description of={PmTabCardComponent}/>
+<br/><br/>
+
+export const actionsData = {
+    onTabChange: action('on tab clicked:'),
+    onButtonClicked: action('on button clicked:'),
+};
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...tabCardData,
+        ...args,
+        ...actionsData
+    },
+});
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/>
+<br/>
+

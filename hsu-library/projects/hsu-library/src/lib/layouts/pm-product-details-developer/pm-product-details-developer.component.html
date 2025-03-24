@@ -1,0 +1,152 @@
+<pm-card
+    [hasHeader]="true"
+    [title]="localisations.mainTitle"
+    class="product-details-developer"
+>
+    <pm-row template="1fr 1fr 1fr" [gap]="margins.Large">
+        <!-- First column -->
+        <div class="product-details-developer__column">
+            <pm-image
+                *ngIf="productImagePath.length"
+                [imagePath]="productImagePath"
+                [imagePathFull]="productImagePathFull"
+                [hasLimitHeight]="hasLimitHeight"
+                class="product-details-developer__image"
+            />
+            <div class="product-details-developer__section"
+                 *ngIf="offerInformation.properties.length">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="generalSectionMargin"
+                >
+                    {{ offerInformation.groupTitle }}
+                </pm-text>
+                <div *ngFor="let property of offerInformation.properties">
+                    <span class="product-details-developer__label">{{ property.key }}</span>
+                    <span class="product-details-developer__content">{{ property.value }}</span>
+                </div>
+            </div>
+            <div class="product-details-developer__general-section">
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="generalSectionMargin"
+                >
+                    {{ generalInformation.groupTitle }}
+                </pm-text>
+                <div *ngFor="let property of generalInformation.properties">
+                    <span class="product-details-developer__label">{{ property.key }}</span>
+                    <span class="product-details-developer__content">{{ property.value }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second column -->
+        <div class="product-details-developer__column">
+            <div *ngFor="let productSection of productDataDetailCard"
+                 class="product-details-developer__section"
+            >
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="sectionMargin">
+                    {{ productSection.sectionTitle }}
+                </pm-text>
+
+                <ng-container *ngFor="let productGroup of productSection.groups">
+                    <pm-text
+                        [type]="TextType.H4"
+                        [margin]="groupMargin"
+                    >
+                        {{ productGroup.groupTitle }}
+                    </pm-text>
+                    <div *ngFor="let productProperties of productGroup.properties">
+                        <span class="product-details-developer__label">{{ productProperties.key }}</span>
+                        <span class="product-details-developer__content">{{ productProperties.value }}</span>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Third column -->
+        <div class="product-details-developer__column">
+            <div *ngIf="productDetailsBaseData.productDescription.length"
+                 class="product-details-developer__description"
+            >
+                <pm-text
+                    [type]="TextType.H3"
+                    [margin]="sectionMargin">
+                    {{ localisations.productDescriptionTitle }}
+                </pm-text>
+                <pm-text [type]="TextType.COPY_M1">
+                    {{ productDetailsBaseData.productDescription }}
+                </pm-text>
+            </div>
+            <pm-row *ngIf="fileData.length"
+                    [template]="'1fr 1fr'"
+                    class="product-details-developer__uploaded-files"
+            >
+                <pm-text
+                    [type]="TextType.H3"
+                    class="product-details-developer__uploaded-files-title"
+                >
+                    {{ localisations.productFilesTitle }}
+                </pm-text>
+
+                <div class="product-details-developer__actions">
+                    <pm-button
+                        [type]="ButtonType.ICON"
+                        [icon]="Icon.DOWNLOAD"
+                        (onClicked)="onDownload.emit()"
+                        class="product-details-developer__actions-button"
+                    />
+                </div>
+            </pm-row>
+
+            <!--Display sharepointLink-->
+            <ng-container *ngIf="productDetailsBaseData.sharePointLink.length"
+                          class="product-details-developer__sharepoint-link"
+            >
+                <pm-text
+                    [type]="TextType.H4"
+                    [margin]="groupMargin"
+                > {{ localisations.sharepointLinkLabel }}
+                </pm-text>
+
+                <div class="product-details-developer__files">
+                    <pm-icon
+                        [icon]="Icon.NEW_WINDOW"
+                        [size]="IconSize.XS"
+                        (click)="onClickLink.emit()"
+                        class="product-details-developer__icon product-details-developer__icon-link"
+                    />
+                    <pm-text [type]="TextType.COPY_M1"> {{ productDetailsBaseData.sharePointLink }}</pm-text>
+                </div>
+            </ng-container>
+
+            <!-- Display uploaded files -->
+            <ng-container *ngFor="let category of categories">
+                <ng-container *ngIf="(fileData | FileTagsByCategory:category).length > 0">
+                    <pm-text [type]="TextType.H4"
+                             [margin]="uploadedFilesMargin"
+                    >
+                        {{ uploadCategories[category] }}
+                    </pm-text>
+
+                    <div *ngFor="let file of fileData | FileTagsByCategory:category"
+                         class="product-details-developer__files">
+                        <pm-icon
+                            [icon]="file.fileName | FiletypeIcon"
+                            [size]="IconSize.XS"
+                            class="product-details-developer__file-icon"
+                        />
+                        <pm-text
+                            [type]="TextType.COPY_M1"
+                            class="details-sidebar__files-tag"
+                        >
+                            {{ file.fileName }}
+                        </pm-text>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </pm-row>
+</pm-card>

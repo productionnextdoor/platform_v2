@@ -1,0 +1,121 @@
+<div class="pm-wizard">
+    <pm-popup
+        class="pm-wizard"
+        [context]="context"
+        [title]="title"
+        [type]="wizardSize"
+        (onClose)="onCancelClick()"
+        (change)="onInputChange()"
+    >
+        <ng-container header>
+            <ng-content select="[header]"></ng-content>
+        </ng-container>
+
+        <pm-steps
+            class="pm-wizard__steps"
+            [steps]="stepsData"
+            (onChange)="onSetStep($event)"
+        />
+
+        <ng-container [ngSwitch]="isDynamicTemplates">
+            <ng-container *ngSwitchCase="false">
+                <ng-container *ngFor="let stepTemplate of stepTemplates; let i = index">
+                    <div *ngIf="i === step" class="pm-wizard__content">
+                        <ng-container *ngTemplateOutlet="stepTemplate" />
+                    </div>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="true">
+                <ng-container *ngFor="let stepTemplate of dynamicTemplates; let i = index">
+                    <div *ngIf="i === step" class="pm-wizard__content">
+                        <ng-container *ngTemplateOutlet="stepTemplate" />
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+
+
+
+        <div footer class="pm-wizard__footer">
+            <div class="pm-wizard__custom-actions">
+                <ng-content select="[actions]" />
+            </div>
+            <div class="pm-wizard__actions">
+                <pm-button
+                    [type]="ButtonType.SECONDARY"
+                    [label]="localisations.cancel"
+                    (onClicked)="onCancelClick()"
+                    class="pm-wizard__action"
+                />
+                <pm-button
+                    *ngIf="!ignoreStepSaving"
+                    [type]="ButtonType.SECONDARY"
+                    [label]="localisations.draft"
+                    [disabled]="disableNext || !isValid"
+                    (onClicked)="onSaveClick()"
+                    class="pm-wizard__action"
+                />
+                <pm-button
+                    *ngIf="step > 0"
+                    [type]="ButtonType.SECONDARY"
+                    [icon]="Icon.ARROW"
+                    [iconPosition]="IconPosition.LEFT"
+                    [iconRotation]="180"
+                    [label]="prevLabel"
+                    (onClicked)="setStep(step - 1)"
+                    class="pm-wizard__action"
+                />
+                <pm-button
+                    *ngIf="step < stepsData.length - 1"
+                    [disabled]="disableNext || !isValid"
+                    [type]="ButtonType.PRIMARY"
+                    [icon]="Icon.ARROW"
+                    [label]="nextLabel"
+                    (onClicked)="setStep(step + 1)"
+                    class="pm-wizard__action"
+                />
+                <pm-button
+                    *ngIf="step === stepsData.length - 1"
+                    [disabled]="disableSave || !isValid"
+                    [type]="ButtonType.PRIMARY"
+                    [label]="this.isAdminView ? localisations.saveAsAdmin : localisations.save"
+                    (onClicked)="onFinalizeClick()"
+                    class="pm-wizard__action"
+                />
+            </div>
+        </div>
+    </pm-popup>
+
+    <pm-popup
+        *ngIf="showCancelConfirmation"
+        [title]="localisations.cancelConfirmationTitle"
+        [type]="PopupType.SMALL"
+        (onClose)="onCancelAbortClick()"
+    >
+        <p>{{localisations.cancelConfirmationDescription}}</p>
+
+        <div footer class="pm-wizard__actions">
+            <pm-button
+                [type]="ButtonType.SECONDARY"
+                [label]="localisations.cancel"
+                (onClicked)="onCancelAbortClick()"
+                class="pm-wizard__action"
+            />
+            <pm-button
+                [type]="ButtonType.PRIMARY"
+                [label]="localisations.confirm"
+                (onClicked)="onCancelConfirmClick()"
+                class="pm-wizard__action"
+            />
+        </div>
+    </pm-popup>
+
+    <pm-confirm-popup
+        *ngIf="showConfirmPopup"
+        (onConfirm)="onConfirmFinalizeClick()"
+        (onCancel)="onConfirmCancelClick()"
+        [localisations]="localisations.confirmPopup"
+    ></pm-confirm-popup>
+</div>

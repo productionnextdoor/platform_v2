@@ -1,0 +1,63 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmStatePopupComponent } from "../../../lib/layouts/pm-state-popup/pm-state-popup.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { statePopupData } from "./state-popup.data";
+
+
+<Meta title="Layouts/State-Popup/State-Popup" component={PmStatePopupComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmStatePopupComponent))
+]}/>
+
+<Description of={PmStatePopupComponent}/>
+
+export const actionsData = {
+    onTimerReset: action('on timer reset'),
+    onTimerFinished: action('on timer finished'),
+    onDelete: action('on delete'),
+    onCancel: action('on cancel'),
+    onConfirm: action('on confirm'),
+};
+
+export const Template = args => ({
+    props: {
+        ...statePopupData,
+        ...args,
+        ...actionsData
+    },
+});
+
+# State Popup
+
+This contains the story for the layout **Confirm Popup**.
+
+<Canvas withToolbar>
+  <Story name="NewState" height={'500px'} args={{
+      
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<Canvas withToolbar>
+  <Story name="EditState" height={'500px'} args={{
+      stateName: 'Gelochte Platten',
+      stateId: 1,
+      localisations: {
+        ...statePopupData.localisations,
+        title: 'Zustand editieren'
+      }
+  }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+
+
+## Design
+[![XD-StatePopup](https://img.shields.io/badge/-StatePopup-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/8ab5cddb-05ec-449a-8d9a-f66f19a817c6-dfe6/screen/284d276b-b646-46fc-8272-9efc4772c700/)

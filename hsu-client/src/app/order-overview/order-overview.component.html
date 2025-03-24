@@ -1,0 +1,13 @@
+<pm-orders-overview
+    [loading]="false"
+    [columnHeaders]="columnHeaders"
+    [rowData]="rowData"
+    [statusFilterOptions]="statusFilterOptions"
+    [totalItems]="totalCount"
+    [localisationStrings]="localisationStrings"
+    (onSortingClicked)="onSortData($event)"
+    (onPageClicked)="onPageChange($event)"
+    (onSearchTermChanged)="onSearchTermChanged($event)"
+    (onStatusFilterChanged)="onStatusChange($event)"
+    (onActionClicked)="onOrderDetailsClicked($event)"
+></pm-orders-overview>

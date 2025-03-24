@@ -1,0 +1,23 @@
+@use '../../styles/utils/functions' as f;
+@use '../../styles/utils/mixins' as m;
+@use '../../styles/base/fonts' as fonts;
+
+.product-popup {
+
+  color: f.color(neutrals, 100);
+
+  &__automatic {
+    color: f.color(neutrals,300);
+  }
+
+  &__footer {
+    text-align: right;
+  }
+
+  &__btn {
+    display: inline-block;
+    margin-left: f.rem(24);
+  }
+
+}
+

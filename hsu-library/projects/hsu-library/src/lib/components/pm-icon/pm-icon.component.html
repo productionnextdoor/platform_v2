@@ -1,0 +1,11 @@
+<div class="icon"
+     [class]="'icon--' + icon"
+     [ngClass]="{
+         'icon--very-small': size === EIconSize.XXS,
+         'icon--small': size === EIconSize.S,
+         'icon--medium': size === EIconSize.M,
+         'icon--xlarge': size === EIconSize.XL,
+     }"
+     [style.--icon-size.px]=size
+     [style.--icon-rotate.deg]=rotate
+></div>

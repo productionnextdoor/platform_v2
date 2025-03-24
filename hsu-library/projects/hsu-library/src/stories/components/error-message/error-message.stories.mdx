@@ -1,0 +1,43 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+
+import { PmErrorMessageComponent } from "../../../lib/components/pm-error-message/pm-error-message.component";
+import { errorMessageData } from "./error-message.data";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/ErrorMessage/ErrorMessage" component={PmErrorMessageComponent} argTypes={{}} parameters={{
+    controls: {disabled: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmErrorMessageComponent)),
+]}/>
+
+<Description of={PmErrorMessageComponent}/>
+
+export const Template = args => ({
+    props: {
+        ...errorMessageData,
+        ...args,
+    },
+});
+
+## Input Error Message
+<br/>
+### Default
+
+You can see example usages in the input and dropdown components
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+[![XD-Inputfields-And-Dropdowns](https://img.shields.io/badge/-Inputfields_and_Dropdowns-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/77778972-da0f-4a7a-b876-68ac03d1e86f-2224/screen/09c2c541-ffdb-4407-ae21-88d709b1b713/)

@@ -1,0 +1,49 @@
+<pm-card class="background-card"
+         [hasHeader]="hasHeader"
+         [title]="title"
+         [collapsed]="collapsed"
+         [disabled]="disabled"
+         [collapsible]="collapsible"
+         [noShadow]="noShadow"
+>
+    <div header class="background-card__header">
+        <div *ngIf="datepicker || datepickerOnlyDate" class="background-card__datepicker" >
+            <ng-container *ngIf="datepickerDate">
+                <span class="background-card__text">{{datepickerTitle}}:</span>
+                <span class="background-card__date">{{datepickerDate}}</span>
+            </ng-container>
+
+            <pm-button *ngIf="datepicker"
+                       class="background-card__btn"
+                       [title]="datepickerTitle"
+                       [type]="EButtonType.ICON"
+                       [icon]="EIcon.CALENDER"
+                       [disabled]="datepickerDisabled"
+                       (onClicked)="onClickButton()"
+            />
+        </div>
+
+        <pm-timer *ngIf="timer"
+                  class="background-card__btn"
+                  [disabled]="timerDisabled"
+        />
+
+        <pm-button *ngIf="edit || timer"
+                   class="background-card__btn"
+                   [type]="EButtonType.ICON"
+                   [icon]="EIcon.EDIT"
+                   [disabled]="editDisabled"
+                   (click)="onClickButton()"
+        />
+
+        <pm-button *ngIf="primaryBtn"
+                   class="background-card__btn"
+                   [type]="EButtonType.PRIMARY"
+                   [label]="primaryBtnLabel"
+                   [disabled]="primaryBtnDisabled"
+                   (click)="onClickButton()"
+        />
+    </div>
+
+    <ng-content />
+</pm-card>

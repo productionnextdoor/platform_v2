@@ -1,0 +1,175 @@
+<div class="workstep-data">
+    <div class="workstep-data__banner"
+         *ngIf="showInfoBanner">
+        <pm-banner
+            [bannerText]="infoBannerText"
+            [bannerType]="BannerType.ATTENTION"
+            (onCloseBanner)="onBannerClose.emit()"
+        ></pm-banner>
+    </div>
+    <div class="workstep-data__badge">
+        <pm-badge
+            [text]="localisations.productDimensionLabel + ': ' + productStepData.measurementsName"
+        />
+    </div>
+
+    <div class="workstep-data__time">
+        <div class="workstep-data__title">
+            <pm-text [type]="TextType.H3">
+                {{ localisations.workstepTimeData.title }}
+            </pm-text>
+        </div>
+
+        <div class="workstep-data__description">
+            <pm-text [type]="TextType.COPY_M1">
+                {{ localisations.workstepTimeData.description }}
+            </pm-text>
+        </div>
+
+        <div class="workstep-data__time-input">
+            <pm-row [template]="'1fr 1fr'" [gap]="DefaultMargins.XLarge">
+                <pm-input
+                    [type]="EPmInputType.NUMBER"
+                    [unit]="localisations.workstepTimeData.weeklyInputUnit"
+                    [label]="localisations.workstepTimeData.processingTimeInputLabel"
+                    [required]="true"
+                    [disabled]="readonly"
+                    [allowEmptyNumber]="true"
+                    [(value)]="productStepData.orderProcessingTime"
+                    (valueChange)="valueChanged()"
+                />
+
+                <pm-input
+                    [type]="EPmInputType.NUMBER"
+                    [unit]="localisations.workstepTimeData.hourlyInputUnit"
+                    [label]="localisations.workstepTimeData.workingTimeInputLabel"
+                    [required]="true"
+                    [disabled]="readonly"
+                    [allowEmptyNumber]="true"
+                    [(value)]="productStepData.workHours"
+                    (valueChange)="valueChanged()"
+                />
+            </pm-row>
+            <pm-row *ngIf="showSupplyOtherCraftsInWeeksInput" template="1fr 1fr" [gap]="DefaultMargins.XLarge">
+                <pm-input
+                    [type]="EPmInputType.NUMBER"
+                    [unit]="localisations.workstepTimeData.weeklyInputUnit"
+                    [label]="localisations.workstepTimeData.supplyOtherCraftsInWeeksInputLabel"
+                    [required]="true"
+                    [disabled]="readonly"
+                    [allowEmptyNumber]="false"
+                    [(value)]="productStepData.supplyOtherCraftsInWeeks"
+                    (valueChange)="valueChanged()"
+                />
+            </pm-row>
+        </div>
+    </div>
+
+    <div class="workstep-data__costs">
+        <div class="workstep-data__title">
+            <pm-text [type]="TextType.H3">
+                {{ localisations.workstepCostsData.title }}
+            </pm-text>
+        </div>
+
+        <div class="workstep-data__description">
+            <pm-text [type]="TextType.COPY_M1">
+                {{ localisations.workstepCostsData.description }}
+            </pm-text>
+        </div>
+        <pm-row [template]="'1fr 1fr'" [gap]="DefaultMargins.XLarge">
+            <pm-col>
+                <pm-input
+                    [type]="EPmInputType.NUMBER"
+                    [unit]="localisations.workstepCostsData.inputUnit"
+                    [label]="localisations.workstepCostsData.transportRateInputLabel"
+                    [allowEmptyNumber]="true"
+                    [disabled]="readonly"
+                    [(value)]="productStepData.transportAndAssemblyCost"
+                    (valueChange)="valueChanged()"
+                />
+                <div *ngIf="!assemblyOnly">
+                    <ng-container *ngFor="let workpiece of productStepData.workPieceVariantsCost; let i = index">
+                        <div *ngIf="i % 2 === 0" class="workstep-data__material">
+                            <pm-text
+                                class="workstep-data__material-text"
+                                [type]="TextType.H4"
+                                [margin]="materialTextMargin">
+                                <span class="workstep-data__material-text--highlighted">
+                                    {{ workpiece.description.group }}:
+                                </span>
+                                {{ workpiece.description.material }}
+                            </pm-text>
+
+                            <pm-input
+                                [type]="EPmInputType.NUMBER"
+                                [unit]="localisations.workstepCostsData.inputUnit"
+                                [label]="localisations.workstepCostsData.materialCostsInputLabel"
+                                [required]="workpiece.canProduce !== PmCheckboxState.ACTIVE"
+                                [allowEmptyNumber]="true"
+                                [disabled]="readonly || workpiece.canProduce == PmCheckboxState.ACTIVE"
+                                [(value)]="workpiece.materialCost"
+                                (valueChange)="valueChanged()"
+                            />
+
+                            <pm-checkbox
+                                *ngIf="!workpiece.isStandard"
+                                [label]="localisations.workstepCostsData.checkboxLabel"
+                                [(state)]="workpiece.canProduce"
+                                [disabled]="readonly"
+                                (stateChange)="valueChanged()"
+                            />
+                        </div>
+                    </ng-container>
+                </div>
+            </pm-col>
+
+            <pm-col>
+                <pm-input
+                    [type]="EPmInputType.NUMBER"
+                    [unit]="localisations.workstepCostsData.inputUnit"
+                    [label]="localisations.workstepCostsData.additionalMaterialsInputLabel"
+                    [allowEmptyNumber]="true"
+                    [disabled]="readonly"
+                    [(value)]="productStepData.additionalCosts"
+                    (valueChange)="valueChanged()"
+                />
+                <div *ngIf="!assemblyOnly">
+                    <ng-container *ngFor="let workpiece of productStepData.workPieceVariantsCost; let i = index">
+                        <div *ngIf="i % 2 === 1" class="workstep-data__material">
+                            <pm-text
+                                class="workstep-data__material-text"
+                                [type]="TextType.H4"
+                                [margin]="materialTextMargin">
+                            <span class="workstep-data__material-text--highlighted">
+                                {{ workpiece.description.group }}:
+                            </span>
+                                {{ workpiece.description.material }}
+                            </pm-text>
+
+                            <pm-input
+                                [type]="EPmInputType.NUMBER"
+                                [unit]="localisations.workstepCostsData.inputUnit"
+                                [label]="localisations.workstepCostsData.materialCostsInputLabel"
+                                [required]="workpiece.canProduce !== PmCheckboxState.ACTIVE"
+                                [allowEmptyNumber]="true"
+                                [disabled]="readonly || workpiece.canProduce == PmCheckboxState.ACTIVE"
+                                [(value)]="workpiece.materialCost"
+                                (valueChange)="valueChanged()"
+                            />
+
+                            <pm-checkbox
+                                *ngIf="!workpiece.isStandard"
+                                [label]="localisations.workstepCostsData.checkboxLabel"
+                                [(state)]="workpiece.canProduce"
+                                [disabled]="readonly"
+                                (stateChange)="valueChanged()"
+                            />
+                        </div>
+                    </ng-container>
+                </div>
+            </pm-col>
+        </pm-row>
+
+    </div>
+</div>

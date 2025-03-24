@@ -1,0 +1,38 @@
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { PmLogoScreenComponent } from "../../../lib/components/pm-logo-screen/pm-logo-screen.component";
+import { storybookHelper } from "../../StorybookHelper";
+import { logoScreenData } from "./logo-screen.data";
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+
+<Meta title="Components/LogoScreen/LogoScreen" component={PmLogoScreenComponent} argTypes={{}}
+    parameters={{
+    controls: {disabled: true},
+    chromatic: {disableSnapshot: true},
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmLogoScreenComponent))
+]}/>
+
+<Description of={PmLogoScreenComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-logo-screen', logoScreenData);
+
+## Logo Screen
+
+This contains an example definition for the **LogoScreen**.
+
+<Canvas withToolbar>
+    <Story name="Default">
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-Login](https://img.shields.io/badge/-Login-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/6db2a224-abd8-4478-af5a-7099e15f2fc0-38e1/screen/dbe399b9-b91b-4361-9140-be812e797367/)
+
+[![XD-RequestPasswordMail](https://img.shields.io/badge/-RequestPsswordMail-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/8b6f6381-84e5-4cc3-8af2-117cfd6c1e61-de3c/screen/5eb6e96f-2f7c-4bb9-be05-ec8ab8520a04/specs/)
+
+[![XD-Reset-Password](https://img.shields.io/badge/-ResetPassword-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/8b6f6381-84e5-4cc3-8af2-117cfd6c1e61-de3c/screen/c3babe5e-6ef1-457a-9f89-5a01b53ba91f/specs/)

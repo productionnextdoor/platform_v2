@@ -1,0 +1,49 @@
+import {
+    Canvas,
+    Description,
+    Meta,
+    Story
+} from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { PmContentWithSidebarComponent } from "../../../lib/layouts/pm-content-with-sidebar/pm-content-with-sidebar.component";
+import { ContentSidebarData } from "./content-with-sidebar.data";
+import { storybookHelper } from "../../StorybookHelper";
+
+
+
+<Meta title="Layouts/Content-With-Sidebar/Content-With-Sidebar" component={PmContentWithSidebarComponent} argTypes={{}} parameters={{
+    controls: {disabled: true}
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmContentWithSidebarComponent)),
+]}/>
+
+<Description of={PmContentWithSidebarComponent}/>
+
+export const Template = storybookHelper.RenderNgContent('pm-content-with-sidebar', ContentSidebarData);
+
+## Sidebar Expanded
+
+<Canvas withToolbar>
+    <Story name="Default with expanded Sidebar" height={'723px'} args={{}}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Sidebar Collapsed
+
+<Canvas withToolbar>
+    <Story name="Default with collapsed Sidebar" args={{
+        sidebarCollapsed: true,
+    }}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+
+<br/><br/>
+
+## Design
+
+[![XD-ProductDetailsPage](https://img.shields.io/badge/-ProductDetailsPage-%235c5c5c?logo=adobexd&labelColor=450034)](https://xd.adobe.com/view/4b6cca74-1250-424c-8c3c-3ab8c470fe13-1e3f/screen/80dbd9f1-b489-4d52-a87f-b4837f78204e/specs/)

@@ -1,0 +1,15 @@
+@use '../../styles/utils/functions' as f;
+
+.workstep-table {
+  &__table {
+    margin: f.rem(40) 0 f.rem(32);
+  }
+
+  &__footer {
+    text-align: right;
+  }
+
+  &__item-count {
+    margin-right: f.rem(24);
+  }
+}

@@ -1,0 +1,79 @@
+<pm-content-with-sidebar
+    class="product-details"
+    [breadcrumbs]="breadcrumbs"
+    [sidebarCollapsed]="sidebarCollapsed"
+    (onSidebarOpen)="this.sidebarCollapsed = false;"
+>
+    <product-order-sidebar
+        detailsSidebar
+        [orderId]="orderId"
+        [localisations]="localisations.sidebarLocalisations"
+        [(sidebarCollapsed)]="sidebarCollapsed"
+        (productNameChanged)="setBreadCrumbs($event)"
+    />
+
+    <pm-col>
+        <ng-container
+            *ngIf="!commissionedOrderStatuses.includes(orderStatus)"
+        >
+            <pm-order-producer-request-card
+                *ngFor="let request of orderRequestData"
+                [badgeText]="request.badgeText"
+                [badgeNegative]="request.badgeNegative"
+                [stepId]="request.stepId"
+                [responseNeeded]="request.responseNeeded"
+                [orderRequestData]="request.actionData"
+                [localisations]="localisations.orderRequestCardLocalisations"
+                [loading]="loading"
+                (onProducerActionEvent)="onProducerRequestResponse($event)"
+            ></pm-order-producer-request-card>
+        </ng-container>
+
+        <ng-container
+            *ngIf="commissionedOrderStatuses.includes(orderStatus)"
+        >
+            <pm-production-process-card
+                [columnHeaders]="columnHeaders"
+                [rowData]="rowData"
+                [deliveryDocuments]="deliveryDocuments"
+                [cardMode]="ECardMode.EDIT"
+                [startDisabled]="!startAction"
+                [endDisabled]="!finishAction"
+                [isFinalSelected]="selectedValueChainAction?.isFinal??false"
+                [loading]="loading"
+                [localisations]="localisations.productionProcessCardLocalisations"
+                (onCheckBoxChange)="onActionSelected($event)"
+                (onActionStart)="onChangeAction(true)"
+                (onActionFinish)="onActionFinish()"
+                (onFileDelete)="onFileDelete($event)"
+                (onCancel)="onCancel()"
+
+            >
+                <ng-container uploadField>
+                    <pm-upload
+                        ng2FileDrop
+                        [disabled]="uploader.isUploading"
+                        [uploadText]="localisations.uploadFieldLocalisations.uploadText"
+                        [uploadTextLabel]="localisations.uploadFieldLocalisations.uploadTextLabel"
+                        [fileTag]="localisations.uploadFieldLocalisations.fileTag"
+                        (onFileDrop)="onFileDrop($event)"
+                        (onFilesSelected)="onFilesSelected($event)"
+                    />
+                </ng-container>
+            </pm-production-process-card>
+
+            <pm-ordered-product-details
+                *ngIf="productInfoCard"
+                [hideDocuments]="hideDocuments"
+                [title]="productInfoCard.productInfoCardTitle"
+                [detailData]="productInfoCard.productInfoCardData"
+                (onDownloadClick)="downloadDeliveryDocuments()"
+            />
+            <pm-ordered-product-customer-info
+                *ngIf="customerInfoCard"
+                [title]="customerInfoCard.customerInfoCardTitle"
+                [customerData]="customerInfoCard.customerInfoCardData"
+            />
+        </ng-container>
+    </pm-col>
+</pm-content-with-sidebar>

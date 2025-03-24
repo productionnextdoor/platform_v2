@@ -1,0 +1,46 @@
+<div class="statistics-card">
+    <pm-card
+        [hasHeader]="true"
+        [collapsible]="true"
+        [title]="localisations.title"
+    >
+        <pm-col>
+                <pm-input
+                    [type]="EPmInputType.TEXT"
+                    [name]="'example'"
+                    [label]="localisations.filterInput.label"
+                    [placeholder]="localisations.filterInput.placeholder"
+                    [(value)]="statisticsData.filter"
+                ></pm-input>
+        <pm-row [template]="'1fr 1fr'" [gap]="margins.XLarge">
+                <pm-input
+                    [type]="EPmInputType.DATE"
+                    [name]="'example'"
+                    [label]="localisations.dateFrom.label"
+                    [placeholder]="localisations.dateFrom.placeholder"
+                    [(value)]="statisticsData.dateFrom"
+                    (valueChange)="validateDate()"
+                ></pm-input>
+                <pm-input
+                    [type]="EPmInputType.DATE"
+                    [name]="'example2'"
+                    [label]="localisations.dateTo.label"
+                    [placeholder]="localisations.dateTo.placeholder"
+                    [hasError]="dateError"
+                    [errorMessages]="['wrong date']"
+                    [(value)]="statisticsData.dateTo"
+                    (valueChange)="validateDate()"
+                ></pm-input>
+        </pm-row>
+        </pm-col>
+
+        <div footer class="statistics-card__footer">
+            <pm-button
+                [type]="ButtonType.PRIMARY"
+                [label]="localisations.buttonLabel"
+                [disabled]="dateError"
+                (onClicked)="onDownloadClicked.emit(statisticsData);">
+            </pm-button>
+        </div>
+    </pm-card>
+</div>

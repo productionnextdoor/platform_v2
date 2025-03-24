@@ -1,0 +1,36 @@
+import { PmInviteProducerPopupComponent } from "../../../lib/layouts/pm-invite-producer-popup/pm-invite-producer-popup.component";
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
+import { moduleMetadata } from "@storybook/angular";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import {InviteProducerPopupData} from "./invite-producer-popup.data";
+
+<Meta title="Layouts/Invite-Popup/Invite-Producer-Popup" component={PmInviteProducerPopupComponent} argTypes={{}} parameters={{
+    controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmInviteProducerPopupComponent)),
+]}/>
+
+<Description of={PmInviteProducerPopupComponent}/>
+<Description markdown={`# Invite producer popup `}/>
+
+export const Template = args => ({
+    moduleMetadata: {},
+    props: {
+        ...InviteProducerPopupData,
+        ...args
+    },
+});
+
+This contains definitions for the **Invite producer popup**.
+
+## Invite producer popup
+
+<Canvas withToolbar isColumn>
+    <Story name="Default" height={'700px'}>
+        {Template.bind({})}
+    </Story>
+</Canvas>
+<br/>
+
+## Design
+[![XD-InviteProducerPopup](https://img.shields.io/badge/-InviteProducerPopup-%235c5c5c?logo=adobexd&labelInviteProducerPopup=450034)](https://xd.adobe.com/view/f62c013f-68ab-4f5b-9612-781f87fbc60d-a37f/screen/7af0656e-844b-4182-bef1-5918f5ad06d0/specs/)

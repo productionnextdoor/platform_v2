@@ -1,0 +1,22 @@
+<div class="checkbox"
+     [ngClass]="{
+         'checkbox--checked': this.state === ECheckboxState.ACTIVE,
+         'checkbox--checkedmulti': this.state === ECheckboxState.MULTISELECT,
+         'checkbox--disabled': disabled,
+         'checkbox--hovered': hovered && !disabled,
+         'checkbox--hasError': hasError,
+     }"
+     (click)="checkboxOnClick()"
+>
+    <input class="checkbox__field"
+           type="checkbox"
+           [id]="checkboxId"
+           [checked]="((this.state === ECheckboxState.ACTIVE) || (this.state === ECheckboxState.MULTISELECT)) ? 'checked' : ''"
+    />
+    <pm-label *ngIf="label"
+              [text]="label"
+              class="checkbox__label"
+              [inline]="true"
+              [for]="checkboxId"
+    />
+</div>
