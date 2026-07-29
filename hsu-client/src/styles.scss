@@ -1,2 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Import Karla font for HSU Platform (Angular 17 best practice)
+@import '@fontsource-variable/karla/wght.css';
+
+// HSU Icon Fonts - loaded in consuming app
+$hash: 'zskice';
+@font-face {
+  font-family: 'HSU';
+  src: url('assets/fonts/HSU-icon.eot?#{$hash}');
+  src: url('assets/fonts/HSU-icon.eot?#{$hash}#iefix') format('embedded-opentype'),
+  url('assets/fonts/HSU-icon.woff?#{$hash}') format('woff'),
+  url('assets/fonts/HSU-icon.ttf?#{$hash}') format('truetype'),
+  url('assets/fonts/HSU-icon.svg?#{$hash}##HSU-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import "../node_modules/hsu-library/src/lib/styles/_hsu";

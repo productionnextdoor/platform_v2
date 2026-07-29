@@ -1,7 +1,6 @@
-using System.Collections.Generic;
+using System.Linq;
 using Abp.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using PMHelmutSchmidtPortal.EntityFrameworkCore;
 using PMHelmutSchmidtPortal.EntityFrameworkCore.Repositories;
 
@@ -13,9 +12,13 @@ public class MaterialGroupRepository : PmHelmutSchmidtPortalRepositoryBase<Mater
         : base(dbContextProvider)
     {
     }
-    
-    public IIncludableQueryable<MaterialGroup, ICollection<SurfaceFinish>> GetMaterialGroupsWithSurfaceFinishesQuery()
+
+    public IQueryable<MaterialGroup> GetMaterialGroupsWithSpecificationsQuery()
     {
-        return GetAll().Include(m => m.SurfaceFinishes);
+        return GetAll()
+            .Include(m => m.Specifications)
+                .ThenInclude(s => s.SpecificationGroup)
+            .Include(m => m.SpecificationGroups)
+                .ThenInclude(sg => sg.Specifications);
     }
 }

@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Abp.Domain.Services;
 using PMHelmutSchmidtPortal.Authorization.Users;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto;
-using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.DeliveryAddressStep;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.GeneralInfoStep;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.MaterialGroupStep;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.ProductDetailsOverview;
@@ -18,10 +17,6 @@ public interface IProductDetailsManager : IDomainService
     Task<GeneralInfoOutputDto> GetProductGeneralInfo(Product product);
 
     Task<GeneralInfoOutputDto> CreateOrUpdateGeneralInfo(Product product, GeneralInfoInputDto input);
-    
-    Task<DeliveryAddressOutputDto> GetProductDeliveryAddress(Product product);
-
-    Task<DeliveryAddressOutputDto> CreateOrUpdateProductDeliveryAddress(Product product, DeliveryAddressInputDto input);
 
     Task<MaterialGroupStepOutput> GetProductMaterialsStage(Product product);
 

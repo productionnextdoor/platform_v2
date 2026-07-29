@@ -2,6 +2,10 @@
 @use '../../styles/utils/mixins' as m;
 @use '../../styles/base/fonts' as fonts;
 
+:host {
+  --popup-z-index: #{f.z-index('confirm-popup')};
+}
+
 .pm-confirm {
   &__actions {
     text-align: right;

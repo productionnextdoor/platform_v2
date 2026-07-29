@@ -86,12 +86,21 @@ export interface IExportPermissions {
   statistics:string
 }
 
+export interface IMaterialPermissions {
+  manage: string;
+  get: string;
+  create: string;
+  update: string;
+  delete: string;
+}
+
 export interface IPermissions {
   products: IProductPermissions;
   users: IUserPermissions;
   valueChainPlanning: IValueChainPlaningPermissions;
-  orderManagement: IOrderManagement
-  importExport: IExportPermissions
+  orderManagement: IOrderManagement;
+  importExport: IExportPermissions;
+  materials: IMaterialPermissions;
 }
 
 export const PERMISSIONS: IPermissions = {
@@ -180,5 +189,12 @@ export const PERMISSIONS: IPermissions = {
   importExport: {
     product:'Hsu.ImportExport.ProductExport',
     statistics: 'Hsu.ImportExport.StatisticsExport'
+  },
+  materials: {
+    manage: 'Hsu.Materials.Manage',
+    get: 'Hsu.Materials.Get',
+    create: 'Hsu.Materials.Create',
+    update: 'Hsu.Materials.Update',
+    delete: 'Hsu.Materials.Delete',
   }
 };

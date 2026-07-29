@@ -1136,7 +1136,7 @@ namespace PMHelmutSchmidtPortal.Configuration
                 ResponseType = responseType
             };
 
-            if (!loginUrl.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(loginUrl))
             {
                 openIdConnectExternalLoginProviderInfo.LoginUrl = loginUrl;
             }

@@ -1,5 +1,4 @@
 import {
-  EValueChainCommissionMode,
   EValueChainStatus,
   IValueChainCardLocalisations
 } from '../../../../lib/layouts/pm-order-details/pm-order-value-chain-card/pm-order-value-chain-card.shared';
@@ -24,7 +23,6 @@ interface ValueChainCardData {
   index: number,
   requestDate: string,
   status: string
-  commissionMode: string,
   valueChainCardLocalisation: IValueChainCardLocalisations;
   columnHeaders: IColumnHeader[];
   rowData: Row[];
@@ -34,12 +32,10 @@ export const valueChainCardData: ValueChainCardData = {
   index: 1,
   requestDate: '06.09.2023',
   status: EValueChainStatus['Selected'],
-  commissionMode: EValueChainCommissionMode['Automatic'],
   valueChainCardLocalisation: {
     description: 'In der folgenden Tabelle kannst du die verschiedenen Arbeitsschritte und den aktuellen Status der angefragten Wertkette einsehen.',
     requestDate: 'Datum der Anfrage',
     requestValueChain: 'angefragte Wertkette',
-    commissionBtn: 'Beauftragen Wertschöpfungskette',
     status: {
       rejected: 'Nicht zustande gekommen',
       commissioned: 'Beauftragt',

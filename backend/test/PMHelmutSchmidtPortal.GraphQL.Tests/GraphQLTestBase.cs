@@ -9,11 +9,11 @@ using GraphQL.Execution;
 using GraphQL.NewtonsoftJson;
 using GraphQL.Types;
 using GraphQL.Validation;
-using GraphQL.Validation.Complexity;
 using GraphQLParser.Exceptions;
 using PMHelmutSchmidtPortal.Test.Base;
 using Newtonsoft.Json.Linq;
 using Shouldly;
+using Newtonsoft.Json;
 
 namespace PMHelmutSchmidtPortal.GraphQL.Tests
 {
@@ -31,21 +31,17 @@ namespace PMHelmutSchmidtPortal.GraphQL.Tests
 
         public IDocumentExecuter Executer { get; }
 
-        public IDocumentWriter Writer { get; }
-
         public GraphQLTestBase()
         {
             Schema = Resolve<TSchema>();
 
-            Executer = new DocumentExecuter(new TDocumentBuilder(), new DocumentValidator(), new ComplexityAnalyzer());
-
-            Writer = new DocumentWriter(indent: true);
+            Executer = new DocumentExecuter(new TDocumentBuilder(), new DocumentValidator());
         }
 
         public async Task<ExecutionResult> AssertQuerySuccessAsync(
             string query,
             string expectedResult,
-            Inputs inputs = null,
+            Dictionary<string, object> inputs = null,
             object root = null,
             Dictionary<string, object> userContext = null,
             CancellationToken cancellationToken = default,
@@ -59,7 +55,7 @@ namespace PMHelmutSchmidtPortal.GraphQL.Tests
         public async Task<ExecutionResult> AssertQueryWithErrorsAsync(
             string query,
             string expectedResult,
-            Inputs inputs = null,
+            Dictionary<string, object> inputs = null,
             object root = null,
             Dictionary<string, object> userContext = null,
             CancellationToken cancellationToken = default,
@@ -82,7 +78,7 @@ namespace PMHelmutSchmidtPortal.GraphQL.Tests
         public async Task<ExecutionResult> AssertQueryIgnoreErrorsAsync(
             string query,
             ExecutionResult expectedExecutionResult,
-            Inputs inputs = null,
+            Dictionary<string, object> inputs = null,
             object root = null,
             Dictionary<string, object> userContext = null,
             CancellationToken cancellationToken = default,
@@ -94,20 +90,19 @@ namespace PMHelmutSchmidtPortal.GraphQL.Tests
                 options.Schema = Schema;
                 options.Query = query;
                 options.Root = root;
-                options.Inputs = inputs;
+                options.Variables = inputs != null ? new Inputs(inputs) : null;
                 options.UserContext = userContext;
                 options.CancellationToken = cancellationToken;
             });
 
-            var actualResult = await Writer
-                .WriteToStringAsync(renderErrors
+            var actualResult = JsonConvert.SerializeObject(renderErrors
                     ? executionResult
                     : new ExecutionResult
                     {
                         Data = executionResult.Data
-                    });
+                    }, Formatting.Indented);
 
-            var expectedResult = await Writer.WriteToStringAsync(expectedExecutionResult);
+            var expectedResult = JsonConvert.SerializeObject(expectedExecutionResult, Formatting.Indented);
 
             actualResult.ShouldBe(expectedResult);
 
@@ -124,7 +119,7 @@ namespace PMHelmutSchmidtPortal.GraphQL.Tests
         public async Task<ExecutionResult> AssertQueryAsync(
             string query,
             ExecutionResult expectedExecutionResult,
-            Inputs inputs,
+            Dictionary<string, object> inputs,
             object root,
             Dictionary<string, object> userContext = null,
             CancellationToken cancellationToken = default,
@@ -135,16 +130,16 @@ namespace PMHelmutSchmidtPortal.GraphQL.Tests
                 options.Schema = Schema;
                 options.Query = query;
                 options.Root = root;
-                options.Inputs = inputs;
+                options.Variables = inputs != null ? new Inputs(inputs) : null;
                 options.UserContext = userContext;
                 options.CancellationToken = cancellationToken;
                 options.ValidationRules = rules;
-                options.NameConverter = new CamelCaseNameConverter();
+                // options.FieldNameConverter = new CamelCaseNameConverter(); // Not available in GraphQL 8.x
             });
 
-            var actualResult = await Writer.WriteToStringAsync(executionResult);
+            var actualResult = JsonConvert.SerializeObject(executionResult, Formatting.Indented);
 
-            var expectedResult = await Writer.WriteToStringAsync(expectedExecutionResult);
+            var expectedResult = JsonConvert.SerializeObject(expectedExecutionResult, Formatting.Indented);
 
             string additionalInfo = null;
 

@@ -40,12 +40,6 @@ export class PmProductDetailsDeveloperComponent {
   public productDataDetailCard: IPropertySection[] = [];
 
   @Input()
-  public offerInformation: IPropertyGroup = {
-    groupTitle: '',
-    properties: []
-  };
-
-  @Input()
   public generalInformation: IPropertyGroup = {
     groupTitle: '',
     properties: []

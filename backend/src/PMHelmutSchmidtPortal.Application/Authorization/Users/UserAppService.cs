@@ -304,7 +304,7 @@ namespace PMHelmutSchmidtPortal.Authorization.Users
                 user.Password = _passwordHasher.HashPassword(user, randomPassword);
                 input.User.Password = randomPassword;
             }
-            else if (!input.User.Password.IsNullOrEmpty())
+            else if (!string.IsNullOrEmpty(input.User.Password))
             {
                 await UserManager.InitializeOptionsAsync(AbpSession.TenantId);
                 CheckErrors(await UserManager.ChangePasswordAsync(user, input.User.Password));
@@ -345,7 +345,7 @@ namespace PMHelmutSchmidtPortal.Authorization.Users
                 user.Password = _passwordHasher.HashPassword(user, randomPassword);
                 input.User.Password = randomPassword;
             }
-            else if (!input.User.Password.IsNullOrEmpty())
+            else if (!string.IsNullOrEmpty(input.User.Password))
             {
                 await UserManager.InitializeOptionsAsync(AbpSession.TenantId);
                 foreach (var validator in _passwordValidators)
@@ -425,7 +425,8 @@ namespace PMHelmutSchmidtPortal.Authorization.Users
                     }
                 }
 
-                userListDto.Roles = userListDto.Roles.Where(r => r.RoleName != null).OrderBy(r => r.RoleName).ToList();
+                userListDto.Roles = userListDto.Roles.Where(r => r.RoleName != null).OrderBy(r => r.RoleName)
+                    .ToList();
             }
         }
 

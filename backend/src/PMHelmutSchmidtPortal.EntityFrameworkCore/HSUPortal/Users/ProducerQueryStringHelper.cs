@@ -35,21 +35,32 @@ public static class ProducerQueryStringHelper
         return queryString.Append($"""
                                    SELECT {selectString}
                                    FROM AbpUsers {UserAlias}
-                                   JOIN AbpUserRoles {UserRoleAlias} On {UserAlias}.Id  = {UserRoleAlias}.UserId
-                                   JOIN AbpRoles {RolesAlias} ON {UserRoleAlias}.RoleId = {RolesAlias}.Id AND {RolesAlias}.IsDeleted = 0
-                                   JOIN PmUserAddress {UserAddressAlias} On {UserAlias}.Id = {UserAddressAlias}.UserId AND {UserAddressAlias}.IsDeleted = 0
-                                   JOIN PmProducerInfo {ProducerInfoAlias} On {UserAlias}.Id = {ProducerInfoAlias}.UserId AND {ProducerInfoAlias}.IsDeleted = 0
-                                   JOIN PmTradeType ptt On {ProducerInfoAlias}.TradeTypeId  = {TradeTypeAlias}.Id AND {TradeTypeAlias}.IsDeleted = 0
+                                   JOIN AbpUserRoles {UserRoleAlias} On {UserAlias}.Id = {UserRoleAlias}.UserId
+                                   JOIN AbpRoles {RolesAlias} ON {UserRoleAlias}.RoleId = {RolesAlias}.Id
+                                   JOIN PmUserAddress {UserAddressAlias} On {UserAlias}.Id = {UserAddressAlias}.UserId
+                                   JOIN PmProducerInfo {ProducerInfoAlias} On {UserAlias}.Id = {ProducerInfoAlias}.UserId
+                                   JOIN PmTradeType ptt On {ProducerInfoAlias}.TradeTypeId = {TradeTypeAlias}.Id
 
                                    """);
     }
 
-    public static StringBuilder FilterByRole(this StringBuilder queryString, string roleParamName)
+    public static StringBuilder FilterByRole(this StringBuilder queryString, string roleParamName, bool includeDeleted = false)
     {
-        return queryString.Append($"""
-                                   WHERE {RolesAlias}.Name = {roleParamName}
+        queryString.Append($"""
+                            WHERE {RolesAlias}.Name = {roleParamName}
+                            AND {UserAlias}.Name != '{PMHelmutSchmidtPortalConsts.AnonymityUserProfileString}'
 
-                                   """);
+                            """);
+
+        if (!includeDeleted)
+        {
+            queryString.Append($"""
+                                AND {UserAlias}.IsDeleted = 0
+
+                                """);
+        }
+
+        return queryString;
     }
 
     public static StringBuilder AndActiveOnlyUsers(this StringBuilder queryString)

@@ -11,6 +11,7 @@ export interface IProducerFilter {
   skipCount: number;
   sortOrder: string;
   searchInput: string;
+  includeDeletedNonAnonymized: boolean;
 }
 
 @Injectable()
@@ -22,6 +23,6 @@ export class ProducerApiService extends IProducerApiService {
   }
 
   public getFilteredProducers(producerFilter: IProducerFilter): Observable<PagedResultDtoOfProducerOverviewOutput> {
-    return this.userExtendedService.getProducersFiltered(producerFilter.searchInput, producerFilter.sortOrder, producerFilter.maxResultCount, producerFilter.skipCount);
+    return this.userExtendedService.getProducersFiltered(producerFilter.includeDeletedNonAnonymized, producerFilter.searchInput, producerFilter.sortOrder, producerFilter.maxResultCount, producerFilter.skipCount);
   }
 }

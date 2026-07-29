@@ -9,8 +9,6 @@ public class StaticMaterials
         public const string Metal = "Metal";
         
         public const string Glass = "Glass";
-        
-        public const string Other = "Other";
 
     }
     

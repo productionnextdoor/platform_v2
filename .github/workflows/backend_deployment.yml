@@ -11,7 +11,7 @@ on:
     branches:
       - 'development'
       - 'stage'
-      # - 'master'
+      - 'master'
   workflow_dispatch:
 env:
   ASPNET_PROJECT_NAME: ${{ vars.ASPNET_PROJECT_NAME }} # aspnet folders prefix 
@@ -78,7 +78,7 @@ jobs:
       continue-on-error: true
       uses: pmagentur/pm_slack_notifier@v0.2
       env:
-        SLACK_CHANNEL: "proj-hsu-platform-build"
+        SLACK_CHANNEL: "proj-${{ env.PROJECT_SHORT_NAME }}-build"
         SLACK_COLOR: '#FFA500'
         SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
         SLACK_MESSAGE: 'Deployment to ${{ env.ASPNET_PROJECT_NAME }} backend  ${{ env.BRANCH_NAME }} is started'
@@ -115,11 +115,14 @@ jobs:
           cd backend/src/${ASPNET_PROJECT_NAME}.Web.Host
           cp appsettings.json appsettings_backup.json
           cp ${CONFIG_FILE} appsettings.json
-          cd ../${ASPNET_PROJECT_NAME}.EntityFrameworkCore/
+          cd ..
           dotnet tool install --global dotnet-ef --version ${SDK_GLOBAL_VERSION}
-          dotnet tool restore
-          ~/.dotnet/tools/dotnet-ef database update
-          cd ../${ASPNET_PROJECT_NAME}.Web.Host
+          dotnet restore ${ASPNET_PROJECT_NAME}.Web.Host/
+          dotnet build ${ASPNET_PROJECT_NAME}.Web.Host/ --no-restore
+          ~/.dotnet/tools/dotnet-ef database update \
+            --project ${ASPNET_PROJECT_NAME}.EntityFrameworkCore/ \
+            --startup-project ${ASPNET_PROJECT_NAME}.Web.Host/
+          cd ${ASPNET_PROJECT_NAME}.Web.Host
           cp appsettings_backup.json appsettings.json
 
     - name: Build Backend
@@ -150,7 +153,7 @@ jobs:
       continue-on-error: true
       uses: pmagentur/pm_slack_notifier@v0.2
       env:
-        SLACK_CHANNEL: "proj-hsu-platform-build"
+        SLACK_CHANNEL: "proj-${{ env.PROJECT_SHORT_NAME }}-build"
         SLACK_COLOR: '#FF0000'
         SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
         SLACK_MESSAGE: '${{ env.ASPNET_PROJECT_NAME }} backend Dev failed :x:'
@@ -167,7 +170,7 @@ jobs:
       continue-on-error: true
       uses: pmagentur/pm_slack_notifier@v0.2
       env:
-        SLACK_CHANNEL: "proj-hsu-platform-build"
+        SLACK_CHANNEL: "proj-${{ env.PROJECT_SHORT_NAME }}-build"
         SLACK_COLOR: '#006400'
         SLACK_ICON: https://avatars1.githubusercontent.com/u/63812035?s=200&v=4
         SLACK_MESSAGE: 'Successfully deployed ${{ env.ASPNET_PROJECT_NAME }} backend Dev :white_check_mark:'

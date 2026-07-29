@@ -57,12 +57,14 @@ namespace PMHelmutSchmidtPortal.Timing
 
         public List<NameValueDto> GetWindowsTimezones()
         {
-            return TZConvert.KnownWindowsTimeZoneIds.OrderBy(tz => tz)
+            return TZConvert.KnownWindowsTimeZoneIds
+                .OrderBy(tz => tz)
                 .Select(tz => new NameValueDto
                 {
                     Value = tz,
                     Name = TZConvert.WindowsToIana(tz) + " (" + GetTimezoneOffset(TZConvert.GetTimeZoneInfo(tz)) + ")"
-                }).OrderBy(e=> e.Name).ToList();
+                })
+                .OrderBy(e => e.Name).ToList();
         }
 
         private string GetTimezoneOffset(TimeZoneInfo timeZoneInfo)

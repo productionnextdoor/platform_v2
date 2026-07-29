@@ -94,7 +94,9 @@ public class UserProfileManager : HSUDomainBaseService, IUserProfileManager
             .GetProducerInfoWithTradesAndRatings()
             .SingleOrDefaultAsync(pi => pi.UserId == producerId);
 
-        return ObjectMapper.Map(address, ObjectMapper.Map<ProducerProfileOutput>(producerInfo));
+        ProducerProfileOutput result = ObjectMapper.Map(address, ObjectMapper.Map<ProducerProfileOutput>(producerInfo));
+        result.HasProducts = await _productRepository.GetProducerProductCount(producerId).AnyAsync();
+        return result;
     }
 
     public async Task<FullProducerProfileOutput> GetFullProducerProfile(long producerId)
@@ -105,7 +107,7 @@ public class UserProfileManager : HSUDomainBaseService, IUserProfileManager
             .SingleOrDefaultAsync(pi => pi.UserId == producerId);
 
         FullProducerProfileOutput profileDto = ObjectMapper.Map(address, ObjectMapper.Map<FullProducerProfileOutput>(producerInfo));
-        await SetProducerProductCout(producerId, profileDto);
+        await SetProducerProductCount(producerId, profileDto);
         return profileDto;
     }
 
@@ -117,7 +119,7 @@ public class UserProfileManager : HSUDomainBaseService, IUserProfileManager
         ProducerInfo producerInfo = await UpdateProducerInfo(producerId, input, input.Trade.TradeTypeId, input.ProducerRatings);
 
         FullProducerProfileOutput profileDto = ObjectMapper.Map<FullProducerProfileOutput>(producerInfo);
-        await SetProducerProductCout(producerId, profileDto);
+        await SetProducerProductCount(producerId, profileDto);
         return ObjectMapper.Map(address, profileDto);
     }
 
@@ -256,10 +258,10 @@ public class UserProfileManager : HSUDomainBaseService, IUserProfileManager
         developerDto.ProductDesigns = productStatuses.Count;
         developerDto.ProductsInShop = productStatuses.Count(ps => ps == ProductState.Live);
     }
-    
-    private async Task SetProducerProductCout(long producerId, FullProducerProfileOutput profileDto)
+
+    private async Task SetProducerProductCount(long producerId, FullProducerProfileOutput profileDto)
     {
-        profileDto.ProductsInvolved = await _productRepository.GetProducerProductCount(producerId);
+        profileDto.ProductsInvolved = await _productRepository.GetProducerProductCount(producerId).CountAsync();
         profileDto.CurrentOrders = _orderRepository
             .GetAll()
             .Count(order => order.OrderProductionPlans
@@ -270,6 +272,112 @@ public class UserProfileManager : HSUDomainBaseService, IUserProfileManager
             .Count(order => order.Status == OrderStatus.Completed && order.OrderProductionPlans
                 .Any(plan => plan.OrderProductionPlanActions
                     .Any(action => action.PlanAction.ProducerId == producerId && action.ActionStatus == ActionStatus.Completed)));
-        
+        profileDto.HasProducts = profileDto.ProductsInvolved > 0;
+        profileDto.HasOrders = _orderRepository
+            .GetAll()
+            .Any(order => order.Status != OrderStatus.Cancelled
+                && order.OrderProductionPlans
+                    .Any(plan => plan.OrderProductionPlanActions
+                        .Any(action => action.PlanAction.ProducerId == producerId)));
+    }
+
+    public async Task<User> AnonymizeDeveloper(long developerId)
+    {
+        User developer = await _userManager.GetUserByIdAsync(developerId);
+        if (!await _userManager.IsInRoleAsync(developer, StaticRoleNames.Host.Developer))
+            throw new UserFriendlyException("User is not a developer");
+        if (developer.Name == PMHelmutSchmidtPortalConsts.AnonymityUserProfileString)
+            return developer;
+
+        bool hasProducts = await _productRepository.GetProductsForDeveloper(developerId).AnyAsync();
+        if (hasProducts)
+            throw new UserFriendlyException("Developer cannot be deleted because they are still assigned to products.");
+
+        ApplyAnonymizationToUser(developer);
+        await AnonymizeUserAddressAsync(developerId, $"User anonymized on {DateTime.Now:yyyy-MM-dd}");
+        return await UpdateAndDeleteAnonymizedUser(developer);
+    }
+
+    public async Task<User> AnonymizeProducer(long producerId)
+    {
+        User producer = await _userManager.GetUserByIdAsync(producerId);
+        if (!await _userManager.IsInRoleAsync(producer, StaticRoleNames.Host.Producer))
+            throw new UserFriendlyException("User is not a producer");
+        if (producer.Name == PMHelmutSchmidtPortalConsts.AnonymityUserProfileString)
+            return producer;
+
+        bool hasActiveOrders = _orderRepository
+            .GetAll()
+            .Any(order => order.Status != OrderStatus.Completed && order.Status != OrderStatus.Cancelled
+                && order.OrderProductionPlans
+                    .Any(plan => plan.OrderProductionPlanActions
+                        .Any(action => action.PlanAction.ProducerId == producerId)));
+
+        if (hasActiveOrders)
+            throw new UserFriendlyException("Producer cannot be deleted because there are still active orders.");
+
+        bool hasProducts = await _productRepository.GetProducerProductCount(producerId).AnyAsync();
+        if (hasProducts)
+            throw new UserFriendlyException("Producer cannot be deleted because they are still assigned to products. Please remove from products first.");
+
+        bool hasCompletedOrders = _orderRepository
+            .GetAll()
+            .Any(order => order.Status == OrderStatus.Completed
+                && order.OrderProductionPlans
+                    .Any(plan => plan.OrderProductionPlanActions
+                        .Any(action => action.PlanAction.ProducerId == producerId)));
+
+        if (hasCompletedOrders)
+        {
+            producer.IsActive = false;
+            producer.Status = UserStatus.InActive;
+            return await UpdateAndDeleteAnonymizedUser(producer);
+        }
+
+        ApplyAnonymizationToUser(producer);
+        await AnonymizeUserAddressAsync(producerId, $"Producer anonymized on {DateTime.Now:yyyy-MM-dd}");
+        return await UpdateAndDeleteAnonymizedUser(producer);
+    }
+
+    private async Task<User> UpdateAndDeleteAnonymizedUser(User user)
+    {
+        await _userManager.UpdateAsync(user);
+        await _userManager.DeleteAsync(user);
+        return user;
+    }
+    
+    private static string CreateAnonymizedUserName()
+    {
+        return $"{PMHelmutSchmidtPortalConsts.AnonymityUserProfileString}_{Guid.NewGuid().ToString().AsSpan(0, 8)}";
+    }
+
+    private static void ApplyAnonymizationToUser(User user)
+    {
+        string anonUserName = CreateAnonymizedUserName();
+        user.Surname = PMHelmutSchmidtPortalConsts.AnonymityUserProfileString;
+        user.Name = PMHelmutSchmidtPortalConsts.AnonymityUserProfileString;
+        user.EmailAddress = $"{anonUserName}@{PMHelmutSchmidtPortalConsts.AnonymityUserProfileString}.com";
+        user.UserName = anonUserName;
+        user.InviteCode = null;
+        user.PhoneNumber = null;
+        user.IsActive = false;
+        user.Status = UserStatus.InActive;
+        user.SecurityStamp = Guid.NewGuid().ToString();
+    }
+
+    private async Task AnonymizeUserAddressAsync(long userId, string adminNote)
+    {
+        UserAddress userAddress = await _addressRepository
+            .GetAll()
+            .FirstOrDefaultAsync(ua => ua.UserId == userId);
+        if (userAddress == null) return;
+        userAddress.Name = PMHelmutSchmidtPortalConsts.AnonymityUserProfileString;
+        userAddress.Street = null;
+        userAddress.ZipCode = null;
+        userAddress.City = null;
+        userAddress.Region = null;
+        userAddress.Country = null;
+        userAddress.AdminNote = adminNote;
+        await _addressRepository.UpdateAsync(userAddress);
     }
 }

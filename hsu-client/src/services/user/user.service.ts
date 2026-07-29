@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IUserService } from './iuser.services';
-import { DeveloperListDto, UserExtendedServiceProxy } from '../../shared/service-proxies/service-proxies';
+import {
+  DeveloperListDto,
+  UserExtendedServiceProxy,
+} from '../../shared/service-proxies/service-proxies';
 import { map, Observable } from 'rxjs';
-import { PmDropdownOption } from 'hsu-library';
+import {
+  PmDropdownOption,
+} from 'hsu-library';
 
 export interface IUserRoles {
   developer: string;
@@ -30,6 +35,14 @@ export class UserService extends IUserService {
 
   deleteUserProfile(userId: number): Observable<void> {
     return this.userServiceProxy.deleteInvitedUser(userId);
+  }
+
+  deleteDeveloperProfile(developerId: number): Observable<void> {
+    return this.userServiceProxy.anonymizeDeveloper(developerId).pipe(map(() => void 0));
+  }
+
+  deleteProducerProfile(producerId: number): Observable<void> {
+    return this.userServiceProxy.anonymizeProducer(producerId).pipe(map(() => void 0));
   }
 
   private listDtoToDropdownOptions(developers: DeveloperListDto[]): PmDropdownOption<number>[] {

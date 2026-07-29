@@ -30,11 +30,14 @@ import {
     ApiServiceProxies.UserRevenueServiceProxy,
     ApiServiceProxies.UserTradeServiceProxy,
     ApiServiceProxies.ValueChainPlannerServiceProxy,
-    ApiServiceProxies.ProductionPlanningFinalizingServiceProxy,
+    ApiServiceProxies.ProductExportServiceProxy,
     ApiServiceProxies.ProductionPlanServiceProxy,
     ApiServiceProxies.OrderServiceProxy,
     ApiServiceProxies.OrderDetailsServiceProxy,
     ApiServiceProxies.StatisticsServiceProxy,
+    ApiServiceProxies.MaterialServiceProxy,
+    ApiServiceProxies.SpecificationServiceProxy,
+    ApiServiceProxies.SpecificationGroupServiceProxy,
     {
       provide: AbpHttpConfigurationService,
       useClass: ZeroTemplateHttpConfigurationService

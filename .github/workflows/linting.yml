@@ -1,0 +1,20 @@
+name: Linting
+
+on:
+  pull_request:
+    branches:
+    - 'development'
+
+jobs:
+  php:
+    uses: pmagentur/linting-php/.github/workflows/linting.yml@master
+
+  javascript:
+    uses: pmagentur/linting-javascript/.github/workflows/linting.yml@master
+    
+  closing:
+    needs: [ javascript, php ]
+    if: failure()
+    uses: pmagentur/linting-action/.github/workflows/closing.yml@master
+    secrets:
+        github-token: ${{ secrets.GITHUB_TOKEN }}

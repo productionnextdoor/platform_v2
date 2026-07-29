@@ -9,16 +9,13 @@ import {
   EValueChainStatus,
   valueChainCardLocalisation,
   IValueChainCardLocalisations,
-  ValueChainStatusValues,
-  ValueChainCommissionModeValues,
-  EValueChainCommissionMode
+  ValueChainStatusValues
 } from './pm-order-value-chain-card.shared';
 import { IColumnHeader } from '../../../components/pm-table/pm-table-header/pm-table-header.shared';
 import {
   IActionEvent,
   Row
 } from '../../../components/pm-table/pm-table.shared';
-import { ButtonType } from '../../../components/pm-button/pm-button.component';
 
 @Component({
   selector: 'pm-order-value-chain-card',
@@ -34,10 +31,7 @@ export class PmOrderValueChainCardComponent implements OnChanges {
   public requestDate: string = '';
 
   @Input()
-  public status: ValueChainStatusValues = EValueChainStatus['rejected'];
-
-  @Input()
-  public commissionMode: ValueChainCommissionModeValues = EValueChainCommissionMode['Automatic'];
+  public status: ValueChainStatusValues = 'rejected';
 
   @Input()
   public loading: boolean = false;
@@ -54,13 +48,10 @@ export class PmOrderValueChainCardComponent implements OnChanges {
   @Output()
   public onActionClicked: EventEmitter<IActionEvent> = new EventEmitter();
 
-  @Output()
-  public onCommissionClicked: EventEmitter<void> = new EventEmitter();
-
   protected badgeText: string = '';
 
   protected readonly TextType: typeof TextType = TextType;
-  protected readonly ButtonType: typeof ButtonType = ButtonType;
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['status']) {

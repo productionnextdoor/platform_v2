@@ -8,5 +8,7 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ExtendedUser.Dto
         public int ProductsProduced { get; set; }
         public int CurrentOrders { get; set; }
         public UserStatus Status { get; set; }
+        public bool HasProducts { get; set; }
+        public bool HasOrders { get; set; }
     }
 }

@@ -7,6 +7,5 @@ namespace PMHelmutSchmidtPortal.HSUPortal.Products;
 
 public interface IProductionDetailsManager: IDomainService
 {
-    IQueryable<ProductionDetails> GetActiveForProduct(int productId);
     Task<IQueryable<ProductionDetails>> GetForUser(int productionDetailsId, User currentUser);
 }

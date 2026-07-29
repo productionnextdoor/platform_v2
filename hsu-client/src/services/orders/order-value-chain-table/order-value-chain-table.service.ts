@@ -18,7 +18,7 @@ import {
 import { AppLocalizationService } from '../../localization/app-localization.service';
 import { ITableBaseService } from '../../table/itable-base.service';
 import { IOrderValueChainTableService } from './iorder-value-chain-table.service';
-import { IValueChainData } from '../../../app/order-details/order-details-admin/order-details-admin.shared';
+import {  IValueChainData} from '../../../app/order-details/order-details-admin/order-details-admin.shared';
 import { AppConsts } from '../../../shared/AppConsts';
 import { IProductionStatusService } from '../iproduction-status.service';
 
@@ -56,7 +56,7 @@ export class OrderValueChainTableService extends IOrderValueChainTableService {
 
   public override getColumnHeadersAdmin(): IColumnHeader[] {
     return [
-      ...AppConsts.IsOffer ? [] : [this.tableBaseService.createTextColumnHeader('', '', false)],
+      this.tableBaseService.createTextColumnHeader('', '', false),
       ...this.getColumnHeaderActionInfo(),
       this.tableBaseService.createTextColumnHeader(EValueChainColumns.ProcessingTimeColumn, this.localizationService.loc('OrderDetails.ValueChainTable.ProcessingTime'), false),
       ...this.getColumnHeaderProducerInfo(),
@@ -73,26 +73,17 @@ export class OrderValueChainTableService extends IOrderValueChainTableService {
     ];
   }
 
-  public override getColumnHeadersDeveloper(): IColumnHeader[] {
-    return [
-      ...this.getColumnHeaderActionInfo(),
-      this.tableBaseService.createTextColumnHeader(EValueChainColumns.ProcessingFrom, this.localizationService.loc('OrderDetails.ValueChainTable.ProcessingFrom'), false),
-      this.tableBaseService.createTextColumnHeader(EValueChainColumns.ProcessingTo, this.localizationService.loc('OrderDetails.ValueChainTable.ProcessingTo'), false),
-      ...this.getColumnHeaderProducerInfo(),
-    ];
-  }
-
   public override getTableRowAdmin(action: OrderValueChainActionAdminDto, orderStatus: OrderStatus): Row {
 
     return {
       rowId: action.productionStepId,
       isHighlighted: false,
       cells: [
-        ...AppConsts.IsOffer ? [] : [this.tableBaseService.createActionCell(
+        this.tableBaseService.createActionCell(
           Icon.RELOAD,
           '',
           EActionButtonElementType.RE_REQUEST_ACTION,
-          !((orderStatus === OrderStatus.Open || orderStatus === OrderStatus.NotDone) && action.status === ActionStatus.Rejected))],
+          !((orderStatus === OrderStatus.Open || orderStatus === OrderStatus.NotDone) && action.status === ActionStatus.Rejected)),
         ...this.getTableRowActionInfo(action.actionStepDto, action.status),
         this.tableBaseService.createTextCell(action.processingTimeInWeeks.toString() + ' ' + this.localizationService.loc('ValueChainPlanning.Units.Weeks') ?? ''),
         ...this.getTableRowProducerInfo(action.producerDto)
@@ -115,27 +106,13 @@ export class OrderValueChainTableService extends IOrderValueChainTableService {
     }
   }
 
-  public override getTableRowDeveloper(action: OrderValueChainActionProducerDto): Row {
-
-    return {
-      rowId: action.orderValueChainActionId,
-      isHighlighted: false,
-      cells: [
-        ...this.getTableRowActionInfo(action.actionStepDto, action.status),
-        this.tableBaseService.createTextCell(this.localizationService.loc('ValueChainPlanning.Units.CalendarWeek') + ' ' + (action.processingFrom.toString() ?? '')),
-        this.tableBaseService.createTextCell(this.localizationService.loc('ValueChainPlanning.Units.CalendarWeek') + ' ' + (action.processingTo.toString() ?? '')),
-        ...this.getTableRowProducerInfo(action.producerDto)
-      ]
-    }
-  }
-
   public mapValueChains(valueChains: OrderValueChainAdminDto[], orderStatus: OrderStatus): IValueChainData[] {
 
     const vcpOrder: string[] = Object.values(EValueChainStatus);
     return valueChains?.sort((valueChainA, valueChainB) => {
       return valueChainA.requestDate.toMillis() - valueChainB.requestDate.toMillis();
     })
-      .map((item, index) => this.mapValueChainData(item, index, orderStatus))
+      .map((item, index) => this.mapValueChainData(item, index,orderStatus))
       .sort((valueChainA, valueChainB) => {
         return vcpOrder.indexOf(valueChainA.status) - vcpOrder.indexOf(valueChainB.status);
       }) ?? [];
@@ -198,10 +175,9 @@ export class OrderValueChainTableService extends IOrderValueChainTableService {
   private mapValueChainData(ovcDto: OrderValueChainAdminDto, index: number, orderStatus: OrderStatus): IValueChainData {
     return {
       index: index + 1,
-      valueChainId: ovcDto.orderValueChainId,
       requestDate: ovcDto.requestDate.toFormat(AppConsts.DateFormatString),
       status: this.valueChainStatusEnumMap.get(ovcDto.status) ?? EValueChainStatus['Selected'],
-      rowData: ovcDto.valueChainActions?.map(action => this.getTableRowAdmin(action, orderStatus)) ?? [],
+      rowData: ovcDto.valueChainActions?.map(action => this.getTableRowAdmin(action,orderStatus)) ?? [],
     };
   }
 }

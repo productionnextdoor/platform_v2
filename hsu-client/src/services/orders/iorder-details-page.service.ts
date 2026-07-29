@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
-  CustomerInfoDto, DeliveryDocumentsDto,
+  CustomerInfoDto,
   OrderedProductDto
 } from '../../shared/service-proxies/service-proxies';
 import {
   IBreadcrumbs,
-  ICardProperty,
   ICustomerInfoData,
-  IOrderedProductData,
-  IProductionProcessCardLocalisations
+  IOrderedProductData
 } from 'hsu-library';
 import {
   IProducerOrderDetailsLocalisations
@@ -27,11 +25,9 @@ export interface ICustomerInfoCard {
 
 @Injectable()
 export abstract class IOrderDetailsPageService {
-  abstract getBreadcrumbs(productName: string): IBreadcrumbs
+  abstract getBreadcrumbs(productName:string): IBreadcrumbs
   abstract mapProductInfoData(orderedProduct: OrderedProductDto): IProductInfoCard;
   abstract mapCustomerInfoData(customerInfo: CustomerInfoDto): ICustomerInfoCard;
-  abstract mapDeliverDocuments(documents: DeliveryDocumentsDto[]): ICardProperty[];
   abstract getLocalisationsAdmin(): IOrderDetailsAdminLocalisation;
-  abstract getLocalisationsProducer(): IProducerOrderDetailsLocalisations;
-  abstract getLocalisationsDeveloper(): IProductionProcessCardLocalisations;
+  abstract getLocalisationsProducer():IProducerOrderDetailsLocalisations;
 }

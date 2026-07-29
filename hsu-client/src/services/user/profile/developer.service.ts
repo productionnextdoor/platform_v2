@@ -89,6 +89,9 @@ export class DeveloperService extends IDeveloperService {
       email: developerProfile.email,
       phoneNumber: developerProfile.phoneNumber,
       isActive: developerProfile.isActive,
+      numberOfProducts: +developerProfile.hasProductDesigns,
+      numberOfDraftedProducts: +developerProfile.hasProductDesigns,
+      status: developerProfile.isActive ? EUserStatus.Active : EUserStatus.InActive, // Map status from isActive
     };
   }
 

@@ -84,7 +84,7 @@ namespace PMHelmutSchmidtPortal.Install
         {
             var appUrl = _appConfiguration.GetSection("App");
 
-            if (appUrl["WebSiteRootAddress"].IsNullOrEmpty())
+            if (string.IsNullOrEmpty(appUrl["WebSiteRootAddress"]))
             {
                 return new AppSettingsJsonDto
                 {
@@ -144,7 +144,7 @@ namespace PMHelmutSchmidtPortal.Install
 
         private void SetUrl(string webSitRUrl, string serverUrl)
         {
-            if (!serverUrl.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(serverUrl))
             {
                 EditAppSettingsjson("App:ClientRootAddress", webSitRUrl);
                 EditAppSettingsjson("App:ServerRootAddress", serverUrl);

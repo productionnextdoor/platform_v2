@@ -12,5 +12,4 @@ public interface IOrderDetailsManager : IDomainService
     Task<CustomerInfo> GetOrderCustomerInfo(int orderId);
     Task<OrderedProductDto> GetOrderProductInfoAdmin(int orderId);
     Task<OrderedProductDto> GetOrderProductInfoProducer(int orderId, long producerId);
-    Task<List<DeliveryDocumentsDto>> GetOrderDeliveryDocument(int orderId);
 }

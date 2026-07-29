@@ -17,7 +17,7 @@ import { EPmInputType } from '../../../components/pm-input/pm-input.component';
 import { ButtonType } from '../../../components/pm-button/pm-button.component';
 import { DefaultMargins, IMargin } from '../../../utils/pm-component-margin';
 import { pmEmailValidationRegEx } from '../../../utils/constants/regex-patterns';
-import { IDeveloper } from '../developer.shared'
+import { IDeveloper } from '../developer.shared';
 
 @Component({
   selector: 'pm-current-developer-profile',
@@ -49,7 +49,6 @@ export class PmCurrentDeveloperProfileComponent implements OnInit {
   protected readonly PopupType: typeof PopupType = PopupType;
   /** @ignore */
   protected readonly stateDropdownOptions: PmDropdownOption<string>[] = [];
-
   ngOnInit(): void {
     this.initDropdown();
   }

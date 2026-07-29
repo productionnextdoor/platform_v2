@@ -1,10 +1,9 @@
-using System.Collections.Generic;
+using System.Linq;
 using Abp.Domain.Repositories;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.Products.Details;
 
 public interface IMaterialGroupRepository: IRepository<MaterialGroup, int>
 {
-    public IIncludableQueryable<MaterialGroup, ICollection<SurfaceFinish>> GetMaterialGroupsWithSurfaceFinishesQuery();
+    public IQueryable<MaterialGroup> GetMaterialGroupsWithSpecificationsQuery();
 }

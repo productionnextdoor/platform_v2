@@ -6,11 +6,10 @@ public enum ProductState
     InProcessDeveloper = 2,
     ReadyForValueChainPlanning = 3,
     InProcessProducer = 4,
-    ProductionReady = 5,
-    Live = 6,
-    ProductionPlanningFinalized = 7,
-    ValueChainWaitingAdminConfirmation = 8,
-    CommissionedToProduction = 9,
-    InProduction = 10,
-    Completed = 11
+    Live = 5,
+    Locked = 6,
+    ValueChainExtension = 7,
+    InProcessAdmin = 8,
+    ProductionReady = 9,
+    
 }

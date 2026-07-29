@@ -69,7 +69,8 @@ namespace PMHelmutSchmidtPortal.Gdpr
                     message.TargetUserName = relatedUsernames[new UserIdentifier(message.TargetTenantId, message.TargetUserId)];
                 }
 
-                var messages = conversation.Value.OrderBy(m => m.CreationTime).ToList();
+                var messages = conversation.Value.OrderBy(m => m.CreationTime)
+                    .ToList();
                 chatMessageFiles.Add(_chatMessageListExcelExporter.ExportToFile(user, messages));
             }
 

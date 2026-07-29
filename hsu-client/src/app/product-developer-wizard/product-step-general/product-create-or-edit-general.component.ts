@@ -15,13 +15,11 @@ import {
   PmComponentMargin,
   TextType
 } from 'hsu-library';
+import { GeneralInfoOutputDto } from '../../../shared/service-proxies/service-proxies';
 import { Observable } from 'rxjs';
 import { ProductApiService } from '../../../services/products/product-api.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WithRx } from '../../../shared/mixins/with-rx.mixin';
-import { AppConsts } from '../../../shared/AppConsts';
-import { defaultGeneralInfoDto, IGeneralInfoDto } from './product-create-or-edit-general.shared';
-import { DateTime } from 'luxon';
 
 @Component({
   selector: 'product-create-or-edit-general',
@@ -32,7 +30,6 @@ export class ProductCreateOrEditGeneralComponent extends WithRx() implements OnI
   protected readonly TextType: typeof TextType = TextType;
   protected readonly EPmInputType: typeof EPmInputType = EPmInputType;
   protected readonly DefaultMargins: typeof DefaultMargins = DefaultMargins;
-  protected readonly AppConsts = AppConsts;
 
   @Input()
   public productId!: number;
@@ -52,7 +49,7 @@ export class ProductCreateOrEditGeneralComponent extends WithRx() implements OnI
   @Output()
   public onSaveSuccess: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  protected generalData: IGeneralInfoDto = defaultGeneralInfoDto;
+  protected generalData: GeneralInfoOutputDto = new GeneralInfoOutputDto();
 
   protected isBannerVisible: boolean = true;
 
@@ -64,7 +61,6 @@ export class ProductCreateOrEditGeneralComponent extends WithRx() implements OnI
 
   private destroyRef: DestroyRef = inject(DestroyRef);
 
-
   constructor(
     private readonly productApiService: ProductApiService
   ) {
@@ -74,7 +70,7 @@ export class ProductCreateOrEditGeneralComponent extends WithRx() implements OnI
   ngOnInit(): void {
     this.productApiService.getGeneralProductInfo(this.productId)
       .subscribe({
-        next: (generalData: IGeneralInfoDto) => {
+        next: (generalData: GeneralInfoOutputDto) => {
           this.generalData = generalData;
           this.validateFormData();
         }
@@ -98,7 +94,6 @@ export class ProductCreateOrEditGeneralComponent extends WithRx() implements OnI
 
   }
 
-  // eslint-disable-next-line complexity
   protected validateFormData(): void {
     if (!this.generalData) {
       return;
@@ -108,13 +103,7 @@ export class ProductCreateOrEditGeneralComponent extends WithRx() implements OnI
       this.generalData.productName &&
       this.generalData.height &&
       this.generalData.width &&
-      this.generalData.depth &&
-      (!AppConsts.IsOffer ||
-        (this.generalData.quantity &&
-          this.generalData.productionDeadLine &&
-          this.generalData.offerDeadline &&
-          DateTime.fromFormat(this.generalData.offerDeadline, AppConsts.DateFormatString) <
-          DateTime.fromFormat(this.generalData.productionDeadLine, AppConsts.DateFormatString)))
+      this.generalData.depth
     ) {
       this.isValid = true;
       this.onValidChange();

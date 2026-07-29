@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Abp.Extensions;
 using Abp.Net.Mail;
 using PMHelmutSchmidtPortal.HSUPortal.Users;
-using PMHelmutSchmidtPortal.HSUPortal.Utilities;
 using PMHelmutSchmidtPortal.Net.Emailing;
 using PMHelmutSchmidtPortal.Url;
 
@@ -16,19 +15,16 @@ public class OrderEmailer: BaseEmailer, IOrderEmailer
 {
     private readonly IWebUrlService _webUrlService;
     private readonly UserManagerExtended _userManager;
-    private readonly CustomConfigService _configService;
 
     public OrderEmailer(
         IWebUrlService webUrlService,
         IEmailTemplateProvider emailTemplateProvider,
         UserManagerExtended userManager,
-        IEmailSender emailSender,
-        CustomConfigService configService
+        IEmailSender emailSender
     ) : base(emailTemplateProvider,emailSender)
     {
         _webUrlService = webUrlService;
         _userManager = userManager;
-        _configService = configService;
     }
 
     public async Task SendProductionRequestToProducer(string producerName, string producerEmail, string productName, int orderId)
@@ -50,19 +46,18 @@ public class OrderEmailer: BaseEmailer, IOrderEmailer
     
     public async Task SendProductionCommissionedToProducer(string producerName, string producerEmail, string productName, int orderId)
     {
-        string translationPrefix = _configService.IsOffer() ? "ProducerOfferCommissioned" : "ProducerCommissioned";
         StringBuilder emailTemplate = GetTemplateWithTitle(
-            L($"OrderManagement.{translationPrefix}.Title"),
-            L($"OrderManagement.{translationPrefix}.ButtonText"),
+            L("OrderManagement.ProducerCommissioned.Title"),
+            L("OrderManagement.ProducerCommissioned.ButtonText"),
             _webUrlService.GetSiteRootAddress().EnsureEndsWith('/') + $"order-details/{orderId}" 
         );
 
         StringBuilder mailMessage = new();
 
-        mailMessage.AppendLine(L($"OrderManagement.{translationPrefix}.Text", producerName, productName)
+        mailMessage.AppendLine(L("OrderManagement.ProducerCommissioned.Text", producerName, productName)
             .Replace("\n", "<br />") + "<br /><br />");
 
-        await ReplaceBodyAndSendAsync(producerEmail, L($"OrderManagement.{translationPrefix}.Subject"), emailTemplate,
+        await ReplaceBodyAndSendAsync(producerEmail, L("OrderManagement.ProducerCommissioned.Subject"), emailTemplate,
             mailMessage);
     }
     

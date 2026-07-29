@@ -12,11 +12,11 @@ public class InitialHsuDbBuilder
         _context = context;
     }
 
-    public void Create(bool isOffer)
+    public void Create()
     {
         new InitialPlatformDeveloperUserCreator(_context).Create();
         new InitialPlatformProducerUserCreator(_context).Create();
-        new InitialProductCreator(_context).Create(isOffer);
+        new InitialProductCreator(_context).Create();
         _context.SaveChanges();
     }
 }

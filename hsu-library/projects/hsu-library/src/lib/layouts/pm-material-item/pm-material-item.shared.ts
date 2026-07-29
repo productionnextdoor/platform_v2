@@ -3,7 +3,18 @@ export interface IWorkingPiece {
   materialGroupId: number;
   material: string;
   finalState: string;
-  surfaceFinishId: number;
+  specificationIds: number[];
+  specificationGroupIds: number[];
+}
+
+export function createEmptyWorkingPiece(): IWorkingPiece {
+  return {
+    materialGroupId: 0,
+    material: '',
+    finalState: '',
+    specificationIds: [],
+    specificationGroupIds: []
+  };
 }
 
 export interface FormOutput {
@@ -12,21 +23,37 @@ export interface FormOutput {
 }
 
 export interface IMaterialItemLocalisations {
+  materialGroupLabel: string;
+  materialGroupPlaceholder: string;
   materialLabel: string;
   materialPlaceholder: string;
   finalStateLabel: string;
   finalStatePlaceholder: string;
-  surfaceFinishLabel: string;
-  surfaceFinishPlaceholder: string;
+  specificationGroupLabel: string;
+  specificationGroupPlaceholder: string;
+  specificationLabel: string;
+  specificationPlaceholder: string;
+  secondSpecificationLabel: string;
+  secondSpecificationPlaceholder: string;
+  firstSpecificationHeading: string;
+  secondSpecificationHeading: string;
   inputErrorMessages: string[];
 }
 
 export const materialItemLocalisations: IMaterialItemLocalisations = {
+  materialGroupLabel: '',
+  materialGroupPlaceholder: '',
   materialLabel: '',
   materialPlaceholder: '',
   finalStateLabel: '',
   finalStatePlaceholder: '',
-  surfaceFinishLabel: '',
-  surfaceFinishPlaceholder: '',
+  specificationGroupLabel: '',
+  specificationGroupPlaceholder: '',
+  specificationLabel: '',
+  specificationPlaceholder: '',
+  secondSpecificationLabel: '',
+  secondSpecificationPlaceholder: '',
+  firstSpecificationHeading: '',
+  secondSpecificationHeading: '',
   inputErrorMessages: []
 };

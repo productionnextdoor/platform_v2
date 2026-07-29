@@ -18,7 +18,5 @@ public static class StaticProducerProfileProperties
         public const string GlassWork = "GlassWork";
 
         public const string MetalWork = "MetalWork";
-        
-        public const string Other = "Other";
     };
 }

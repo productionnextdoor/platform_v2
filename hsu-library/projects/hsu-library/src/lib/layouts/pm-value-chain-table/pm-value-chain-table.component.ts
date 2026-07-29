@@ -1,18 +1,9 @@
 import {
-  Component,
-  EventEmitter,
-  Input,
-  Output
+  Component, EventEmitter, Input, Output
 } from '@angular/core';
 import { TextType } from '../../components/pm-text/pm-text.shared';
-import {
-  IColumnHeader,
-  IColumnSortEvent
-} from '../../components/pm-table/pm-table-header/pm-table-header.shared';
-import {
-  IActionEvent,
-  Row
-} from '../../components/pm-table/pm-table.shared';
+import { IColumnHeader, IColumnSortEvent } from '../../components/pm-table/pm-table-header/pm-table-header.shared';
+import { Row } from '../../components/pm-table/pm-table.shared';
 import { PmDropdownOption } from '../../components/pm-dropdown/pm-dropdown.shared';
 import { IPager, Pager } from '../../components/pm-pagination/pm-pagination.shared';
 import { IValueChainTableLocalisation, ValueChainTableLocalisation } from './pm-value-chain-table.shared';
@@ -67,9 +58,6 @@ export class PmValueChainTableComponent {
 
   @Output()
   onToggleValueChainsActive: EventEmitter<number[]> = new EventEmitter<number[]>();
-
-  @Output()
-  onSelectValueChain: EventEmitter<IActionEvent> = new EventEmitter<IActionEvent>();
 
   /** @ignore */
   protected sortingClicked(sortEvent: IColumnSortEvent) {

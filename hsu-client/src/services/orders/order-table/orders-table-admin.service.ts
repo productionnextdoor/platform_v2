@@ -53,7 +53,7 @@ export class OrdersTableAdminService extends OrderTableService {
       rowId: item.orderId,
       isHighlighted: false,
       cells: [
-        this.tableBaseService.createTextCell(item.orderNumber ?? ''),
+        this.tableBaseService.createTextCell(item.orderNumber.toString()),
         this.tableBaseService.createTextCell(item.productNumber.toString()),
         this.tableBaseService.createTextCell(item.productName ?? ''),
         this.tableBaseService.createTextCell(item.orderDate?.toFormat(AppConsts.DateFormatString) ?? '-'),

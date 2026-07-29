@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.Domain.Repositories;
 using Abp.EntityFrameworkCore.Repositories;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
@@ -14,23 +15,26 @@ public class MaterialGroupsStepManager : HSUDomainBaseService, IMaterialGroupsSt
     private readonly IWorkPieceRepository _workPieceRepository;
     private readonly IProductionStateRepository _productionStateRepository;
     private readonly IWorkPieceVariantsRepository _workPieceVariantsRepository;
+    private readonly IRepository<WorkPieceSpecification> _workPieceSpecificationRepository;
 
     public MaterialGroupsStepManager(
         IMaterialGroupRepository materialGroupRepository,
         IWorkPieceRepository workPieceRepository,
         IProductionStateRepository productionStateRepository,
-        IWorkPieceVariantsRepository workPieceVariantsRepository
+        IWorkPieceVariantsRepository workPieceVariantsRepository,
+        IRepository<WorkPieceSpecification> workPieceSpecificationRepository
     )
     {
         _materialGroupRepository = materialGroupRepository;
         _workPieceRepository = workPieceRepository;
         _productionStateRepository = productionStateRepository;
         _workPieceVariantsRepository = workPieceVariantsRepository;
+        _workPieceSpecificationRepository = workPieceSpecificationRepository;
     }
 
     public async Task<MaterialGroupStepOutput> GetProductMaterialsStage(Product product)
     {
-        List<MaterialGroup> materialGroups = await _materialGroupRepository.GetMaterialGroupsWithSurfaceFinishesQuery().ToListAsync();
+        List<MaterialGroup> materialGroups = await _materialGroupRepository.GetMaterialGroupsWithSpecificationsQuery().ToListAsync();
         List<WorkPiece> workPieces = await _workPieceRepository.GetProductWorkpiecesWithProductionStates(product.Id)
             .ToListAsync();
 
@@ -50,7 +54,7 @@ public class MaterialGroupsStepManager : HSUDomainBaseService, IMaterialGroupsSt
         }
 
         List<WorkPiece> workPieces = await _workPieceRepository.GetProductWorkpiecesWithProductionStatesAndVariants(product.Id).ToListAsync();
-        List<MaterialGroup> materialGroups = await _materialGroupRepository.GetMaterialGroupsWithSurfaceFinishesQuery().ToListAsync();
+        List<MaterialGroup> materialGroups = await _materialGroupRepository.GetMaterialGroupsWithSpecificationsQuery().ToListAsync();
         ValidateWorkPieces(workPieces, input.WorkPieceDtos, materialGroups);
 
         if (!AreWorkPieceFinalStatesUnique(input.WorkPieceDtos, out string duplicateFinishedState))
@@ -59,7 +63,7 @@ public class MaterialGroupsStepManager : HSUDomainBaseService, IMaterialGroupsSt
                 L("Error.Product.MaterialGroups.DuplicateFinishedState.Title"),
                 L("Error.Product.MaterialGroups.DuplicateFinishedState.Text", duplicateFinishedState));
         }
-
+        
         //Create or update workpieces
         foreach (WorkPieceDto workPieceDto in input.WorkPieceDtos)
         {
@@ -70,12 +74,9 @@ public class MaterialGroupsStepManager : HSUDomainBaseService, IMaterialGroupsSt
             });
 
             workPiece.MaterialGroupId = workPieceDto.MaterialGroupId;
-            if (workPieceDto.SurfaceFinishId != 0)
-            {
-                workPiece.SurfaceFinishId = workPieceDto.SurfaceFinishId;
-            }
-
             await _workPieceRepository.InsertOrUpdateAndGetIdAsync(workPiece);
+
+            await ReplaceWorkPieceSpecifications(workPiece, workPieceDto, materialGroups);
 
             ProductionState finalState = await _productionStateRepository
                 .GetOrCreateProductionStateForWorkPiece(workPiece, finalProductState, ProductionStateType.WorkPieceFinal);
@@ -105,11 +106,11 @@ public class MaterialGroupsStepManager : HSUDomainBaseService, IMaterialGroupsSt
         await CurrentUnitOfWork.SaveChangesAsync();
 
         //refresh the list for the output
-        workPieces = await _workPieceRepository.GetProductWorkpieces(input.ProductId).ToListAsync();
+        workPieces = await _workPieceRepository.GetProductWorkpiecesWithProductionStates(input.ProductId).ToListAsync();
 
         return GetMaterialGroupStepOutput(input.ProductId, materialGroups, workPieces);
     }
-
+    
     private bool AreWorkPieceFinalStatesUnique(List<WorkPieceDto> workPieceDtos, out string duplicateFinishedState)
     {
         duplicateFinishedState = null;
@@ -145,6 +146,44 @@ public class MaterialGroupsStepManager : HSUDomainBaseService, IMaterialGroupsSt
         };
     }
 
+    private async Task ReplaceWorkPieceSpecifications(
+        WorkPiece workPiece,
+        WorkPieceDto workPieceDto,
+        List<MaterialGroup> materialGroups)
+    {
+        List<WorkPieceSpecification> existing = await _workPieceSpecificationRepository
+            .GetAll()
+            .Where(wps => wps.WorkPieceId == workPiece.Id)
+            .ToListAsync();
+
+        foreach (WorkPieceSpecification old in existing)
+        {
+            await _workPieceSpecificationRepository.DeleteAsync(old);
+        }
+
+        IEnumerable<Specification> allSpecifications = materialGroups.SelectMany(mg => mg.Specifications);
+
+        foreach (int specificationId in workPieceDto.SpecificationIds)
+        {
+            Specification specification = allSpecifications.FirstOrDefault(s => s.Id == specificationId);
+            if (specification == null)
+            {
+                throw new UserFriendlyException(
+                    L("Error.Product.MaterialGroups.Specifications.NotFoundTitle"),
+                    L("Error.Product.MaterialGroups.Specifications.NotFoundText"));
+            }
+
+            string specName = specification.Name;
+
+            await _workPieceSpecificationRepository.InsertAsync(new WorkPieceSpecification
+            {
+                WorkPieceId = workPiece.Id,
+                SpecificationId = specificationId,
+                SpecificationName = specName
+            });
+        }
+    }
+
     private void ValidateWorkPieces(
         IReadOnlyCollection<WorkPiece> workPieces,
         IReadOnlyCollection<WorkPieceDto> workPieceDtos,
@@ -167,15 +206,32 @@ public class MaterialGroupsStepManager : HSUDomainBaseService, IMaterialGroupsSt
                 L("Error.Product.MaterialGroups.WorkPieces.Text", wrongWorkpiecesIds));
         }
 
-        if (workPieceDtos.Select(workPieceDto => materialGroups
-                .Any(mg => mg.Id == workPieceDto.MaterialGroupId && mg.SurfaceFinishes.Count == 0 && workPieceDto.SurfaceFinishId == 0 ||
-                           mg.SurfaceFinishes
-                               .Any(sf => sf.MaterialGroupId == workPieceDto.MaterialGroupId && sf.Id == workPieceDto.SurfaceFinishId)))
-            .Any(isSurfaceFinishExist => !isSurfaceFinishExist))
+        foreach (WorkPieceDto workPieceDto in workPieceDtos)
         {
-            throw new UserFriendlyException(
-                L("Error.Product.MaterialGroups.Surfaces.Title"),
-                L("Error.Product.MaterialGroups.Surfaces.Text"));
+            if (workPieceDto.SpecificationIds == null || workPieceDto.SpecificationIds.Count < 1 || workPieceDto.SpecificationIds.Count > 2)
+            {
+                throw new UserFriendlyException(
+                    L("Error.Product.MaterialGroups.Specifications.Title"),
+                    L("Error.Product.MaterialGroups.Specifications.CountText"));
+            }
+
+            if (workPieceDto.SpecificationIds.Distinct().Count() != workPieceDto.SpecificationIds.Count)
+            {
+                throw new UserFriendlyException(
+                    L("Error.Product.MaterialGroups.Specifications.Title"),
+                    L("Error.Product.MaterialGroups.Specifications.CountText"));
+            }
+
+            bool allValid = workPieceDto.SpecificationIds.All(specId =>
+                materialGroups.Any(mg => mg.Specifications
+                    .Any(spec => spec.MaterialGroupId == workPieceDto.MaterialGroupId && spec.Id == specId)));
+
+            if (!allValid)
+            {
+                throw new UserFriendlyException(
+                    L("Error.Product.MaterialGroups.Specifications.NotFoundTitle"),
+                    L("Error.Product.MaterialGroups.Specifications.NotFoundText"));
+            }
         }
     }
 }

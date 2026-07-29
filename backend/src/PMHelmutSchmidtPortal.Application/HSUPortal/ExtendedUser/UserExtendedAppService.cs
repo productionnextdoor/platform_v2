@@ -11,7 +11,6 @@ using PMHelmutSchmidtPortal.Authorization;
 using PMHelmutSchmidtPortal.Authorization.Roles;
 using PMHelmutSchmidtPortal.Authorization.Users;
 using PMHelmutSchmidtPortal.HSUPortal.ExtendedUser.Dto;
-using PMHelmutSchmidtPortal.HSUPortal.Extensions;
 using PMHelmutSchmidtPortal.HSUPortal.Products;
 using PMHelmutSchmidtPortal.HSUPortal.Users;
 
@@ -91,8 +90,14 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ExtendedUser
         public async Task<DeveloperProfileOutput> GetCurrentDevelopersProfile()
         {
             User developer = await GetUser(new List<string>{StaticRoleNames.Host.Developer});
-            UserAddress userAddress = await _userProfileManager.GetDevelopersAddress(developer.Id);
-            return ObjectMapper.Map(userAddress, ObjectMapper.Map<DeveloperProfileOutput>(developer));
+            FullDeveloperProfileOutput fullProfile = await _userProfileManager.GetFullDeveloperProfile(developer.Id);
+            DeveloperProfileOutput result = ObjectMapper.Map<DeveloperProfileOutput>(developer);
+            if (fullProfile != null)
+            {
+                ObjectMapper.Map(fullProfile, result);
+                result.HasProductDesigns = fullProfile.ProductDesigns > 0;
+            }
+            return result;
         }
 
         public async Task<DeveloperProfileOutput> UpdateCurrentDevelopersProfile(DeveloperProfile input)
@@ -107,6 +112,11 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ExtendedUser
         [AbpAuthorize(AppPermissions.Hsu_ExtendedUser_GetProducers)]
         public Task<PagedResultDto<ProducerOverviewOutput>> GetProducersFiltered(ProducerOverviewInput input)
         {
+            if (!PermissionChecker.IsGranted(AppPermissions.Hsu_ExtendedUser_Profiles_Producer_Get))
+            {
+                input.IncludeDeletedNonAnonymized = false;
+            }
+
             return _userManager.GetAllProducersFiltered(input, _cancellationTokenProvider.Token);
         }
 
@@ -155,8 +165,7 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ExtendedUser
 
         public async Task<ProducerProfileOutput> GetCurrentProducerProfile()
         {
-            User producer = await GetUser(new List<string> { StaticRoleNames.Host.Producer});
-
+            User producer = await GetUser(new List<string> { StaticRoleNames.Host.Producer });
             return ObjectMapper.Map(producer, await _userProfileManager.GetProducerProfile(producer.Id));
         }
 
@@ -196,5 +205,18 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ExtendedUser
 
             return currentUser;
         }
+
+        [AbpAuthorize(AppPermissions.Hsu_ExtendedUser_DeleteInvitedUser)]
+        public async Task AnonymizeDeveloper(long developerId)
+        {
+            await _userProfileManager.AnonymizeDeveloper(developerId);
+        }
+
+        [AbpAuthorize(AppPermissions.Hsu_ExtendedUser_DeleteInvitedUser)]
+        public async Task AnonymizeProducer(long producerId)
+        {
+            await _userProfileManager.AnonymizeProducer(producerId);
+        }
+
     }
 }

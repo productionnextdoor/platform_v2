@@ -1,0 +1,17 @@
+<pm-material-overview
+    [materials]="materials"
+    [localisations]="localisations"
+    [loading]="loading"
+    [canCreate]="canCreate"
+    [canEdit]="canEdit"
+    [canDelete]="canDelete"
+    (onCreateMaterial)="onCreateMaterial($event)"
+    (onEditMaterial)="onEditMaterial($event)"
+    (onDeleteMaterial)="onDeleteMaterial($event)"
+    (onCreateSpecification)="onCreateSpecification($event)"
+    (onEditSpecification)="onEditSpecification($event)"
+    (onDeleteSpecification)="onDeleteSpecification($event)"
+    (onCreateSpecificationGroup)="onCreateSpecificationGroup($event)"
+    (onEditSpecificationGroup)="onEditSpecificationGroup($event)"
+    (onDeleteSpecificationGroup)="onDeleteSpecificationGroup($event)"
+/>

@@ -1,8 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities.Auditing;
-using JetBrains.Annotations;
-using PMHelmutSchmidtPortal.HSUPortal.Products;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.ShopOrders;
 
@@ -11,7 +9,7 @@ public class CustomerInfo: FullAuditedEntity
 {
     public ShopOrder ShopOrder { get; set; }
     
-    public int? ShopOrderId { get; set; }
+    public int ShopOrderId { get; set; }
     
     [StringLength(200)]
     public string Name { get; set; }
@@ -30,8 +28,4 @@ public class CustomerInfo: FullAuditedEntity
     
     [StringLength(200)]
     public string City { get; set; }
-    
-    public ProductCustomerInfo ProductCustomerInfo { get; set; }
-    
-    public int? ProductCustomerInfoId { get; set; }
 }

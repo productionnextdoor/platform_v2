@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using PMHelmutSchmidtPortal.HSUPortal.ExtendedUser.Dto;
-using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.DeliveryAddressStep;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.ProductFilesStep;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.ProductVariantStep;
 
@@ -25,12 +24,6 @@ namespace PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.ProductDet
         
         public int? PreviewImageId { get; set; }
         
-        public int? Quantity { get; set; }
-    
-        public DateTime? OfferDeadline { get; set; }
-    
-        public DateTime? ProductionDeadLine { get; set; }
-        
         public DateTime CreatedAt { get; set; }
         
         public DateTime UpdatedAt { get; set; }
@@ -52,8 +45,6 @@ namespace PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.ProductDet
         public int ProductionDetailsLiveId { get; set; }
         
         public int? ProductionDetailsEditId { get; set; }
-        
-        public DeliveryAddressOutputDto DeliveryAddress { get; set; }
         
     }
 }

@@ -1,18 +1,24 @@
-import {Injectable} from '@angular/core';
+import {
+  Injectable
+} from '@angular/core';
 import {
   IColumnHeader,
   IProductOverviewLocalisation,
-  PmDropdownOption,
-  Row
+  Row,
+  PmDropdownOption
 } from 'hsu-library';
 import {
   ProductListDto,
   ProductState
 } from '../../../shared/service-proxies/service-proxies';
-import {IProductTableService} from './iproduct-table.service';
-import {AppLocalizationService} from '../../localization/app-localization.service';
-import {AppConsts} from '../../../shared/AppConsts';
-import {ITableBaseService} from '../../table/itable-base.service';
+import {
+  IProductTableService
+} from './iproduct-table.service';
+import {
+  AppLocalizationService
+} from '../../localization/app-localization.service';
+import { AppConsts } from '../../../shared/AppConsts';
+import { ITableBaseService } from '../../table/itable-base.service';
 
 export const enum ETableColumns {
   ProductNumberColumn = 'productNumber',
@@ -26,7 +32,7 @@ export const enum ETableColumns {
 
 export enum EWizardType {
   NoWizard = '',
-  BaseProductWizard = 'baseProductWizard',
+  BaseProductWizard ='baseProductWizard',
   DeveloperProductWizard = 'developerProductWizard'
 }
 
@@ -79,7 +85,8 @@ export abstract class ProductTableBaseService extends IProductTableService {
     }
   }
 
-  public getLocalisationStrings(): IProductOverviewLocalisation {
+  public getLocalisationStrings():IProductOverviewLocalisation
+  {
     return {
       totalText: this.localizationService.loc('ProductTableTexts.Total'),
       buttonLabel: this.localizationService.loc('ProductTableHeader.AdminButton'),
@@ -95,7 +102,7 @@ export abstract class ProductTableBaseService extends IProductTableService {
     }
   }
 
-  public getStateOptions(blockedFilterOptions: ProductState[] = []) {
+  public getStateOptions(blockedFilterOptions: ProductState[] = []){
     const statusFilterOptions: PmDropdownOption<string>[] = [
       {
         value: this.localizationService.loc('ProductTableState.NoFilter'),
@@ -103,16 +110,10 @@ export abstract class ProductTableBaseService extends IProductTableService {
       }
     ];
 
-    const blockedOptions: ProductState[] = [
-      ...blockedFilterOptions,
-      ...AppConsts.IsOffer ?
-        AppConsts.IsOfferBlockedProductStates : AppConsts.IsShopBlockedProductStates
-    ]
-
     for (const state in ProductState) {
       //enum iteration gives both numeric and string values, we need only the string options
       const value: string | number = ProductState[state]
-      if (typeof value !== 'string' && !blockedOptions.includes(value)) {
+      if (typeof value !== 'string' && !blockedFilterOptions.includes(value)) {
         statusFilterOptions.push({
           value: this.productStateEnumMap.get(value) ?? '',
           key: value
@@ -133,12 +134,10 @@ export abstract class ProductTableBaseService extends IProductTableService {
       [ProductState.InProcessProducer, this.localizationService.loc('ProductTableState.InProcessProducer')],
       [ProductState.ReadyForValueChainPlanning, this.localizationService.loc('ProductTableState.ReadyForValueChainPlanning')],
       [ProductState.Live, this.localizationService.loc('ProductTableState.Live')],
-      [ProductState.ProductionReady, this.localizationService.loc('ProductTableState.ProductionReady')],
-      [ProductState.ProductionPlanningFinalized, this.localizationService.loc('ProductTableState.ProductionPlanningFinalized')],
-      [ProductState.ValueChainWaitingAdminConfirmation, this.localizationService.loc('ProductTableState.ValueChainWaitingAdminConfirmation')],
-      [ProductState.CommissionedToProduction, this.localizationService.loc('ProductTableState.CommissionedToProduction')],
-      [ProductState.InProduction, this.localizationService.loc('ProductTableState.InProduction')],
-      [ProductState.Completed, this.localizationService.loc('ProductTableState.Completed')]
+      [ProductState.Locked, this.localizationService.loc('ProductTableState.Locked')],
+      [ProductState.ValueChainExtension, this.localizationService.loc('ProductTableState.ValueChainExtension')],
+      [ProductState.InProcessAdmin, this.localizationService.loc('ProductTableState.InProcessAdmin')],
+      [ProductState.ProductionReady, this.localizationService.loc('ProductTableState.ProductionReady')]
 
     ]);
   }

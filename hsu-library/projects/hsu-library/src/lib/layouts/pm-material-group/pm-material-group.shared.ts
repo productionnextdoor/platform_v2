@@ -4,11 +4,18 @@ import {
   materialItemLocalisations
 } from '../pm-material-item/pm-material-item.shared';
 
+export interface IOptionGroup {
+  groupId: number;
+  groupName: string;
+  options: PmDropdownOption<number>[];
+}
+
 export interface IMaterialGroup {
   materialGroupId: number;
   name: string;
   localizedName: string;
   options: PmDropdownOption<number>[];
+  optionGroups?: IOptionGroup[];
 }
 
 export interface IMaterialGroupLocalisations {

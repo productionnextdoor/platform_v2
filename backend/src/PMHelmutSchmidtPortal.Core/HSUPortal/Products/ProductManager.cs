@@ -69,16 +69,6 @@ public class ProductManager : HSUDomainBaseService, IProductManager
         return _productRepository.GetProduct(id).IncludeDeveloper();
     }
 
-    public IQueryable<Product> GetProductByProductionDetailsId(int productionDetailsId)
-    {
-        return _productRepository.GetProduct(
-            _productionDetailsRepository
-            .Get(productionDetailsId)
-            .Single()
-            .ProductId
-        );
-    }
-
     public async Task<IQueryable<Product>> GetProductForUser(int productId, User currentUser)
     {
         IQueryable<Product> query = GetProduct(productId);
@@ -149,7 +139,7 @@ public class ProductManager : HSUDomainBaseService, IProductManager
                 Producers = ObjectMapper.Map<List<ProfileBase>>(productionDetails.AssignedProducers
                     .Where(pp => pp.AssignmentStatus != ProducerAssignmentStatus.Rejected)
                     .Select(pp => pp.AssignedProducer)),
-                Product = ObjectMapper.Map<ProductListDto>(productionDetails)
+                Product = ObjectMapper.Map<ProductListDto>(productionDetails.Product)
             });
     }
 
@@ -194,7 +184,7 @@ public class ProductManager : HSUDomainBaseService, IProductManager
             new ProductProducersEmailArgs
             {
                 Producers = ObjectMapper.Map<List<ProfileBase>>(producersToAssign.Select(pp => pp.AssignedProducer)),
-                Product = ObjectMapper.Map<ProductListDto>(productionDetails)
+                Product = ObjectMapper.Map<ProductListDto>(productionDetails.Product)
             });
     }
 
@@ -210,15 +200,21 @@ public class ProductManager : HSUDomainBaseService, IProductManager
 
     public async Task<ProducerAssignmentStatus> AcceptOrRejectProduction(ProducersAcceptOrRejectInput input, User user)
     {
-       
            ProductProducer productProducer = await GetProductProducer(input.ProductionDetailsId, user.Id);
             
-           if (productProducer.AssignmentStatus == ProducerAssignmentStatus.Requested)
+           if (productProducer.AssignmentStatus != ProducerAssignmentStatus.Requested)
            {
-               productProducer.AssignmentStatus = input.AssignmentAccepted ? ProducerAssignmentStatus.Accepted : ProducerAssignmentStatus.Rejected;
+               return productProducer.AssignmentStatus;
            }
-        
-           return productProducer.AssignmentStatus;
+
+           if (input.AssignmentAccepted)
+           {
+               productProducer.AssignmentStatus = ProducerAssignmentStatus.Accepted;
+               return productProducer.AssignmentStatus;
+           }
+
+           await _productProducerRepository.DeleteAsync(productProducer);
+           return ProducerAssignmentStatus.Rejected;
     }
 
     public async Task<ProducerAssignmentStatus> GetProducersAssignmentStatus(int productionDetailsId, long currentProducerId)
@@ -246,6 +242,32 @@ public class ProductManager : HSUDomainBaseService, IProductManager
 
         //If role check failed show only created by the current user
         return query.Where(item => item.CreatorUserId == userId);
+    }
+
+    public async Task<List<ProducerProductInvolvementDto>> GetProducerProductInvolvements(long producerId)
+    {
+        return await _productRepository.GetAll()
+            .GetForCurrentProducer(producerId)
+            .SelectMany(p => p.ProductionDetails
+                .Where(pd => pd.ProductionDetailsType != ProductionDetailsType.Archived)
+                .SelectMany(pd => pd.AssignedProducers)
+                .Where(pp => pp.AssignedProducerId == producerId && pp.AssignmentStatus != ProducerAssignmentStatus.Rejected)
+                .Select(pp => new ProducerProductInvolvementDto
+                {
+                    ProductNumber = p.ProductNumber,
+                    ProductName = p.Name
+                })
+            ).ToListAsync();
+    }
+
+    public async Task<List<DeveloperProductInvolvementDto>> GetDeveloperProductInvolvements(long developerId)
+    {
+        return await _productRepository.GetProductsForDeveloper(developerId)
+            .Select(p => new DeveloperProductInvolvementDto
+            {
+                ProductNumber = p.ProductNumber,
+                ProductName = p.Name
+            }).ToListAsync();
     }
 
     private async Task<ProductProducer> GetProductProducer(int productionDetailsId, long producerId)

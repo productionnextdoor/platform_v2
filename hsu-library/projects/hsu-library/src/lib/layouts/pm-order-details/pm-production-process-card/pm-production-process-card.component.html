@@ -5,8 +5,7 @@
     [title]="localisations.title"
 
 >
-    <ng-container header
-    *ngIf="cardMode==ECardMode.EDIT">
+    <ng-container header>
         <pm-button
             [margin]="btnMargin"
             [disabled]="startDisabled"
@@ -33,7 +32,7 @@
         [multiselect]="false"
         [columnHeaders]="columnHeaders"
         [(rows)]="rowData"
-        (onCheckboxStateChange)="checkBoxChange($event)"
+        (onCheckboxStateChange)="onCheckBoxChange.emit($event)"
     ></pm-table>
 </pm-card>
 

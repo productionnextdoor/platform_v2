@@ -18,8 +18,7 @@ public class MeasurementPositionManager : HSUDomainBaseService, IMeasurementPosi
 
     public async Task<IEnumerable<ProductMeasurement>> GetProductMeasurements(int productId)
     {
-        return await _measurementRepository
-            .GetAllProductMeasurement(productId)
+        return await _measurementRepository.GetAllProductMeasurement(productId)
             .OrderBy(pm => pm.Position)
             .ToListAsync();
     }
@@ -41,7 +40,6 @@ public class MeasurementPositionManager : HSUDomainBaseService, IMeasurementPosi
 
         await CurrentUnitOfWork.SaveChangesAsync();
 
-        return productMeasurements
-                .OrderBy(pm => pm.Position);
+        return productMeasurements.OrderBy(pm => pm.Position);
     }
 }

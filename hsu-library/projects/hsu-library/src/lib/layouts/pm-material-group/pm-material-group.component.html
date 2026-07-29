@@ -13,26 +13,9 @@
     [type]="TextType.COPY_M1"
     [margin]="descriptionMargin"
 > {{localisations.descriptionText}}</pm-text>
-<pm-row template="1fr 1fr 1fr 1fr" [gap]="margins.XLarge">
-    <pm-col
-        *ngFor="let materialGroup of materialGroups"
-        [gap]="margins.Medium"
-        template="auto"
-    >
-        <pm-checkbox
-            [state]="hasMaterialGroupItems[materialGroup.materialGroupId] ? PmCheckboxState.ACTIVE : PmCheckboxState.DEFAULT"
-            (stateChange)="handleCheckboxActivation($event, materialGroup)"
-            [label]="materialGroup.localizedName"
-            [checkboxId]="'material-group_' + materialGroup.materialGroupId"
-        />
-        <pm-material-item
-            *ngIf="hasMaterialGroupItems[materialGroup.materialGroupId]"
-            [materialGroupId]="materialGroup.materialGroupId"
-            [surfaceFinishes]="materialGroup.options"
-            [localisations]="localisations.materialItem"
-            [(workingPieces)]="workingPieces[materialGroup.materialGroupId]"
-            (workingPiecesChange)="emitWorkingPieces()"
-            (workingPieceDeleted)="onWorkingPieceDeleted($event)"
-        />
-    </pm-col>
-</pm-row>
+<pm-material-item
+    [materialGroups]="materialGroups"
+    [(workingPieces)]="workingPieces"
+    [localisations]="localisations.materialItem"
+    (workingPiecesChange)="emitWorkingPieces()"
+/>

@@ -1,0 +1,62 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmWorkstepMatrixComponent } from "../../../lib/layouts/pm-workstep-matrix/pm-workstep-matrix.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { workstepMatrixDefault, workstepMatrixReadonly } from "./workstep-matrix.data";
+
+
+<Meta title="Layouts/Workstep-Matrix/Workstep-Matrix" component={PmWorkstepMatrixComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+  layout: 'fullscreen',
+
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmWorkstepMatrixComponent))
+]}/>
+
+<Description of={PmWorkstepMatrixComponent}/>
+
+export const actionsData = {
+    dataChange: action('data change'),
+    validationChange: action('validation change'),
+};
+
+export const DefaultTemplate = args => ({
+    props: {
+        ...workstepMatrixDefault,
+        ...args,
+        ...actionsData
+    },
+});
+
+export const ReadonlyTemplate = args => ({
+    props: {
+        ...workstepMatrixReadonly,
+        ...args,
+        ...actionsData
+    },
+});
+
+# Workstep Matrix
+
+This contains the stories for the layout **Workstep Matrix**.
+
+## Default (editable)
+
+<Canvas withToolbar>
+  <Story name="Default" height={'800px'}>
+    {DefaultTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+## Readonly
+
+<Canvas withToolbar>
+  <Story name="Readonly" height={'800px'}>
+    {ReadonlyTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>

@@ -36,13 +36,7 @@ public class OrderProductionActionManager : HSUDomainBaseService, IOrderProducti
 
     public async Task<List<OrderProducerRequestOutput>> GetProducerActionRequests(int orderId, long producerId)
     {
-        decimal producerRate = await _producerInfoRepository
-            .GetAll()
-            .Where(pi => pi.UserId == producerId)
-            .Select(prod => prod.Rate)
-            .SingleAsync();
-
-        List<OrderProducerRequestOutput> requests = await GetOrderProducerRequests(orderId, producerId, producerRate);
+        List<OrderProducerRequestOutput> requests = await GetOrderProducerRequests(orderId, producerId);
 
         List<int> requestStepIds = requests.Select(req => req.ProductionStepId).ToList();
 
@@ -74,7 +68,7 @@ public class OrderProductionActionManager : HSUDomainBaseService, IOrderProducti
                 action.PlanAction.ProductionStepId == stepId);
     }
 
-    private async Task<List<OrderProducerRequestOutput>> GetOrderProducerRequests(int orderId, long producerId, decimal producerRate)
+    private async Task<List<OrderProducerRequestOutput>> GetOrderProducerRequests(int orderId, long producerId)
     {
         List<ProductOption> productOption = await _orderRepository.GetProductOptionsByOrderId(orderId).ToListAsync();
 
@@ -111,7 +105,12 @@ public class OrderProductionActionManager : HSUDomainBaseService, IOrderProducti
                 WorkHours = prodRequest.StepMeasurementVariant.WorkHours,
                 WorkStart = ISOWeek.GetWeekOfYear(DateTime.Now.AddDays(7 * prodRequest.PlanAction.StartPoint)),
                 WorkEnd = ISOWeek.GetWeekOfYear(DateTime.Now.AddDays(7 * prodRequest.PlanAction.EndPoint)),
-                WorkCalculated = prodRequest.StepMeasurementVariant.WorkHours * producerRate,
+                WorkCalculated = prodRequest.StepWorkPieceVariantsCost
+                    .Single(swpv => productOption
+                        .Any(po => po.WorkPieceId == swpv.WorkPieceId &&
+                                   (swpv.VariantId == null && po.WorkPieceVariantId == null ||
+                                    po.WorkPieceVariantId == swpv.VariantId)))
+                    .WorkCost,
                 MaterialAndTransportationsCalculated = prodRequest.StepMeasurementVariant.AdditionalCost +
                                                        prodRequest.StepMeasurementVariant.TransportAndAssemblyCost +
                                                        (prodRequest.StepWorkPieceVariantsCost

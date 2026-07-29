@@ -12,5 +12,8 @@ public class MaterialGroup: FullAuditedEntity
     public string Name { get; set; }
     
     [ForeignKey("MaterialGroupId")]
-    public ICollection<SurfaceFinish> SurfaceFinishes  {get; set;}
+    public ICollection<Specification> Specifications  {get; set;}
+
+    [ForeignKey("MaterialGroupId")]
+    public ICollection<SpecificationGroup> SpecificationGroups { get; set; }
 }

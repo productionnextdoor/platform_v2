@@ -1,6 +1,6 @@
 {
-  "remoteServiceBaseUrl": "https://hsu-platform-2-backend.pm-projects.de",
-  "appBaseUrl": "https://hsu-platform-2-client.pm-projects.de",
+  "remoteServiceBaseUrl": "https://hsu-platform-backend.pm-projects.de",
+  "appBaseUrl": "https://hsu-platform-client.pm-projects.de",
   "localeMappings": {
     "angular": [
       {

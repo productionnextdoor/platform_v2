@@ -1,0 +1,102 @@
+name: Test Migrations on Dev
+
+on:
+  workflow_dispatch:
+
+env:
+  ASPNET_PROJECT_NAME: ${{ vars.ASPNET_PROJECT_NAME }}
+  SDK_VERSION: ${{ vars.SDK_VERSION }}
+  SDK_GLOBAL_VERSION: ${{ vars.SDK_GLOBAL_VERSION }}
+
+jobs:
+  test-migrations:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Debug environment
+      run: |
+        echo "=== Environment ==="
+        echo "ASPNET_PROJECT_NAME: ${ASPNET_PROJECT_NAME}"
+        echo "SDK_VERSION: ${SDK_VERSION}"
+        echo "SDK_GLOBAL_VERSION: ${SDK_GLOBAL_VERSION}"
+        echo "=== .NET Info ==="
+        dotnet --info || echo "dotnet not yet installed"
+        echo "=== Working directory ==="
+        pwd
+        echo "=== Backend src contents ==="
+        ls -la backend/src/
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ env.SDK_VERSION }}
+
+    - name: Debug .NET setup
+      run: |
+        echo "=== .NET version ==="
+        dotnet --version
+        echo "=== .NET SDKs ==="
+        dotnet --list-sdks
+        echo "=== .NET runtimes ==="
+        dotnet --list-runtimes
+
+    - name: Install dotnet-ef
+      run: |
+        echo "=== Installing dotnet-ef version ${SDK_GLOBAL_VERSION} ==="
+        dotnet tool install --global dotnet-ef --version ${SDK_GLOBAL_VERSION}
+        echo "=== Installed dotnet-ef version ==="
+        ~/.dotnet/tools/dotnet-ef --version
+        echo "=== Tool location ==="
+        which dotnet-ef || echo "dotnet-ef not in PATH, using ~/.dotnet/tools/dotnet-ef"
+
+    - name: Restore packages
+      run: |
+        echo "=== Restoring ${ASPNET_PROJECT_NAME}.Web.Host and dependencies ==="
+        dotnet restore backend/src/${ASPNET_PROJECT_NAME}.Web.Host/ --verbosity normal
+        echo "=== Checking project.assets.json files ==="
+        find backend/src -name "project.assets.json" -exec echo "Found: {}" \;
+
+    - name: Build
+      run: |
+        echo "=== Building ${ASPNET_PROJECT_NAME}.Web.Host ==="
+        dotnet build backend/src/${ASPNET_PROJECT_NAME}.Web.Host/ --no-restore --verbosity normal
+        echo "=== Build completed ==="
+
+    - name: Setup config
+      env:
+        CONNECTIONSTRINGS__DEFAULT: ${{ secrets.CONN_STRING_DEV }}
+      run: |
+        echo "=== Setting up appsettings ==="
+        export ConnectionStrings__Default=${CONNECTIONSTRINGS__DEFAULT}
+        cd backend/src/${ASPNET_PROJECT_NAME}.Web.Host
+        echo "Config files available:"
+        ls -la appsettings*.json
+        cp appsettings.json appsettings_backup.json
+        cp appsettings.Dev.json appsettings.json
+        echo "=== Config setup done ==="
+
+    - name: Apply migrations
+      env:
+        CONNECTIONSTRINGS__DEFAULT: ${{ secrets.CONN_STRING_DEV }}
+      run: |
+        export ConnectionStrings__Default=${CONNECTIONSTRINGS__DEFAULT}
+        echo "=== Listing pending migrations ==="
+        ~/.dotnet/tools/dotnet-ef migrations list \
+          --project backend/src/${ASPNET_PROJECT_NAME}.EntityFrameworkCore/ \
+          --startup-project backend/src/${ASPNET_PROJECT_NAME}.Web.Host/ || echo "Failed to list migrations"
+        echo "=== Applying database update ==="
+        ~/.dotnet/tools/dotnet-ef database update \
+          --project backend/src/${ASPNET_PROJECT_NAME}.EntityFrameworkCore/ \
+          --startup-project backend/src/${ASPNET_PROJECT_NAME}.Web.Host/ --verbose
+        echo "=== Migration completed successfully ==="
+
+    - name: Restore config
+      if: always()
+      run: |
+        cd backend/src/${ASPNET_PROJECT_NAME}.Web.Host
+        if [ -f appsettings_backup.json ]; then
+          cp appsettings_backup.json appsettings.json
+          echo "=== Config restored ==="
+        fi

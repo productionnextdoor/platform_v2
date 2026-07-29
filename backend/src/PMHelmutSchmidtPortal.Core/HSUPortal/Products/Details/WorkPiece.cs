@@ -15,10 +15,9 @@ public class WorkPiece: FullAuditedEntity
     
     public int MaterialGroupId { get; set; }
     
-    public SurfaceFinish SurfaceFinish { get; set; }
-    
-    public int? SurfaceFinishId { get; set; }
-    
+    [ForeignKey("WorkPieceId")]
+    public ICollection<WorkPieceSpecification> WorkPieceSpecifications { get; set; }
+
     [ForeignKey("WorkPieceId")]
     public ICollection<ProductionState> ProductionStates  {get; set;}
     

@@ -1,0 +1,60 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmMatrixFillPopoverComponent } from "../../../lib/layouts/pm-matrix-fill-popover/pm-matrix-fill-popover.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { matrixFillPopoverDefault, matrixFillPopoverWithRule } from "./matrix-fill-popover.data";
+
+
+<Meta title="Layouts/Matrix-Fill-Popover/Matrix-Fill-Popover" component={PmMatrixFillPopoverComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmMatrixFillPopoverComponent))
+]}/>
+
+<Description of={PmMatrixFillPopoverComponent}/>
+
+export const actionsData = {
+    onApply: action('on apply'),
+    onCancel: action('on cancel'),
+};
+
+export const DefaultTemplate = args => ({
+    props: {
+        ...matrixFillPopoverDefault,
+        ...args,
+        ...actionsData
+    },
+});
+
+export const WithRuleTemplate = args => ({
+    props: {
+        ...matrixFillPopoverWithRule,
+        ...args,
+        ...actionsData
+    },
+});
+
+# Matrix Fill Popover
+
+This contains the stories for the layout **Matrix Fill Popover**.
+
+## Default
+
+<Canvas withToolbar>
+  <Story name="Default" height={'400px'}>
+    {DefaultTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+## With existing rule
+
+<Canvas withToolbar>
+  <Story name="WithRule" height={'400px'}>
+    {WithRuleTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>

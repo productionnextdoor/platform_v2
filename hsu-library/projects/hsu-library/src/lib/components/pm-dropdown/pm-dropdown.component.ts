@@ -113,21 +113,23 @@ export class PmDropdownComponent<T> implements OnInit, OnChanges {
   }) private dropdownBodyElement!: ElementRef;
 
   public ngOnInit() {
-    this.text = Array.isArray(this.options) ? this.options.find(
-      field => field.key === this.value
-    )?.value ?? '' : '';
-
+    this.text = this.getDisplayText(this.value);
     this.updateDropdown();
   }
 
   public ngOnChanges(changes: SimpleChanges) {
     if (changes['value']) {
-      this.text = Array.isArray(this.options) ? this.options.find(
-        field => field.key === this.value
-      )?.value ?? '' : '';
+      this.text = this.getDisplayText(this.value);
     }
 
     this.updateDropdown();
+  }
+
+  private getDisplayText(value: T | undefined): string {
+    if (!Array.isArray(this.options)) return '';
+    const option: PmDropdownOption<T> | undefined = this.options.find(field => field.key === value);
+    if (!option) return '';
+    return option.group ? `${option.group}: ${option.value}` : option.value;
   }
 
   /** @ignore */
@@ -229,7 +231,7 @@ export class PmDropdownComponent<T> implements OnInit, OnChanges {
     }
 
     this.value = option.key;
-    this.text = option.value;
+    this.text = option.group ? `${option.group}: ${option.value}` : option.value;
     this.closeDropdown();
 
     this.valueChange.emit(this.value);

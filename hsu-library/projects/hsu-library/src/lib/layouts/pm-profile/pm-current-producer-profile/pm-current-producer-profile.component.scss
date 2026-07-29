@@ -34,8 +34,54 @@
   }
 
   &__footer {
-    text-align: right;
     padding: f.rem(8) 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+  }
+
+  &__danger-actions {
+    display: flex;
+    gap: f.rem(16);
+    margin-right: f.rem(24);
+    position: relative;
+  }
+
+  &__main-actions {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  &__anonymize {
+    ::ng-deep .button {
+      background-color: #{f.color(semantic, 100)};
+      color: #{f.color(neutrals, 1100)};
+      
+      &:hover {
+        background-color: #{f.color(semantic, 300)};
+      }
+      
+      .button__text {
+        color: #{f.color(neutrals, 1100)};
+      }
+    }
+  }
+
+  &__deactivate {
+    ::ng-deep .button {
+      background-color: #{f.color(warning, 100)};
+      color: #{f.color(neutrals, 100)};
+      
+      &:hover {
+        background-color: #{f.color(warning, 300)};
+      }
+      
+      .button__text {
+        color: #{f.color(neutrals, 100)};
+      }
+    }
   }
 
   &__cancel {

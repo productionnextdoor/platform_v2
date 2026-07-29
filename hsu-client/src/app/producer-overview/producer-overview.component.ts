@@ -63,6 +63,7 @@ export class ProducerOverviewComponent extends WithRx() implements OnInit{
     skipCount: 0,
     sortOrder: EProducerOverviewColumns.CompanyColumn + ' ' + ESortOrder.Descending,
     searchInput: '',
+    includeDeletedNonAnonymized: false,
   };
 
   protected overviewLocalisations: IProducerOverviewLocalisation;
@@ -108,6 +109,7 @@ export class ProducerOverviewComponent extends WithRx() implements OnInit{
 
   ngOnInit() {
     this.initProducerFilter();
+    this.producerFilter.includeDeletedNonAnonymized = this.canViewProducerProfile();
     this.columnHeaders = this.producerOverviewTableService.getProducerOverviewColumnHeaders(this.canViewProducerProfile());
     this.itemsPerPageOptions = this.producerOverviewTableService.getPaginationOptions();
     this.setProducerOverviewTableData();

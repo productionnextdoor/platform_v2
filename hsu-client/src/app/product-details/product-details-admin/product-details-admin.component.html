@@ -13,6 +13,14 @@
         [disabled]="topActionButton.buttonIsDisabled"
         (onClicked)="topActionButtonClicked()"
     />
+    <pm-button
+        headerButtons
+        *ngIf="!productionDetailsEditId"
+        [type]="ButtonType.SECONDARY"
+        [label]="localisations.deleteProduct"
+        [margin]="buttonMargin"
+        (onClicked)="openDeleteConfirmPopup()"
+    />
     <pm-product-details-sidebar
         detailsSidebar
         [localisations]="localisations.sidebar"
@@ -133,6 +141,13 @@
                 [localisations]="localisations.publishEditModePopup"
                 (onCancel)="showEditModePublishPopup = false"
                 (onConfirm)="confirmEditMode()"
+            ></pm-confirm-popup>
+            <pm-confirm-popup
+                *ngIf="showDeleteConfirmPopup"
+                [localisations]="deleteConfirmPopupLocalisations"
+                [confirmDisabled]="deleteConfirmDisabled"
+                (onCancel)="closeDeleteConfirmPopup()"
+                (onConfirm)="deleteProduct()"
             ></pm-confirm-popup>
         </pm-col>
     </pm-row>

@@ -2,80 +2,65 @@
     *ngIf="showWizard"
     [context]="isAdminView ? ('DeveloperProductWizard.AdminTitle' | localize) + ':' : ('DeveloperProductWizard.Title' | localize) + ':'"
     [title]="title"
-    [steps]="getStepDescriptions()"
+    [steps]="steps"
     [step]="isAdminView ? WizardStepType.General : currentStep"
     [progress]="currentStep"
     [localisations]="localisations.wizard"
     [isValid]="isValid"
     [processingNextStepSuccess]="processingNextStepSuccess.asObservable()"
     [isAdminView]="isAdminView"
-    [isDynamicTemplates]="true"
-    [dynamicTemplates]="dynamicTemplates"
     (onStepChange)="onStepChange()"
     (onSave)="onSave($event)"
     (onFinalize)="onFinalize()"
     (onCancel)="onClose.emit()"
-/>
+>
+    <ng-template>
+        <product-create-or-edit-general
+            [productId]="productId"
+            [(isValid)]="isValid"
+            [saveGeneralInfo]="saveGeneralInfo.asObservable()"
+            [isAdminView]="isAdminView"
+            (onSaveSuccess)="handleSaveResult($event)"
+        />
+    </ng-template>
 
-<ng-template #generalInfo>
-    <product-create-or-edit-general
-        [productId]="productId"
-        [(isValid)]="isValid"
-        [saveGeneralInfo]="saveGeneralInfo.asObservable()"
-        [isAdminView]="isAdminView"
-        (onSaveSuccess)="handleSaveResult($event)"
-    />
-</ng-template>
+    <ng-template>
+        <product-material-groups-step
+            [productId]="productId"
+            [(isValid)]="isValid"
+            [saveMaterialGroups]="saveMaterialGroups.asObservable()"
+            [isAdminView]="isAdminView"
+            (onSaveSuccess)="handleSaveResult($event)"
+        />
+    </ng-template>
 
-<ng-template #deliveryAddress>
-    <product-delivery-address
-        [productId]="productId"
-        [(isValid)]="isValid"
-        [saveDeliveryAddress]="saveDeliveryAddress.asObservable()"
-        [isAdminView]="isAdminView"
-        (onSaveSuccess)="handleSaveResult($event)"
-    />
-</ng-template>
+    <ng-template>
+        <product-developer-wizard-variants
+            [productId]="productId"
+            [(isValid)]="isValid"
+            [saveVariantInfo]="saveVariantInfo.asObservable()"
+            [isAdminView]="isAdminView"
+            (onSaveSuccess)="handleSaveResult($event)"
+        />
+    </ng-template>
 
-<ng-template #materialGroups>
-    <product-material-groups-step
-        [productId]="productId"
-        [(isValid)]="isValid"
-        [saveMaterialGroups]="saveMaterialGroups.asObservable()"
-        [isAdminView]="isAdminView"
-        (onSaveSuccess)="handleSaveResult($event)"
-    />
-</ng-template>
+    <ng-template>
+        <product-sorting-measurements
+            [productId]="productId"
+            [(isValid)]="isValid"
+            [saveSortingInfo]="saveSortingInfo.asObservable()"
+            [isAdminView]="isAdminView"
+            (onSaveSuccess)="handleSaveResult($event)"
+        />
+    </ng-template>
 
-<ng-template #variants>
-    <product-developer-wizard-variants
-        [productId]="productId"
-        [(isValid)]="isValid"
-        [saveVariantInfo]="saveVariantInfo.asObservable()"
-        [isAdminView]="isAdminView"
-        (onSaveSuccess)="handleSaveResult($event)"
-    />
-</ng-template>
-<ng-template #sortingMeasurements>
-    <product-sorting-measurements
-        [productId]="productId"
-        [(isValid)]="isValid"
-        [saveSortingInfo]="saveSortingInfo.asObservable()"
-        [isAdminView]="isAdminView"
-        (onSaveSuccess)="handleSaveResult($event)"
-    />
-</ng-template>
-
-<ng-template #fileUpload>
-    <product-file-upload
-        [productId]="productId"
-        [(isValid)]="isValid"
-        [saveUploadInfo]="saveUploadInfo.asObservable()"
-        [isAdminView]="isAdminView"
-        (onSaveSuccess)="handleSaveResult($event)"
-    />
-</ng-template>
-
-
-
-
+    <ng-template>
+        <product-file-upload
+            [productId]="productId"
+            [(isValid)]="isValid"
+            [saveUploadInfo]="saveUploadInfo.asObservable()"
+            [isAdminView]="isAdminView"
+            (onSaveSuccess)="handleSaveResult($event)"
+        />
+    </ng-template>
+</pm-wizard>

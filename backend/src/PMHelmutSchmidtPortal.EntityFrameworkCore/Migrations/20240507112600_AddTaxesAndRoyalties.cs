@@ -70,6 +70,45 @@ namespace PMHelmutSchmidtPortal.Migrations
                 name: "IX_PmProductVariant_TaxId",
                 table: "PmProductVariant",
                 column: "TaxId");
+            
+            migrationBuilder.InsertData(
+                table: "PmTaxesAndRoyalties",
+                columns: new [] {"Id", "IsActive", "Percentage", "TaxType", "CreationTime", "IsDeleted"},
+                values: new object[]
+                {
+                    DefaultTaxesAndRoyalties.DefaultTax.Id,
+                    DefaultTaxesAndRoyalties.DefaultTax.IsActive,
+                    DefaultTaxesAndRoyalties.DefaultTax.Percentage,
+                    DefaultTaxesAndRoyalties.DefaultTax.TaxType.ToString(),
+                    DateTime.Now,
+                    false
+                });
+            
+            migrationBuilder.InsertData(
+                table: "PmTaxesAndRoyalties",
+                columns: new [] {"Id", "IsActive", "Percentage", "TaxType", "CreationTime", "IsDeleted"},
+                values: new object[]
+                {
+                    DefaultTaxesAndRoyalties.DefaultDeveloperRoyalty.Id,
+                    DefaultTaxesAndRoyalties.DefaultDeveloperRoyalty.IsActive,
+                    DefaultTaxesAndRoyalties.DefaultDeveloperRoyalty.Percentage,
+                    DefaultTaxesAndRoyalties.DefaultDeveloperRoyalty.TaxType.ToString(),
+                    DateTime.Now,
+                    false
+                });
+            
+            migrationBuilder.InsertData(
+                table: "PmTaxesAndRoyalties",
+                columns: new [] {"Id", "IsActive", "Percentage", "TaxType", "CreationTime", "IsDeleted"},
+                values: new object[]
+                {
+                    DefaultTaxesAndRoyalties.DefaultPlatformRoyalty.Id,
+                    DefaultTaxesAndRoyalties.DefaultPlatformRoyalty.IsActive,
+                    DefaultTaxesAndRoyalties.DefaultPlatformRoyalty.Percentage,
+                    DefaultTaxesAndRoyalties.DefaultPlatformRoyalty.TaxType.ToString(),
+                    DateTime.Now,
+                    false
+                });
 
             migrationBuilder.AddForeignKey(
                 name: "FK_PmProductVariant_PmTaxesAndRoyalties_DeveloperRoyaltyId",

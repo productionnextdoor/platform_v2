@@ -12,7 +12,6 @@ import { IFileNameByCategory } from '../../../lib/layouts/pm-file-upload/pm-file
 export interface IProductDetailsDeveloperData {
   localisations: IProductDetailsDeveloperLocalisations;
   productDetailsBaseData: IProductDetailsBaseData;
-  offerInformation: IPropertyGroup;
   generalInformation: IPropertyGroup;
   productDataDetailCard: IPropertySection[];
   fileData: IFileNameByCategory[]
@@ -33,23 +32,6 @@ export const productDetailsDeveloperData: IProductDetailsDeveloperData = {
     productDescription: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.',
     lastEditDate: '',
     sharePointLink: 'linkzumsharepoint.com'
-  },
-  offerInformation: {
-    groupTitle: 'Angebotsinformationen',
-    properties: [
-      {
-        key: 'Menge',
-        value: '150',
-      },
-      {
-        key: 'Angebotsfrist',
-        value: '07.08.2023'
-      },
-      {
-        key: 'Produktionsfrist',
-        value: '07.08.2023'
-      },
-    ]
   },
   generalInformation: {
     groupTitle: 'Allgemeine Angaben',
@@ -93,7 +75,7 @@ export const productDetailsDeveloperData: IProductDetailsDeveloperData = {
               value: 'Montiertes Gestell',
             },
             {
-              key: 'Oberflächenbeschaffenheit',
+              key: 'Spezifizierung',
               value: 'Oberfläche 01',
             },
           ]
@@ -110,7 +92,7 @@ export const productDetailsDeveloperData: IProductDetailsDeveloperData = {
               value: 'Fertige Glasplatte',
             },
             {
-              key: 'Oberflächenbeschaffenheit',
+              key: 'Spezifizierung',
               value: 'Klar',
             },
           ]

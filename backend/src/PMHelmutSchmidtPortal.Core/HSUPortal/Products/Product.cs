@@ -30,12 +30,6 @@ public class Product : FullAuditedEntity
     
     public User AssignedDeveloper { get; set; }
     
-    public int? Quantity { get; set; }
-    
-    public DateTime? OfferDeadline { get; set; }
-    
-    public DateTime? ProductionDeadLine { get; set; }
-    
     public ProductState State { get; set; }
     
     public ICollection<ProductMeasurement> ProductMeasurements {get; set;}

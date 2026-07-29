@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
   CreateOrUpdateBaseProductInput,
-  DeliveryAddressInputDto,
+  DeveloperProductInvolvementDto,
   GeneralInfoInputDto,
-  IDeliveryAddressOutputDto,
+  GeneralInfoOutputDto,
   IGeneralInfoOutputDto,
   IProductVariantStepOutputDto,
   MaterialGroupDto,
@@ -15,6 +15,7 @@ import {
   ProcessingDeadlineInput,
   ProducerAssignmentStatus,
   ProducerAssignmentStatusDto,
+  ProducerProductInvolvementDto,
   ProducersAcceptOrRejectInput,
   ProductDetailsServiceProxy,
   ProductFilesStepInput,
@@ -44,7 +45,7 @@ import { IProductFilter } from './product-table/product-table-base.service';
 import {
   IMaterialGroup,
   IMeasurement,
-  IProductDeliveryAddress,
+  IOptionGroup,
   IProductModel,
   IWorkingPiece,
   IWorkPieceVariant,
@@ -52,10 +53,6 @@ import {
 } from 'hsu-library';
 import { AppLocalizationService } from '../localization/app-localization.service';
 import { DateTime } from 'luxon';
-import {
-  IGeneralInfoDto
-} from '../../app/product-developer-wizard/product-step-general/product-create-or-edit-general.shared';
-import { AppConsts } from '../../shared/AppConsts';
 
 export interface IProductWithStateModel extends IProductModel {
   productId: number;
@@ -108,28 +105,16 @@ export class ProductApiService extends IProductApiService {
     return this.productServiceProxy.createOrUpdateBaseProduct(this.listProductModelToInputBody(product))
   }
 
-  public getWizardStep(productId: number): Observable<WizardStepType> {
+  public getWizardStep(productId: number): Observable<WizardStepType>{
     return this.productDetailServiceProxy.getWizardStep(productId);
   }
 
-  public getGeneralProductInfo(productId: number): Observable<IGeneralInfoDto> {
-    return this.productDetailServiceProxy.getProductGeneralInfo(productId)
-      .pipe(map(this.mapGeneralInfoDtos.bind(this)));
+  public getGeneralProductInfo(productId: number): Observable<GeneralInfoOutputDto> {
+    return this.productDetailServiceProxy.getProductGeneralInfo(productId);
   }
 
-  public saveGeneralProductInfo(generalProductInfo: IGeneralInfoDto): Observable<IGeneralInfoDto> {
-    return this.productDetailServiceProxy.createOrUpdateGeneralInfo(this.mapOutputGeneralInfoDtos(generalProductInfo))
-      .pipe(map(this.mapGeneralInfoDtos.bind(this)));
-  }
-
-  public getProductDeliveryAddress(productId: number): Observable<IProductDeliveryAddress> {
-    return this.productDetailServiceProxy.getProductDeliveryAddress(productId)
-      .pipe(map(this.mapProductDeliveryAddress.bind(this)));
-  }
-
-  public saveProductDeliveryAddress(productId: number, deliveryAddress: IProductDeliveryAddress): Observable<IProductDeliveryAddress> {
-    return this.productDetailServiceProxy.createOrUpdateProductDeliveryAddress(this.mapInputProductDeliveryAddress(productId, deliveryAddress))
-      .pipe(map(this.mapProductDeliveryAddress.bind(this)));
+  public saveGeneralProductInfo(generalProductInfo: GeneralInfoOutputDto): Observable<GeneralInfoOutputDto> {
+    return this.productDetailServiceProxy.createOrUpdateGeneralInfo(this.mapGeneralInfoDtos(generalProductInfo));
   }
 
   public getProductMaterialGroups(productId: number): Observable<IProductMaterialGroupsInfo> {
@@ -191,7 +176,7 @@ export class ProductApiService extends IProductApiService {
   }
 
   public getProductProducers(productId: number, productionDetailsId: number, sorting: string, maxResultCount: number, skipCount: number): Observable<ProductProducerOutput> {
-    return this.userExtendedServiceProxy.getProductProducers(productId, productionDetailsId, sorting, maxResultCount, skipCount);
+    return this.userExtendedServiceProxy.getProductProducers(productId, productionDetailsId,sorting, maxResultCount, skipCount);
   }
 
   public updateProcessingDeadline(productId: number, productionDetailsId: number, deadLine: DateTime): Observable<void> {
@@ -217,7 +202,7 @@ export class ProductApiService extends IProductApiService {
     return this.productServiceProxy.getAssignmentStatusForCurrentProducer(productionDetailsId)
   }
 
-  public acceptOrRejectProductionRequest(productionDetailsId: number, assignmentAccepted: boolean): Observable<ProducerAssignmentStatus> {
+  public acceptOrRejectProductionRequest(productionDetailsId: number, assignmentAccepted:boolean ): Observable<ProducerAssignmentStatus> {
     return this.productServiceProxy.acceptOrRejectProductionRequest(
       new ProducersAcceptOrRejectInput(
         {
@@ -237,6 +222,18 @@ export class ProductApiService extends IProductApiService {
 
   confirmEditMode(productId: number): Observable<void> {
     return this.productServiceProxy.finalizeEditMode(productId);
+  }
+
+  public deleteProduct(productId: number): Observable<void> {
+    return this.productServiceProxy.deleteProduct(productId);
+  }
+
+  public getProducerProductInvolvements(producerId: number): Observable<ProducerProductInvolvementDto[]> {
+    return this.productServiceProxy.getProducerProductInvolvements(producerId);
+  }
+
+  public getDeveloperProductInvolvements(developerId: number): Observable<DeveloperProductInvolvementDto[]> {
+    return this.productServiceProxy.getDeveloperProductInvolvements(developerId);
   }
 
   private listProductModelToInputBody(product: IProductWithStateModel): CreateOrUpdateBaseProductInput {
@@ -259,82 +256,98 @@ export class ProductApiService extends IProductApiService {
     };
   }
 
-  private mapGeneralInfoDtos(product: IGeneralInfoOutputDto): IGeneralInfoDto {
-    return {
-      productId: product.productId,
-      productName: product.productName ?? '',
-      productNumber: product.productNumber,
-      creationTime: product.creationTime.toFormat(AppConsts.DateFormatString),
-      width: product.width,
-      height: product.height,
-      depth: product.depth,
-      quantity: product.quantity,
-      offerDeadline: product.offerDeadline?.toFormat(AppConsts.DateFormatString) ,
-      productionDeadLine: product.productionDeadLine?.toFormat(AppConsts.DateFormatString) ,
-    }
-  }
-
-  private mapOutputGeneralInfoDtos(product: IGeneralInfoDto): GeneralInfoInputDto {
+  private mapGeneralInfoDtos(product: IGeneralInfoOutputDto): GeneralInfoInputDto {
     return new GeneralInfoInputDto({
       productId: product.productId,
       productName: product.productName ?? '',
       width: product.width,
       height: product.height,
-      depth: product.depth,
-      quantity: product.quantity,
-      offerDeadline: product.offerDeadline ? DateTime.fromFormat(product.offerDeadline, AppConsts.DateFormatString) : undefined,
-      productionDeadLine: product.productionDeadLine ? DateTime.fromFormat(product.productionDeadLine, AppConsts.DateFormatString) : undefined,
-    });
-  }
-
-  // eslint-disable-next-line complexity
-  private mapProductDeliveryAddress(deliveryAddress: IDeliveryAddressOutputDto): IProductDeliveryAddress {
-    return {
-      productId: deliveryAddress.productId,
-      name: deliveryAddress.name ?? '',
-      street: deliveryAddress.street ?? '',
-      zipCode: deliveryAddress.zip ?? '',
-      city: deliveryAddress.city ?? '',
-      phone: deliveryAddress.phoneNumber ?? '',
-      email: deliveryAddress.emailAddress ?? '',
-    }
-  }
-
-  private mapInputProductDeliveryAddress(productId: number, deliveryAddress: IProductDeliveryAddress): DeliveryAddressInputDto {
-    return new DeliveryAddressInputDto({
-      productId: productId,
-      name: deliveryAddress.name,
-      street: deliveryAddress.street,
-      zip: deliveryAddress.zipCode,
-      city: deliveryAddress.city,
-      phoneNumber: deliveryAddress.phone,
-      emailAddress: deliveryAddress.email,
+      depth: product.depth
     });
   }
 
   private mapProductMaterialGroupInfos(infos: MaterialGroupStepOutput): IProductMaterialGroupsInfo {
+    const materialGroups: IMaterialGroup[] = this.mapDtoToMaterialGroup(infos.materialGroupDtos ?? []);
+    const workingPieces: IWorkingPiece[] = this.mapDtoToWorkingPieces(infos.workPieceDtos ?? []);
+    this.deriveSpecificationGroupIds(workingPieces, materialGroups);
     return {
-      materialGroups: this.mapDtoToMaterialGroup(infos.materialGroupDtos ?? []),
-      workingPieces: this.mapDtoToWorkingPieces(infos.workPieceDtos ?? [])
-    }
+      materialGroups,
+      workingPieces
+    };
   }
 
   private mapDtoToMaterialGroup(materialGroupDtos: MaterialGroupDto[]): IMaterialGroup[] {
     return materialGroupDtos?.map(materialGroup => {
+      const surfaces: SurfaceDto[] = materialGroup.surfaces ?? [];
+      const grouped: SurfaceDto[] = surfaces.filter(surface => surface.specificationGroupId);
+      const ungrouped: SurfaceDto[] = surfaces.filter(surface => !surface.specificationGroupId);
+      const sortedOptions: PmDropdownOption<number>[] = [
+        ...grouped.map(surface => this.getSpecifications(surface)),
+        ...ungrouped.map(surface => this.getSpecifications(surface))
+      ];
+      const optionGroups: IOptionGroup[] = this.buildOptionGroups(grouped, ungrouped);
       return {
         materialGroupId: materialGroup.materialGroupId,
         name: materialGroup.name ?? '',
-        localizedName: this.localisationService.loc('MaterialGroup.' + materialGroup.name ?? ''),
-        options: materialGroup.surfaces?.map(this.getSurfaceFinishes.bind(this)) ?? []
+        localizedName: this.localizeWithFallback('MaterialGroup', materialGroup.name ?? ''),
+        options: sortedOptions,
+        optionGroups: optionGroups.length > 0 ? optionGroups : undefined
       }
     });
   }
 
-  private getSurfaceFinishes(surfaceFinish: SurfaceDto): PmDropdownOption<number> {
+  private buildOptionGroups(grouped: SurfaceDto[], ungrouped: SurfaceDto[]): IOptionGroup[] {
+    const groupMap: Map<number, { name: string; options: PmDropdownOption<number>[] }> = new Map();
+    for (const surface of grouped) {
+      const gId: number = surface.specificationGroupId!;
+      if (!groupMap.has(gId)) {
+        groupMap.set(gId, {
+          name: this.localizeWithFallback('SpecificationGroup', surface.specificationGroupName ?? ''),
+          options: []
+        });
+      }
+      groupMap.get(gId)!.options.push(this.getSpecifications(surface));
+    }
+    const optionGroups: IOptionGroup[] = Array.from(groupMap.entries()).map(([groupId, groupEntry]) => ({
+      groupId,
+      groupName: groupEntry.name,
+      options: groupEntry.options
+    }));
+    if (ungrouped.length > 0 && grouped.length > 0) {
+      optionGroups.push({
+        groupId: 0,
+        groupName: this.localizeWithFallback('SpecificationGroup', 'Ungrouped'),
+        options: ungrouped.map(surface => this.getSpecifications(surface))
+      });
+    }
+    return optionGroups;
+  }
+
+  private deriveSpecificationGroupIds(workingPieces: IWorkingPiece[], materialGroups: IMaterialGroup[]): void {
+    for (const workingPiece of workingPieces) {
+      const materialGroup: IMaterialGroup | undefined = materialGroups.find(group => group.materialGroupId === workingPiece.materialGroupId);
+      if (!materialGroup?.optionGroups) continue;
+      workingPiece.specificationGroupIds = workingPiece.specificationIds.map(specId => {
+        const matchingGroup: IOptionGroup | undefined = materialGroup.optionGroups!.find(optGroup =>
+          optGroup.options.some(opt => opt.key === specId)
+        );
+        return matchingGroup?.groupId ?? 0;
+      });
+    }
+  }
+
+  private getSpecifications(specification: SurfaceDto): PmDropdownOption<number> {
     return {
-      key: surfaceFinish.surfaceFinishId,
-      value: this.localisationService.loc('SurfaceFinish.' + surfaceFinish.name ?? '')
+      key: specification.specificationId,
+      value: this.localizeWithFallback('Specification', specification.name ?? ''),
+      group: specification.specificationGroupName ?? undefined
     };
+  }
+
+  private localizeWithFallback(prefix: string, name: string): string {
+    const key: string = `${prefix}.${name}`;
+    const localized: string = this.localisationService.loc(key);
+    return localized === key ? name : localized;
   }
 
   private mapDtoToWorkingPieces(workPieceDtos: WorkPieceDto[]): IWorkingPiece[] {
@@ -344,7 +357,8 @@ export class ProductApiService extends IProductApiService {
         materialGroupId: item.materialGroupId,
         material: item.name,
         finalState: item.finishedState,
-        surfaceFinishId: item.surfaceFinishId,
+        specificationIds: item.specificationIds ?? [],
+        specificationGroupIds: []
       }
     ));
   }
@@ -361,7 +375,7 @@ export class ProductApiService extends IProductApiService {
     return workPieces.map(workPiece => {
       return {
         key: workPiece.workPieceId ?? 0,
-        value: this.localisationService.loc('MaterialGroup.' + workPiece.materialGroupName ?? '') + ' (' + workPiece.name + ')'
+        value: this.localizeWithFallback('MaterialGroup', workPiece.materialGroupName ?? '') + ' (' + workPiece.name + ')'
       }
     });
   }
@@ -379,7 +393,7 @@ export class ProductApiService extends IProductApiService {
         workPieceId: workingPiece.workingPieceId ?? 0,
         name: workingPiece.material,
         finishedState: workingPiece.finalState,
-        surfaceFinishId: workingPiece.surfaceFinishId,
+        specificationIds: workingPiece.specificationIds,
         materialGroupId: workingPiece.materialGroupId
       })
     ));
@@ -467,5 +481,4 @@ export class ProductApiService extends IProductApiService {
       positionDtos: this.mapToPositionsDto(measurements),
     });
   }
-
 }

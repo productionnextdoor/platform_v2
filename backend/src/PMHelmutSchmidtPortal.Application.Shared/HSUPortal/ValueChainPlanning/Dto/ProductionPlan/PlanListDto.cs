@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning.Dto.ProductionPlan
@@ -11,6 +10,5 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning.Dto.ProductionPlan
         public decimal LeadTime { get; set; }
         public List<PlanRatingDto> PlanRatings { get; set; }
         public bool IsActive { get; set; }
-        public DateTime? ProjectedEndDate { get; set; }
     }
 }

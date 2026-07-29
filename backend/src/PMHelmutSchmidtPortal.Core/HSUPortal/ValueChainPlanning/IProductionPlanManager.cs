@@ -6,8 +6,7 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning;
 
 public interface IProductionPlanManager
 {
-    Task<PlanListOutputDto> GetAllPagedProductionPlans(PlanListInputDto input);
-    Task<PlanListOutputDto> GetActivePagedProductionPlans(PlanListInputDto input);
+    Task<PlanListOutputDto> GetPagedProductionPlans(PlanListInputDto input);
     
     Task<VcpRequestContentDto> ProductToProductionPlanning(int productId, int maxCost);
 

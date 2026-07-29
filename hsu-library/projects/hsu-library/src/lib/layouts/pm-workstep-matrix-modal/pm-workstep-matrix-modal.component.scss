@@ -1,0 +1,20 @@
+@use '../../styles/utils/functions' as f;
+
+.pm-workstep-matrix-modal {
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: f.rem(24);
+    border-top: 1px solid f.color('neutrals', 500);
+  }
+
+  &__actions {
+    display: flex;
+    gap: f.rem(16);
+
+    &--right {
+      margin-left: auto;
+    }
+  }
+}

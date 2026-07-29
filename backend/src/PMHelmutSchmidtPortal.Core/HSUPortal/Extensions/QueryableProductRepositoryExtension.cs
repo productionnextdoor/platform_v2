@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using PMHelmutSchmidtPortal.Authorization.Users;
+using PMHelmutSchmidtPortal.HSUPortal.ExtendedUsers;
 using PMHelmutSchmidtPortal.HSUPortal.ProductionSteps;
 using PMHelmutSchmidtPortal.HSUPortal.Products;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Details;
@@ -18,7 +19,7 @@ public static class QueryableProductRepositoryExtension
 
     public static IQueryable<Product> IncludeWorkPiecesWithConnections(this IQueryable<Product> query)
     {
-        return query.Include(p => p.WorkPieces).ThenInclude(wp => wp.SurfaceFinish)
+        return query.Include(p => p.WorkPieces).ThenInclude(wp => wp.WorkPieceSpecifications)
             .Include(p => p.WorkPieces).ThenInclude(wp => wp.WorkPieceVariants)
             .Include(p => p.WorkPieces).ThenInclude(wp => wp.MaterialGroup)
             .Include(p => p.WorkPieces).ThenInclude(wp => wp.ProductionStates);
@@ -93,6 +94,6 @@ public static class QueryableProductRepositoryExtension
                 item.ProductionDetails.Any(details =>
                     (details.ProductionDetailsType == ProductionDetailsType.Live ||
                      details.ProductionDetailsType == ProductionDetailsType.Edit) &&
-                    details.AssignedProducers.Any(producer => producer.AssignedProducerId == producerId)));
+                    details.AssignedProducers.Any(producer => producer.AssignedProducerId == producerId && producer.AssignmentStatus != ProducerAssignmentStatus.Rejected )));
     }
 }

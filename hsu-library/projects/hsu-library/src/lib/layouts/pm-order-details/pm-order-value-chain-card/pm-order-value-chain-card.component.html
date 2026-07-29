@@ -17,24 +17,10 @@
     <div class="value-chain-card__description">
         {{ valueChainCardLocalisation.description }}
     </div>
-    <div class="value-chain-card__table">
-        <pm-table
-            [loading]="loading"
-            [columnHeaders]="columnHeaders"
-            [(rows)]="rowData"
-            (onActionClicked)="onActionClicked.emit($event)"
-        ></pm-table>
-    </div>
-
-    <ng-container footer *ngIf="commissionMode === 'manual'">
-        <div class="value-chain-card__footer">
-            <pm-button
-                [disabled] = "status !== 'selected'"
-                [type]="ButtonType.PRIMARY"
-                [label]="valueChainCardLocalisation.commissionBtn"
-                (onClicked)="onCommissionClicked.emit()"
-            ></pm-button>
-        </div>
-    </ng-container>
-
+    <pm-table
+        [loading]="loading"
+        [columnHeaders]="columnHeaders"
+        [(rows)]="rowData"
+        (onActionClicked)="onActionClicked.emit($event)"
+    ></pm-table>
 </pm-card>

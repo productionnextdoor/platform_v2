@@ -2,13 +2,10 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnChanges,
   OnInit,
-  Output,
-  SimpleChanges
+  Output
 } from '@angular/core';
 import { BannerType } from '../../components/pm-banner/pm-banner.shared';
-import { PmCheckboxState } from '../../components/pm-checkbox/pm-checkbox.shared';
 import { TextType } from '../../components/pm-text/pm-text.shared';
 import {
   DefaultMargins,
@@ -26,7 +23,7 @@ import {
   selector: 'pm-material-group',
   templateUrl: './pm-material-group.component.html'
 })
-export class PmMaterialGroupComponent implements OnInit, OnChanges {
+export class PmMaterialGroupComponent implements OnInit {
 
   @Input()
   productId: number = 0;
@@ -35,7 +32,7 @@ export class PmMaterialGroupComponent implements OnInit, OnChanges {
   materialGroups: IMaterialGroup[] = [];
 
   @Input()
-  workingPieces: IWorkingPiece[][] = [];
+  workingPieces: IWorkingPiece[] = [];
 
   @Input()
   localisations: IMaterialGroupLocalisations = materialGroupLocalisations;
@@ -44,16 +41,10 @@ export class PmMaterialGroupComponent implements OnInit, OnChanges {
   isAdminView: boolean = false;
 
   @Output()
-  workingPiecesChange: EventEmitter<IWorkingPiece[][]> = new EventEmitter<IWorkingPiece[][]>();
+  workingPiecesChange: EventEmitter<IWorkingPiece[]> = new EventEmitter<IWorkingPiece[]>();
 
   /** @ignore */
   protected isBannerVisible: boolean = true;
-
-  /** @ignore */
-  protected hasMaterialGroupItems: boolean[] = [];
-
-  /** @ignore */
-  protected readonly PmCheckboxState = PmCheckboxState;
 
   /** @ignore */
   protected readonly BannerType = BannerType;
@@ -79,49 +70,11 @@ export class PmMaterialGroupComponent implements OnInit, OnChanges {
   }
 
   /** @ignore */
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['workingPieces']) {
-      this.updateMaterialGroupVisibility()
-    }
-  }
-
-  /** @ignore */
-  handleCheckboxActivation(event: PmCheckboxState, material: IMaterialGroup) {
-    const active: boolean = PmCheckboxState.ACTIVE === event;
-    this.hasMaterialGroupItems[material.materialGroupId] = active;
-
-    this.workingPieces[material.materialGroupId] = active
-      ? [PmMaterialGroupComponent.createEmptyWorkingPiece(material.materialGroupId)]
-      : [];
-
-    this.emitWorkingPieces();
-  }
-
-  /** @ignore */
   emitWorkingPieces() {
     this.workingPiecesChange.emit(this.workingPieces);
   }
 
   protected onCloseBanner() {
     this.isBannerVisible = false;
-  }
-
-  protected onWorkingPieceDeleted(workingPiece: IWorkingPiece): void {
-    this.hasMaterialGroupItems[workingPiece.materialGroupId] = this.workingPieces[workingPiece.materialGroupId]?.length > 0;
-  }
-
-  private updateMaterialGroupVisibility(): void {
-    this.materialGroups.map(materialGroup => {
-      this.hasMaterialGroupItems[materialGroup.materialGroupId] = this.workingPieces[materialGroup.materialGroupId]?.length > 0;
-    });
-  }
-
-  private static createEmptyWorkingPiece(materialGroupId: number): IWorkingPiece {
-    return {
-      materialGroupId,
-      material: '',
-      finalState: '',
-      surfaceFinishId: 0
-    }
   }
 }

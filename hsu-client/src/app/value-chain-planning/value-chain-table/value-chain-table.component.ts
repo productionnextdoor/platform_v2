@@ -10,39 +10,26 @@ import {
   PlanListDto,
   PlanListOutputDto,
   PlanRatingTypesDto,
-  ProductionPlanningFinalizingServiceProxy,
 } from '../../../shared/service-proxies/service-proxies';
 import {
-  IActionEvent,
   IColumnHeader,
-  IColumnSortEvent,
+  IValueChainTableLocalisation,
+  ValueChainTableLocalisation,
   IPager,
-  Pager,
-  PmDropdownOption,
   Row,
+  Pager,
+  IColumnSortEvent,
+  PmDropdownOption
 } from 'hsu-library';
 import { AppConsts } from '../../../shared/AppConsts';
 import { IProductionPlanService } from '../../../services/productionPlans/iproduction-plan.service';
-import {
-  finalize,
-  map,
-  Observable
-} from 'rxjs';
-import {
-  EValueChainTableMode,
-  fullValueChainTableLocalisation,
-  IFullValueChainTableLocalisation
-} from './value-chain-table.shared';
-import { WithRx } from '../../../shared/mixins/with-rx.mixin';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'value-chain-table',
   templateUrl: './value-chain-table.component.html'
 })
-export class ValueChainTableComponent extends WithRx() implements OnChanges {
-
-  @Input()
-  tableMode: EValueChainTableMode = EValueChainTableMode.ADMIN;
+export class ValueChainTableComponent implements OnChanges {
 
   @Input()
   productionDetailsId: number = 0;
@@ -54,7 +41,7 @@ export class ValueChainTableComponent extends WithRx() implements OnChanges {
   editDisabled: boolean = false;
 
   @Input()
-  localisations: IFullValueChainTableLocalisation = fullValueChainTableLocalisation;
+  localisations: IValueChainTableLocalisation = ValueChainTableLocalisation;
 
   @Output()
   loadingState = new EventEmitter<boolean>();
@@ -73,18 +60,14 @@ export class ValueChainTableComponent extends WithRx() implements OnChanges {
   protected valueChainsSortOrder: string = '';
   protected valueChainsSortRateId: number = 0;
   protected valueChainsPaginationData: IPager = Pager;
-  protected showValueChainSelectionPopup: boolean = false;
-  protected selectedValueChainId: number = 0;
 
-  constructor(
-    private readonly productionPlanService: IProductionPlanService,
-    private readonly exportService: ProductionPlanningFinalizingServiceProxy) {
-    super();
+
+  constructor(private readonly productionPlanService: IProductionPlanService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['productionDetailsId'] && this.productionDetailsId !== 0) {
-      this.setValueChainsTableData().subscribe();
+      this.setValueChainsTableData();
     }
   }
 
@@ -94,12 +77,12 @@ export class ValueChainTableComponent extends WithRx() implements OnChanges {
     if (columnIdentifier.length > 1) {
       this.valueChainsSortRateId = isNaN(Number(columnIdentifier[1])) ? 0 : Number(columnIdentifier[1]);
     }
-    this.setValueChainsTableData().subscribe();
+    this.setValueChainsTableData();
   }
 
   onValueChainPageClicked(pager: IPager): void {
     this.valueChainsPaginationData = pager;
-    this.setValueChainsTableData().subscribe();
+    this.setValueChainsTableData();
   }
 
   onSetActive(rowIds: number[]): void {
@@ -114,54 +97,26 @@ export class ValueChainTableComponent extends WithRx() implements OnChanges {
     });
   }
 
-  onSelectValueChain(action: IActionEvent) {
-    this.selectedValueChainId = action.rowId;
-    this.showValueChainSelectionPopup = true;
-  }
-
-  selectValueChain() {
-    this.exportService
-      .selectPlanForProduction(this.selectedValueChainId)
-      .pipe(
-        this.switchMapCancelable(this.setValueChainsTableData.bind(this))
-      ).subscribe(() => {
-        this.showValueChainSelectionPopup = false;
-      });
-  }
-
-  private setValueChainsTableData(): Observable<void> {
+  private setValueChainsTableData(): void {
     this.loading = true;
     this.loadingState.emit(true)
-    return this.productionPlanService
+    this.productionPlanService
       .getProductionPlans(this.productionDetailsId, this.valueChainsSortRateId, this.valueChainsSortOrder,
         this.valueChainsPaginationData.MaxResultCount, this.valueChainsPaginationData.SkipCount)
-      .pipe(
-        map((chainResult: PlanListOutputDto) => {
+      .pipe(finalize(() => (this.loadingState.emit(false))))
+      .subscribe({
+        next: (chainResult: PlanListOutputDto) => {
           this.planData = chainResult.plans.items ?? [];
           this.ratingTypes = chainResult.ratingTypes ?? [];
           this.totalItemsValueChains = chainResult.plans.totalCount;
-          this.lastCalculationDate = this.tableMode === EValueChainTableMode.ADMIN ?
-            chainResult.lastPlanCalculatedAt?.toFormat(AppConsts.DateFormatString) ?? '' : '';
-          this.getColumnHeaders();
-          this.getRows(chainResult);
+          this.lastCalculationDate = chainResult.lastPlanCalculatedAt?.toFormat(AppConsts.DateFormatString) ?? '';
+          if (this.valueChainsColumnHeaders.length === 0) {
+            this.valueChainsColumnHeaders = this.productionPlanService.getProductionPlanColumnHeaders(this.ratingTypes);
+          }
+          this.valueChainsRowData = this.productionPlanService.getProductionPlanRowData(chainResult.plans.items ?? [], this.ratingTypes);
           this.loading = false;
           this.onTotalItemsChange.emit(this.totalItemsValueChains)
-        }),
-        finalize(() => (this.loadingState.emit(false)))
-      )
-  }
-
-  private getColumnHeaders(){
-    if (this.valueChainsColumnHeaders.length === 0) {
-      this.valueChainsColumnHeaders = this.tableMode === EValueChainTableMode.ADMIN ?
-        this.productionPlanService.getProductionPlanColumnHeadersAdmin(this.ratingTypes) :
-        this.productionPlanService.getProductionPlanColumnHeadersDeveloper(this.ratingTypes);
-    }
-  }
-
-  private getRows(chainResult:PlanListOutputDto) {
-    this.valueChainsRowData = this.tableMode === EValueChainTableMode.ADMIN ?
-      this.productionPlanService.getProductionPlanRowDataAdmin(chainResult.plans.items ?? [], this.ratingTypes) :
-      this.productionPlanService.getProductionPlanRowDataDeveloper(chainResult.plans.items ?? [], this.ratingTypes, chainResult.selectedForProductionId);
+        }
+      });
   }
 }

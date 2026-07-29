@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.EntityFrameworkCore.Repositories;
-using Castle.Core.Logging;
+using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using PMHelmutSchmidtPortal.HSUPortal.ProductionSteps;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Details;
@@ -26,7 +26,6 @@ public class ProductDeleteManager : HSUDomainBaseService, IProductDeleteManager
     private readonly IProductionPlanRepository _productionPlanRepository;
     private readonly IProductMeasurementRepository _productMeasurementRepository;
     private readonly IProductVariantRepository _productVariantRepository;
-    private ILogger Logger { get; set; }
 
     public ProductDeleteManager(
         IProductRepository productRepository,
@@ -53,7 +52,6 @@ public class ProductDeleteManager : HSUDomainBaseService, IProductDeleteManager
         _productionPlanRepository = productionPlanRepository;
         _productMeasurementRepository = productMeasurementRepository;
         _productVariantRepository = productVariantRepository;
-        Logger = NullLogger.Instance;
     }
 
     public async Task<List<int>> DeleteProductsById(List<int> ids)
@@ -78,7 +76,14 @@ public class ProductDeleteManager : HSUDomainBaseService, IProductDeleteManager
                 .GetProduct(id)
                 .Include(product => product.ProductFiles)
                 .Include(product => product.ProductMeasurements)
-                .SingleOrDefaultAsync();
+                .SingleAsync();
+
+            if (product.State == ProductState.Live)
+            {
+                throw new UserFriendlyException(
+                    L("Error.Product.DeleteNotAllowed.Title"),
+                    L("Error.Product.DeleteNotAllowed.Text"));
+            }
 
             await DeleteProductVariantsWithOrders(product.Id);
             await DeleteProductionDetails(product);
@@ -87,11 +92,12 @@ public class ProductDeleteManager : HSUDomainBaseService, IProductDeleteManager
             await RemoveFiles(product.ProductFiles);
             await _productRepository.DeleteAsync(product);
             await CurrentUnitOfWork.SaveChangesAsync();
+            Logger.Info($"Product {id} ('{product.Name}') successfully deleted");
             return true;
         }
         catch (Exception e)
         {
-            Logger.Error($"Product with id ={id} wasn't deleted. Exception: {e.Message}" );
+            Logger.Error($"Product {id} deletion failed: {e.Message}", e);
             return false;
         }
         

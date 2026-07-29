@@ -132,6 +132,17 @@
     overflow: hidden auto;
   }
 
+  &__group-header {
+    display: flex;
+    align-items: center;
+    height: var(--dropdown-option-size);
+    padding: 0 var(--dropdown-option-padding-x);
+    color: f.color(neutrals, 500);
+    font-weight: 600;
+    list-style: none;
+    cursor: default;
+  }
+
   &__option {
     display: flex;
     align-items: center;
@@ -150,6 +161,10 @@
       &, &:hover, &:focus {
         --dropdown-option-bg-color: var(--dropdown-option-selected-bg-color);
       }
+    }
+
+    &--grouped {
+      padding-left: f.rem(32);
     }
   }
 

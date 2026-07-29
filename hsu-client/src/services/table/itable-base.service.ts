@@ -9,13 +9,12 @@ import {
   Icon,
   PmCheckboxState,
   ERatingType,
-  RatingCell,
-  ActionButtonType
+  RatingCell
 } from 'hsu-library';
 
 export abstract class ITableBaseService {
   public abstract createTextCell (text: string): TextCell;
-  public abstract createActionCell(icon: Icon, link: string, type: EActionButtonElementType, disabled?: boolean,buttonType?: ActionButtonType, text?: string): ActionCell
+  public abstract createActionCell (icon: Icon, link: string, type: EActionButtonElementType, disabled?: boolean): ActionCell;
   public abstract createCheckboxCell(value: PmCheckboxState, disabled: boolean): CheckboxCell;
   public abstract createStatusCell (text: string): StatusCell;
   public abstract createRatingCell(rating: number, starType: ERatingType): RatingCell

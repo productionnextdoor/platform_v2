@@ -64,6 +64,8 @@ const labelLocalisations: IAdminProducerProfileEditLabelLocalisation = {
   street: 'Straße und Haus-Nr.',
   contactPersonFullName: 'Ansprechpartner im Unternehmen',
   note: 'Notiz',
+  deleteProfile: 'Profil löschen',
+  activeOrdersWarning: 'Profil kann nicht gelöscht werden, da noch aktive Aufträge vorhanden sind.',
 }
 
 const statusesLocalisations: IStatusesLocalisation = {

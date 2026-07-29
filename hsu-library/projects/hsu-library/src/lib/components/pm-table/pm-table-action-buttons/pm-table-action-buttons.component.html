@@ -1,28 +1,11 @@
 <div class="action-container"
      [ngClass]="{'action-container--disabled': disabled}">
-    <ng-container
-        *ngFor="let action of actions; let isLast=last">
-
-        <ng-container [ngSwitch]="buttonType">
-            <ng-container *ngSwitchCase="ActionButtonType.BUTTON">
-                <pm-button
-                    [label]="action.text"
-                    [disabled]="disabled"
-                    [margin]="isLast? noMargin : buttonMargin"
-                    (onClicked)="clickEntry(action)"
-                ></pm-button>
-            </ng-container>
-            <ng-container *ngSwitchDefault=>
-                <pm-icon
-                    class="action-container__button"
-                    [size]=IconSize.S
-                    [rotate]=0
-                    [icon]="action.icon"
-                    (click)="clickEntry(action)"
-                ></pm-icon>
-            </ng-container>
-        </ng-container>
-
-    </ng-container>
-
+    <pm-icon
+        class="action-container__button"
+        *ngFor="let action of actions"
+        [size]=IconSize.S
+        [rotate]=0
+        [icon]="action.icon"
+        (click)="clickEntry(action)"
+    ></pm-icon>
 </div>

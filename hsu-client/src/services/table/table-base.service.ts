@@ -13,8 +13,7 @@ import {
   TextColumnHeader,
   PmCheckboxState,
   EActionButtonElementType,
-  Icon,
-  ActionButtonType
+  Icon
 } from 'hsu-library';
 import {
   BadRatingLimit,
@@ -38,19 +37,16 @@ export class TableBaseService extends ITableBaseService {
     }
   }
 
-  public createActionCell(icon: Icon, link: string, type: EActionButtonElementType, disabled: boolean = false,buttonType: ActionButtonType = ActionButtonType.ICON, text: string = '', ): ActionCell {
+  public createActionCell(icon: Icon, link: string, type: EActionButtonElementType, disabled: boolean = false): ActionCell {
     return {
       type: ECellType.ACTION_CELL,
       actions: [
         {
           icon: icon,
-          text: text,
           link: link,
-          type: type,
-
+          type: type
         }
       ],
-      buttonType:buttonType,
       disabled: disabled
     }
   }

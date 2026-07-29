@@ -68,12 +68,13 @@ public class ProductRepository: PmHelmutSchmidtPortalRepositoryBase<Product, int
             .Where(p => p.AssignedDeveloperId == developerId);
     }
  
-    public Task<int> GetProducerProductCount(long producerId)
+    public IQueryable<Product> GetProducerProductCount(long producerId)
     {
         return GetAll()
             .IncludeProducers()
-            .Where(p => p.ProductionDetails.Any(pd => pd.AssignedProducers.Any(ap => ap.AssignedProducerId == producerId)))
-            .CountAsync();
+            .Where(p => p.ProductionDetails.Any(pd =>
+                pd.ProductionDetailsType != ProductionDetailsType.Archived &&
+                pd.AssignedProducers.Any(ap => ap.AssignedProducerId == producerId)));
     }
    
 }

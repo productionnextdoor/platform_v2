@@ -116,7 +116,7 @@ public class ProductEditModeManager : HSUDomainBaseService, IProductEditModeMana
         liveProductionDetails.ProductionDetailsType = ProductionDetailsType.Archived;
         editProductionDetails.ProductionDetailsType = ProductionDetailsType.Live;
         await CurrentUnitOfWork.SaveChangesAsync();
-        await _productCostManager.CalculateAndSaveProductVariantsCost(editProductionDetails.ProductId);
+        await _productCostManager.CalculateProductVariantCost(editProductionDetails.ProductId);
         await _productExportManager.UpdateProductInShop(editProductionDetails.ProductId);
     }
 

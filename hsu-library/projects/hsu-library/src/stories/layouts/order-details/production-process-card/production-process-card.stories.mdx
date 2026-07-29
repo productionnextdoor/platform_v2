@@ -10,7 +10,6 @@ import { PmProductionProcessCardComponent } from '../../../../lib/layouts/pm-ord
 import { productionProcessCardData } from './production-process-card.data';
 import { action } from '@storybook/addon-actions';
 import { storybookHelper } from '../../../StorybookHelper';
-import { ECardMode } from '../../../../lib/layouts/pm-order-details/pm-production-process-card/pm-production-process-card.shared';
 
 <Meta title="Layouts/Order-Details/ProductionProcessCard" component={PmProductionProcessCardComponent} parameters={{
     controls: {disabled: true},
@@ -36,31 +35,18 @@ export const Template = storybookHelper.RenderNgContent('pm-production-process-c
 
 
 This contains the story for the layout **ProductionProcessCard**.
-### Start production
+
 <Canvas withToolbar>
-    <Story name="Default" args={{
-        cardMode: ECardMode.EDIT,        
-    }}>
+    <Story name="Default">
         {Template.bind({})}
     </Story>
 </Canvas>
 
-### Finish production
 <Canvas withToolbar>
     <Story name="Final step" args={{
-        cardMode: ECardMode.EDIT,
         startDisabled: true,
         endDisabled: false,
         isFinalSelected: true,
-    }}>
-        {Template.bind({})}
-    </Story>
-</Canvas>
-
-### View Only mode
-<Canvas withToolbar>
-    <Story name="View Only" args={{
-        cardMode: ECardMode.VIEW      
     }}>
         {Template.bind({})}
     </Story>

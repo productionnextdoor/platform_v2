@@ -160,13 +160,11 @@ namespace PMHelmutSchmidtPortal.MultiTenancy
                 .Where(feature =>
                     (feature[FeatureMetadata.CustomFeatureKey] as FeatureMetadata)?.IsVisibleOnPricingTable ?? false);
 
-            var flatFeatures = ObjectMapper
-                .Map<List<FlatFeatureSelectDto>>(features)
+            var flatFeatures = ObjectMapper.Map<List<FlatFeatureSelectDto>>(features)
                 .OrderBy(f => f.DisplayName)
                 .ToList();
 
-            var editions = (await _editionManager.GetAllAsync())
-                .Cast<SubscribableEdition>()
+            var editions = (await _editionManager.GetAllAsync()).Cast<SubscribableEdition>()
                 .OrderBy(e => e.MonthlyPrice)
                 .ToList();
 

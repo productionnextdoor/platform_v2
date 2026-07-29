@@ -72,10 +72,6 @@ export class ProductDetailsComponent extends WithRx() implements OnInit {
     groupTitle: '',
     properties: []
   };
-  protected offerInformation: IPropertyGroup = {
-    groupTitle: '',
-    properties: []
-  };
   protected productDataDetailCard: IPropertySection[] = [];
 
   constructor(
@@ -116,7 +112,6 @@ export class ProductDetailsComponent extends WithRx() implements OnInit {
         this.productionDetailsLiveId = result.productionDetailsLiveId;
         this.productionDetailsEditId = result.productionDetailsEditId;
         this.productDetailsBaseData = this.processProductDetailsBaseData(result);
-        this.offerInformation = this.detailsDisplayService.getOfferInformationDeveloper(result);
         this.generalInformation = this.detailsDisplayService.getGeneralInformationDeveloper(result);
         this.productDataDetailCard = this.detailsDisplayService.mapToDeveloperDetails(result);
         this.productDataSidebar = this.detailsDisplayService.mapFromProductDetailsOverviewDto(result);

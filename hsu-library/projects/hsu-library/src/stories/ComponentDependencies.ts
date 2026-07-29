@@ -100,8 +100,6 @@ import { PmDeveloperRegistrationComponent } from '../lib/layouts/pm-registration
 import { PmInviteProducerPopupComponent } from '../lib/layouts/pm-invite-producer-popup/pm-invite-producer-popup.component';
 import { PmProducerRegistrationComponent } from '../lib/layouts/pm-registration/pm-producer-registration/pm-producer-registration.component';
 import { PmWorkstepTableComponent } from '../lib/layouts/pm-workstep-table/pm-workstep-table.component';
-import { PmWorkstepWizardComponent } from '../lib/layouts/pm-workstep-wizard/pm-workstep-wizard.component';
-import { PmWorkstepDataComponent } from '../lib/layouts/pm-workstep-wizard/pm-workstep-data/pm-workstep-data.component';
 import { PmValueChainTableComponent } from '../lib/layouts/pm-value-chain-table/pm-value-chain-table.component';
 import { PmWorkStepPopupComponent } from '../lib/layouts/pm-work-step-popup/pm-work-step-popup.component';
 import { PmOrdersOverviewComponent } from '../lib/layouts/pm-orders-overview/pm-orders-overview.component';
@@ -127,9 +125,9 @@ import {
 import { PmDeveloperRevenueCardComponent } from '../lib/layouts/pm-developer-revenue-card/pm-developer-revenue-card.component';
 import { PmTabCardComponent } from '../lib/components/pm-tab-card/pm-tab-card.component';
 import {PmStatisticsCardComponent} from '../lib/layouts/pm-statistics-card/pm-statistics-card.component';
-import { PmProductDeliveryAddressComponent } from '../lib/layouts/pm-product-delivery-address/pm-product-delivery-address.component';
-import { PmDeliveryDocumentsComponent } from '../lib/layouts/pm-order-details/pm-delivery-documents/pm-delivery-documents.component';
 import { PmImprintComponent } from '../lib/layouts/pm-imprint/pm-imprint.component';
+import { PmMatrixFillPopoverComponent } from '../lib/layouts/pm-matrix-fill-popover/pm-matrix-fill-popover.component';
+import { PmWorkstepMatrixComponent } from '../lib/layouts/pm-workstep-matrix/pm-workstep-matrix.component';
 
 // Storybook don't have any interfaces for the components, though they all have a name property due to the Angular
 // Component decorator. This not the best way and also kinda hacky, but it's better than unknown
@@ -626,15 +624,6 @@ const DECLARATIONS: TStoryMetaList = {
       PmInputComponent
     ],
   },
-  [PmProductDeliveryAddressComponent.name]: {
-    declarations: [
-      PmTextComponent,
-      PmInputComponent,
-      PmBannerComponent,
-      PmRowComponent,
-      PmColComponent
-    ],
-  },
   [PmProductDetailsSidebarComponent.name]: {
     declarations: [
       PmButtonComponent,
@@ -724,23 +713,6 @@ const DECLARATIONS: TStoryMetaList = {
       PmButtonComponent
     ]
   },
-  [PmWorkstepWizardComponent.name]: {
-    declarations: [
-      PmWizardComponent,
-      PmWorkstepDataComponent,
-      PmBannerComponent,
-    ],
-  },
-  [PmWorkstepDataComponent.name]: {
-    declarations: [
-      PmBadgeComponent,
-      PmTextComponent,
-      PmInputComponent,
-      PmRowComponent,
-      PmColComponent,
-      PmCheckboxComponent
-    ],
-  },
   [PmValueChainTableComponent.name]: {
     declarations: [
       PmBackgroundCardComponent,
@@ -778,8 +750,7 @@ const DECLARATIONS: TStoryMetaList = {
       PmCardComponent,
       PmBadgeComponent,
       PmTextComponent,
-      PmTableComponent,
-      PmButtonComponent
+      PmTableComponent
     ]
   },
   [PmOrderDetailsAdminComponent.name]: {
@@ -847,19 +818,26 @@ const DECLARATIONS: TStoryMetaList = {
       PmRowComponent
     ]
   },
-  [PmDeliveryDocumentsComponent.name]: {
-    declarations: [
-      PmCardComponent,
-      PmButtonComponent,
-      PmTextComponent,
-      PmFiletypeIconPipe,
-      PmRowComponent
-    ]
-  },
   [PmImprintComponent.name]: {
     declarations: [
       PmCardComponent,
       PmTextComponent
+    ]
+  },
+  [PmMatrixFillPopoverComponent.name]: {
+    declarations: [
+      PmRadioGroupComponent,
+      PmDropdownComponent,
+      PmInputComponent,
+      PmButtonComponent,
+    ]
+  },
+  [PmWorkstepMatrixComponent.name]: {
+    declarations: [
+      PmTextComponent,
+      PmCheckboxComponent,
+      PmInputComponent,
+      PmMatrixFillPopoverComponent,
     ]
   }
 }

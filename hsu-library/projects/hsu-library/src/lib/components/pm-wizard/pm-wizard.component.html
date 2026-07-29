@@ -17,26 +17,11 @@
             (onChange)="onSetStep($event)"
         />
 
-        <ng-container [ngSwitch]="isDynamicTemplates">
-            <ng-container *ngSwitchCase="false">
-                <ng-container *ngFor="let stepTemplate of stepTemplates; let i = index">
-                    <div *ngIf="i === step" class="pm-wizard__content">
-                        <ng-container *ngTemplateOutlet="stepTemplate" />
-                    </div>
-                </ng-container>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="true">
-                <ng-container *ngFor="let stepTemplate of dynamicTemplates; let i = index">
-                    <div *ngIf="i === step" class="pm-wizard__content">
-                        <ng-container *ngTemplateOutlet="stepTemplate" />
-                    </div>
-                </ng-container>
-            </ng-container>
+        <ng-container *ngFor="let stepTemplate of stepTemplates; let i = index">
+            <div *ngIf="i === step" class="pm-wizard__content">
+                <ng-container *ngTemplateOutlet="stepTemplate" />
+            </div>
         </ng-container>
-
-
-
 
         <div footer class="pm-wizard__footer">
             <div class="pm-wizard__custom-actions">

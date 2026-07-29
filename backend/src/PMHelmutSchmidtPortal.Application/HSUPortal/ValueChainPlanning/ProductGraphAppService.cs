@@ -42,7 +42,6 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning
                 .IncludeProductionStates()
                 .IncludeProductionSteps()
                 .SingleAsync();
-                
 
             return new ProductGraphDataDto
             {

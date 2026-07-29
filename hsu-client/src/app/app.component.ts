@@ -95,6 +95,16 @@ export class AppComponent implements OnInit {
         PERMISSIONS.orderManagement.overview.admin
       ]
     },
+    {
+      menuId: 6,
+      logo: Icon.PRODUCT_OVERVIEW,
+      text: this.localizationService.loc('Menu.Materials'),
+      path: Path.MATERIALS,
+      subPaths: [],
+      accessPermissions: [
+        PERMISSIONS.materials.manage
+      ]
+    },
   ];
 
   contactCardLinks: IContactCardLink<Path>[] = AppConsts

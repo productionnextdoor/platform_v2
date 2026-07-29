@@ -1,4 +1,4 @@
-﻿using Abp.Authorization;
+using Abp.Authorization;
 using Abp.Configuration.Startup;
 using Abp.Localization;
 using Abp.MultiTenancy;
@@ -151,6 +151,7 @@ public class AppAuthorizationProvider : AuthorizationProvider
         productsBase.CreateChildPermission(AppPermissions.Hsu_Product_Base_GetProductAssigmentStatus, L("GetProductAssigmentStatus"));
         productsBase.CreateChildPermission(AppPermissions.Hsu_Product_Base_AcceptOrRejectProductionRequest, L("AcceptOrRejectProductionRequest"));
         productsBase.CreateChildPermission(AppPermissions.Hsu_Product_Base_EditMode, L("EditMode"));
+        productsBase.CreateChildPermission(AppPermissions.Hsu_Product_Base_Delete, L("Delete"));
 
         
         Permission productsDetails = products.CreateChildPermission(AppPermissions.Hsu_Product_Details, L("Details"));
@@ -160,8 +161,6 @@ public class AppAuthorizationProvider : AuthorizationProvider
         productsDetails.CreateChildPermission(AppPermissions.Hsu_Product_Details_FinalizeForValueChainPlanning, L("FinalizeForValueChainPlanning"));
         productsDetails.CreateChildPermission(AppPermissions.Hsu_Product_Details_GeneralInfo_Get, L("GeneralInfoGet"));
         productsDetails.CreateChildPermission(AppPermissions.Hsu_Product_Details_GeneralInfo_CreateOrUpdate, L("GeneralInfoCreateOrUpdate"));
-        productsDetails.CreateChildPermission(AppPermissions.Hsu_Product_Details_DeliveryAddress_Get, L("DeliveryAddressGet"));
-        productsDetails.CreateChildPermission(AppPermissions.Hsu_Product_Details_DeliveryAddress_CreateOrUpdate, L("DeliveryAddressCreateOrUpdate"));
         productsDetails.CreateChildPermission(AppPermissions.Hsu_Product_Details_MaterialGroups_Get, L("MaterialGroupsGet"));
         productsDetails.CreateChildPermission(AppPermissions.Hsu_Product_Details_MaterialGroups_CreateOrUpdate, L("MaterialGroupsCreateOrUpdate"));
         productsDetails.CreateChildPermission(AppPermissions.Hsu_Product_Details_ProductVariants_Get, L("ProductVariantsCreateOrUpdate"));
@@ -191,21 +190,18 @@ public class AppAuthorizationProvider : AuthorizationProvider
         valueChainPlanning.CreateChildPermission(AppPermissions.Hsu_ValueChainPlanning_ProductionPlans_Get, L("GetProductionPlans"));
         valueChainPlanning.CreateChildPermission(AppPermissions.Hsu_ValueChainPlanning_ProductionPlans_Active_Set, L("SetProductionPlanActive"));
         valueChainPlanning.CreateChildPermission(AppPermissions.Hsu_ValueChainPlanning_ExportProductToShop, L("ExportProductToShop"));
-        valueChainPlanning.CreateChildPermission(AppPermissions.Hsu_ValueChainPlanning_ProductionPlans_SelectForPorduction, L("SelectForPorduction"));
 
         //Import export
         Permission importExport = hsu.CreateChildPermission(AppPermissions.Hsu_ImportExport, L("ImportExport"));
         importExport.CreateChildPermission(AppPermissions.Hsu_ImportExport_ProductExport, L("ProductExport"));
         importExport.CreateChildPermission(AppPermissions.Hsu_ImportExport_StatisticsExport, L("ProductExport"));
 
-        //Order management
+        //Order nanagement
         Permission orderManagement = hsu.CreateChildPermission(AppPermissions.Hsu_OrderManagement, L("OrderManagement"));
         orderManagement.CreateChildPermission(AppPermissions.Hsu_OrderManagement_Overview_Get_Admin, L("OrderOverviewGetAdmin"));
         orderManagement.CreateChildPermission(AppPermissions.Hsu_OrderManagement_Overview_Get_Producer, L("OrderOverviewGetProducer"));
         orderManagement.CreateChildPermission(AppPermissions.Hsu_OrderManagement_OrderDetails_Admin, L("OrderDetailsAdmin"));
         orderManagement.CreateChildPermission(AppPermissions.Hsu_OrderManagement_OrderDetails_Producer, L("OrderDetailsProducer"));
-        orderManagement.CreateChildPermission(AppPermissions.Hsu_OrderManagement_OrderDetails_Developer, L("OrderDetailsDeveloper"));
-
         orderManagement.CreateChildPermission(AppPermissions.Hsu_OrderManagement_CancelOrder, L("CancelOrder"));
 
         Permission documents = orderManagement.CreateChildPermission(AppPermissions.Hsu_OrderManagement_Documents, L("Documents"));
@@ -231,6 +227,21 @@ public class AppAuthorizationProvider : AuthorizationProvider
         profile.CreateChildPermission(AppPermissions.Hsu_ExtendedUser_Profiles_CurrentAdmin, L("GetCurrentAdminProfile"));
         profile.CreateChildPermission(AppPermissions.Hsu_ExtendedUser_Profiles_CurrentDeveloper, L("GetCurrentDeveloperProfile"));
         profile.CreateChildPermission(AppPermissions.Hsu_ExtendedUser_Profiles_CurrentProducer, L("GetCurrentProducerProfile"));
+
+        //Materials
+        Permission materials = hsu.CreateChildPermission(AppPermissions.Hsu_Materials, L("Materials"));
+        materials.CreateChildPermission(AppPermissions.Hsu_Materials_Manage, L("ManageMaterials"));
+        materials.CreateChildPermission(AppPermissions.Hsu_Materials_Get, L("GetMaterials"));
+        materials.CreateChildPermission(AppPermissions.Hsu_Materials_Create, L("CreateMaterial"));
+        materials.CreateChildPermission(AppPermissions.Hsu_Materials_Update, L("UpdateMaterial"));
+        materials.CreateChildPermission(AppPermissions.Hsu_Materials_Delete, L("DeleteMaterial"));
+
+        //Specifications
+        Permission specifications = hsu.CreateChildPermission(AppPermissions.Hsu_Specifications, L("Specifications"));
+        specifications.CreateChildPermission(AppPermissions.Hsu_Specifications_Get, L("GetSpecifications"));
+        specifications.CreateChildPermission(AppPermissions.Hsu_Specifications_Create, L("CreateSpecification"));
+        specifications.CreateChildPermission(AppPermissions.Hsu_Specifications_Update, L("UpdateSpecification"));
+        specifications.CreateChildPermission(AppPermissions.Hsu_Specifications_Delete, L("DeleteSpecification"));
 
         //Utilities 
         Permission utilities = hsu.CreateChildPermission(AppPermissions.Hsu_Utilities, L("Utilities"));

@@ -18,7 +18,9 @@ import { INavigationService } from '../../../services/navigation/inavigation.ser
 import { Path } from '../../app-routing.module';
 import { DropdownService } from '../../../services/user/profile/dropdown.service';
 import { IUserService } from '../../../services/user/iuser.services';
+import { IProductApiService } from '../../../services/products/iproduct-api.service';
 import { ImpersonationService } from '../../../shared/helpers/Impersonation.service';
+import { DeveloperProductInvolvementDto } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'admin-developer-profile',
@@ -34,10 +36,13 @@ export class AdminDeveloperProfileComponent implements OnInit  {
 
   protected confirmDeletePopupLocalisation: IPmConfirmPopupLocalisations;
   protected confirmImpersonationPopupLocalisation: IPmConfirmPopupLocalisations;
+  protected confirmRemoveFromProductsPopupLocalisation: IPmConfirmPopupLocalisations;
+  protected confirmDeleteProfilePopupLocalisation: IPmConfirmPopupLocalisations;
 
   protected stateDropdownOptions: PmDropdownOption<EUserStatus>[] = [];
 
   protected developer: IDeveloper = {};
+  protected developerProductInvolvements: DeveloperProductInvolvementDto[] = [];
 
   protected breadcrumbs: IBreadcrumbs = defaultBreadcrumbs;
 
@@ -46,9 +51,12 @@ export class AdminDeveloperProfileComponent implements OnInit  {
   protected confirmDeletePopupIsActive: boolean = false;
   protected confirmImpersonationPopupIsActive: boolean = false;
 
+
+  // eslint-disable-next-line max-params
   constructor(
     private readonly developerService: IDeveloperService,
     private readonly userService: IUserService,
+    private readonly productApiService: IProductApiService,
     private readonly dropdownService: DropdownService,
     private readonly localizationService: AppLocalizationService,
     private readonly navigationService: INavigationService,
@@ -58,6 +66,8 @@ export class AdminDeveloperProfileComponent implements OnInit  {
     this.editProfileLocalisation = this.getAdminDeveloperProfileEditLocalisation();
     this.confirmDeletePopupLocalisation = this.getConfirmDeletePopupLocalisation();
     this.confirmImpersonationPopupLocalisation = this.getConfirmImpersonationPopupLocalisation();
+    this.confirmRemoveFromProductsPopupLocalisation = this.getConfirmRemoveFromProductsPopupLocalisation();
+    this.confirmDeleteProfilePopupLocalisation = this.getConfirmDeleteProfilePopupLocalisation();
   }
 
   ngOnInit() {
@@ -68,6 +78,7 @@ export class AdminDeveloperProfileComponent implements OnInit  {
   openEditPopup() {
     this.editPopupIsActive = true;
     this.loadDeveloper(this.developerId);
+    this.loadDeveloperProductInvolvements(this.developerId);
   }
 
   closeEditPopup() {
@@ -82,8 +93,9 @@ export class AdminDeveloperProfileComponent implements OnInit  {
       });
   }
 
-  deleteDeveloper() {
+  deleteInvitedDeveloper() {
     this.userService.deleteUserProfile(this.developerId).subscribe(() => {
+      this.closeConfirmDeletePopup();
       this.navigationService.navigate(Path.DEVELOPER_OVERVIEW);
     });
   }
@@ -104,7 +116,6 @@ export class AdminDeveloperProfileComponent implements OnInit  {
     this.confirmImpersonationPopupIsActive = false;
   }
 
-
   getBreadcrumbs(): IBreadcrumbs {
     if (!this.developer.fullName) {
       return defaultBreadcrumbs;
@@ -124,6 +135,25 @@ export class AdminDeveloperProfileComponent implements OnInit  {
       return;
     }
     this.impersonationService.impersonateUser(this.developer.userId, undefined);
+  }
+
+  deleteDeveloperProfile() {
+    this.userService.deleteDeveloperProfile(this.developerId).subscribe(() => {
+      this.closeEditPopup();
+      this.navigationService.navigate(Path.DEVELOPER_OVERVIEW);
+    });
+  }
+
+  private loadDeveloperProductInvolvements(developerId: number) {
+    this.productApiService.getDeveloperProductInvolvements(developerId)
+      .subscribe({
+        next: (involvements: DeveloperProductInvolvementDto[]) => {
+          this.developerProductInvolvements = involvements;
+        },
+        error: () => {
+          this.developerProductInvolvements = [];
+        }
+      });
   }
 
   private loadDeveloper(developerId: number) {
@@ -176,6 +206,7 @@ export class AdminDeveloperProfileComponent implements OnInit  {
         state: this.localizationService.loc('AdminDeveloperProfileEdit.Labels.State'),
         street: this.localizationService.loc('AdminDeveloperProfileEdit.Labels.Street'),
         zipCode: this.localizationService.loc('AdminDeveloperProfileEdit.Labels.ZipCode'),
+        deleteProfile: this.localizationService.loc('AdminDeveloperProfileEdit.Labels.AnonymizeProfile'),
       },
       statuses: {
         active: this.localizationService.loc('Profile.State.Active'),
@@ -200,10 +231,29 @@ export class AdminDeveloperProfileComponent implements OnInit  {
   }
 
 
+
   private getConfirmImpersonationPopupLocalisation(): IPmConfirmPopupLocalisations {
     return {
       title: this.localizationService.loc('AdminProfile.ConfirmImpersonationPopup.Title', this.localizationService.loc('RoleName.Developer')),
       description: this.localizationService.loc('AdminProfile.ConfirmImpersonationPopup.Description', this.localizationService.loc('RoleName.Developer')),
+      confirm: this.localizationService.loc('ConfirmPopup.Default.Confirm'),
+      cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
+    }
+  }
+
+  private getConfirmRemoveFromProductsPopupLocalisation(): IPmConfirmPopupLocalisations {
+    return {
+      title: this.localizationService.loc('AdminProfile.ConfirmDeletePopup.Title', this.localizationService.loc('RoleName.Developer')),
+      description: this.localizationService.loc('AdminProfile.ConfirmDeleteDeveloperPopup.Description'),
+      confirm: this.localizationService.loc('ConfirmPopup.Default.Ok'),
+      cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
+    }
+  }
+
+  private getConfirmDeleteProfilePopupLocalisation(): IPmConfirmPopupLocalisations {
+    return {
+      title: this.localizationService.loc('AdminProfile.ConfirmAnonymizePopup.Title', this.localizationService.loc('RoleName.Developer')),
+      description: this.localizationService.loc('AdminProfile.ConfirmAnonymizePopup.Description', this.localizationService.loc('RoleName.Developer')),
       confirm: this.localizationService.loc('ConfirmPopup.Default.Confirm'),
       cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
     }

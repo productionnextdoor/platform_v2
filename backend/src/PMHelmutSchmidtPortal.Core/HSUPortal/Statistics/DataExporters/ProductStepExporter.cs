@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -64,18 +65,18 @@ public class ProductStepExporter : AbstractStatisticsExporter
             };
             ProductionStepMeasurementVariant standard = step.StepMeasurementVariants
                 .First(smv => smv.ProductMeasurement.IsDefault);
-            SetMeasurementsData(item, standard, maxMaterials, step.ProducerInfo.Rate, step.StartState.Description);
+            SetMeasurementsData(item, standard, maxMaterials, step.StartState.Description);
 
             ProductionStepMeasurementVariant min = step.StepMeasurementVariants
                 .OrderBy(smv => smv.ProductMeasurement.Position)
                 .First();
-            SetMeasurementsData(item, min, maxMaterials, step.ProducerInfo.Rate, step.StartState.Description, "Min");
+            SetMeasurementsData(item, min, maxMaterials, step.StartState.Description, "Min");
 
 
             ProductionStepMeasurementVariant max = step.StepMeasurementVariants
                 .OrderByDescending(smv => smv.ProductMeasurement.Position)
                 .First();
-            SetMeasurementsData(item, max, maxMaterials, step.ProducerInfo.Rate, step.StartState.Description, "Max");
+            SetMeasurementsData(item, max, maxMaterials, step.StartState.Description, "Max");
 
             items.Add(item);
         }
@@ -92,7 +93,6 @@ public class ProductStepExporter : AbstractStatisticsExporter
         Dictionary<string, object> item,
         ProductionStepMeasurementVariant measurementVariant,
         int maxMaterials,
-        decimal producersRate,
         string standardDescription,
         string positionPrefix = "Standard")
     {
@@ -101,10 +101,6 @@ public class ProductStepExporter : AbstractStatisticsExporter
         item.Add(L($"{LocalisationPrefix}.WorkingTimeHours") + $" ({positionPrefix})", measurementVariant.WorkHours);
         item.Add(L($"{LocalisationPrefix}.TransportAndAssemblyCost") + $" ({positionPrefix})", measurementVariant.TransportAndAssemblyCost);
         item.Add(L($"{LocalisationPrefix}.AdditionalMaterialsCost") + $" ({positionPrefix})", measurementVariant.AdditionalCost);
-
-        decimal totalLabourCost = (measurementVariant.WorkHours * producersRate) +
-                                  measurementVariant.TransportAndAssemblyCost +
-                                  measurementVariant.AdditionalCost;
 
         ProductionStepWorkPieceVariantCost[] variants = measurementVariant.StepWorkPieceVariantCosts.ToArray();
 
@@ -118,6 +114,9 @@ public class ProductStepExporter : AbstractStatisticsExporter
             {
                 description = variants[i].IsStandard ? standardDescription : variants[i].Variant.Description;
                 cost = variants[i].MaterialCost.ToString(CultureInfo.CurrentCulture);
+                decimal totalLabourCost = Math.Round(variants[i].WorkCost, 2, MidpointRounding.AwayFromZero) +
+                                          measurementVariant.TransportAndAssemblyCost +
+                                          measurementVariant.AdditionalCost;
                 totalCost = (variants[i].MaterialCost + totalLabourCost).ToString(CultureInfo.CurrentCulture);
             }
 

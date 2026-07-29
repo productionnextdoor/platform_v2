@@ -9,10 +9,48 @@
 
   &__footer {
     padding: f.rem(8) 0;
-    text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  &__cancel {
-    margin-right: f.rem(24);
+  &__danger-actions {
+    display: flex;
+    gap: f.rem(16);
+  }
+
+  &__main-actions {
+    display: flex;
+    gap: f.rem(24);
+  }
+
+  &__anonymize {
+    ::ng-deep .button {
+      background-color: #{f.color(semantic, 100)}; // Orange/Rot aus Projektpalette
+      color: #{f.color(neutrals, 1100)}; // Weiß
+      
+      &:hover {
+        background-color: #{f.color(semantic, 300)};
+      }
+      
+      .button__text {
+        color: #{f.color(neutrals, 1100)}; // Weiße Schrift
+      }
+    }
+  }
+
+  &__deactivate {
+    ::ng-deep .button {
+      background-color: #{f.color(warning, 100)};
+      color: #{f.color(neutrals, 100)}; // Dunkle Schrift
+      
+      &:hover {
+        background-color: #{f.color(warning, 300)};
+      }
+      
+      .button__text {
+        color: #{f.color(neutrals, 100)}; // Dunkle Schrift
+      }
+    }
   }
 }

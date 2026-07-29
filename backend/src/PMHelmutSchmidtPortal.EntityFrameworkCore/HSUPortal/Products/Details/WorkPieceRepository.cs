@@ -17,7 +17,8 @@ public class WorkPieceRepository : PmHelmutSchmidtPortalRepositoryBase<WorkPiece
     public IQueryable<WorkPiece> GetProductWorkpieces(int productId)
     {
         return GetAll()
-            .Where(wp => wp.ProductId == productId);
+            .Where(wp => wp.ProductId == productId)
+            .Include(wp => wp.WorkPieceSpecifications);
     }
     
     public IQueryable<WorkPiece> GetProductWorkpiecesWithProductionStates(int productId)
@@ -41,11 +42,13 @@ public class WorkPieceRepository : PmHelmutSchmidtPortalRepositoryBase<WorkPiece
         List<WorkPiece> workPiecesList = GetAll()
             .Where(wp => wp.ProductId == productId)
             .Include(wp => wp.WorkPieceVariants)
+            .Include(wp => wp.WorkPieceSpecifications)
             .ToList();
 
         foreach (WorkPiece workPiece in workPiecesList)
         {
             GetDbContext().RemoveRange(workPiece.WorkPieceVariants);
+            GetDbContext().RemoveRange(workPiece.WorkPieceSpecifications);
         }
         
         GetDbContext().RemoveRange(workPiecesList);

@@ -3,6 +3,7 @@ using GraphQL.Types;
 using GraphQL.Utilities;
 using PMHelmutSchmidtPortal.Queries.Container;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PMHelmutSchmidtPortal.Schemas
 {

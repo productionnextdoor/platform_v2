@@ -155,17 +155,49 @@
         </div>
 
         <div footer class="admin-developer-profile-edit__footer">
-            <pm-button
-                [type]="ButtonType.SECONDARY"
-                [label]="localisations.labels.cancel"
-                (onClicked)="onCancelClick()"
-                class="admin-developer-profile-edit__cancel">
-            </pm-button>
-            <pm-button
-                [type]="ButtonType.PRIMARY"
-                [label]="localisations.labels.save"
-                (onClicked)="onSaveClick()">
-            </pm-button>
+            <div class="admin-developer-profile-edit__main-actions">
+                <pm-button
+                    [type]="ButtonType.SECONDARY"
+                    [label]="localisations.labels.cancel"
+                    (onClicked)="onCancelClick()"
+                    class="admin-developer-profile-edit__cancel">
+                </pm-button>
+
+                <div class="admin-developer-profile-edit__danger-actions">
+                    <pm-confirm-popup
+                        *ngIf="confirmRemoveFromProductsPopupIsActive"
+                        [localisations]="confirmRemoveFromProductsPopupLocalisation"
+                        (onCancel)="closeRemoveFromProductsPopup()"
+                        (onConfirm)="closeRemoveFromProductsPopup()">
+                        <div afterDescription *ngIf="hasProductInvolvements()" class="admin-developer-profile-edit__involvements">
+                            <ul class="admin-developer-profile-edit__involvements-list">
+                                <li *ngFor="let involvement of developerProductInvolvements"
+                                    class="admin-developer-profile-edit__involvement-item">
+                                    <strong>#{{ involvement.productNumber }}</strong> – {{ involvement.productName }}
+                                </li>
+                            </ul>
+                        </div>
+                    </pm-confirm-popup>
+                    <pm-confirm-popup
+                        *ngIf="confirmDeleteProfilePopupIsActive"
+                        [localisations]="confirmDeleteProfilePopupLocalisation"
+                        (onCancel)="closeDeleteProfilePopup()"
+                        (onConfirm)="confirmDeleteProfile()">
+                    </pm-confirm-popup>
+                    <pm-button
+                        [type]="ButtonType.SECONDARY"
+                        [label]="localisations.labels.deleteProfile"
+                        (onClicked)="onDeleteProfileClick()"
+                        class="admin-developer-profile-edit__delete-profile">
+                    </pm-button>
+                </div>
+
+                <pm-button
+                    [type]="ButtonType.PRIMARY"
+                    [label]="localisations.labels.save"
+                    (onClicked)="onSaveClick()">
+                </pm-button>
+            </div>
         </div>
     </pm-popup>
 </div>

@@ -19,16 +19,6 @@ export class OrderFileService implements IOrderFileService {
     this.fileService = new FileService('/OrderDocuments/UploadFile', this._tokenService, this.http)
   }
 
-  downloadOrderDocumentsByProductId(productId: number): Observable<void> {
-    const url: string = `${AppConsts.remoteServiceBaseUrl}/OrderDocuments/DownloadFilesByProduct/?productId=${productId}`;
-
-    return this.fileService
-      .sendGetRequest(url)
-      .pipe(
-        map(archive => this.fileService.processDownload(archive, `Product-${productId}-Delivery.zip`))
-      );
-  }
-
   public getFileUploader(): FileUploader {
     return this.fileService.getFileUploader();
   }

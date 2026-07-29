@@ -1,121 +1,308 @@
 # HSU Platform
 
-# HSU Platform
+## Voraussetzungen
 
-## Setup
+Bevor du mit dem Setup beginnst, installiere folgende Tools:
 
-### Backend
-1. Install Rider using JetBrains-Toolbox
-2. Install [Mono](https://www.mono-project.com/) by executing:
-	`sudo apt install gnupg ca-certificates` 
-	`sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF` 
-	`echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list` 
-	`sudo apt update` 
-	`sudo apt install mono-devel` 
-3. Install [.Net SDK](https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu) by executing:
-	`wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh` 
-	`sudo chmod +x ./dotnet-install.sh` 
-	`./dotnet-install.sh --version latest` 
-	`./dotnet-install.sh --version latest --runtime aspnetcore` 
-	`./dotnet-install.sh --channel 7.0` 
-4. Set [.Net environment variables](https://learn.microsoft.com/en-us/dotnet/core/install/linux-scripted-manual#set-environment-variables-system-wide) system-wide
-	Add following lines to the end of your .profile-file (using vim or nano):
-	`export DOTNET_ROOT=$HOME/.dotnet` 
-	`export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools` 
-5. Open Web solution (`hsu-platform/backend/PMHelmutSchmidtPortal.Web.sln`) in IDE and select `PMHelmutSchmidtPortal.Web.Host` as run configuration
-6. Run `docker-compose up` in `hsu-platform/backend` to start DB
-7. Install DBeaver by executing:
-	`sudo snap install dbeaver-ce`
-8. Open DBeaver and connect to DB (localhost:1433, choose SQL Server)
-	Host: `localhost` 
-	Port: `1433`
-	Database/Schema: leave it empty
-	Authentication: `SQL Server Authentication` 
-	see credentials in `hsu-platform/backend/src/PMHelmutSchmidtPortal.Web.Host/appsettings.json` 
-	Under Settings check `Trust Server Certificate` 
-9. Install EF Tool by executing:
-	`dotnet tool install --global dotnet-ef` 
-10. Apply migrations in your local DB: Run `~/.dotnet/tools/dotnet-ef database update` in `hsu-platform/backend/src/PMHelmutSchmidtPortal.EntityFrameworkCore`
-11. Create new database `PMHelmutSchmidtPortalDb` (from now on, use this database when connecting to DB with your MSSQL-Browser)
-12. Run project in IDE (PMHelmutSchmidtPortal.Web.Host), Console should log `Now listening on: https://localhost:44301`. Go to https://localhost:44301 and verify if Swagger login is visible
+| Tool | Version | Download |
+|------|---------|----------|
+| Docker Desktop | inkl. docker compose v2 | [docker.com](https://www.docker.com/products/docker-desktop/) |
+| .NET SDK | 10.0 | [dotnet.microsoft.com](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) |
+| Node.js | 18 LTS | [nodejs.org](https://nodejs.org/) (oder per [nvm](https://github.com/nvm-sh/nvm)) |
+| JetBrains Rider | aktuell | [jetbrains.com](https://www.jetbrains.com/rider/) (Backend-IDE) |
+| WebStorm | aktuell | [jetbrains.com](https://www.jetbrains.com/webstorm/) (Frontend-IDE) |
+| DBeaver | aktuell | Optional, fuer DB-Verwaltung: `sudo snap install dbeaver-ce` |
 
-### Planner
-1. Planner repo: https://github.com/pmagentur/hsu-planner
-2. Run `docker-compose up` to start the planner
-3. Run `ifconfig | grep -A 1 docker0` in the terminal and copy the ip after `inet`
-4. Copy the ip to the `src/PMHelmutSchmidtPortal.Web.Host/Properties/launchSettings.json` instead of the one in `applicationUrl`
-5. Copy the ip to the `src/PMHelmutSchmidtPortal.Web.Host/appsettings.json` instead of the one in `ServerRootAddress`
+> **Tipp:** Wenn du Node.js per [nvm](https://github.com/nvm-sh/nvm) installierst, kannst du einfach zwischen Versionen wechseln:
+> ```bash
+> nvm install 18
+> nvm use 18
+> ```
 
-### Storybook
-1. (_once during setup_) Building the storybook container image using `docker-compose build --no-cache` in `hsu-library`
-2. Run `docker-compose up` in `hsu-library` to start storybook.
+---
 
-The docker container also automatically builds the library and watches for changes.
+## 1. Datenbank starten
 
-### Frontend
-1. Install Web Storm
-2. open `hsu-client` and run `npm i`
-3. open `hsu-client` and run `npm run start`
+Die Datenbank ist ein MSSQL-Server, der per Docker bereitgestellt wird.
 
-### Running the Default ASP Zero Client.
-1. Restore the packages by running `yarn`
-2. Run the following command to create dynamic bundles (This is only required for the first time when you download the project or when you update dynamic bundles) `npm run create-dynamic-bundles`
-3. Start the client: Execute the command `npm start` to start the client application.
-4. Once the application compiled, you can browse http://localhost:4200 in your browser.
+1. Navigiere in den `backend/`-Ordner
+2. Starte den Datenbank-Container:
 
-### Build Frontend Library
+```bash
+docker compose up -d
+```
 
-> Note: Building the library is only required if you dont use the storybook docker container. The storybook docker
-> container automatically builds the library and watches for changes.
+3. Warte ca. 10 Sekunden, bis der Server bereit ist
 
-1. open `hsu-library/projects/hsu-library` and run `npm i && ng build && rm -rf ./node_modules`
-2. remove `hsu-library/.angular/cache`
-3. restart client
+> **Erwartetes Ergebnis:** Der Container `local_db` laeuft. Du kannst das mit `docker ps` pruefen.
 
-### Build Frontend
-1. open `hsu-library` and run `ng build --localize`
+### Datenbank-Verbindung (optional)
 
+Falls du die Datenbank mit DBeaver oder einem anderen Tool inspizieren moechtest:
 
-### Changing Storybook Component Style and Rendering it in the Client Working Process
-1. If you rendered a component in the client and need to change it's style from storybook, go inside `./hsu-client/.angular` and delete the cache folder
-2. Go inside `./hsu-client` and delete node_modules (Optional)
-3. Go to `./hsu-library/projects/hsu-library/` then run `npm i && ng build && rm -rf ./node_modules`
-4. Go back inside `./hsu-client` and run `npm i` then `npm run start`
-- Or you can just run `npm run restart` inside hsu-client it will do steps number 1,2,4 for you.
+| Einstellung | Wert |
+|-------------|------|
+| Host | `localhost` |
+| Port | `1433` |
+| Authentifizierung | SQL Server Authentication |
+| Benutzer | `sa` |
+| Passwort | siehe `backend/src/PMHelmutSchmidtPortal.Web.Host/appsettings.json` |
+| Trust Server Certificate | Ja |
 
-### Adding dev certificate to openssl (Commands can be executed from anywhere)
-1. `dotnet dev-certs https --trust` if you are working on Mac-OS this is the only step that you need to do.
-2. `dotnet dev-certs https -ep ~/Documents/hsu-cert.crt -np --trust --format Pem`
-3. `sudo cp ~/Documents/hsu-cert.crt /usr/local/share/ca-certificates`
-4. `sudo update-ca-certificates` 
+### Wichtige Dateien
 
-<!-- ### Client Swagger Command (Starts Docker/Start Backend/Update Database/Generate Swagger)
-1. Make sure you already do the instruction insection 'Adding dev certificate to openssl'
-2. Open Docker (Without docker compose up)[For Mac Only!][At the beginning of the day]
-3. In `hsu-platform/hsu-client/nswag` run `./refresh.sh`
-4. At the end of the day please stop the process `./refresh.sh -stop` -->
+- Docker Compose: `backend/docker-compose.yml`
+- Connection String: `backend/src/PMHelmutSchmidtPortal.Web.Host/appsettings.json`
 
-## Recommend Versions
-   
-Angular CLI: 16.2.0
+---
 
-Node: 16.20.2
+## 2. Backend einrichten
 
-Package Manager: npm 8.19.4
+### .NET SDK installieren (Linux)
 
-OS: linux x64
+1. Lade das Installationsskript herunter und fuehre es aus:
 
-Angular: 
+```bash
+wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
+chmod +x ./dotnet-install.sh
+./dotnet-install.sh --channel 10.0
+```
 
-Package                      Version
+2. Setze die Umgebungsvariablen systemweit. Fuege folgende Zeilen am Ende deiner `~/.profile`-Datei hinzu:
 
-------------------------------------------------------
+```bash
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools
+```
 
-@angular-devkit/architect    0.1303.6 (cli-only)
+3. Lade die Aenderungen neu (oder starte das Terminal neu):
 
-@angular-devkit/core         13.3.6 (cli-only)
+```bash
+source ~/.profile
+```
 
-@angular-devkit/schematics   13.3.6 (cli-only)
+4. Pruefe die Installation:
 
-@schematics/angular          13.3.6 (cli-only)
+```bash
+dotnet --version
+```
 
+> **Erwartetes Ergebnis:** Die Ausgabe zeigt eine 10.0.x Version.
+
+### Dev-Zertifikat einrichten
+
+Damit HTTPS lokal funktioniert, muss ein Entwicklungszertifikat erstellt werden.
+
+**macOS:**
+
+```bash
+dotnet dev-certs https --trust
+```
+
+**Linux:**
+
+```bash
+dotnet dev-certs https -ep ~/Documents/hsu-cert.crt -np --trust --format Pem
+sudo cp ~/Documents/hsu-cert.crt /usr/local/share/ca-certificates
+sudo update-ca-certificates
+```
+
+### Entity Framework Tools installieren
+
+Die EF-Tools werden benoetigt, um die Datenbank-Migrationen auszufuehren:
+
+```bash
+dotnet tool install --global dotnet-ef
+```
+
+### Datenbank-Migrationen ausfuehren
+
+Dieser Schritt erstellt die Datenbank `PMHelmutSchmidtPortalDb` mit allen Tabellen:
+
+```bash
+cd backend/src/PMHelmutSchmidtPortal.EntityFrameworkCore
+dotnet ef database update
+```
+
+> **Erwartetes Ergebnis:** Die Migration laeuft ohne Fehler durch. In DBeaver (oder einem anderen DB-Tool) sollte die Datenbank `PMHelmutSchmidtPortalDb` sichtbar sein.
+
+### Backend starten
+
+1. Oeffne die Solution `backend/PMHelmutSchmidtPortal.Web.sln` in Rider
+2. Waehle die Run-Configuration `PMHelmutSchmidtPortal.Web.Host`
+3. Starte das Projekt
+
+> **Erwartetes Ergebnis:** In der Konsole erscheint `Now listening on: https://localhost:44301`. Oeffne diese URL im Browser — die Swagger-API-Dokumentation sollte sichtbar sein.
+
+### Wichtige Dateien
+
+- Konfiguration: `backend/src/PMHelmutSchmidtPortal.Web.Host/appsettings.json`
+- Launch-Settings: `backend/src/PMHelmutSchmidtPortal.Web.Host/Properties/launchSettings.json`
+
+---
+
+## 3. Frontend einrichten
+
+Das Frontend besteht aus zwei Paketen:
+
+- **hsu-library** — wiederverwendbare UI-Komponenten (Angular Library)
+- **hsu-client** — die eigentliche Anwendung (Angular Application)
+
+### Library bauen
+
+> **Hinweis:** Dieser Schritt ist nur noetig, wenn du den Storybook-Docker-Container **nicht** verwendest. Der Container baut die Library automatisch (siehe Abschnitt Storybook).
+
+```bash
+cd hsu-library/projects/hsu-library
+npm i && ng build && rm -rf ./node_modules
+```
+
+### Client starten
+
+```bash
+cd hsu-client
+npm i
+npm run start
+```
+
+> **Erwartetes Ergebnis:** Die Anwendung kompiliert und ist unter `http://localhost:4200` erreichbar.
+
+### Library-Aenderungen im Client uebernehmen
+
+Wenn du Komponenten in der hsu-library aenderst und diese im Client testen willst:
+
+**Schnellweg:** Fuehre im `hsu-client`-Ordner aus:
+
+```bash
+npm run restart
+```
+
+**Manueller Weg:**
+
+1. Loesche den Cache: `rm -rf ./hsu-client/.angular/cache`
+2. Baue die Library neu: `cd hsu-library/projects/hsu-library && npm i && ng build && rm -rf ./node_modules`
+3. Starte den Client neu: `cd hsu-client && npm i && npm run start`
+
+### Wichtige Dateien
+
+- Client-Konfiguration: `hsu-client/package.json`
+- Library-Konfiguration: `hsu-library/projects/hsu-library/package.json`
+
+---
+
+## 4. Storybook (optional)
+
+Storybook ist eine UI-Entwicklungsumgebung fuer die hsu-library-Komponenten. Alle Komponenten befinden sich in `hsu-library/projects/hsu-library/src/lib`, die zugehoerigen Stories in `hsu-library/projects/hsu-library/src/stories`.
+
+### Einmalig: Container-Image bauen
+
+```bash
+cd hsu-library
+docker compose build --no-cache
+```
+
+### Storybook starten
+
+```bash
+cd hsu-library
+docker compose up
+```
+
+> **Erwartetes Ergebnis:** Storybook ist unter `http://localhost:6006` erreichbar. Aenderungen an Komponenten werden automatisch uebernommen (Hot Reload).
+
+### Wichtige Dateien
+
+- Docker Compose: `hsu-library/docker-compose.yml`
+- Library-Pakete: `hsu-library/package.json`
+
+---
+
+## 5. Planner (optional)
+
+Der Planner ist ein separates Tool von HITeC und wird in einem eigenen Repository verwaltet.
+
+1. Klone das Planner-Repository: https://github.com/pmagentur/hsu-planner
+2. Starte den Planner im geklonten Repository:
+
+```bash
+docker compose up
+```
+
+3. Ermittle die Docker-Bridge-IP:
+
+```bash
+ifconfig | grep -A 1 docker0
+```
+
+Kopiere die IP-Adresse nach `inet`.
+
+4. Trage die IP an zwei Stellen ein:
+   - `backend/src/PMHelmutSchmidtPortal.Web.Host/Properties/launchSettings.json` → Ersetze die `applicationUrl`
+   - `backend/src/PMHelmutSchmidtPortal.Web.Host/appsettings.json` → Ersetze die `PlannerRootAddress`
+
+5. Falls der Planner mit HTACCESS-Authentifizierung gesichert ist, trage die Zugangsdaten in `appsettings.json` unter `Authentication > Planner` ein:
+
+```json
+"Planner": {
+  "UserName": "dein-benutzername",
+  "Password": "dein-passwort"
+}
+```
+
+---
+
+## 6. Shop-Anbindung (Shopware)
+
+> **Hinweis:** Die Shopware-Installation selbst ist nicht Teil dieses Repositories. Dieser Abschnitt beschreibt nur die Anbindung eines bestehenden Shops an die Platform.
+
+### API-Verbindung konfigurieren
+
+Damit die Platform Produkte in den Shop exportieren und Bestellungen importieren kann, wird ein API-Zugang benoetigt.
+
+1. Oeffne die Shopware-Administration
+2. Navigiere zu **Verkaufskanaele → hsu-shop → API-Zugang**
+3. Kopiere den **API-Zugangschluessel**
+4. Trage ihn in `backend/src/PMHelmutSchmidtPortal.Web.Host/appsettings.json` unter `Authentication > Shopware > ClientSecret` ein:
+
+```json
+"Shopware": {
+  "GrantType": "password",
+  "UserName": "admin",
+  "Password": "shopware",
+  "ClientId": "administration",
+  "ClientSecret": "DEIN-API-SCHLUESSEL"
+}
+```
+
+> **Wichtig:** Wenn du die Shop-Admin-Zugangsdaten aenderst, muessen `UserName` und `Password` hier ebenfalls aktualisiert werden.
+
+---
+
+## Zugangsdaten
+
+### Platform-Benutzer
+
+| Benutzer | Rolle | Passwort |
+|----------|-------|----------|
+| `PM_PortalAdmin` | Admin (alle Rechte) | `Pl34s3_Ch4ng3!` |
+| `admin` | API-Benutzer (Platform ↔ Shop) | `Pl34s3_Ch4ng3!` |
+
+### Datenbank
+
+Die Zugangsdaten fuer den lokalen Datenbankserver stehen im Connection String in `backend/src/PMHelmutSchmidtPortal.Web.Host/appsettings.json`.
+
+> **Wichtig:** Aendere die Standard-Passwoerter in Produktionsumgebungen.
+
+---
+
+## Empfohlene Versionen
+
+| Tool | Version |
+|------|---------|
+| .NET SDK | 10.0 |
+| Entity Framework Core | 10.0.0 |
+| Angular | 17.3.12 |
+| Angular CLI | ~17.3.17 |
+| Node.js | 18 |
+| TypeScript | ~5.4.5 |
+| Storybook | 7.3.2 |

@@ -6,6 +6,7 @@ $zindexes: (
   // PM Popup Component
   popup-overlay: -1,
   popup: 900,
+  confirm-popup: 950, // Higher than regular popups for confirmation dialogs
 
   //Pm Dropdown Component
   dropdown-list: 50,

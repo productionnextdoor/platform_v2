@@ -14,7 +14,7 @@ type ArgType = (string | number | boolean);
 export class AppLocalizationService extends LocalizationService {
   protected snippetGroups = {
     materialGroup: 'MaterialGroup',
-    surfaceFinish: 'SurfaceFinish',
+    specification: 'Specification',
     workType: 'UserProfile.WorkType',
     ratingType: 'UserProfile.ProducerRatings',
   }
@@ -37,11 +37,17 @@ export class AppLocalizationService extends LocalizationService {
   }
 
   getLocalizedMaterialGroupName(materialGroupName?: string): string | undefined {
-    return materialGroupName && this.loc(`${this.snippetGroups.materialGroup}.${materialGroupName}`);
+    return materialGroupName && this.localizeWithFallback(this.snippetGroups.materialGroup, materialGroupName);
   }
 
-  getLocalizedSurfaceFinish(surfaceFinish?: string): string | undefined {
-    return surfaceFinish && this.loc(`${this.snippetGroups.surfaceFinish}.${surfaceFinish}`);
+  getLocalizedSpecification(specification?: string): string | undefined {
+    return specification && this.localizeWithFallback(this.snippetGroups.specification, specification);
+  }
+
+  private localizeWithFallback(prefix: string, name: string): string {
+    const key: string = `${prefix}.${name}`;
+    const localized: string = this.loc(key);
+    return localized === key ? name : localized;
   }
 
   getLocalizedTradeTypeName(tradeType?: string): string | undefined {

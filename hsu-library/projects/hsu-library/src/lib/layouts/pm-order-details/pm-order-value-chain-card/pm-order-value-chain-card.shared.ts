@@ -9,13 +9,7 @@ export const EValueChainStatus: TConstEnum = {
   Canceled: 'canceled',
 } as const
 
-export const EValueChainCommissionMode: TConstEnum = {
-  Manual: 'manual',
-  Automatic: 'automatic',
-} as const
-
 export type ValueChainStatusValues = typeof EValueChainStatus[keyof typeof EValueChainStatus];
-export type ValueChainCommissionModeValues = typeof EValueChainCommissionMode[keyof typeof EValueChainCommissionMode];
 
 export interface IValueChainStatusLocalisation {
   rejected: string,
@@ -28,8 +22,7 @@ export interface IValueChainStatusLocalisation {
 export interface IValueChainCardLocalisations {
   requestValueChain: string,
   description: string,
-  requestDate: string,
-  commissionBtn: string
+  requestDate: string
   status: IValueChainStatusLocalisation
 }
 
@@ -37,7 +30,6 @@ export const valueChainCardLocalisation: IValueChainCardLocalisations = {
   description: '',
   requestDate: '',
   requestValueChain: '',
-  commissionBtn: '',
   status: {
     rejected: '',
     commissioned: '',

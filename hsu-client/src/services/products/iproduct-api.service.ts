@@ -1,7 +1,10 @@
 import {
+  DeveloperProductInvolvementDto,
+  GeneralInfoOutputDto,
   PagedResultDtoOfProductListDto,
   ProducerAssignmentStatus,
   ProducerAssignmentStatusDto,
+  ProducerProductInvolvementDto,
   ProductFilesStepOutput,
   ProductListDto,
   ProductMeasurementStepInput,
@@ -17,14 +20,10 @@ import {
 } from './product-api.service';
 import {
   IMeasurement,
-  IProductDeliveryAddress,
   IWorkingPiece,
   IWorkPieceVariant
 } from 'hsu-library';
 import { DateTime } from 'luxon';
-import {
-  IGeneralInfoDto
-} from '../../app/product-developer-wizard/product-step-general/product-create-or-edit-general.shared';
 
 export abstract class IProductApiService {
   abstract getFilteredProducts(productFilter: IProductFilter): Observable<PagedResultDtoOfProductListDto>;
@@ -32,10 +31,8 @@ export abstract class IProductApiService {
   abstract getBaseProductOrEmpty(productId: number): Observable<IProductWithStateModel>;
   abstract saveProduct (product: IProductWithStateModel): Observable<ProductListDto>;
   abstract getWizardStep(productId: number): Observable<WizardStepType>;
-  abstract getGeneralProductInfo(productId: number): Observable<IGeneralInfoDto>;
-  abstract saveGeneralProductInfo(generalProductInfo: IGeneralInfoDto): Observable<IGeneralInfoDto>;
-  abstract getProductDeliveryAddress(productId: number): Observable<IProductDeliveryAddress>;
-  abstract saveProductDeliveryAddress(productId: number, deliveryAddress: IProductDeliveryAddress): Observable<IProductDeliveryAddress>;
+  abstract getGeneralProductInfo(productId: number): Observable<GeneralInfoOutputDto>;
+  abstract saveGeneralProductInfo(generalProductInfo: GeneralInfoOutputDto): Observable<GeneralInfoOutputDto>;
   abstract getProductVariants(productId: number): Observable<IProductVariantInfos>;
   abstract saveProductVariants(productId: number, measurements: IMeasurement[], workPieceVariants: IWorkPieceVariant[]): Observable<IProductVariantInfos>;
   abstract getProductMaterialGroups(productId: number): Observable<IProductMaterialGroupsInfo>;
@@ -54,4 +51,7 @@ export abstract class IProductApiService {
   abstract enableEditMode(productId: number): Observable<number>
   abstract cancelEditMode(productId: number): Observable<void>
   abstract confirmEditMode(productId: number): Observable<void>
+  abstract deleteProduct(productId: number): Observable<void>
+  abstract getProducerProductInvolvements(producerId: number): Observable<ProducerProductInvolvementDto[]>
+  abstract getDeveloperProductInvolvements(developerId: number): Observable<DeveloperProductInvolvementDto[]>
 }

@@ -99,21 +99,23 @@ namespace PMHelmutSchmidtPortal.MultiTenancy.HostDashboard
 
         private async Task<List<TenantEdition>> GetEditionTenantStatisticsData(DateTime startDate, DateTime endDate)
         {
-            return (await _tenantRepository.GetAll()
+            var result = await _tenantRepository.GetAll()
                 .Where(t => t.EditionId.HasValue &&
                             t.IsActive &&
                             t.CreationTime >= startDate &&
                             t.CreationTime <= endDate)
                 .Select(t => new { t.EditionId, t.Edition.DisplayName })
-                .ToListAsync()
-                )
+                .ToListAsync();
+            
+            var tenantEditions = result
                 .GroupBy(t => t.EditionId)
                 .Select(t => new TenantEdition
                 {
                     Label = t.First().DisplayName,
                     Value = t.Count()
-                })
-                .OrderBy(t => t.Label)
+                });
+            
+            return tenantEditions.OrderBy(t => t.Label)
                 .ToList();
         }
 
@@ -152,13 +154,14 @@ namespace PMHelmutSchmidtPortal.MultiTenancy.HostDashboard
                 query = query.Take(maxExpiringTenantsShownCount.Value);
             }
 
-            return (await query.ToListAsync())
+            var expiringTenants = (await query.ToListAsync())
                 .Select(t => new ExpiringTenant
                 {
                     TenantName = t.Name,
                     RemainingDayCount = Convert.ToInt32(t.SubscriptionEndDateUtc.Value.Subtract(subscriptionEndDateStartUtc).TotalDays)
-                })
-                .OrderBy(t => t.RemainingDayCount)
+                });
+            
+            return expiringTenants.OrderBy(t => t.RemainingDayCount)
                 .ThenBy(t => t.TenantName)
                 .ToList();
         }

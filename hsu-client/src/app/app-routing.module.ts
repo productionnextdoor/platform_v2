@@ -24,6 +24,7 @@ import { OrderOverviewComponent } from './order-overview/order-overview.componen
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { PERMISSIONS } from '../services/permissions/permissions';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { MaterialOverviewComponent } from './material-overview/material-overview.component';
 import { PrivacyPolicyComponent } from './imprint/privacy-policy/privacy-policy.component';
 import { TermsAndConditionsComponent } from './imprint/terms-and-conditions/terms-and-conditions.component';
 
@@ -42,6 +43,7 @@ export enum Path {
   ORDERS = 'orders',
   ORDER_DETAILS = 'order-details',
   STATISTICS = 'statistics',
+  MATERIALS = 'materials',
   TERMS_AND_CONDITIONS = 'terms-and-conditions',
   PRIVACY_POLICY = 'privacy-policy',
 }
@@ -240,6 +242,19 @@ const routes: Routes = [
       title: 'Menu.Statistics',
       breadcrumbLinkText: 'Routes.Breadcrumb.Statistics.Texts',
       breadcrumbHoverTitle: 'Routes.Breadcrumb.Statistics.Title'
+    } as RouteData,
+    canActivate: [AccessGuard]
+  },
+  {
+    path: Path.MATERIALS,
+    component: MaterialOverviewComponent,
+    // eslint-disable-next-line id-denylist -- this is needed for angular
+    data: {
+      fullScreen: false,
+      permissions: [
+        PERMISSIONS.materials.manage,
+      ],
+      title: 'Menu.Materials',
     } as RouteData,
     canActivate: [AccessGuard]
   },

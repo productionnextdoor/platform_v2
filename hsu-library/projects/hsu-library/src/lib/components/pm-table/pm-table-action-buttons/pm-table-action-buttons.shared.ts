@@ -2,15 +2,8 @@ import {
   Icon
 } from '../../pm-icon/pm-icon.shared';
 
-
-export enum ActionButtonType {
-  ICON = 'icon',
-  BUTTON = 'button',
-}
-
 export interface IActionButtonElement {
   icon: Icon,
-  text: string
   link: string,
   type: EActionButtonElementType
 }
@@ -23,6 +16,5 @@ export enum EActionButtonElementType {
   PRODUCT_WORKSTEP = 'product_workstep',
   ORDER_DETAILS = 'order_details',
   RE_REQUEST_ACTION = 're-request-action',
-  SELECT_VALUE_CHAIN = 'select_value_chain',
 }
 

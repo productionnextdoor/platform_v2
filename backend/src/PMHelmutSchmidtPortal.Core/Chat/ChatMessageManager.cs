@@ -149,8 +149,9 @@ namespace PMHelmutSchmidtPortal.Chat
 
             Save(sentMessage);
 
+            var senderClients = await _onlineClientManager.GetAllByUserIdAsync(senderIdentifier);
             await _chatCommunicator.SendMessageToClient(
-                _onlineClientManager.GetAllByUserId(senderIdentifier),
+                senderClients,
                 sentMessage
                 );
         }
@@ -159,7 +160,7 @@ namespace PMHelmutSchmidtPortal.Chat
         {
             var friendship = await _friendshipManager.GetFriendshipOrNullAsync(receiverIdentifier, senderIdentifier);
             var friendshipState = friendship?.State;
-            var clients = _onlineClientManager.GetAllByUserId(receiverIdentifier);
+            var clients = await _onlineClientManager.GetAllByUserIdAsync(receiverIdentifier);
 
             if (friendshipState == null)
             {
@@ -179,7 +180,7 @@ namespace PMHelmutSchmidtPortal.Chat
 
                 if (clients.Any())
                 {
-                    var isFriendOnline = _onlineClientManager.IsOnline(receiverIdentifier);
+                    var isFriendOnline = await _onlineClientManager.IsOnlineAsync(receiverIdentifier);
                     await _chatCommunicator.SendFriendshipRequestToClient(clients, friendship, false, isFriendOnline);
                 }
             }

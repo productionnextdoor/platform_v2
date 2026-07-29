@@ -31,7 +31,6 @@
         <pm-table-action-buttons
             *ngSwitchCase="CellType.ACTION_CELL"
             [actions]="(cell | getActionCell).actions"
-            [buttonType]="(cell | getActionCell).buttonType"
             [disabled]="(cell | getActionCell).disabled ?? false"
             (onEntryClicked)="onClickActionEntry($event)"
         />

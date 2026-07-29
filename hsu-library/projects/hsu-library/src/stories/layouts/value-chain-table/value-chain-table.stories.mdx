@@ -1,15 +1,8 @@
 import { PmValueChainTableComponent } from "../../../lib/layouts/pm-value-chain-table/pm-value-chain-table.component";
-import { 
-    Canvas, 
-    Description, 
-    Meta, 
-    Story } from "@storybook/addon-docs";
+import { Canvas, Description, Meta, Story } from "@storybook/addon-docs";
 import { moduleMetadata } from "@storybook/angular";
 import { getComponentStoryMeta } from "../../ComponentDependencies";
-import { 
-    DevelopersValueChainTableData, 
-    ValueChainTableData 
-} from "./value-chain-table.data";
+import { ValueChainTableData } from "./value-chain-table.data";
 
 <Meta title="Layouts/Value-chain-table/Value-chain-table" component={PmValueChainTableComponent} parameters={{
     controls: { disabled: true },
@@ -28,14 +21,6 @@ export const Template = args => ({
     },
 });
 
-export const DevelopersTemplate = args => ({
-    moduleMetadata: {},
-    props: {
-        ...DevelopersValueChainTableData,
-        ...args
-    },
-});
-
 This contains definitions for the **Value chain table**.
 
 ## Value chain table
@@ -43,15 +28,6 @@ This contains definitions for the **Value chain table**.
 <Canvas withToolbar isColumn>
     <Story name="Default">
         {Template.bind({})}
-    </Story>
-</Canvas>
-<br/>
-
-## Developers value chain table
-
-<Canvas withToolbar isColumn>
-    <Story name="Developers table">
-        {DevelopersTemplate.bind({})}
     </Story>
 </Canvas>
 <br/>

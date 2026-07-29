@@ -1,7 +1,8 @@
 import {
   Component,
   EventEmitter,
-  Input, OnInit,
+  Input,
+  OnInit,
   Output
 } from '@angular/core';
 import { WithRx } from '../../../shared/mixins/with-rx.mixin';
@@ -11,21 +12,17 @@ import {
   IBreadcrumbs,
   IFileNameByCategory,
   IProductDetailsBaseData,
+  IProductDetailsDeveloperLocalisations,
   IPropertyGroup,
   IPropertySection,
-  PmDropdownOption,
   TConstEnum,
+  IDeveloperRevenueCardLocalisations,
+  IDeveloperRevenueInfo
 } from 'hsu-library';
+import { AppLocalizationService } from '../../../services/localization/app-localization.service';
 import { Path } from '../../app-routing.module';
 import { INavigationService } from '../../../services/navigation/inavigation.service';
-import { AppConsts } from '../../../shared/AppConsts';
-import { ProductState } from '../../../shared/service-proxies/service-proxies';
-import { IProductDetailsService } from '../../../services/products/product-details/iproduct-details.service';
-import {
-  IProductDetailsPageDeveloperLocalisations,
-  productDetailsPageDeveloperLocalisations
-} from './product-details-developer.shared';
-import { EValueChainTableMode } from 'src/app/value-chain-planning/value-chain-table/value-chain-table.shared';
+import { IDeveloperApiService } from '../../../services/developer/ideveloper-api.service';
 
 @Component({
   selector: 'product-details-developer',
@@ -41,23 +38,11 @@ export class ProductDetailsDeveloperComponent extends WithRx() implements OnInit
   productName: string = '';
 
   @Input()
-  productState: ProductState = ProductState.Draft;
-
-  @Input()
-  productionDetails: number = 0;
-
-  @Input()
   productDetailsBaseData: IProductDetailsBaseData = {
     productDescription: '',
     lastEditDate: '',
     sharePointLink: ''
   }
-
-  @Input()
-  offerInformation: IPropertyGroup = {
-    groupTitle: '',
-    properties: []
-  };
 
   @Input()
   generalInformation: IPropertyGroup = {
@@ -86,25 +71,42 @@ export class ProductDetailsDeveloperComponent extends WithRx() implements OnInit
   @Output()
   public onOpenLink: EventEmitter<void> = new EventEmitter<void>();
 
-  protected localisations: IProductDetailsPageDeveloperLocalisations = productDetailsPageDeveloperLocalisations;
+  protected localisations: IProductDetailsDeveloperLocalisations;
 
-  protected itemsPerPageOptions: PmDropdownOption<string>[] = [];
+  protected developerRevenueCardLocalisations: IDeveloperRevenueCardLocalisations;
 
-  protected readonly AppConsts: typeof AppConsts = AppConsts;
-  protected readonly ProductState: typeof ProductState = ProductState;
-  protected readonly EValueChainTableMode: typeof EValueChainTableMode = EValueChainTableMode;
+  protected developerRevenueInfo: IDeveloperRevenueInfo = {
+    totalOrders: 0,
+    priceRange: '',
+    royaltyRate: 0,
+    totalRevenue: 0
+  };
 
   constructor(
+    localizationService: AppLocalizationService,
     private readonly navigationService: INavigationService,
-    private readonly productDetailsService: IProductDetailsService
+    private readonly developerApiService: IDeveloperApiService
   ) {
     super();
-    this.localisations = productDetailsService.getDeveloperLocalisationStrings();
+    this.localisations = {
+      mainTitle: localizationService.loc('ProductDetailsDeveloper.Title'),
+      productDescriptionTitle: localizationService.loc('ProductDetailsDeveloper.SectionDescription.Title'),
+      productFilesTitle: localizationService.loc('ProductDetailsDeveloper.SectionFiles.Title'),
+      sharepointLinkLabel: localizationService.loc('ProductDetailsSidebar.SectionFiles.SharePoint.Label'),
+    }
 
+    this.developerRevenueCardLocalisations = {
+      mainTitle: localizationService.loc('ProductDetailsDeveloper.RevenueInfo.Title'),
+      subTitle: localizationService.loc('ProductDetailsDeveloper.RevenueInfo.SubTitle'),
+      totalOrders: localizationService.loc('ProductDetailsDeveloper.RevenueInfo.TotalOrders'),
+      priceRange: localizationService.loc('ProductDetailsDeveloper.RevenueInfo.PriceRange'),
+      royaltyRate: localizationService.loc('ProductDetailsDeveloper.RevenueInfo.RoyaltyRate'),
+      totalRevenue: localizationService.loc('ProductDetailsDeveloper.RevenueInfo.TotalRevenue'),
+    }
   }
 
   ngOnInit(): void {
-    this.itemsPerPageOptions = this.productDetailsService.getPaginationOptions();
+    this.getDeveloperRevenueInfo();
   }
 
   getBreadcrumbs(): IBreadcrumbs {
@@ -121,4 +123,10 @@ export class ProductDetailsDeveloperComponent extends WithRx() implements OnInit
     }
   }
 
+  getDeveloperRevenueInfo(): void {
+    this.developerApiService.getDeveloperRevenueInfo(this.productId)
+      .subscribe((revenueData: IDeveloperRevenueInfo) => {
+        this.developerRevenueInfo = revenueData;
+      });
+  }
 }

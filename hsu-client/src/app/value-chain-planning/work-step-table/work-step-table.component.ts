@@ -26,7 +26,6 @@ import {
 } from 'hsu-library';
 import { AppLocalizationService } from '../../../services/localization/app-localization.service';
 import { finalize } from 'rxjs';
-import { AppConsts } from '../../../shared/AppConsts';
 
 @Component({
   selector: 'work-step-table',
@@ -125,10 +124,8 @@ export class WorkStepTableComponent implements OnInit, OnChanges {
   }
 
   private getCalculation(stepOverviewResult: ProductionStepOverviewDto) {
-    const localisationPrefix: string = AppConsts.IsOffer ? 'ProductOfferDetails' : 'ProductDetails'
-
     return {
-      title: this.localizationService.loc(localisationPrefix + '.WorkStepPopup.Section.Calculation.Title'),
+      title: this.localizationService.loc('ProductDetails.WorkStepPopup.Section.Calculation.Title'),
       properties: [
         {
           key: this.localizationService.loc('ProductDetails.WorkStepPopup.Section.Calculation.Properties.WorkCost'),

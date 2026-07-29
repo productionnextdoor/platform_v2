@@ -7,7 +7,5 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning
     public interface IProductionPlanAppService: IApplicationService
     {
         Task<PlanListOutputDto> GetProductionPlans(PlanListInputDto input);
-
-        Task SetActive(ProductionPlanActiveDto input);
     }
 }

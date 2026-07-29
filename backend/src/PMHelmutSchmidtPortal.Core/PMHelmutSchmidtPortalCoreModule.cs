@@ -42,13 +42,13 @@ using PMHelmutSchmidtPortal.DynamicEntityProperties;
 using PMHelmutSchmidtPortal.Features;
 using PMHelmutSchmidtPortal.Friendships;
 using PMHelmutSchmidtPortal.Friendships.Cache;
-using PMHelmutSchmidtPortal.HSUPortal;
 using PMHelmutSchmidtPortal.Localization;
 using PMHelmutSchmidtPortal.MultiTenancy;
 using PMHelmutSchmidtPortal.Net.Emailing;
 using PMHelmutSchmidtPortal.Notifications;
 using PMHelmutSchmidtPortal.WebHooks;
 using PMHelmutSchmidtPortal.HSUPortal.Users;
+using Abp.RealTime;
 
 namespace PMHelmutSchmidtPortal
 {
@@ -108,9 +108,7 @@ namespace PMHelmutSchmidtPortal
 
             //Configure roles
             AppRoleConfig.Configure(Configuration.Modules.Zero().RoleManagement);
-            //Add custom configurations
-            Configuration.CustomConfigProviders.Add(new PlatformCustomConfigProvider());
-            
+
             if (DebugHelper.IsDebug)
             {
                 //Disabling email sending in debug mode
@@ -134,13 +132,16 @@ namespace PMHelmutSchmidtPortal
             
             Configuration.ReplaceService<IEmailTemplateProvider, HsuEmailTemplateProvider>();
             Configuration.ReplaceService<IUserEmailer, UserEmailDecorator>();
-            
             Configuration.Caching.Configure(FriendCacheItem.CacheName, cache =>
             {
                 cache.DefaultSlidingExpireTime = TimeSpan.FromMinutes(30);
             });
 
             IocManager.Register<DashboardConfiguration>();
+            
+            // ABP 10.x - Register IOnlineClientManager for ChatChannel
+            // Register using RegisterIfNot to avoid conflicts
+            IocManager.RegisterIfNot<IOnlineClientManager<ChatChannel>, NullOnlineClientManager<ChatChannel>>(DependencyLifeStyle.Singleton);
             
             Configuration.Notifications.Notifiers.Add<SmsRealTimeNotifier>();
             Configuration.Notifications.Notifiers.Add<EmailRealTimeNotifier>();

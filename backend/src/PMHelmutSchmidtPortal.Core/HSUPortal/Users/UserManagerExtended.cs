@@ -138,7 +138,6 @@ public class UserManagerExtended : UserManager
             .GetAll()
             .Include(u => u.Roles)
             .Where(u => producersIds.Contains(u.Id) && u.Roles.Any(r => r.RoleId == producerRole.Id));
-
     }
     
     public IQueryable<User> GetAllPlatformAdmins()

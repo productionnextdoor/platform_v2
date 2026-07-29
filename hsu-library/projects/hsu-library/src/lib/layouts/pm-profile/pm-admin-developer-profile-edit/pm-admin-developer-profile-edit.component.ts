@@ -5,8 +5,10 @@ import { PopupType } from '../../../components/pm-popup/pm-popup.component';
 import {
   adminDeveloperProfileEditLocalisation, IAdminDeveloperProfileEditLocalisation,
   defaultAdminDeveloperProfileEditErrors, IAdminDeveloperProfileEditErrors,
+  IDeveloperProductInvolvement,
 } from './pm-admin-developer-profile-edit.shared';
 import { IDeveloper } from '../developer.shared'
+import { IPmConfirmPopupLocalisations } from '../../pm-confirm-popup/pm-confirm-popup.shared';
 import { EUserStatus } from '../general.shared'
 import { PmDropdownOption } from '../../../components/pm-dropdown/pm-dropdown.shared';
 import { EPmInputType } from '../../../components/pm-input/pm-input.component';
@@ -29,11 +31,36 @@ export class PmAdminDeveloperProfileEditComponent {
   @Input()
   stateDropdownOptions: PmDropdownOption<EUserStatus>[] = [];
 
+  @Input()
+  developerProductInvolvements: IDeveloperProductInvolvement[] = [];
+
+  @Input()
+  confirmRemoveFromProductsPopupLocalisation: IPmConfirmPopupLocalisations = {
+    title: '',
+    description: '',
+    confirm: '',
+    cancel: ''
+  };
+
+  @Input()
+  confirmDeleteProfilePopupLocalisation: IPmConfirmPopupLocalisations = {
+    title: '',
+    description: '',
+    confirm: '',
+    cancel: ''
+  };
+
   @Output()
   onCancel: EventEmitter<void> = new EventEmitter();
 
   @Output()
   onSave: EventEmitter<IDeveloper> = new EventEmitter<IDeveloper>();
+
+  @Output()
+  onDeleteProfile: EventEmitter<void> = new EventEmitter<void>();
+
+  protected confirmRemoveFromProductsPopupIsActive: boolean = false;
+  protected confirmDeleteProfilePopupIsActive: boolean = false;
 
   adminDeveloperProfileEditErrors: IAdminDeveloperProfileEditErrors = defaultAdminDeveloperProfileEditErrors
 
@@ -70,6 +97,42 @@ export class PmAdminDeveloperProfileEditComponent {
   /** @ignore */
   setStateInDeveloper(newKey: string): void {
     this.developer.isActive = (newKey === EUserStatus.Active);
+  }
+
+  /** @ignore */
+  hasProductInvolvements(): boolean {
+    return this.developerProductInvolvements.length > 0;
+  }
+
+  /** @ignore */
+  onDeleteProfileClick(): void {
+    if (this.hasProductInvolvements()) {
+      this.confirmRemoveFromProductsPopupIsActive = true;
+    } else {
+      this.confirmDeleteProfilePopupIsActive = true;
+    }
+  }
+
+  /** @ignore */
+  continueToDeleteProfile(): void {
+    this.confirmRemoveFromProductsPopupIsActive = false;
+    this.confirmDeleteProfilePopupIsActive = true;
+  }
+
+  /** @ignore */
+  closeRemoveFromProductsPopup(): void {
+    this.confirmRemoveFromProductsPopupIsActive = false;
+  }
+
+  /** @ignore */
+  confirmDeleteProfile(): void {
+    this.onDeleteProfile.emit();
+    this.confirmDeleteProfilePopupIsActive = false;
+  }
+
+  /** @ignore */
+  closeDeleteProfilePopup(): void {
+    this.confirmDeleteProfilePopupIsActive = false;
   }
 
   /** @ignore */

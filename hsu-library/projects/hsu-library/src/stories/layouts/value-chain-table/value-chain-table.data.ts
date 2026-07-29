@@ -8,18 +8,12 @@ import {
 import { Row } from '../../../lib/components/pm-table/pm-table.shared';
 import { PmDropdownOption } from '../../../lib/components/pm-dropdown/pm-dropdown.shared';
 import {
-  ActionCell,
   CheckboxCell,
   ERatingType,
-  ICell,
   RatingCell,
   TextCell
 } from '../../../lib/components/pm-table/pm-table-cell/pm-table-cell.shared';
 import { PmCheckboxState } from '../../../lib/components/pm-checkbox/pm-checkbox.shared';
-import {
-  ActionButtonType,
-  EActionButtonElementType
-} from '../../../lib/components/pm-table/pm-table-action-buttons/pm-table-action-buttons.shared';
 
 interface IValueChainTableData {
   localisations: IValueChainTableLocalisation;
@@ -32,18 +26,23 @@ interface IValueChainTableData {
   itemsPerPageOptions: PmDropdownOption<string>[];
 }
 
-export const defaultValueChainTableDataIValueChainTableData: IValueChainTableData = {
+export const ValueChainTableData: IValueChainTableData = {
   localisations: {
     cardTitle: 'Errechnete Wertketten-Optionen',
     description: 'Hier werden alle Optionen aufgeführt, die für die Herstellung des Produkts errechnet wurden. Zudem ' +
-      'wird die durchschnittliche Bewertung für die jeweils berechnete Option mit aufgeführt. Errechnete Wertketten werden ' +
-      'ab einem durchschnittlichen Parameter-Wert von 2,0 aktiv gesetzt. Dies kann manuell angepasst werden.',
+                 'wird die durchschnittliche Bewertung für die jeweils berechnete Option mit aufgeführt. Errechnete Wertketten werden ' +
+                 'ab einem durchschnittlichen Parameter-Wert von 2,0 aktiv gesetzt. Dies kann manuell angepasst werden.',
     paginationTotalText: 'Gesamt',
     datepickerTitle: 'Datum der letzten Berechnung',
   },
   lastCalculationDate: '12.08.2024',
   loading: false,
   columnHeaders: [
+    {
+      type: TableHeaderType.Checkbox,
+      columnIdentifier: 'isActive',
+      checkboxState: PmCheckboxState.DEFAULT
+    } as CheckboxColumnHeader,
     {
       type: TableHeaderType.Text,
       columnIdentifier: 'requestedProducers',
@@ -87,7 +86,438 @@ export const defaultValueChainTableDataIValueChainTableData: IValueChainTableDat
       sortable: true,
     } as TextColumnHeader,
   ],
-  rowData: [],
+  rowData: [
+    {
+      rowId: 0,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 02, Produzent 03, Produzent 04',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '4,5/5,0',
+          ratingType: ERatingType.BEST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '1,5/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,5/5,0',
+          ratingType: ERatingType.BEST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '1,5/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.200 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '12 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 1,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 01, Produzent 03, Produzent 04',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '4,4/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,0/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,5/5,0',
+          ratingType: ERatingType.BEST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,2/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.170 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '12 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 2,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 01',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '4,0/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,0/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,0/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,0/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.150 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '11,5 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 3,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 01, Produzent 04',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '4,1/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,4/5,0',
+          ratingType: ERatingType.BEST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,1/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,4/5,0',
+          ratingType: ERatingType.BEST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.100 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '11 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 4,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 02, Produzent 03',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '3,7/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,6/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,7/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,6/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.100 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '11 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 5,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 01, Produzent 02, Produzent 04',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '3,7/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,0/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,7/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,3/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.090 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '9,5 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 6,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 01, Produzent 02, Produzent 03, Produzent 04',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '3,2/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,8/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,2/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '4,8/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.070 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '9 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 7,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 02, Produzent 04',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '3,0/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,3/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,1/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '3,3/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.060 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '8,5 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 8,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 03, Produzent 04',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '2,5/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '1,9/5,0',
+          ratingType: ERatingType.WORST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '2,5/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '2,1/5,0',
+          ratingType: ERatingType.DEFAULT,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.050 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '8,5 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+    {
+      rowId: 9,
+      isHighlighted: false,
+      isSelected: true,
+      cells: [
+        {
+          type: 'CheckboxCell',
+          value: PmCheckboxState.ACTIVE,
+        } as CheckboxCell,
+        {
+          text: 'Produzent 01, Produzent 02, Produzent 03',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          ratingScore: '1,0/5,0',
+          ratingType: ERatingType.WORST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '1,0/5,0',
+          ratingType: ERatingType.WORST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '1,2/5,0',
+          ratingType: ERatingType.WORST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          ratingScore: '1,5/5,0',
+          ratingType: ERatingType.WORST,
+          type: 'RatingCell'
+        } as RatingCell,
+        {
+          text: '3.000 €',
+          type: 'TextCell'
+        } as TextCell,
+        {
+          text: '8,5 Wochen',
+          type: 'TextCell'
+        } as TextCell,
+      ]
+    },
+  ],
   totalItems: 10,
   currentPage: 1,
   itemsPerPageOptions: [
@@ -109,152 +539,3 @@ export const defaultValueChainTableDataIValueChainTableData: IValueChainTableDat
     }
   ]
 }
-
-const commonRowCells: ICell[] = [
-    {
-      ratingScore: '4,5/5,0',
-      ratingType: ERatingType.BEST,
-      type: 'RatingCell'
-    } as RatingCell,
-    {
-      ratingScore: '1,5/5,0',
-      ratingType: ERatingType.DEFAULT,
-      type: 'RatingCell'
-    } as RatingCell,
-    {
-      ratingScore: '4,5/5,0',
-      ratingType: ERatingType.BEST,
-      type: 'RatingCell'
-    } as RatingCell,
-    {
-      ratingScore: '1,5/5,0',
-      ratingType: ERatingType.DEFAULT,
-      type: 'RatingCell'
-    } as RatingCell,
-    {
-      text: '3.200 €',
-      type: 'TextCell'
-    } as TextCell,
-    {
-      text: '12 Wochen',
-      type: 'TextCell'
-    } as TextCell
-];
-
-
-export const ValueChainTableData: IValueChainTableData = {
-  ...defaultValueChainTableDataIValueChainTableData,
-  columnHeaders: [
-    {
-      type: TableHeaderType.Checkbox,
-      columnIdentifier: 'isActive',
-      checkboxState: PmCheckboxState.DEFAULT
-    } as CheckboxColumnHeader,
-    ...defaultValueChainTableDataIValueChainTableData.columnHeaders
-  ],
-  rowData: [
-    {
-      rowId: 0,
-      isHighlighted: true,
-      isSelected: true,
-      cells: [
-        {
-          type: 'CheckboxCell',
-          value: PmCheckboxState.DEFAULT,
-        } as CheckboxCell,
-        {
-          text: 'Produzent 1',
-          type: 'TextCell'
-        } as TextCell,
-        ...commonRowCells
-      ]
-    },
-    ...Array.from(
-      {
-        length: 10
-      }).map((_, index) => ({
-      rowId: index,
-      isHighlighted: false,
-      isSelected: false,
-      cells: [
-        {
-          type: 'CheckboxCell',
-          value: PmCheckboxState.ACTIVE,
-        } as CheckboxCell,
-        {
-          text: `Produzent ${index + 1}`,
-          type: 'TextCell'
-        } as TextCell,
-        ...commonRowCells
-      ],
-    }))]
-
-}
-
-export const DevelopersValueChainTableData: IValueChainTableData = {
-  ...defaultValueChainTableDataIValueChainTableData,
-  columnHeaders: [
-    {
-      type: TableHeaderType.Text,
-      columnIdentifier: '',
-      columnTitle: '',
-      sortable: false,
-    } as TextColumnHeader,
-    ...defaultValueChainTableDataIValueChainTableData.columnHeaders
-  ],
-  rowData: [
-    {
-      rowId: 0,
-      isHighlighted: true,
-      isSelected: true,
-      cells: [
-        {
-          type: 'ActionCell',
-          buttonType: ActionButtonType.BUTTON,
-          actions: [
-            {
-              text: 'Select',
-              link: '',
-              type: EActionButtonElementType.SELECT_VALUE_CHAIN
-            }
-          ],
-          disabled: true,
-        } as ActionCell,
-        {
-          text: 'Produzent 1',
-          type: 'TextCell'
-        } as TextCell,
-        ...commonRowCells
-      ]
-    },
-    ...Array.from({
-      length: 9
-    }
-    ).map((_, index) => ({
-      rowId: index + 1,
-      isHighlighted: false,
-      isSelected: false,
-      cells: [
-        {
-          type: 'ActionCell',
-          buttonType: ActionButtonType.BUTTON,
-          actions: [
-            {
-              text: 'Select',
-              link: '',
-              type: EActionButtonElementType.SELECT_VALUE_CHAIN
-            }
-          ],
-          disabled: false,
-        } as ActionCell,
-        {
-          text: `Produzent ${index + 2}`,
-          type: 'TextCell'
-        } as TextCell,
-        ...commonRowCells
-      ],
-    }))]
-}
-
-
-

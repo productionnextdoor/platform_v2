@@ -33,4 +33,8 @@ public interface IUserProfileManager : IDomainService
     Task<ProducerInfo> UpdateProducerInfo(long producerId, IProducerInfo producerInfoInput, int? tradeId = null, ICollection<ProducerRatingDto> producerRatings = null);
 
     Task DeleteInvitedUser(long userId);
+
+    Task<User> AnonymizeDeveloper(long developerId);
+    
+    Task<User> AnonymizeProducer(long producerId);
 }

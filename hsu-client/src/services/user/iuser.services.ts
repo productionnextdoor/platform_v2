@@ -5,4 +5,8 @@ export abstract class IUserService {
   abstract getDevelopersAsDropdownOptions (): Observable<PmDropdownOption<number>[]>;
 
   abstract deleteUserProfile(producerId: number): Observable<void>;
+
+  abstract deleteDeveloperProfile(developerId: number): Observable<void>;
+
+  abstract deleteProducerProfile(producerId: number): Observable<void>;
 }

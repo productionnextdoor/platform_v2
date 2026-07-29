@@ -1,0 +1,100 @@
+import { action } from "@storybook/addon-actions";
+import { Canvas, Description, Meta, Story } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { PmMaterialOverviewComponent } from "../../../lib/layouts/pm-material-overview/pm-material-overview.component";
+import { getComponentStoryMeta } from "../../ComponentDependencies";
+import { materialOverviewDefault, materialOverviewReadonly, materialOverviewEmpty, materialOverviewLoading } from "./material-overview.data";
+
+
+<Meta title="Layouts/Material-Overview/Material-Overview" component={PmMaterialOverviewComponent} argTypes={{}} parameters={{
+  controls: { disabled: true },
+}} decorators={[
+    moduleMetadata(getComponentStoryMeta(PmMaterialOverviewComponent))
+]}/>
+
+<Description of={PmMaterialOverviewComponent}/>
+
+export const actionsData = {
+    onCreateMaterial: action('create material'),
+    onEditMaterial: action('edit material'),
+    onDeleteMaterial: action('delete material'),
+    onCreateSpecification: action('create specification'),
+    onEditSpecification: action('edit specification'),
+    onDeleteSpecification: action('delete specification'),
+};
+
+export const DefaultTemplate = args => ({
+    props: {
+        ...materialOverviewDefault,
+        ...args,
+        ...actionsData
+    },
+});
+
+export const ReadonlyTemplate = args => ({
+    props: {
+        ...materialOverviewReadonly,
+        ...args,
+        ...actionsData
+    },
+});
+
+export const EmptyTemplate = args => ({
+    props: {
+        ...materialOverviewEmpty,
+        ...args,
+        ...actionsData
+    },
+});
+
+export const LoadingTemplate = args => ({
+    props: {
+        ...materialOverviewLoading,
+        ...args,
+        ...actionsData
+    },
+});
+
+# Material Overview
+
+This contains the stories for the layout **Material Overview**.
+
+## Default (editable)
+
+<Canvas withToolbar>
+  <Story name="Default" height={'800px'}>
+    {DefaultTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+## Readonly
+
+<Canvas withToolbar>
+  <Story name="Readonly" height={'800px'}>
+    {ReadonlyTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+## Empty
+
+<Canvas withToolbar>
+  <Story name="Empty" height={'400px'}>
+    {EmptyTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>
+
+## Loading
+
+<Canvas withToolbar>
+  <Story name="Loading" height={'400px'}>
+    {LoadingTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<br/><br/>

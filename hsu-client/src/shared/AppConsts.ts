@@ -1,4 +1,3 @@
-import { ProductState } from './service-proxies/service-proxies';
 import { IImprintLink } from 'hsu-library';
 import { Path } from '../app/app-routing.module';
 
@@ -26,23 +25,10 @@ export class AppConsts {
   };
 
   static readonly DateFormatString: string = 'd.M.yyyy'
+
   static readonly EndOfTheDay = {
     hour: 23, minute: 59, second: 59
   }
-
-  static IsOffer: boolean = false;
-  static HasVariants: boolean = true;
-
-  static IsOfferBlockedProductStates: ProductState[] = [
-    ProductState.Live
-  ];
-  static IsShopBlockedProductStates: ProductState[] = [
-    ProductState.ProductionPlanningFinalized,
-    ProductState.ValueChainWaitingAdminConfirmation,
-    ProductState.CommissionedToProduction,
-    ProductState.InProduction,
-    ProductState.Completed
-  ];
 
   static getImprintLinks(titleTerms: string, titlePrivacy: string): IImprintLink<Path>[] {
     return [

@@ -36,7 +36,7 @@ namespace PMHelmutSchmidtPortal.MultiTenancy
         {
             var query = TenantManager.Tenants
                 .Include(t => t.Edition)
-                .WhereIf(!input.Filter.IsNullOrWhiteSpace(), t => t.Name.Contains(input.Filter) || t.TenancyName.Contains(input.Filter))
+                .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), t => t.Name.Contains(input.Filter) || t.TenancyName.Contains(input.Filter))
                 .WhereIf(input.CreationDateStart.HasValue, t => t.CreationTime >= input.CreationDateStart.Value)
                 .WhereIf(input.CreationDateEnd.HasValue, t => t.CreationTime <= input.CreationDateEnd.Value)
                 .WhereIf(input.SubscriptionEndDateStart.HasValue, t => t.SubscriptionEndDateUtc >= input.SubscriptionEndDateStart.Value.ToUniversalTime())

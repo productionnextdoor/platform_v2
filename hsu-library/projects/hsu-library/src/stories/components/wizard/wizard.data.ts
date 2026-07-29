@@ -49,7 +49,7 @@ export const wizardData: IPmWizardData = {
     <ng-template>
         <h3>Beteiligte Materialgruppen im Produktstandard</h3>
         <p>Wähle die Materialgruppe(n) aus, die im Produktstandard verwendet werden (min. eine Materialgruppe).
-           Gib bitte auch die zu bearbeitende Oberflächenbeschaffenheit sowie den finalen Zustand der jeweiligen
+           Gib bitte auch die zu bearbeitende Spezifizierung sowie den finalen Zustand der jeweiligen
            Materialgruppe im Produktionsprozess an. Beachte auch, dass die Auswahl der Materialgruppe(n) Auswirkung auf
            die Produktvarianten hat.</p>
     </ng-template>

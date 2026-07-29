@@ -211,8 +211,6 @@ export class AppInitializer {
         abp.clock.provider = this.getCurrentClockProvider(
           result.clock.provider
         );
-        AppConsts.IsOffer = result.custom.IsOffer;
-        AppConsts.HasVariants = result.custom.HasVariants;
         callbackFunction();
       });
   }

@@ -9,7 +9,6 @@ using PMHelmutSchmidtPortal.Authorization.Roles;
 using PMHelmutSchmidtPortal.Authorization.Users;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Details;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto;
-using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.DeliveryAddressStep;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.GeneralInfoStep;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.MaterialGroupStep;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.ProductDetailsOverview;
@@ -89,19 +88,6 @@ public class ProductDetailsAppService : HsuBaseAppService, IProductDetailsAppSer
     public async Task<GeneralInfoOutputDto> CreateOrUpdateGeneralInfo(GeneralInfoInputDto productInput)
     {
         return await _productDetailsManager.CreateOrUpdateGeneralInfo(await CheckAndGetProductForWizard(productInput.ProductId), productInput);
-    }
-
-    [AbpAuthorize(AppPermissions.Hsu_Product_Details_DeliveryAddress_Get)]
-    public async Task<DeliveryAddressOutputDto> GetProductDeliveryAddress(int productId)
-    {
-        await SetWizardStep(productId, WizardStepType.DeliveryAddress);
-        return await _productDetailsManager.GetProductDeliveryAddress(await CheckAndGetProductForWizard(productId));
-    }
-    
-    [AbpAuthorize(AppPermissions.Hsu_Product_Details_DeliveryAddress_CreateOrUpdate)]
-    public async Task<DeliveryAddressOutputDto> CreateOrUpdateProductDeliveryAddress(DeliveryAddressInputDto input)
-    {
-        return await _productDetailsManager.CreateOrUpdateProductDeliveryAddress(await CheckAndGetProductForWizard(input.ProductId), input);
     }
 
     [AbpAuthorize(AppPermissions.Hsu_Product_Details_MaterialGroups_Get)]

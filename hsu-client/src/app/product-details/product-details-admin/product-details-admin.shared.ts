@@ -5,6 +5,8 @@ import {
   productDetailsInProgressLocalisations,
   IWorkstepTableLocalisations,
   WorkstepTableLocalisations,
+  IValueChainTableLocalisation,
+  ValueChainTableLocalisation,
   IPmConfirmPopupLocalisations,
   pmConfirmPopupLocalisations,
   IPmMaxCostPopupLocalisations,
@@ -15,10 +17,6 @@ import {
   IProductDetailsSharedLocalisations,
   productDetailsSharedLocalisations
 } from '../product-details.shared';
-import {
-  fullValueChainTableLocalisation,
-  IFullValueChainTableLocalisation
-} from '../../value-chain-planning/value-chain-table/value-chain-table.shared';
 
 
 
@@ -26,14 +24,17 @@ export interface IProductDetailsAdminLocalisations extends IProductDetailsShared
   producerTable: IProducerTableLocalisation;
   productDetailsInProgress: IProductDetailsInProgressLocalisations;
   workstepTable: IWorkstepTableLocalisations;
-  valueChainsTabe:IFullValueChainTableLocalisation;
+  valueChainsTabe:IValueChainTableLocalisation;
   confirmExportPopup: IPmConfirmPopupLocalisations;
   confirmEditModePopup: IPmConfirmPopupLocalisations;
   cancelEditModePopup: IPmConfirmPopupLocalisations;
   publishEditModePopup: IPmConfirmPopupLocalisations;
   maxCostPopup: IPmMaxCostPopupLocalisations;
+  confirmDeletePopup: IPmConfirmPopupLocalisations;
+  deleteNotAllowedPopup: IPmConfirmPopupLocalisations;
   publishProduct: string,
   makeChanges: string,
+  deleteProduct: string,
 
 }
 
@@ -48,12 +49,15 @@ export const ProductDetailsAdminLocalisations: IProductDetailsAdminLocalisations
   producerTable: ProducerTableLocalisation,
   productDetailsInProgress: productDetailsInProgressLocalisations,
   workstepTable: WorkstepTableLocalisations,
-  valueChainsTabe: fullValueChainTableLocalisation,
+  valueChainsTabe: ValueChainTableLocalisation,
   confirmExportPopup: pmConfirmPopupLocalisations,
   confirmEditModePopup: pmConfirmPopupLocalisations,
   cancelEditModePopup: pmConfirmPopupLocalisations,
   publishEditModePopup: pmConfirmPopupLocalisations,
   maxCostPopup: pmMaxCostPopupLocalisations,
+  confirmDeletePopup: pmConfirmPopupLocalisations,
+  deleteNotAllowedPopup: pmConfirmPopupLocalisations,
   publishProduct: '',
-  makeChanges:'',
+  makeChanges: '',
+  deleteProduct: '',
 }

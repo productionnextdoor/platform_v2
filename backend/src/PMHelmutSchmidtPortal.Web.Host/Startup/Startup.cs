@@ -29,7 +29,7 @@ using PMHelmutSchmidtPortal.Web.Swagger;
 using Stripe;
 using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 using GraphQL.Server;
-using GraphQL.Server.Ui.Playground;
+using GraphQL.Server.Ui.GraphiQL;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
@@ -220,10 +220,10 @@ namespace PMHelmutSchmidtPortal.Web.Startup
             if (WebConsts.GraphQL.Enabled)
             {
                 app.UseGraphQL<MainSchema>();
-                if (WebConsts.GraphQL.PlaygroundEnabled)
+                if (WebConsts.GraphQL.GraphiQLEnabled)
                 {
-                    app.UseGraphQLPlayground(
-                        new GraphQLPlaygroundOptions()); //to explorer API navigate https://*DOMAIN*/ui/playground
+                    // GraphQL 8.x - Using GraphiQL instead of deprecated Playground
+                    app.UseGraphQLGraphiQL(); //to explorer API navigate https://*DOMAIN*/ui/graphiql
                 }
             }
 

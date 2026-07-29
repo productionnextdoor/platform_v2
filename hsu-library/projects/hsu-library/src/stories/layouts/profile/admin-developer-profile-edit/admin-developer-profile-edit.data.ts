@@ -28,6 +28,7 @@ const labelLocalisations: IAdminDeveloperProfileEditLabelLocalisation = {
   state: 'Status',
   street: 'Straße und Haus-Nr.',
   zipCode: 'PLZ',
+  deleteProfile: 'Profil löschen',
 }
 
 const statusesLocalisations: IStatusesLocalisation = {

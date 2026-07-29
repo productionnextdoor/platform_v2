@@ -13,42 +13,23 @@ public class DefaultTaxesAndRoyaltiesCreator
     {
         _context = context;
     }
-
-    public void Create(bool isOffer = false)
+    
+    public void Create()
     {
-        CreateTaxesAndRoyalties(isOffer);
+        CreateTaxesAndRoyalties();
     }
-
-    private void CreateTaxesAndRoyalties(bool isOffer)
+    
+    private void CreateTaxesAndRoyalties()
     {
-        GetOrCreateTax(DefaultTaxesAndRoyalties.DefaultTax, !isOffer);
-        GetOrCreateTax(DefaultTaxesAndRoyalties.DefaultDeveloperRoyalty, !isOffer);
-        GetOrCreateTax(DefaultTaxesAndRoyalties.DefaultPlatformRoyalty, true);
-        GetOrCreateTax(DefaultTaxesAndRoyalties.NoTax, isOffer);
-        GetOrCreateTax(DefaultTaxesAndRoyalties.NoDeveloperRoyalty, isOffer);
+        _ = _context.TaxesAndRoyalties.IgnoreQueryFilters()
+            .FirstOrDefault(tar => tar.TaxType == TaxType.ProductTax && tar.IsActive) ?? _context.TaxesAndRoyalties.Add(DefaultTaxesAndRoyalties.DefaultTax).Entity;
+        
+        _ = _context.TaxesAndRoyalties.IgnoreQueryFilters()
+            .FirstOrDefault(tar => tar.TaxType == TaxType.DeveloperRoyalty && tar.IsActive) ?? _context.TaxesAndRoyalties.Add(DefaultTaxesAndRoyalties.DefaultDeveloperRoyalty).Entity;
+        
+        _ = _context.TaxesAndRoyalties.IgnoreQueryFilters()
+            .FirstOrDefault(tar => tar.TaxType == TaxType.PlatformRoyalty && tar.IsActive) ?? _context.TaxesAndRoyalties.Add(DefaultTaxesAndRoyalties.DefaultPlatformRoyalty).Entity;
 
         _context.SaveChanges();
-    }
-
-    private void GetOrCreateTax(TaxesAndRoyalties taxOrRoyalty, bool isActive = false)
-    {
-        TaxesAndRoyalties tax = _context.TaxesAndRoyalties.IgnoreQueryFilters()
-            .FirstOrDefault(tar => tar.TaxType == taxOrRoyalty.TaxType && tar.Percentage == taxOrRoyalty.Percentage);
-
-        if (tax == null)
-        {
-            tax = new TaxesAndRoyalties
-            {
-                TaxType = taxOrRoyalty.TaxType,
-                Percentage = taxOrRoyalty.Percentage,
-                IsActive = isActive
-            };
-
-            _context.TaxesAndRoyalties.Add(tax);
-        }
-        else if (tax.IsActive != isActive)
-        {
-            tax.IsActive = isActive;
-        }
     }
 }

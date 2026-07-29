@@ -1,5 +1,4 @@
 import {
-  ActionButtonType,
   IActionButtonElement
 } from '../pm-table-action-buttons/pm-table-action-buttons.shared';
 import {
@@ -25,7 +24,6 @@ export abstract class StatusCell extends TextCell {
 export abstract class ActionCell implements ICell {
   type: ECellType = ECellType.ACTION_CELL;
   abstract actions: IActionButtonElement[];
-  abstract buttonType: ActionButtonType;
   abstract disabled?: boolean;
 }
 

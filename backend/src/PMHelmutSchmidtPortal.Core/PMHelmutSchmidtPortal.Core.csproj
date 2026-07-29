@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <Import Project="..\..\common.props"></Import>
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
         <AssemblyName>PMHelmutSchmidtPortal.Core</AssemblyName>
         <PackageId>PMHelmutSchmidtPortal.Core</PackageId>
@@ -14,29 +14,33 @@
         <RootNamespace>PMHelmutSchmidtPortal</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+    <ItemGroup>
         <EmbeddedResource Include="Localization\HsuClientLocalization\HsuClientLocalization-de.xml" />
         <EmbeddedResource Include="Localization\HsuClientLocalization\HsuClientLocalization.xml" />
         <EmbeddedResource Include="Localization\PMHelmutSchmidtPortal\*.xml;Net\Emailing\EmailTemplates\default.html" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0"/>
         <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.2.2"/>
-        <PackageReference Include="Azure.Identity" Version="1.8.2"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0"/>
-        <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.4.0"/>
+        <PackageReference Include="Azure.Identity" Version="1.17.1"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="9.0.0"/>
+        <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="4.1.0"/>
         <PackageReference Include="PayPalHttp" Version="1.0.1"/>
         <PackageReference Include="PayPalCheckoutSdk" Version="1.0.4"/>
         <PackageReference Include="Stripe.net" Version="41.6.0"/>
-        <PackageReference Include="TimeZoneConverter" Version="6.1.0"/>
+        <PackageReference Include="TimeZoneConverter" Version="7.2.0"/>
         <PackageReference Include="Abp.AspNetZeroCore" Version="4.1.0"/>
-        <PackageReference Include="SkiaSharp" Version="2.88.3"/>
+        <PackageReference Include="SkiaSharp" Version="3.119.1"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="8.2.0"/>
-        <PackageReference Include="Abp.AutoMapper" Version="8.2.0"/>
-        <PackageReference Include="Abp.MailKit" Version="8.2.0"/>
-        <PackageReference Include="Abp.Zero.Ldap" Version="8.2.0"/>
+        <PackageReference Include="Abp.ZeroCore.EntityFrameworkCore" Version="10.3.0"/>
+        <PackageReference Include="Abp.AutoMapper" Version="10.3.0"/>
+        <PackageReference Include="Abp.MailKit" Version="10.3.0"/>
+        <PackageReference Include="Abp.Zero.Ldap" Version="10.3.0"/>
         <PackageReference Include="Twilio" Version="6.2.4"/>
     </ItemGroup>
     <ItemGroup>

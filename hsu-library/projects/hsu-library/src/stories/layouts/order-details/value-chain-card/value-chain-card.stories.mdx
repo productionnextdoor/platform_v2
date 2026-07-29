@@ -8,10 +8,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { PmOrderValueChainCardComponent } from '../../../../lib/layouts/pm-order-details/pm-order-value-chain-card/pm-order-value-chain-card.component';
 import { getComponentStoryMeta } from '../../../ComponentDependencies';
 import { valueChainCardData } from './value-chain-card.data';
-import { 
-EValueChainCommissionMode, 
-EValueChainStatus 
-} from '../../../../lib/layouts/pm-order-details/pm-order-value-chain-card/pm-order-value-chain-card.shared';
+import { EValueChainStatus } from '../../../../lib/layouts/pm-order-details/pm-order-value-chain-card/pm-order-value-chain-card.shared';
 import { action } from '@storybook/addon-actions';
 
 
@@ -25,8 +22,7 @@ import { action } from '@storybook/addon-actions';
 <Description markdown={`# Value chain card `}/>
 
 export const actionsData = {
-    onActionClicked: action('on action clicked:'),
-    onCommissionClicked: action('on Commission clicked:')
+    onActionClicked: action('on action clicked:')
 };
 
 export const Template = args => ({
@@ -52,15 +48,6 @@ export const Template = args => ({
 <Canvas withToolbar>
     <Story name="Badge" args={{
         status: EValueChainStatus['Commissioned'],
-    }}>
-        {Template.bind({})}
-    </Story>
-</Canvas>
-
-## Value Chain card With Manual selection
-<Canvas withToolbar>
-    <Story name="Manual Selection" args={{
-        commissionMode: EValueChainCommissionMode['Manual'],
     }}>
         {Template.bind({})}
     </Story>

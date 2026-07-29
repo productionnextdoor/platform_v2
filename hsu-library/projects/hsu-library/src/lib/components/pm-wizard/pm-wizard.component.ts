@@ -72,12 +72,6 @@ export class PmWizardComponent implements OnInit {
   @Input()
   wizardSize: PopupType = PopupType.LARGE;
 
-  @Input()
-  isDynamicTemplates: boolean = false;
-
-  @Input()
-  dynamicTemplates: TemplateRef<any>[] = [];
-
   @Output()
   onCancel: EventEmitter<number> = new EventEmitter();
 

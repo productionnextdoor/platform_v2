@@ -115,10 +115,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "hsu-client:build:production"
+              "buildTarget": "hsu-client:build:production"
             },
             "development": {
-              "browserTarget": "hsu-client:build:development"
+              "buildTarget": "hsu-client:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -126,7 +126,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "hsu-client:build"
+            "buildTarget": "hsu-client:build"
           }
         },
         "test": {

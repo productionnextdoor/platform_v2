@@ -9,7 +9,7 @@
 
   position: fixed;
   inset: var(--popup-padding);
-  z-index: f.z-index('popup');
+  z-index: var(--popup-z-index, #{f.z-index('popup')});
 
   &:after {
     content: '';

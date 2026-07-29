@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   CustomerInfoDto,
-  DeliveryDocumentsDto,
   OrderedProductDto
 } from '../../shared/service-proxies/service-proxies';
 import {
@@ -10,8 +9,7 @@ import {
   IBreadcrumbs,
   ICardProperty,
   ICardSectionData,
-  IProductionProcessCardLocalisations,
-  productionProcessCardLocalisations
+  IProductionProcessCardLocalisations
 } from 'hsu-library';
 import { AppLocalizationService } from '../localization/app-localization.service';
 import {
@@ -31,7 +29,6 @@ import { PERMISSIONS } from '../permissions/permissions';
 
 @Injectable()
 export class OrderDetailsPageService extends IOrderDetailsPageService {
-
 
   constructor(
     private readonly localizationService: AppLocalizationService,
@@ -87,14 +84,6 @@ export class OrderDetailsPageService extends IOrderDetailsPageService {
     }
   }
 
-  public mapDeliverDocuments(documents: DeliveryDocumentsDto[]): ICardProperty[]{
-    return documents?.map(item => ({
-      key: '',
-      value: item.fileName ?? ''
-    })) ?? []
-  }
-
-
   public getLocalisationsAdmin(): IOrderDetailsAdminLocalisation {
     return {
       cancelButtonLabel: this.localizationService.loc('OrderDetails.CancelButtonLabel'),
@@ -102,7 +91,6 @@ export class OrderDetailsPageService extends IOrderDetailsPageService {
         requestValueChain: this.localizationService.loc('OrderDetails.ValueChainCard.RequestValueChain'),
         description: this.localizationService.loc('OrderDetails.ValueChainCard.Description'),
         requestDate: this.localizationService.loc('OrderDetails.ValueChainCard.RequestDate'),
-        commissionBtn: this.localizationService.loc('OrderDetails.ValueChainCard.CommissionBtn'),
         status: {
           commissioned: this.localizationService.loc('OrderDetails.ValueChainCard.Status.Commissioned'),
           rejected: this.localizationService.loc('OrderDetails.ValueChainCard.Status.Rejected'),
@@ -116,13 +104,7 @@ export class OrderDetailsPageService extends IOrderDetailsPageService {
         description: this.localizationService.loc('OrderManagement.CancelOrder.PopupDescription'),
         confirm: this.localizationService.loc('ConfirmPopup.Default.Confirm'),
         cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
-      },
-      commissionValueChainPopupLocalisation: {
-        title: this.localizationService.loc('OrderManagement.CommissionValueChain.PopupTitle'),
-        description: this.localizationService.loc('OrderManagement.CommissionValueChain.PopupDescription'),
-        confirm: this.localizationService.loc('ConfirmPopup.Default.Confirm'),
-        cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
-      },
+      }
     }
   }
 
@@ -148,13 +130,6 @@ export class OrderDetailsPageService extends IOrderDetailsPageService {
         fileTag: this.localizationService.loc('OrderDetails.ProductionProcessCard.UploadField.FileTag'),
       }
     };
-  }
-
-  getLocalisationsDeveloper(): IProductionProcessCardLocalisations {
-    const localisations:IProductionProcessCardLocalisations = productionProcessCardLocalisations
-    localisations.title = this.localizationService.loc('OrderDetails.ProductionProcessCard.Title');
-    localisations.description = this.localizationService.loc('OrderDetails.ProductionProcessCard.Description');
-    return localisations
   }
 
   private getProductionProcessCardLocalisations(): IProductionProcessCardLocalisations {

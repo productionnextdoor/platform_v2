@@ -45,8 +45,7 @@ namespace PMHelmutSchmidtPortal.Web.Navigation
 
         public static IOrderedEnumerable<UserMenuItem> OrderByCustom(this IList<UserMenuItem> menuItems)
         {
-            return menuItems
-                .OrderBy(menuItem => menuItem.Order)
+            return menuItems.OrderBy(menuItem => menuItem.Order)
                 .ThenBy(menuItem => menuItem.Order == 0 ? null : menuItem.DisplayName);
         }
     }

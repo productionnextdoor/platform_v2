@@ -80,7 +80,8 @@ namespace PMHelmutSchmidtPortal.Authorization.Roles
             return new GetRoleForEditOutput
             {
                 Role = roleEditDto,
-                Permissions = ObjectMapper.Map<List<FlatPermissionDto>>(permissions).OrderBy(p => p.DisplayName).ToList(),
+                Permissions = ObjectMapper.Map<List<FlatPermissionDto>>(permissions).OrderBy(p => p.DisplayName)
+                    .ToList(),
                 GrantedPermissionNames = grantedPermissions.Select(p => p.Name).ToList()
             };
         }
@@ -114,7 +115,8 @@ namespace PMHelmutSchmidtPortal.Authorization.Roles
         [AbpAuthorize(AppPermissions.Pages_Administration_Roles_Edit)]
         protected virtual async Task UpdateRoleAsync(CreateOrUpdateRoleInput input)
         {
-            Debug.Assert(input.Role.Id != null, "input.Role.Id should be set.");
+            // Debug assertion removed for .NET 9 compatibility
+            if (input.Role.Id == null) throw new System.ArgumentException("input.Role.Id should be set.");
 
             var role = await _roleManager.GetRoleByIdAsync(input.Role.Id.Value);
             role.DisplayName = input.Role.DisplayName;

@@ -9,12 +9,9 @@ import { Row } from '../../../components/pm-table/pm-table.shared';
 import { ButtonType } from '../../../components/pm-button/pm-button.component';
 import { TextType } from '../../../components/pm-text/pm-text.shared';
 import {
-  DefaultMargins,
-  IComponentMargin,
-  PmComponentMargin
+  DefaultMargins, IComponentMargin, PmComponentMargin
 } from '../../../utils/pm-component-margin';
 import {
-  ECardMode,
   IDeliveryDocument,
   IProductionProcessCardLocalisations,
   productionProcessCardLocalisations
@@ -36,9 +33,6 @@ export class PmProductionProcessCardComponent {
 
   @Input()
   rowData: Row[] = [];
-
-  @Input()
-  cardMode: ECardMode = ECardMode.VIEW;
 
   @Input()
   startDisabled: boolean = true;
@@ -82,7 +76,7 @@ export class PmProductionProcessCardComponent {
 
   protected readonly EButtonType: typeof ButtonType = ButtonType;
   protected readonly TextType: typeof TextType = TextType;
-  protected readonly ECardMode: typeof ECardMode = ECardMode;
+
 
   confirmAction(isStart: boolean): void {
     this.showPopup = true;
@@ -114,11 +108,5 @@ export class PmProductionProcessCardComponent {
   onCancelSubmit() {
     this.showPopup = false;
     this.onCancel.emit()
-  }
-
-  checkBoxChange(checkboxes:number[]) {
-    if (this.cardMode === ECardMode.EDIT) {
-      this.onCheckBoxChange.emit(checkboxes);
-    }
   }
 }

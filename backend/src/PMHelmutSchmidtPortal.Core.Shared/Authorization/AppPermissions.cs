@@ -1,4 +1,4 @@
-﻿namespace PMHelmutSchmidtPortal.Authorization;
+namespace PMHelmutSchmidtPortal.Authorization;
 
 /// <summary>
 /// Defines string constants for application's permission names.
@@ -130,6 +130,7 @@ public static class AppPermissions
     public const string Hsu_Product_Base_GetProductAssigmentStatus = "Hsu.Product.Base.GetProductAssigmentStatus ";
     public const string Hsu_Product_Base_AcceptOrRejectProductionRequest = "Hsu.Product.Base.AcceptOrRejectProductionRequest";
     public const string Hsu_Product_Base_EditMode = "Hsu.Product.Base.EditMode";
+    public const string Hsu_Product_Base_Delete = "Hsu.Product.Base.Delete";
 
     public const string Hsu_Product_Details = "Hsu.Product.Details";
     public const string Hsu_Product_Details_Overview_Get_Admin = "Hsu.Product.Details.Overview.Get.Admin";
@@ -138,8 +139,6 @@ public static class AppPermissions
     public const string Hsu_Product_Details_FinalizeForValueChainPlanning = "Hsu.Product.Details.FinalizeForValueChainPlanning";
     public const string Hsu_Product_Details_GeneralInfo_Get = "Hsu.Product.Details.GeneralInfo.Get";
     public const string Hsu_Product_Details_GeneralInfo_CreateOrUpdate = "Hsu.Product.Details.GeneralInfo.CreateOrUpdate";
-    public const string Hsu_Product_Details_DeliveryAddress_Get = "Hsu.Product.Details.DeliveryAddress.Get";
-    public const string Hsu_Product_Details_DeliveryAddress_CreateOrUpdate = "Hsu.Product.Details.DeliveryAddress.CreateOrUpdate";
     public const string Hsu_Product_Details_MaterialGroups_Get = "Hsu.Product.Details._MaterialGroups.Get";
     public const string Hsu_Product_Details_MaterialGroups_CreateOrUpdate = "Hsu.Product.Details._MaterialGroups.CreateOrUpdate";
     public const string Hsu_Product_Details_ProductVariants_Get = "Hsu.Product.Details.ProductVariants.Get";
@@ -168,8 +167,6 @@ public static class AppPermissions
     public const string Hsu_ValueChainPlanning_ProductionPlans_Get = "Hsu.ValueChainPlanning.ProductionPlans.Get.";
     public const string Hsu_ValueChainPlanning_ProductionPlans_Active_Set = "Hsu.ValueChainPlanning.ProductionPlans.Active.Set";
     public const string Hsu_ValueChainPlanning_ExportProductToShop = "Hsu.ValueChainPlanning.ExportProductToShop";
-    public const string Hsu_ValueChainPlanning_ProductionPlans_SelectForPorduction = "Hsu.ValueChainPlanning.SelectForPorduction";
-    
 
     public const string Hsu_ImportExport = "Hsu.ImportExport";
     public const string Hsu_ImportExport_ProductExport = "Hsu.ImportExport.ProductExport";
@@ -180,8 +177,6 @@ public static class AppPermissions
     public const string Hsu_OrderManagement_Overview_Get_Producer = "Hsu.OrderManagement.Overview.Get.Producer";
     public const string Hsu_OrderManagement_OrderDetails_Admin = "Hsu.OrderManagement.OrderDetails.Admin";
     public const string Hsu_OrderManagement_OrderDetails_Producer = "Hsu.OrderManagement.OrderDetails.Producer";
-    public const string Hsu_OrderManagement_OrderDetails_Developer = "Hsu.OrderManagement.OrderDetails.Developer";
-    
     public const string Hsu_OrderManagement_CancelOrder = "Hsu.OrderManagement.CancelOrder";
 
     public const string Hsu_OrderManagement_Documents = "Hsu.OrderManagement.Documents";
@@ -205,6 +200,19 @@ public static class AppPermissions
     public const string Hsu_ExtendedUser_Profiles_CurrentAdmin = "Hsu.ExtendedUser.Profiles.CurrentAdmin";
     public const string Hsu_ExtendedUser_Profiles_CurrentDeveloper = "Hsu.ExtendedUser.Profiles.CurrentDeveloper";
     public const string Hsu_ExtendedUser_Profiles_CurrentProducer = "Hsu.ExtendedUser.Profiles.CurrentProducer";
+
+    public const string Hsu_Materials = "Hsu.Materials";
+    public const string Hsu_Materials_Manage = "Hsu.Materials.Manage";
+    public const string Hsu_Materials_Get = "Hsu.Materials.Get";
+    public const string Hsu_Materials_Create = "Hsu.Materials.Create";
+    public const string Hsu_Materials_Update = "Hsu.Materials.Update";
+    public const string Hsu_Materials_Delete = "Hsu.Materials.Delete";
+
+    public const string Hsu_Specifications = "Hsu.Specifications";
+    public const string Hsu_Specifications_Get = "Hsu.Specifications.Get";
+    public const string Hsu_Specifications_Create = "Hsu.Specifications.Create";
+    public const string Hsu_Specifications_Update = "Hsu.Specifications.Update";
+    public const string Hsu_Specifications_Delete = "Hsu.Specifications.Delete";
 
     public const string Hsu_Utilities = "Hsu.Utilities";
     public const string Hsu_Utilities_RemoveNonExistingFileEntries = "Hsu.Utilities.RemoveNonExistingFileEntries";

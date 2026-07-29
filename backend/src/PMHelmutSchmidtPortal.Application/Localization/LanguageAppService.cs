@@ -39,8 +39,8 @@ namespace PMHelmutSchmidtPortal.Localization
 
         public async Task<GetLanguagesOutput> GetLanguages()
         {
-            var languages =
-                (await _applicationLanguageManager.GetLanguagesAsync(AbpSession.TenantId)).OrderBy(l => l.DisplayName);
+            var languages = (await _applicationLanguageManager.GetLanguagesAsync(AbpSession.TenantId))
+                .OrderBy(l => l.DisplayName);
             var defaultLanguage = await _applicationLanguageManager.GetDefaultLanguageOrNullAsync(AbpSession.TenantId);
 
             return new GetLanguagesOutput(
@@ -74,8 +74,7 @@ namespace PMHelmutSchmidtPortal.Localization
                 .ToList();
 
             //Flags
-            output.Flags = FamFamFamFlagsHelper
-                .FlagClassNames
+            output.Flags = FamFamFamFlagsHelper.FlagClassNames
                 .OrderBy(f => f)
                 .Select(f => new ComboboxItemDto(f, FamFamFamFlagsHelper.GetCountryCode(f))
                     {IsSelected = output.Language.Icon == f})
@@ -182,7 +181,7 @@ namespace PMHelmutSchmidtPortal.Localization
             var totalCount = languageTexts.Count();
 
             //Ordering
-            if (!input.Sorting.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(input.Sorting))
             {
                 languageTexts = languageTexts.OrderBy(input.Sorting);
             }

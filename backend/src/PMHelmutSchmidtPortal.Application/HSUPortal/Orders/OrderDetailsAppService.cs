@@ -67,16 +67,7 @@ public class OrderDetailsAppService : HsuBaseAppService, IOrderDetailsAppService
     public async Task<OrderValueChainProducerDto> GetOrderCommissionedValueChainProducer(int orderId)
     {
         User producer = await GetCurrentUserAsync();
-        ShopOrder order = await ValidateOrderForProducer(orderId, producer.Id);
-
-        return await _orderDetailsManager.GetOrderCommissionedValueChain(order.Id);
-    }
-
-    [AbpAuthorize(AppPermissions.Hsu_OrderManagement_OrderDetails_Developer)]
-    public async Task<OrderValueChainProducerDto> GetOrderCommissionedValueChainDeveloper(int productId)
-    {
-        User developer = await GetCurrentUserAsync();
-        ShopOrder order = await ValidateOrderForDeveloper(productId, developer.Id);
+        ShopOrder order = await ValidateOrderForProducer(orderId,producer.Id);
 
         return await _orderDetailsManager.GetOrderCommissionedValueChain(order.Id);
     }
@@ -85,22 +76,14 @@ public class OrderDetailsAppService : HsuBaseAppService, IOrderDetailsAppService
     public async Task<OrderDetailsBaseOutput> GetProducerOrderDetails(int orderId)
     {
         User producer = await GetCurrentUserAsync();
-        ShopOrder order = await ValidateOrderForProducer(orderId, producer.Id);
-
+        ShopOrder order = await ValidateOrderForProducer(orderId,producer.Id);
+        
         return new OrderDetailsBaseOutput()
         {
             OrderId = order.Id,
             CustomerInfo = ObjectMapper.Map<CustomerInfoDto>(await _orderDetailsManager.GetOrderCustomerInfo(order.Id)),
-            OrderedProduct = await _orderDetailsManager.GetOrderProductInfoProducer(order.Id, producer.Id)
+            OrderedProduct = await _orderDetailsManager.GetOrderProductInfoProducer(order.Id,producer.Id)
         };
-    }
-
-    [AbpAuthorize(AppPermissions.Hsu_OrderManagement_OrderDetails_Developer)]
-    public async Task<List<DeliveryDocumentsDto>> GetOrderDeliveryDocuments(int productId)
-    {
-        User developer = await GetCurrentUserAsync();
-        ShopOrder order = await ValidateOrderForDeveloper(productId, developer.Id);
-        return await _orderDetailsManager.GetOrderDeliveryDocument(order.Id);
     }
 
 
@@ -126,21 +109,15 @@ public class OrderDetailsAppService : HsuBaseAppService, IOrderDetailsAppService
         await _orderProductionManager.ReRequestProducer(input);
     }
 
-    [AbpAuthorize(AppPermissions.Hsu_OrderManagement_OrderDetails_Admin)]
-    public async Task CommissionValueChain(int planId)
-    {
-        await _orderProductionManager.ManualCommissionValueChainForProduction(planId);
-    }
-
     [AbpAuthorize(AppPermissions.Hsu_OrderManagement_OrderDetails_Producer)]
     public async Task StartFinishValueChainAction(int valueChainActionId, bool start)
     {
         User currentProducer = await GetCurrentUserAsync();
-
+        
         Task task = start
             ? _orderProductionManager.StartProductionAction(valueChainActionId, currentProducer.Id)
             : _orderProductionManager.FinishProductionAction(valueChainActionId, currentProducer.Id);
-
+    
         await task;
     }
 
@@ -162,28 +139,6 @@ public class OrderDetailsAppService : HsuBaseAppService, IOrderDetailsAppService
         catch (Exception e)
         {
             throw new UserFriendlyException("Order is not commissioned for producer");
-        }
-    }
-
-    private async Task<ShopOrder> ValidateOrderForDeveloper(int productId, long developerId)
-    {
-        try
-        {
-            ShopOrder order = await _orderRepository
-                .GetAll()
-                .Include(order => order.ProductVariant.Product)
-                .SingleAsync(order => order.ProductVariant.ProductId == productId &&
-                                      order.ProductVariant.Product.AssignedDeveloperId == developerId &&
-                                      order.OrderProductionPlans
-                                          .Any(plan => plan.ProductionStatus == ProductionStatus.Commissioned ||
-                                                       plan.ProductionStatus == ProductionStatus.InProgress ||
-                                                       plan.ProductionStatus == ProductionStatus.Completed)
-                );
-            return order;
-        }
-        catch (Exception e)
-        {
-            throw new UserFriendlyException("Order is not commissioned for developer");
         }
     }
 }

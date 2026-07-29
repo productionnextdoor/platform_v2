@@ -1,0 +1,49 @@
+<pm-popup
+  class="pm-workstep-matrix-modal"
+  [context]="localisations.context"
+  [title]="localisations.title || (startStateName + ' - ' + finalStateName)"
+  [type]="PopupType.LARGE"
+  (onClose)="onCloseHandler()"
+>
+  <pm-workstep-matrix
+    [stepMeasurementVariants]="stepMeasurementVariants"
+    [localisations]="localisations.matrix"
+    [readonly]="readonly"
+    (dataChange)="onDataChange($event)"
+    (validationChange)="onValidationChange($event)"
+  ></pm-workstep-matrix>
+
+  <div footer class="pm-workstep-matrix-modal__footer">
+    <div *ngIf="showDeleteButton && !readonly" class="pm-workstep-matrix-modal__actions pm-workstep-matrix-modal__actions--left">
+      <pm-button
+        [type]="ButtonType.SECONDARY"
+        [label]="localisations.delete"
+        (onClicked)="onDeleteClick()"
+        class="pm-workstep-matrix-modal__action"
+      />
+    </div>
+    <div class="pm-workstep-matrix-modal__actions pm-workstep-matrix-modal__actions--right">
+      <pm-button
+        [type]="ButtonType.SECONDARY"
+        [label]="localisations.cancel"
+        (onClicked)="onClose.emit()"
+        class="pm-workstep-matrix-modal__action"
+      />
+      <pm-button
+        *ngIf="!readonly"
+        [type]="ButtonType.PRIMARY"
+        [label]="localisations.save"
+        [disabled]="!isValid"
+        (onClicked)="onSave()"
+        class="pm-workstep-matrix-modal__action"
+      />
+    </div>
+  </div>
+</pm-popup>
+
+<pm-confirm-popup
+  *ngIf="showConfirmDelete"
+  [localisations]="localisations.confirmDeletePopup"
+  (onCancel)="onDeleteCancel()"
+  (onConfirm)="onDeleteConfirm()"
+></pm-confirm-popup>

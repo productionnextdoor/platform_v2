@@ -89,7 +89,7 @@ public class UtilitiesAppService : HsuBaseAppService, IUtilitiesAppService
             .ToListAsync();
        foreach (int productId in productIds)
        {
-           await _costManager.CalculateAndSaveProductVariantsCost(productId);
+           await _costManager.CalculateProductVariantCost(productId);
        }
        
     }

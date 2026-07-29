@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Transactions;
-using Abp.Configuration.Startup;
 using Abp.Dependency;
 using Abp.Domain.Uow;
 using Abp.EntityFrameworkCore.Uow;
@@ -33,26 +31,18 @@ namespace PMHelmutSchmidtPortal.Migrations.Seed
             //Default tenant seed (in host database).
             new DefaultTenantBuilder(context).Create();
             new TenantRoleAndUserBuilder(context, 1).Create();
-
-
-            IHostEnvironment env = IocManager.Instance.ResolveAsDisposable<IHostEnvironment>().Object;
-            IAbpStartupConfiguration abpStartupConfiguration = IocManager.Instance.ResolveAsDisposable<IAbpStartupConfiguration>().Object;
-            Dictionary<string, object> config = abpStartupConfiguration.GetCustomConfig();
-
+            
             // HSU Specific Entities
             new DefaultPortalAdminCreator(context).Create();
-
-            bool isOffer = bool.Parse(config[PMHelmutSchmidtPortalConsts.IsOfferKey].ToString() ?? "false");
-            new DefaultMaterialCreator(context).Create(!isOffer);
-
+            new DefaultMaterialCreator(context).Create();
             new DefaultRatingTypesCreator(context).Create();
             new DefaultWorkTypeCreator(context).Create();
-            new DefaultTaxesAndRoyaltiesCreator(context).Create(isOffer);
-
-
+            new DefaultTaxesAndRoyaltiesCreator(context).Create();
+            
+            IHostEnvironment env = IocManager.Instance.ResolveAsDisposable<IHostEnvironment>().Object;
             if (!env.IsProduction())
             {
-                new InitialHsuDbBuilder(context).Create(isOffer);
+                new InitialHsuDbBuilder(context).Create();
             }
         }
 

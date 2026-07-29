@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  AcceptOrRejectActionInputDto,
-  ActionReRequestDto,
+  AcceptOrRejectActionInputDto, ActionReRequestDto,
   ActionStatus,
   AdminOrderDetailsOutput,
-  DeliveryDocumentsDto,
   OrderDetailsBaseOutput,
   OrderDetailsServiceProxy,
   OrderProducerRequestOutput,
@@ -45,12 +43,8 @@ export class OrderApiService extends IOrderApiService {
     return this.orderDetailsServiceProxy.getOrderDetailsForAdmin(orderId);
   }
 
-
   public getOrderCommissionedValueChainProducer(orderId: number): Observable<OrderValueChainProducerDto> {
     return this.orderDetailsServiceProxy.getOrderCommissionedValueChainProducer(orderId);
-  }
-  public getOrderCommissionedValueChainDeveloper(productId:number): Observable<OrderValueChainProducerDto>{
-    return this.orderDetailsServiceProxy.getOrderCommissionedValueChainDeveloper(productId);
   }
 
   public getProducerOrderStatus(orderId: number): Observable<ActionStatus> {
@@ -78,10 +72,6 @@ export class OrderApiService extends IOrderApiService {
     return this.orderDetailsServiceProxy.getProducerOrderDetails(orderId);
   }
 
-  public getProductDeliveryDocuments(productId: number): Observable<DeliveryDocumentsDto[]> {
-    return this.orderDetailsServiceProxy.getOrderDeliveryDocuments(productId);
-  }
-
   public startFinishValueChainAction(valueChainActionId: number, start: boolean): Observable<void> {
     return this.orderDetailsServiceProxy.startFinishValueChainAction(valueChainActionId, start)
   }
@@ -95,10 +85,6 @@ export class OrderApiService extends IOrderApiService {
 
   public cancelOrder(orderId: number): Observable<void> {
     return this.orderServiceProxy.cancelOrder(orderId);
-  }
-
-  public commissionValueChain(valueCHainId: number): Observable<void> {
-      return this.orderDetailsServiceProxy.commissionValueChain(valueCHainId);
   }
 
   private mapOrderRequestData(orderActionData: OrderProducerRequestOutput[]): IProducerOrderActionData[] {
@@ -212,12 +198,12 @@ export class OrderApiService extends IOrderApiService {
 
   private getBadgeText(status: ActionStatus): string {
     switch (status) {
-      case ActionStatus.Rejected:
-        return this.localizationService.loc('OrderDetails.ProducerRequestCard.Badge.Reject')
-      case ActionStatus.Accepted:
-        return this.localizationService.loc('OrderDetails.ProducerRequestCard.Badge.Accept')
-      default:
-        return '';
+    case ActionStatus.Rejected:
+      return this.localizationService.loc('OrderDetails.ProducerRequestCard.Badge.Reject')
+    case ActionStatus.Accepted:
+      return this.localizationService.loc('OrderDetails.ProducerRequestCard.Badge.Accept')
+    default:
+      return '';
     }
   }
 }

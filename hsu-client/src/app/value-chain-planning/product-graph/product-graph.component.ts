@@ -78,7 +78,7 @@ export class ProductGraphComponent extends WithRx() implements OnInit, OnChanges
   protected canDelete: boolean = false;
   protected suggestions: string[] = [];
 
-  //Step wizard
+  //Step matrix
   protected startState?: IProductGraphState;
   protected endState?: IProductGraphState;
   protected stepId: number = 0;
@@ -88,7 +88,7 @@ export class ProductGraphComponent extends WithRx() implements OnInit, OnChanges
   protected statePopupShown: boolean = false;
   protected stateLockPopupShown: boolean = false;
   protected showFinalProductNote: boolean = false;
-  protected showWorkstepWizard: boolean = false;
+  protected showWorkstepMatrix: boolean = false;
   protected workstepReadonly: boolean = false;
 
   //Localisation
@@ -139,7 +139,7 @@ export class ProductGraphComponent extends WithRx() implements OnInit, OnChanges
       }
     }
 
-    this.showWorkstepWizard = true
+    this.showWorkstepMatrix = true
   }
 
   editWorkstep(step: IProductGraphStep): void {
@@ -148,7 +148,7 @@ export class ProductGraphComponent extends WithRx() implements OnInit, OnChanges
     }
     this.stepId = step.stepId;
     this.workstepReadonly = false;
-    this.showWorkstepWizard = true;
+    this.showWorkstepMatrix = true;
   }
 
   showWorkstep(step: IProductGraphStep): void {
@@ -157,7 +157,7 @@ export class ProductGraphComponent extends WithRx() implements OnInit, OnChanges
     }
     this.stepId = step.stepId;
     this.workstepReadonly = true;
-    this.showWorkstepWizard = true;
+    this.showWorkstepMatrix = true;
   }
 
   finalProductNoteClose(): void {
@@ -168,14 +168,14 @@ export class ProductGraphComponent extends WithRx() implements OnInit, OnChanges
 
   finalProductNoteConfirm(): void {
     this.showFinalProductNote = false;
-    this.showWorkstepWizard = true;
+    this.showWorkstepMatrix = true;
   }
 
-  stepWizardClose(): void {
+  stepMatrixClose(): void {
     this.stepId = 0;
     this.startState = undefined;
     this.endState = undefined;
-    this.showWorkstepWizard = false;
+    this.showWorkstepMatrix = false;
     this.getGraphData()
       .subscribe();
   }

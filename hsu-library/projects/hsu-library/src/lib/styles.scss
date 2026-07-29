@@ -1,3 +1,18 @@
+@import '@fontsource-variable/karla/wght.css';
+@import '@fontsource/karla/400.css';
+
+$hash: 'zskice';
+@font-face {
+  font-family: 'HSU';
+  src: url('styles/fonts/HSU-icon.eot?#{$hash}');
+  src: url('styles/fonts/HSU-icon.eot?#{$hash}#iefix') format('embedded-opentype'),
+       url('styles/fonts/HSU-icon.woff?#{$hash}') format('woff'),
+       url('styles/fonts/HSU-icon.ttf?#{$hash}') format('truetype'),
+       url('styles/fonts/HSU-icon.svg?#{$hash}##HSU-icon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import "styles/hsu";
 
 //storybook modification

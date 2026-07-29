@@ -6,6 +6,8 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ExtendedUser.Dto
 {
     public class ProducerOverviewInput : PagedSortedAndFilteredInputDto, IShouldNormalize
     {
+        public bool IncludeDeletedNonAnonymized { get; set; }
+
         public void Normalize()
         {
             if (Sorting.IsNullOrEmpty())

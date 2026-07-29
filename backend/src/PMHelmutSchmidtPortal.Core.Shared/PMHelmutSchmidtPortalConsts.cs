@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PMHelmutSchmidtPortal
+﻿namespace PMHelmutSchmidtPortal
 {
     public class PMHelmutSchmidtPortalConsts
     {
@@ -9,8 +7,6 @@ namespace PMHelmutSchmidtPortal
         public const string ConnectionStringName = "Default";
 
         public const bool MultiTenancyEnabled = true;
-        
-        
         
         /// <summary>
         /// Redirects users to host URL when using subdomain as tenancy name for not existing tenants
@@ -45,14 +41,5 @@ namespace PMHelmutSchmidtPortal
         public const string CategoryName = "Möbel";
         public const string CurrencyName = "Euro";
         public const string SalesChanelName = "HSU Shop";
-        
-        public const string IsOfferKey = "IsOffer";
-        public const string HasVariantsKey = "HasVariants";
-
-        public static readonly Dictionary<string, object> CustomConfig = new()
-        {
-            { IsOfferKey, true },
-            { HasVariantsKey, false }
-        };
     }
 }

@@ -7,7 +7,7 @@ on:
     branches:
       - 'development'
       - 'stage'
-      # - 'master'
+      - 'master'
   workflow_dispatch:
     inputs:
       BRANCH_NAME:
@@ -16,7 +16,7 @@ on:
         default: 'development'
 
 env:
-  ProjectName: hsu-platform-2
+  ProjectName: hsu-platform
   BRANCH_NAME: ${{ github.event.inputs.BRANCH_NAME }}
   BACKUP_TAG: ${{ github.event_name != 'workflow_dispatch' &&  github.run_number || github.sha }}
 
@@ -45,10 +45,10 @@ jobs:
     - name: Installing NodeJS
       uses: actions/setup-node@v1
       with:
-        node-version: 16
+        node-version: 20
     - name: Installing angular
       run: |
-        npm install -g @angular/cli@13.3.6
+        npm install -g @angular/cli@17.3.17
         ng version
 
     - name: build from script

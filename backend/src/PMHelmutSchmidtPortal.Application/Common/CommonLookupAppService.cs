@@ -48,7 +48,7 @@ namespace PMHelmutSchmidtPortal.Common
             {
                 var query = UserManager.Users
                     .WhereIf(
-                        !input.Filter.IsNullOrWhiteSpace(),
+                        !string.IsNullOrWhiteSpace(input.Filter),
                         u =>
                             u.Name.Contains(input.Filter) ||
                             u.Surname.Contains(input.Filter) ||

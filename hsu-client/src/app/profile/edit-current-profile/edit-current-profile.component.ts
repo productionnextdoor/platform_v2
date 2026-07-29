@@ -12,7 +12,7 @@ import {
   IProducer,
   IProducerProfileFormLabelLocalisation,
   IProducerProfileLocalisation,
-  IStatusesLocalisation
+  IStatusesLocalisation,
 } from 'hsu-library';
 import { IPermissionManagerService } from '../../../services/permissions/ipermission-manager.service';
 import { PERMISSIONS } from '../../../services/permissions/permissions';
@@ -103,14 +103,14 @@ export class EditCurrentProfileComponent implements OnInit {
       this.developerService.getCurrentDeveloper().subscribe(
         (loadedDeveloper: IDeveloper) => {
           this.developer = loadedDeveloper;
-
         });
     }
     if (this.profileType === ProfileType.PRODUCER) {
       this.producerService.getCurrentProducer().subscribe(
         (loadedProducer: IProducer) => {
           this.producer = loadedProducer;
-        });
+        }
+      );
     }
     if (this.profileType === ProfileType.ADMIN) {
       this.adminService.getCurrentAdmin().subscribe(

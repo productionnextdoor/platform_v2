@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using GraphQL;
+using GraphQL.DI;
 using GraphQL.Server;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using PMHelmutSchmidtPortal.Debugging;
 using PMHelmutSchmidtPortal.Schemas;
@@ -15,28 +16,25 @@ namespace PMHelmutSchmidtPortal.Configure
         public static void AddAndConfigureGraphQL(this IServiceCollection services)
         {
             services
-                .AddGraphQL(x => { x.EnableMetrics = DebugHelper.IsDebug; })
-                .AddNewtonsoftJson(deserializerSettings => { }, serializerSettings => { }) // For everything else
-                .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = DebugHelper.IsDebug)
-                .AddGraphTypes(ServiceLifetime.Scoped)
-                .AddUserContextBuilder(httpContext => new Dictionary<string, object>
-                {
-                    {"user", httpContext.User}
-                })
-                .AddNewtonsoftJson(deserializerSettings => { }, serializerSettings => { }) // For everything else
-                .AddDataLoader();
+                .AddGraphQL(builder => builder
+                    .AddNewtonsoftJson()
+                    .AddErrorInfoProvider(opt => opt.ExposeExceptionDetails = DebugHelper.IsDebug)
+                    .AddGraphTypes()
+                    .AddUserContextBuilder(httpContext => new Dictionary<string, object>
+                    {
+                        {"user", httpContext.User}
+                    }));
 
+            services.AddSingleton<MainSchema>();
+            
             AllowSynchronousIo(services);
         }
 
         //https://github.com/graphql-dotnet/graphql-dotnet/issues/1326
         private static void AllowSynchronousIo(IServiceCollection services)
         {
-            // kestrel
-            services.Configure<KestrelServerOptions>(options => { options.AllowSynchronousIO = true; });
-
-            // IIS
-            services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
+            // Server configuration for .NET 9 - these may not be needed anymore
+            // or need different configuration approach
         }
     }
 }

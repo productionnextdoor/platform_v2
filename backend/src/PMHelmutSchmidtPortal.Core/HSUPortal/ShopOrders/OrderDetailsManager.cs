@@ -9,7 +9,6 @@ using PMHelmutSchmidtPortal.HSUPortal.ProductCosts;
 using PMHelmutSchmidtPortal.HSUPortal.Products;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.ProductVariantStep;
 using PMHelmutSchmidtPortal.HSUPortal.ProductVariants;
-using PMHelmutSchmidtPortal.HSUPortal.Utilities;
 using PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.ShopOrders;
@@ -19,22 +18,19 @@ public class OrderDetailsManager : HSUDomainBaseService, IOrderDetailsManager
     private readonly IOrderRepository _orderRepository;
     private readonly IRepository<OrderProductionPlan> _orderProductionPlanRepository;
     private readonly IRepository<CustomerInfo> _customerInfoRepository;
-    private readonly ITaxesAndRoyaltiesRepository _taxesAndRoyaltiesRepository;
-    private readonly CustomConfigService _configService;
+    private readonly IRepository<TaxesAndRoyalties> _taxesAndRoyaltiesRepository;
 
     public OrderDetailsManager(
         IOrderRepository orderRepository,
         IRepository<OrderProductionPlan> orderProductionPlanRepository,
         IRepository<CustomerInfo> customerInfoRepository,
-        ITaxesAndRoyaltiesRepository taxesAndRoyaltiesRepository,
-        CustomConfigService configService
+        IRepository<TaxesAndRoyalties> taxesAndRoyaltiesRepository
     )
     {
         _orderRepository = orderRepository;
         _orderProductionPlanRepository = orderProductionPlanRepository;
         _customerInfoRepository = customerInfoRepository;
         _taxesAndRoyaltiesRepository = taxesAndRoyaltiesRepository;
-        _configService = configService;
     }
 
     public async Task<List<OrderValueChainAdminDto>> GetOrderValueChains(int orderId)
@@ -74,21 +70,10 @@ public class OrderDetailsManager : HSUDomainBaseService, IOrderDetailsManager
             .Select(order => order.ProductVariantId)
             .SingleAsync();
 
-        List<ProductionStatus> statuses = new()
-        {
-            ProductionStatus.Commissioned, ProductionStatus.InProgress, ProductionStatus.Completed
-        };
-        
-        if (_configService.IsOffer())
-        {
-            statuses.Add(ProductionStatus.Selected);
-        }
-
-
         List<PayoutDto> producers = await _orderProductionPlanRepository
             .GetAll()
             .ForOrder(orderId)
-            .WithStatuses(statuses.ToArray())
+            .WithStatuses(ProductionStatus.Commissioned, ProductionStatus.InProgress, ProductionStatus.Completed)
             .SelectMany(plan => plan.OrderProductionPlanActions
                 .Select(action => new
                 {
@@ -155,34 +140,20 @@ public class OrderDetailsManager : HSUDomainBaseService, IOrderDetailsManager
             new()
             {
                 Name = L("OrderDetails.ProducerRequestCard.Costs.MaterialAndTransport"),
-                PayoutSum = producerActionsRevenue.MaterialCost +
-                            producerActionsRevenue.AdditionalCost +
+                PayoutSum = producerActionsRevenue.MaterialCost + 
+                            producerActionsRevenue.AdditionalCost + 
                             producerActionsRevenue.TransportAndAssemblyCost
             },
             new()
             {
                 Name = L("OrderDetails.ProducerRequestCard.Costs.Total"),
-                PayoutSum = producerActionsRevenue.MaterialCost +
-                            producerActionsRevenue.AdditionalCost +
-                            producerActionsRevenue.TransportAndAssemblyCost +
+                PayoutSum = producerActionsRevenue.MaterialCost + 
+                            producerActionsRevenue.AdditionalCost + 
+                            producerActionsRevenue.TransportAndAssemblyCost + 
                             producerActionsRevenue.WorkCost
             }
         };
         return productInfo;
-    }
-
-    public async Task<List<DeliveryDocumentsDto>> GetOrderDeliveryDocument(int orderId)
-    {
-        return await _orderRepository
-            .GetOrder(orderId)
-            .Include(order => order.OrderDeliveryDocuments)
-            .Select(order => order.OrderDeliveryDocuments.Select(document => new DeliveryDocumentsDto
-            {
-                FileId = document.Id,
-                FileName = document.FileName,
-                OrderId = document.ShopOrderId
-            }).ToList())
-            .SingleAsync();
     }
 
     private async Task<List<OrderValueChainAdminDto>> GetOrderValueChainsDtos(int orderId)
@@ -205,8 +176,8 @@ public class OrderDetailsManager : HSUDomainBaseService, IOrderDetailsManager
     private async Task<OrderedProductDto> GetProductInfo(int orderId)
     {
         IEnumerable<TaxesAndRoyalties> taxesAndRoyalties = _taxesAndRoyaltiesRepository
-            .GetActiveTaxesAndRoyalties();
-            
+            .GetAll()
+            .Where(tar => tar.IsActive);
 
         TaxesAndRoyalties developerRoyalty = taxesAndRoyalties.Single(tar => tar.TaxType == TaxType.DeveloperRoyalty);
         TaxesAndRoyalties platformRoyalty = taxesAndRoyalties.Single(tar => tar.TaxType == TaxType.PlatformRoyalty);

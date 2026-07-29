@@ -24,7 +24,7 @@ public class OrderImportManager : HSUDomainBaseService, IOrderImportManager
         _shopwareApiConnector = shopwareApiConnector;
     }
 
-    public async Task<List<ShopOrder>> GetNewOrdersFromShop(string orderNumberPrefix = "")
+    public async Task<List<ShopOrder>> GetNewOrdersFromShop()
     {
         string response = await SendOrderImportRequest();
         JObject obj = JObject.Parse(response);
@@ -32,9 +32,7 @@ public class OrderImportManager : HSUDomainBaseService, IOrderImportManager
         List<ShopOrder> orders = obj["data"].Select(order => new ShopOrder()
         {
             ShopUuid = order["id"].ToString(),
-            OrderNumber = String.IsNullOrWhiteSpace(orderNumberPrefix) ?
-                $"{order["attributes"]["orderNumber"]}" :
-                $"{orderNumberPrefix}-{order["attributes"]["orderNumber"]}",
+            OrderNumber = order["attributes"]["orderNumber"].ToString(),
             OrderDate = DateTime.Parse(order["attributes"]["orderDateTime"].ToString()),
             Status = OrderStatus.Open
         }).ToList();
@@ -42,8 +40,8 @@ public class OrderImportManager : HSUDomainBaseService, IOrderImportManager
         foreach (ShopOrder order in orders)
         {
             order.CustomerInfo = GetCustomerInfo(obj["included"], order.ShopUuid);
-            order.ProductVariantId = GetProductCustomFieldId(obj["included"], order.ShopUuid, "pm_product_variant_id");
-            order.ValueChainParameterId = GetProductCustomFieldId(obj["included"], order.ShopUuid, "pm_value_chain_parameter_id");
+            order.ProductVariantId = GetProductCustomFieldId(obj["included"], order.ShopUuid,"pm_product_variant_id");
+            order.ValueChainParameterId = GetProductCustomFieldId(obj["included"], order.ShopUuid,"pm_value_chain_parameter_id");
         }
 
         return orders;
@@ -55,24 +53,24 @@ public class OrderImportManager : HSUDomainBaseService, IOrderImportManager
             HttpMethod.Post,
             ApiSetOrdersAsExported,
             new StringContent(
-                JsonConvert.SerializeObject(new Dictionary<string, dynamic>()
+                JsonConvert.SerializeObject(new Dictionary<string,dynamic>()
                     {
-                        {
-                            "set-export-flag",
-                            new
-                            {
-                                Entity = "order",
-                                Action = "upsert",
-                                Payload = orderShopIds.Select(id => new
-                                {
-                                    Id = id,
-                                    CustomFields = new Dictionary<string, bool>()
-                                    {
-                                        { "pm_custom_fields_field__exported", true }
-                                    }
-                                })
-                            }
-                        }
+                       {
+                           "set-export-flag",
+                           new
+                           {
+                               Entity = "order",
+                               Action = "upsert",
+                               Payload = orderShopIds.Select(id => new
+                               {
+                                   Id = id,
+                                   CustomFields = new Dictionary<string,bool>()
+                                   {
+                                       {"pm_custom_fields_field__exported",true}
+                                   }
+                               })
+                           }
+                       } 
                     },
                     new JsonSerializerSettings
                     {
@@ -156,4 +154,5 @@ public class OrderImportManager : HSUDomainBaseService, IOrderImportManager
 
         return int.Parse(productVariantId.ToString());
     }
+
 }

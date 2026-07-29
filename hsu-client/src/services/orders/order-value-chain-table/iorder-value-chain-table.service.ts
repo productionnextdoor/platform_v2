@@ -14,9 +14,7 @@ import {
 export abstract class IOrderValueChainTableService {
   public abstract getColumnHeadersAdmin(): IColumnHeader[];
   public abstract getColumnHeadersProducer(): IColumnHeader[];
-  public abstract getColumnHeadersDeveloper(): IColumnHeader[];
   public abstract getTableRowAdmin(action: OrderValueChainActionAdminDto, orderStatus: OrderStatus): Row;
   public abstract getTableRowProducer(action: OrderValueChainActionProducerDto, currentProducerId: number): Row;
-  public abstract getTableRowDeveloper(action: OrderValueChainActionProducerDto): Row
   public abstract mapValueChains(valueChains: OrderValueChainAdminDto[], orderStatus: OrderStatus): IValueChainData[];
 }

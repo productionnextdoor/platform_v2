@@ -11,8 +11,7 @@ import {
   IColumnHeader,
   Row,
   IUploadFiles,
-  IDeliveryDocument,
-  ECardMode
+  IDeliveryDocument
 } from 'hsu-library';
 import {
   forkJoin,
@@ -76,8 +75,6 @@ export class OrderDetailsProducerComponent extends WithRx() implements OnInit {
   protected commissionedOrderStatuses: ActionStatus[] = commissionedOrderStatuses;
   protected uploader: FileUploader;
   protected hideDocuments: boolean = true;
-
-  protected readonly ECardMode: typeof ECardMode = ECardMode;
 
   constructor(
     private readonly orderApiService: IOrderApiService,

@@ -29,13 +29,13 @@ namespace PMHelmutSchmidtPortal.Identity
         public SecurityStampValidator(
             IOptions<SecurityStampValidatorOptions> options,
             SignInManager signInManager,
-            ISystemClock systemClock,
+            TimeProvider timeProvider,
             ILoggerFactory loggerFactory,
             IUserDelegationConfiguration userDelegationConfiguration,
             IUserDelegationManager userDelegationManager,
             PermissionChecker permissionChecker,
             IUnitOfWorkManager unitOfWorkManager)
-            : base(options, signInManager, systemClock, loggerFactory, unitOfWorkManager)
+            : base(options, signInManager, loggerFactory, unitOfWorkManager)
         {
             _userDelegationConfiguration = userDelegationConfiguration;
             _userDelegationManager = userDelegationManager;

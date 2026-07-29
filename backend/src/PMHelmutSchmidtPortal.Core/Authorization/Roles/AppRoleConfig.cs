@@ -1,4 +1,4 @@
-﻿using Abp.MultiTenancy;
+using Abp.MultiTenancy;
 using Abp.Zero.Configuration;
 
 namespace PMHelmutSchmidtPortal.Authorization.Roles
@@ -53,12 +53,11 @@ namespace PMHelmutSchmidtPortal.Authorization.Roles
                         AppPermissions.Hsu_Product_Base_Get,
                         AppPermissions.Hsu_Product_Base_CreateOrUpdate,
                         AppPermissions.Hsu_Product_Base_EditMode,
+                        AppPermissions.Hsu_Product_Base_Delete,
 
                         //Product wizard
                         AppPermissions.Hsu_Product_Details_GeneralInfo_Get,
                         AppPermissions.Hsu_Product_Details_GeneralInfo_CreateOrUpdate,
-                        AppPermissions.Hsu_Product_Details_DeliveryAddress_Get,
-                        AppPermissions.Hsu_Product_Details_DeliveryAddress_CreateOrUpdate,
                         AppPermissions.Hsu_Product_Details_MaterialGroups_Get,
                         AppPermissions.Hsu_Product_Details_MaterialGroups_CreateOrUpdate,
                         AppPermissions.Hsu_Product_Details_ProductVariants_Get,
@@ -113,6 +112,19 @@ namespace PMHelmutSchmidtPortal.Authorization.Roles
 
                         // Impersonation
                         AppPermissions.Pages_Administration_Users_Impersonation,
+
+                        //Materials
+                        AppPermissions.Hsu_Materials_Manage,
+                        AppPermissions.Hsu_Materials_Get,
+                        AppPermissions.Hsu_Materials_Create,
+                        AppPermissions.Hsu_Materials_Update,
+                        AppPermissions.Hsu_Materials_Delete,
+
+                        //Specifications
+                        AppPermissions.Hsu_Specifications_Get,
+                        AppPermissions.Hsu_Specifications_Create,
+                        AppPermissions.Hsu_Specifications_Update,
+                        AppPermissions.Hsu_Specifications_Delete,
                     }
                 }
             );
@@ -131,8 +143,6 @@ namespace PMHelmutSchmidtPortal.Authorization.Roles
                         AppPermissions.Hsu_Product_Details_Overview_Get_Developer,
                         AppPermissions.Hsu_Product_Details_GeneralInfo_Get,
                         AppPermissions.Hsu_Product_Details_GeneralInfo_CreateOrUpdate,
-                        AppPermissions.Hsu_Product_Details_DeliveryAddress_Get,
-                        AppPermissions.Hsu_Product_Details_DeliveryAddress_CreateOrUpdate,
                         AppPermissions.Hsu_Product_Details_MaterialGroups_Get,
                         AppPermissions.Hsu_Product_Details_MaterialGroups_CreateOrUpdate,
                         AppPermissions.Hsu_Product_Details_ProductVariants_Get,
@@ -148,16 +158,15 @@ namespace PMHelmutSchmidtPortal.Authorization.Roles
                         
                         //Product Details
                         AppPermissions.Hsu_Product_Details_Developer_ProductRevenueInfo,
-                        AppPermissions.Hsu_OrderManagement_OrderDetails_Developer,
-                        AppPermissions.Hsu_OrderManagement_Documents_Download,
 
                         //Profile
                         AppPermissions.Hsu_ExtendedUser_Profiles_CurrentDeveloper,
-                        
-                        //ValueChainPlanning
-                        AppPermissions.Hsu_ValueChainPlanning_ProductionPlans_Get,
-                        AppPermissions.Hsu_ValueChainPlanning_ProductionPlans_SelectForPorduction
 
+                        //Materials (read-only)
+                        AppPermissions.Hsu_Materials_Get,
+
+                        //Specifications (read-only)
+                        AppPermissions.Hsu_Specifications_Get,
                     }
                 }
             );

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using PMHelmutSchmidtPortal.Authorization;
 using PMHelmutSchmidtPortal.Authorization.Roles;
 using PMHelmutSchmidtPortal.Authorization.Users;
+using PMHelmutSchmidtPortal.HSUPortal.ExtendedUser.Dto;
 using PMHelmutSchmidtPortal.HSUPortal.ExtendedUsers;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Dto;
 
@@ -22,19 +24,22 @@ public class ProductAppService : HsuBaseAppService, IProductsAppService
     private readonly UserManager _userManager;
     private readonly IProductEditModeManager _editModeManager;
     private readonly IProductionDetailsRepository _productionDetailsRepository;
+    private readonly IProductDeleteManager _productDeleteManager;
 
     public ProductAppService(
         IProductManager productManager,
         ICancellationTokenProvider cancellationTokenProvider,
         UserManager userManager,
         IProductEditModeManager editModeManager,
-        IProductionDetailsRepository productionDetailsRepository
+        IProductionDetailsRepository productionDetailsRepository,
+        IProductDeleteManager productDeleteManager
     ) {
         _productManager = productManager;
         _cancellationTokenProvider = cancellationTokenProvider;
         _userManager = userManager;
         _editModeManager = editModeManager;
         _productionDetailsRepository = productionDetailsRepository;
+        _productDeleteManager = productDeleteManager;
     }
 
     [AbpAuthorize(
@@ -149,7 +154,29 @@ public class ProductAppService : HsuBaseAppService, IProductsAppService
     {
         await _editModeManager.FinalizeEditMode(productId);
     }
-    
+
+    [AbpAuthorize(AppPermissions.Hsu_Product_Base_Delete)]
+    public async Task DeleteProduct(int productId)
+    {
+        if (!await _productDeleteManager.DeleteProductById(productId))
+        {
+            throw new UserFriendlyException(
+                L("Error.Product.DeleteFailed.Title"),
+                L("Error.Product.DeleteFailed.Text", productId));
+        }
+    }
+
+    [AbpAuthorize(AppPermissions.Hsu_ExtendedUser_Profiles_Producer_Get)]
+    public async Task<List<ProducerProductInvolvementDto>> GetProducerProductInvolvements(long producerId)
+    {
+        return await _productManager.GetProducerProductInvolvements(producerId);
+    }
+
+    [AbpAuthorize(AppPermissions.Hsu_ExtendedUser_Profiles_Developer_Get)]
+    public async Task<List<DeveloperProductInvolvementDto>> GetDeveloperProductInvolvements(long developerId)
+    {
+        return await _productManager.GetDeveloperProductInvolvements(developerId);
+    }
 
     private void ValidateProcessingDeadline(DateTime processingDeadLine)
     {

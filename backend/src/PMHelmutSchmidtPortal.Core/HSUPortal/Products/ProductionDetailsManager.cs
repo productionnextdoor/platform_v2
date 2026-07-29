@@ -18,11 +18,6 @@ public class ProductionDetailsManager: HSUDomainBaseService, IProductionDetailsM
         _userManager = userManager;
     }
 
-    public IQueryable<ProductionDetails> GetActiveForProduct(int productId)
-    {
-        return _detailsRepository.GetAll().Where(pd => pd.ProductId == productId && pd.ProductionDetailsType == ProductionDetailsType.Live);
-    }
-
 
     public async Task<IQueryable<ProductionDetails>> GetForUser(int productionDetailsId, User currentUser)
     {

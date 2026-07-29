@@ -206,7 +206,7 @@ namespace PMHelmutSchmidtPortal.Organizations
             var query = UserManager.Users
                 .Where(u => !userIdsInOrganizationUnit.Contains(u.Id))
                 .WhereIf(
-                    !input.Filter.IsNullOrWhiteSpace(),
+                    !string.IsNullOrWhiteSpace(input.Filter),
                     u =>
                         u.Name.Contains(input.Filter) ||
                         u.Surname.Contains(input.Filter) ||
@@ -215,9 +215,7 @@ namespace PMHelmutSchmidtPortal.Organizations
                 );
 
             var userCount = await query.CountAsync();
-            var users = await query
-                .OrderBy(u => u.Name)
-                .ThenBy(u => u.Surname)
+            var users = await query.OrderBy(u => u.Name).ThenBy(u => u.Surname)
                 .PageBy(input)
                 .ToListAsync();
 
@@ -242,7 +240,7 @@ namespace PMHelmutSchmidtPortal.Organizations
             var query = _roleManager.Roles
                 .Where(u => !roleIdsInOrganizationUnit.Contains(u.Id))
                 .WhereIf(
-                    !input.Filter.IsNullOrWhiteSpace(),
+                    !string.IsNullOrWhiteSpace(input.Filter),
                     u =>
                         u.DisplayName.Contains(input.Filter) ||
                         u.Name.Contains(input.Filter)

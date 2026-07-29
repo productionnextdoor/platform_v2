@@ -18,6 +18,7 @@ public class ProductionStepWorkPieceVariantCost: FullAuditedEntity
     public int? VariantId { get; set; }
     public bool IsStandard { get; set; }
     public decimal MaterialCost { get; set; }
+    public decimal WorkCost { get; set; }
     public bool CanProduce { get; set; }
     
     public ProductionDetails ProductionDetails { get; set; }

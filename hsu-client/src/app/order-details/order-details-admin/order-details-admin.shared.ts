@@ -9,7 +9,6 @@ import {
 
 export interface IValueChainData {
   index: number,
-  valueChainId: number
   requestDate: string,
   status: ValueChainStatusValues
   rowData: Row[]
@@ -18,15 +17,13 @@ export interface IValueChainData {
 export interface IOrderDetailsAdminLocalisation {
   cancelButtonLabel: string;
   valueChainCardLocalisation: IValueChainCardLocalisations,
-  cancelPopupLocalisations: IPmConfirmPopupLocalisations,
-  commissionValueChainPopupLocalisation:IPmConfirmPopupLocalisations
+  cancelPopupLocalisations: IPmConfirmPopupLocalisations
 }
 
 export const orderDetailsAdminLocalisation: IOrderDetailsAdminLocalisation = {
   cancelButtonLabel: '',
   valueChainCardLocalisation: valueChainCardLocalisation,
-  cancelPopupLocalisations: pmConfirmPopupLocalisations,
-  commissionValueChainPopupLocalisation:pmConfirmPopupLocalisations
+  cancelPopupLocalisations: pmConfirmPopupLocalisations
 }
 
 export const topValueChainStatuses: ValueChainStatusValues[] = [

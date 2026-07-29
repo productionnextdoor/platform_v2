@@ -13,5 +13,5 @@ public interface IProductRepository: IRepository<Product, int> {
     Task<Product> GetProductForCreateOrUpdate(int? id);
     IQueryable<DeveloperProductCount> GetProductsPerDevelopersCount(IReadOnlyCollection<User> developers);
     IQueryable<Product> GetProductsForDeveloper(long developerId);
-    Task<int> GetProducerProductCount(long producerId);
+    IQueryable<Product> GetProducerProductCount(long producerId);
 }

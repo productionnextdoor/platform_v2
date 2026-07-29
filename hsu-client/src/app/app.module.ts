@@ -1,5 +1,5 @@
 import {
-  LocationStrategy, NgForOf, NgIf, PathLocationStrategy
+  LocationStrategy, NgForOf, PathLocationStrategy
 } from '@angular/common';
 import {
   HTTP_INTERCEPTORS,
@@ -118,9 +118,9 @@ import { ProducerRegistrationService } from '../services/user/registration/produ
 import { IProducerRegistrationService } from '../services/user/registration/iproducer-registration.service';
 import { IValueChainPlanningApiService } from '../services/value-chain-planning/ivalue-chain-planning-api.service';
 import { ValueChainPlanningApiService } from '../services/value-chain-planning/value-chain-planning-api.service';
-import { WorkstepWizardComponent } from './value-chain-planning/workstep-wizard/workstep-wizard.component';
-import { IWorkstepWizardService } from '../services/value-chain-planning/workstep-wizard/iworkstep-wizard.service';
-import { WorkstepWizardService } from '../services/value-chain-planning/workstep-wizard/workstep-wizard.service';
+import { WorkstepMatrixComponent } from './value-chain-planning/workstep-matrix/workstep-matrix.component';
+import { IWorkstepMatrixService } from '../services/value-chain-planning/workstep-matrix/iworkstep-matrix.service';
+import { WorkstepMatrixService } from '../services/value-chain-planning/workstep-matrix/workstep-matrix.service';
 import { WorkStepTableComponent } from './value-chain-planning/work-step-table/work-step-table.component';
 import { ValueChainTableComponent } from './value-chain-planning/value-chain-table/value-chain-table.component';
 import {
@@ -151,10 +151,9 @@ import { ProductOrderSidebarComponent } from './order-details/order-details-prod
 import { StatisticsComponent } from './statistics/statistics.component';
 import { StatisticsService } from '../services/statistics/statistics.service';
 import { IStatisticsService } from 'src/services/statistics/istatistics.service';
-import { DeveloperRevenueCardComponent } from './product-details/product-details-developer/developer-revenue-card/developer-revenue-card.component';
-import { ProductDeliveryAddressComponent } from './product-developer-wizard/product-delivery-address/product-delivery-address.component';
-import { DeliveryDocumentsCardComponent } from './product-details/product-details-developer/delivery-documents-card/delivery-documents-card.component';
-import { ProductionProcessCardComponent } from './product-details/product-details-developer/production-process-card/production-process-card.component';
+import { MaterialOverviewComponent } from './material-overview/material-overview.component';
+import { MaterialApiService } from '../services/materials/material-api.service';
+import { IMaterialApiService } from '../services/materials/imaterial-api.service';
 import { PrivacyPolicyComponent } from './imprint/privacy-policy/privacy-policy.component';
 import { TermsAndConditionsComponent } from './imprint/terms-and-conditions/terms-and-conditions.component';
 
@@ -216,15 +215,13 @@ function orderTableServiceFactory(
     ResetPasswordComponent,
     ProductDetailsComponent,
     EditCurrentProfileComponent,
-    ProductDeliveryAddressComponent,
-    ProductDeliveryAddressComponent,
     ProductDetailsAdminComponent,
     ProductDetailsProducerComponent,
     ProductDetailsDeveloperComponent,
     ProducerOverviewComponent,
     ProducerRegistrationComponent,
     ProductGraphComponent,
-    WorkstepWizardComponent,
+    WorkstepMatrixComponent,
     WorkStepTableComponent,
     ValueChainTableComponent,
     ProductProducerTableComponent,
@@ -234,11 +231,7 @@ function orderTableServiceFactory(
     OrderDetailsProducerComponent,
     ProductOrderSidebarComponent,
     StatisticsComponent,
-    DeveloperRevenueCardComponent,
-    ProductionProcessCardComponent,
-    DeveloperRevenueCardComponent,
-    DeliveryDocumentsCardComponent,
-    StatisticsComponent,
+    MaterialOverviewComponent,
     PrivacyPolicyComponent,
     TermsAndConditionsComponent
   ],
@@ -251,7 +244,7 @@ function orderTableServiceFactory(
     FileUploadModule,
     HsuLibraryModule,
     NgForOf,
-    NgIf,
+    HsuLibraryModule,
     HsuLibraryModule,
   ],
   providers: [
@@ -405,10 +398,10 @@ function orderTableServiceFactory(
       provide: IProducerRegistrationService,
       useExisting: ProducerRegistrationService
     },
-    WorkstepWizardService,
+    WorkstepMatrixService,
     {
-      provide: IWorkstepWizardService,
-      useExisting: WorkstepWizardService
+      provide: IWorkstepMatrixService,
+      useExisting: WorkstepMatrixService
     },
     ValueChainPlanningApiService,
     {
@@ -455,6 +448,11 @@ function orderTableServiceFactory(
     {
       provide: IStatisticsService,
       useExisting: StatisticsService
+    },
+    MaterialApiService,
+    {
+      provide: IMaterialApiService,
+      useExisting: MaterialApiService
     },
   ]
 })

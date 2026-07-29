@@ -4,5 +4,6 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ExtendedUser.Dto
     {
         public string CompanyName { get; set; }
         public bool IsActive { get; set; }
+        public bool HasProductDesigns { get; set; }
     }
 }

@@ -40,13 +40,13 @@
     (onConfirm)="finalProductNoteConfirm()"
 />
 
-<workstep-wizard
-    *ngIf="showWorkstepWizard"
+<workstep-matrix
+    *ngIf="showWorkstepMatrix"
     [stepId]="stepId"
     [productionDetailsId]="productionDetailsId"
     [startState]="startState"
     [endState]="endState"
     [productFinalWorkPiecesCount]="productFinalWorkPiecesCount"
     [readonly]="workstepReadonly"
-    (onClose)="stepWizardClose()"
+    (onClose)="stepMatrixClose()"
 />

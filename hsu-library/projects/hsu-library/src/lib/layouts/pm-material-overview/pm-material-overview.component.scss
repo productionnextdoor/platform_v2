@@ -1,0 +1,35 @@
+@use '../../styles/utils/functions' as f;
+
+.material-overview {
+  &__header-btn {
+    margin-left: auto;
+  }
+
+  &__create-form {
+    padding-bottom: f.rem(16);
+    border-bottom: f.rem(1) solid f.color('neutrals', 500);
+  }
+
+  &__item {
+    padding: f.rem(16) 0;
+    border-bottom: f.rem(1) solid f.color('neutrals', 500);
+  }
+
+  &__specifications {
+    padding-left: f.rem(40);
+  }
+
+  &__spec-row {
+    padding: f.rem(4) 0;
+  }
+
+  &__group {
+    padding: f.rem(12);
+    border: f.rem(1) solid f.color('neutrals', 700);
+    border-radius: f.rem(8);
+  }
+
+  &__group-specs {
+    padding-left: f.rem(16);
+  }
+}

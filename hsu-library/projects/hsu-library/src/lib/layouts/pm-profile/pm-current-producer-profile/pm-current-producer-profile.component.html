@@ -170,17 +170,19 @@
             </div>
         </div>
         <div footer class="current-producer-profile__footer">
-            <pm-button
-                [type]="ButtonType.SECONDARY"
-                [label]="localisations.labels.cancel"
-                (onClicked)="onCancelClick()"
-                class="current-producer-profile__cancel">
-            </pm-button>
-            <pm-button
-                [type]="ButtonType.PRIMARY"
-                [label]="localisations.labels.save"
-                (onClicked)="onSaveClick()">
-            </pm-button>
+            <div class="current-producer-profile__main-actions">
+                <pm-button
+                    [type]="ButtonType.SECONDARY"
+                    [label]="localisations.labels.cancel"
+                    (onClicked)="onCancelClick()"
+                    class="current-producer-profile__cancel">
+                </pm-button>
+                <pm-button
+                    [type]="ButtonType.PRIMARY"
+                    [label]="localisations.labels.save"
+                    (onClicked)="onSaveClick()">
+                </pm-button>
+            </div>
         </div>
     </pm-popup>
 </div>

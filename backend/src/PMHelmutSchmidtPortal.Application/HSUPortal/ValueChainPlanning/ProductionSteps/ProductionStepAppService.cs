@@ -63,7 +63,6 @@ public class ProductionStepAppService : HsuBaseAppService, IProductionStepAppSer
 
         ProductionStepOverviewDto productionStepOverview = ObjectMapper.Map<ProductionStepOverviewDto>(productionStep);
 
-        decimal hourlyWage = productionStep.ProducerInfo.Rate;
         int defaultMeasurementId = productionStep.ProductionDetails.Product.ProductMeasurements.First(pm => pm.IsDefault).Id;
         ProductionStepMeasurementVariant defaultMeasurementVariant = productionStep.StepMeasurementVariants
             .First(smv => smv.ProductMeasurementId == defaultMeasurementId);
@@ -72,7 +71,7 @@ public class ProductionStepAppService : HsuBaseAppService, IProductionStepAppSer
 
         productionStepOverview.WorkHours = defaultMeasurementVariant.WorkHours;
         productionStepOverview.OrderProcessingTime = defaultMeasurementVariant.OrderProcessingTime;
-        productionStepOverview.WorkCost = defaultMeasurementVariant.WorkHours * hourlyWage;
+        productionStepOverview.WorkCost = defaultMaterialCosts.WorkCost;
         productionStepOverview.MaterialAndTransportCost = defaultMeasurementVariant.AdditionalCost +
                                                           defaultMeasurementVariant.TransportAndAssemblyCost +
                                                           defaultMaterialCosts.MaterialCost;
@@ -91,14 +90,34 @@ public class ProductionStepAppService : HsuBaseAppService, IProductionStepAppSer
         Product product = await GetProductWithAllAssoc(productionDetails.ProductId, currentProducer);
         ProductionStep productionStep = await _productionStepManager.GetProductionStep(input, currentProducer.Id);
 
-        List<ProductMeasurement> positions = product.ProductMeasurements
-            .Where(pm =>
-                pm.Position == product.ProductMeasurements.Max(prodm => prodm.Position) ||
-                pm.Position == product.ProductMeasurements.Min(prodm => prodm.Position) ||
-                pm.IsDefault)
-            .ToList();
+        IEnumerable<ProductMeasurement> positions = product.ProductMeasurements;
+
+        // Validate that standard measurement exists
+        ProductMeasurement standardMeasurement = positions.FirstOrDefault(pm => pm.IsDefault);
+        if (standardMeasurement == null)
+        {
+            throw new UserFriendlyException("Default measurement missing", "Product must have a default measurement");
+        }
 
         WorkPiece workPiece = product.WorkPieces.First(wp => wp.Id == productionStep.StartState.WorkPieceId);
+        
+        // Validate that standard material exists
+        if (productionStep.Id != 0)
+        {
+            ProductionStepMeasurementVariant standardMeasurementVariant = productionStep.StepMeasurementVariants
+                .FirstOrDefault(smv => smv.ProductMeasurementId == standardMeasurement.Id);
+            
+            if (standardMeasurementVariant != null)
+            {
+                ProductionStepWorkPieceVariantCost standardWorkPieceCost = standardMeasurementVariant.StepWorkPieceVariantCosts
+                    .FirstOrDefault(swpv => swpv.IsStandard);
+                
+                if (standardWorkPieceCost == null)
+                {
+                    throw new UserFriendlyException("Standard material missing", "Standard measurement must have a standard material variant");
+                }
+            }
+        }
 
         return new ProductionStepForEditOutput
         {

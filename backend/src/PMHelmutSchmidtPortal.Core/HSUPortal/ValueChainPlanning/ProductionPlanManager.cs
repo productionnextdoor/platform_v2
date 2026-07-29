@@ -14,10 +14,8 @@ using PMHelmutSchmidtPortal.HSUPortal.Extensions;
 using PMHelmutSchmidtPortal.HSUPortal.ProductionSteps;
 using PMHelmutSchmidtPortal.HSUPortal.Products;
 using PMHelmutSchmidtPortal.HSUPortal.Products.Details;
-using PMHelmutSchmidtPortal.HSUPortal.ShopOrders;
 using PMHelmutSchmidtPortal.HSUPortal.Users;
 using PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning.Dto.ProductionPlan;
-using PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning.Dto.ProductionPlan.Extensions;
 using PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning.Dto.ValueChainPlanner;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning;
@@ -31,7 +29,7 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
     private readonly IProducerInfoRepository _producerInfoRepository;
     private readonly IRepository<RatingType> _ratingTypeRepository;
     private readonly IProductionPlanRepository _productionPlanRepository;
-    private readonly IRepository<OrderProductionPlan> _orderProductionPlanRepository;
+    private readonly IProductProducerRepository _productProducerRepository;
 
 
     public ProductionPlanManager(
@@ -40,31 +38,56 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
         IProducerInfoRepository producerInfoRepository,
         IRepository<RatingType> ratingTypeRepository,
         IProductionPlanRepository productionPlanRepository,
-        IRepository<OrderProductionPlan> orderProductionPlanRepository)
+        IProductProducerRepository productProducerRepository)
     {
         _productManager = productManager;
         _productionDetailsRepository = productionDetailsRepository;
         _producerInfoRepository = producerInfoRepository;
         _ratingTypeRepository = ratingTypeRepository;
         _productionPlanRepository = productionPlanRepository;
-        _orderProductionPlanRepository = orderProductionPlanRepository;
+        _productProducerRepository = productProducerRepository;
         Logger = NullLogger.Instance;
     }
 
-    public async Task<PlanListOutputDto> GetAllPagedProductionPlans(PlanListInputDto input)
+    public async Task<PlanListOutputDto> GetPagedProductionPlans(PlanListInputDto input)
     {
         IQueryable<ProductionPlan> query = _productionPlanRepository.GetProductionPlansAllAssoc(input.ProductionDetailsId);
-        int totalCount = await query.CountAsync();
-        return await GetPlanListOutputDto(input, query, totalCount);
-    }
 
-    public async Task<PlanListOutputDto> GetActivePagedProductionPlans(PlanListInputDto input)
-    {
-        IQueryable<ProductionPlan> query = _productionPlanRepository
-            .GetProductionPlansAllAssoc(input.ProductionDetailsId)
-            .Where(p => p.IsActive);
         int totalCount = await query.CountAsync();
-        return await GetPlanListOutputDto(input, query, totalCount);
+
+        List<PlanRatingTypesDto> planRatingTypes = ObjectMapper.Map<List<PlanRatingTypesDto>>(await _ratingTypeRepository.GetAllListAsync());
+        
+        foreach (PlanRatingTypesDto ratingTypesDto in planRatingTypes)
+        {
+            ratingTypesDto.MaxRating = await query
+                .Select(p => p.PlanRatings
+                    .Where(pr => pr.RatingTypeId == ratingTypesDto.RatingTypeId)
+                    .Select(pr => pr.Rating)) 
+                .SelectMany(ratings => ratings) 
+                .DefaultIfEmpty() 
+                .MaxAsync(); 
+        }
+        
+        List<ProductionPlan> productionPlans = await query
+            .OrderBy(input.Sorting, input.SortRateTypeId)
+            .PageBy(input.SkipCount, input.MaxResultCount)
+            .ToListAsync();
+        
+
+        return new PlanListOutputDto
+        {
+            LastPlanCalculatedAt = await _productManager
+                .GetProduct(input.ProductionDetailsId)
+                .IncludeNonArchivedProductionDetails()
+                .Select(p=> p.ProductionDetails.First().LastPlanCalculatedAt)
+                .FirstOrDefaultAsync(),
+            RatingTypes = planRatingTypes,
+            Plans = new PagedResultDto<PlanListDto>
+            {
+                Items = ObjectMapper.Map<List<PlanListDto>>(productionPlans),
+                TotalCount = totalCount
+            }
+        };
     }
 
     public async Task<VcpRequestContentDto> ProductToProductionPlanning(int productionDetailsId, int maxCost)
@@ -108,6 +131,7 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
     {
         try
         {
+
             ProductionDetails productionDetails = await _productionDetailsRepository
                 .GetAll()
                 .Include(details => details.Product)
@@ -130,6 +154,8 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
             {
                 productionDetails.Product.State = ProductState.ProductionReady;
             }
+
+            RemoveProducersWithoutSteps(productionDetails);
         }
         catch (Exception e)
         {
@@ -145,64 +171,10 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
     {
         ProductionPlan plan = await _productionPlanRepository
             .SingleAsync(pp => pp.Id == productionPlanId);
-
+        
         plan.IsActive = isActive;
     }
 
-    private async Task<PlanListOutputDto> GetPlanListOutputDto(PlanListInputDto input, IQueryable<ProductionPlan> query, int totalCount)
-    {
-        List<ProductionPlan> productionPlans = await query
-            .OrderBy(input.Sorting, input.SortRateTypeId)
-            .PageBy(input.SkipCount, input.MaxResultCount)
-            .ToListAsync();
-        
-        List<int> productionPlanIds = productionPlans.Select(p => p.Id).ToList();
-        int? selectedForProductionId = _orderProductionPlanRepository
-            .GetAll()
-            .Where(pp => productionPlanIds.Contains(pp.ProductionPlanId))
-            .Select(pp => pp.ProductionPlanId)
-            .FirstOrDefault();
-
-        DateTime? offerDeadline = await _productManager
-            .GetProductByProductionDetailsId(input.ProductionDetailsId)
-            .Select(p => p.OfferDeadline)
-            .SingleAsync();
-        return new PlanListOutputDto
-        {
-            LastPlanCalculatedAt = await _productManager
-                .GetProduct(input.ProductionDetailsId)
-                .IncludeNonArchivedProductionDetails()
-                .Select(p => p.ProductionDetails.First().LastPlanCalculatedAt)
-                .FirstOrDefaultAsync(),
-            RatingTypes = await GetPlanRatingTypesDtos(query),
-            Plans = new PagedResultDto<PlanListDto>
-            {
-                Items = ObjectMapper.Map<List<PlanListDto>>(productionPlans)
-                    .Select(plan => plan.CalculateProjectedEndDate(offerDeadline))
-                    .ToList(),
-                TotalCount = totalCount
-            },
-            SelectedForProductionId = selectedForProductionId
-        };
-    }
-
-    private async Task<List<PlanRatingTypesDto>> GetPlanRatingTypesDtos(IQueryable<ProductionPlan> query)
-    {
-        List<PlanRatingTypesDto> planRatingTypes = ObjectMapper.Map<List<PlanRatingTypesDto>>(await _ratingTypeRepository.GetAllListAsync());
-
-        foreach (PlanRatingTypesDto ratingTypesDto in planRatingTypes)
-        {
-            ratingTypesDto.MaxRating = await query
-                .Select(p => p.PlanRatings
-                    .Where(pr => pr.RatingTypeId == ratingTypesDto.RatingTypeId)
-                    .Select(pr => pr.Rating))
-                .SelectMany(ratings => ratings)
-                .DefaultIfEmpty()
-                .MaxAsync();
-        }
-
-        return planRatingTypes;
-    }
 
     private async Task RemovePreviousProductPlans(int productionDetailsId)
     {
@@ -230,7 +202,7 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
                     .Select(ps => new ProductionPlanActionPreconditionState { State = ps })
                     .ToList();
 
-                decimal producerRatingWeight = (decimal)actionDto.Costs;
+                decimal producerRatingWeight = (decimal) actionDto.Costs;
                 totalRatingWeights += producerRatingWeight;
 
                 foreach (KeyValuePair<string, decimal> valueChainParameter in actionDto.ProducerId.ValueChainParameters)
@@ -273,7 +245,7 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
                     ProcessingTimeInWeeks = actionDto.ProcessingTimeInWeeks,
                     WorkingTimeInHours = actionDto.WorkingTimeInHours
                 };
-
+                
                 foreach (ProductionPlanActionPreconditionState productionPlanActionPreconditionState in actionPreconditionStates)
                 {
                     productionPlanActionPreconditionState.Action = planAction;
@@ -329,7 +301,7 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
                     .Where(ps => ps.WorkPieceId != productionStep.StartState.WorkPieceId)
                     .Select(ps => new VcpStepPreconditionDto
                         {
-                            Id = ps.Id,
+                            Id = ps.Id, 
                             DeliveryTimeLatestInWeeks = defaultMeasurement.SupplyOtherCraftsInWeeks
                         }
                     ).ToList();
@@ -340,7 +312,7 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
             decimal stepCost = standardVariantCost.MaterialCost +
                                defaultMeasurement.AdditionalCost +
                                defaultMeasurement.TransportAndAssemblyCost +
-                               defaultMeasurement.WorkHours * stepProducerInfo.Rate;
+                               standardVariantCost.WorkCost;
 
             productionStepsDtos.Add(new VcpProductionStepDto
             {
@@ -356,5 +328,18 @@ public class ProductionPlanManager : HSUDomainBaseService, IProductionPlanManage
         }
 
         return productionStepsDtos;
+    }
+
+    private void RemoveProducersWithoutSteps(ProductionDetails productionDetails)
+    {
+        List<ProductProducer> producersWithoutSteps = productionDetails.AssignedProducers
+            .Where(pp => productionDetails.ProductionSteps
+                .All(step => step.ProducerInfo.UserId != pp.AssignedProducerId))
+            .ToList();
+
+        foreach (ProductProducer producer in producersWithoutSteps)
+        {
+            _productProducerRepository.Delete(producer);
+        }
     }
 }

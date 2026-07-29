@@ -45,14 +45,6 @@ public class DefaultWorkTypeCreator
                 Name = StaticProducerProfileProperties.ProducerTrades.MetalWork
 
             }).Entity;
-        
-        _ = _context.WorkTypes.IgnoreQueryFilters()
-            .FirstOrDefault(wt => wt.Name == StaticProducerProfileProperties.ProducerTrades.Other) ?? _context.WorkTypes.Add(
-            new TradeType
-            {
-                Name = StaticProducerProfileProperties.ProducerTrades.Other
-
-            }).Entity;
 
         _context.SaveChanges();
     }

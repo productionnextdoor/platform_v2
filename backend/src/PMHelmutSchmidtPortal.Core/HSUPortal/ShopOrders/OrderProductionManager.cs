@@ -14,7 +14,6 @@ using PMHelmutSchmidtPortal.HSUPortal.Orders.Dto;
 using PMHelmutSchmidtPortal.HSUPortal.Orders.Dto.Details;
 using PMHelmutSchmidtPortal.HSUPortal.Products;
 using PMHelmutSchmidtPortal.HSUPortal.ShopOrders.Jobs;
-using PMHelmutSchmidtPortal.HSUPortal.Utilities;
 using PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.ShopOrders;
@@ -27,7 +26,6 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
     private readonly IRepository<OrderProductionPlan> _orderProductionPlanRepository;
     private readonly IBackgroundJobManager _backgroundJobManager;
     private readonly IOrderEmailer _orderEmailer;
-    private readonly CustomConfigService _configService;
 
     private const string RateAsc = "rate ASC";
 
@@ -37,9 +35,7 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
         IOrderProductionActionManager orderProductionActionManager,
         IRepository<OrderProductionPlan> orderProductionPlanRepository,
         IBackgroundJobManager backgroundJobManager,
-        IOrderEmailer orderEmailer,
-        CustomConfigService configService
-        )
+        IOrderEmailer orderEmailer)
     {
         _orderRepository = orderRepository;
         _planRepository = planRepository;
@@ -47,7 +43,6 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
         _orderProductionPlanRepository = orderProductionPlanRepository;
         _backgroundJobManager = backgroundJobManager;
         _orderEmailer = orderEmailer;
-        _configService = configService;
     }
 
     public async Task CheckOrdersForTimeoutAndSelectNextValueChain()
@@ -75,75 +70,6 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
         }
     }
 
-    public async Task SelectValueChainForOrder(int orderId)
-    {
-        ShopOrder order = await _orderRepository
-            .GetOrderWithAssoc(orderId)
-            .SingleAsync();
-
-        if (order.Status != OrderStatus.Open)
-        {
-            throw new NoProductionPlanAvailable();
-        }
-
-        OrderProductionPlan selectedValueChain = await GetNewValueChain(order);
-
-        if (selectedValueChain.OrderProductionPlanActions.All(actions => actions.ActionStatus == ActionStatus.Accepted))
-        {
-            await CommissionValueChain(selectedValueChain.Id, order.Id);
-        }
-
-        IEnumerable<int> openPlanActionsIds = selectedValueChain.OrderProductionPlanActions
-            .Where(action => action.ActionStatus == ActionStatus.Open)
-            .Select(action => action.PlanActionId);
-
-        await InformProducerAboutNewValueChain(selectedValueChain, openPlanActionsIds, order);
-    }
-
-    public async Task ManualSelectValueChainForProduction(int orderId, int selectedValueChainId)
-    {
-        ShopOrder order = await _orderRepository
-            .GetOrderWithAssoc(orderId)
-            .SingleAsync();
-
-        //Can't select additional value chain for production
-        if (order.Status != OrderStatus.Open || order.OrderProductionPlans.Count > 0)
-        {
-            throw new NoProductionPlanAvailable("Can't select a value chain");
-        }
-
-        OrderProductionPlan orderProductionPlan = await SelectValueChain(order, selectedValueChainId);
-
-        foreach (OrderProductionPlanAction action in orderProductionPlan.OrderProductionPlanActions)
-        {
-            action.ActionStatus = ActionStatus.Accepted;
-        }
-
-        order.OrderProductionPlans.Add(orderProductionPlan);
-        await CurrentUnitOfWork.SaveChangesAsync();
-    }
-
-    public async Task ManualCommissionValueChainForProduction(int planId)
-    {
-        try
-        {
-            ShopOrder order = _orderRepository
-                .GetAll()
-                .Include(order => order.ProductVariant.Product)
-                .Single(order => order.OrderProductionPlans.Any(plan => plan.Id == planId));
-            if (order.Status != OrderStatus.Open)
-            {
-                throw new Exception();
-            }
-            order.ProductVariant.Product.State = ProductState.CommissionedToProduction;
-            await CommissionValueChain(planId, order.Id);
-        }
-        catch (Exception e)
-        {
-            throw new UserFriendlyException(L("Cant commission this production plan"));
-        }
-    }
-
     public async Task AcceptOrRejectProductionAction(AcceptOrRejectActionInputDto input, long producerId)
     {
         List<OrderProductionPlanAction> actions = await _orderProductionActionManager
@@ -166,7 +92,7 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
             .Where(plan => plan.OrderProductionPlanActions
                 .Any(action => action.Id == valueChainActionId && action.PlanAction.ProducerId == currentProducerId))
             .Include(plan => plan.OrderProductionPlanActions)
-            .Include(plan => plan.ShopOrder.ProductVariant.Product)
+            .Include(plan => plan.ShopOrder)
             .SingleAsync();
 
         if (plan.ProductionStatus is not (ProductionStatus.Commissioned or ProductionStatus.InProgress))
@@ -184,11 +110,6 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
         action.ActionStatus = ActionStatus.InProgress;
         plan.ProductionStatus = ProductionStatus.InProgress;
         plan.ShopOrder.Status = OrderStatus.InProgress;
-
-        if (_configService.IsOffer())
-        {
-            plan.ShopOrder.ProductVariant.Product.State = ProductState.InProduction;
-        }
     }
 
     public async Task FinishProductionAction(int valueChainActionId, long currentProducerId)
@@ -199,7 +120,7 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
                 .Any(action => action.Id == valueChainActionId && action.PlanAction.ProducerId == currentProducerId))
             .Include(plan => plan.OrderProductionPlanActions)
             .ThenInclude(action => action.PlanAction.ProductionStep.EndState)
-            .Include(plan => plan.ShopOrder.ProductVariant.Product)
+            .Include(plan => plan.ShopOrder)
             .SingleAsync();
 
         OrderProductionPlanAction action = plan.OrderProductionPlanActions.Single(action => action.Id == valueChainActionId);
@@ -215,11 +136,6 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
         {
             plan.ProductionStatus = ProductionStatus.Completed;
             plan.ShopOrder.Status = OrderStatus.Completed;
-            if (_configService.IsOffer())
-            {
-                plan.ShopOrder.ProductVariant.Product.State = ProductState.Completed;
-            }
-
             await _orderEmailer.SendOrderCompletedToPlatformAdmins(plan.ShopOrderId, plan.ShopOrder.OrderNumber);
         }
     }
@@ -265,6 +181,31 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
             order.Id);
     }
 
+    public async Task SelectValueChainForOrder(int orderId)
+    {
+        ShopOrder order = await _orderRepository
+            .GetOrderWithAssoc(orderId)
+            .SingleAsync();
+
+        if (order.Status != OrderStatus.Open)
+        {
+            throw new NoProductionPlanAvailable();
+        }
+
+        OrderProductionPlan selectedValueChain = await GetNewValueChain(order);
+
+        if (selectedValueChain.OrderProductionPlanActions.All(actions => actions.ActionStatus == ActionStatus.Accepted))
+        {
+            await CommissionValueChain(selectedValueChain.Id, order.Id);
+        }
+
+        IEnumerable<int> openPlanActionsIds = selectedValueChain.OrderProductionPlanActions
+            .Where(action => action.ActionStatus == ActionStatus.Open)
+            .Select(action => action.PlanActionId);
+
+        await InformProducerAboutNewValueChain(selectedValueChain, openPlanActionsIds, order);
+    }
+
     private async Task CheckAndCommissionPlanIfAllAccepted(int orderId)
     {
         int planId = await _orderProductionPlanRepository.GetAll()
@@ -293,7 +234,7 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
 
         order.OrderProductionPlans.ForEach(plan => plan.ProductionStatus = ProductionStatus.Rejected);
         await CurrentUnitOfWork.SaveChangesAsync();
-
+        
         if (order.Status != OrderStatus.Open || await IsValidPlanAvailable(orderId))
         {
             return;
@@ -329,21 +270,22 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
 
     private async Task CommissionValueChain(int planId, int orderId)
     {
-        ShopOrder order = await _orderRepository
-            .GetAll()
-            .Include(order => order.ProductVariant.Product)
-            .SingleAsync(order => order.Id == orderId);
+        ShopOrder order = await _orderRepository.SingleAsync(order => order.Id == orderId);
         order.Status = OrderStatus.Commissioned;
 
         await CommissionOrderProductionPlan(planId);
         await RejectOtherProductionPlans(planId, orderId);
+
+        string productName = await _orderRepository.GetAll()
+            .Where(o => o.Id == orderId)
+            .Select(o => o.ProductVariant.Product.Name).SingleAsync();
 
         List<User> producers = await _orderProductionPlanRepository.GetAll()
             .Where(plan => plan.Id == planId)
             .SelectMany(plan => plan.OrderProductionPlanActions.Select(action => action.PlanAction.Producer))
             .ToListAsync();
 
-        await InformProducersAboutValueChangeCommission(order.ProductVariant.Product.Name, orderId, producers);
+        await InformProducersAboutValueChangeCommission(productName, orderId, producers);
     }
 
     private async Task CommissionOrderProductionPlan(int planId)
@@ -383,11 +325,32 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
 
     private async Task<OrderProductionPlan> GetNewValueChain(ShopOrder order)
     {
+        IQueryable<ProductionPlan> query = _planRepository
+            .GetProductionPlansForVariant(order.ProductVariant)
+            .Include(plan => plan.PlanActions)
+            .ThenInclude(pa => pa.Producer.UserAddress)
+            .OrderBy(RateAsc, order.ValueChainParameterId)
+            .Where(plan => plan.IsActive);
+
         OrderProductionPlan selectedValueChain = null;
 
         while (selectedValueChain is null)
         {
-            OrderProductionPlan candidateValueChain = await SelectValueChain(order);
+            List<int> usedPlansIds = order.OrderProductionPlans.Select(plan => plan.ProductionPlanId).ToList();
+
+            if (usedPlansIds.Count > 0)
+            {
+                query = query.Where(plan => !usedPlansIds.Contains(plan.Id));
+            }
+
+            ProductionPlan productionPlan = await query.FirstOrDefaultAsync();
+
+            if (productionPlan == null)
+            {
+                throw new NoProductionPlanAvailable();
+            }
+
+            OrderProductionPlan candidateValueChain = GetCandidateValueChain(productionPlan, order);
 
             if (candidateValueChain.OrderProductionPlanActions.Any(action => action.ActionStatus == ActionStatus.Rejected))
             {
@@ -406,39 +369,7 @@ public class OrderProductionManager : HSUDomainBaseService, IOrderProductionMana
         return selectedValueChain;
     }
 
-
-    private async Task<OrderProductionPlan> SelectValueChain(ShopOrder order, int? productionPlanId = null)
-    {
-        IQueryable<ProductionPlan> query = _planRepository
-            .GetProductionPlansForVariant(order.ProductVariant)
-            .Include(plan => plan.PlanActions)
-            .ThenInclude(pa => pa.Producer.UserAddress)
-            .OrderBy(RateAsc, order.ValueChainParameterId)
-            .Where(plan => plan.IsActive);
-
-        if (productionPlanId.HasValue)
-        {
-            query = query.Where(plan => plan.Id == productionPlanId.Value);
-        }
-
-        List<int> usedPlansIds = order.OrderProductionPlans.Select(plan => plan.ProductionPlanId).ToList();
-
-        if (usedPlansIds.Count > 0)
-        {
-            query = query.Where(plan => !usedPlansIds.Contains(plan.Id));
-        }
-
-        ProductionPlan productionPlan = await query.FirstOrDefaultAsync();
-
-        if (productionPlan == null)
-        {
-            throw new NoProductionPlanAvailable();
-        }
-
-        return GetOrderProductionPlan(productionPlan, order);
-    }
-
-    private static OrderProductionPlan GetOrderProductionPlan(ProductionPlan productionPlan, ShopOrder order)
+    private static OrderProductionPlan GetCandidateValueChain(ProductionPlan productionPlan, ShopOrder order)
     {
         OrderProductionPlan candidateValueChain = new()
         {

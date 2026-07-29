@@ -50,16 +50,21 @@
              class="pm-dropdown__body"
         >
             <ul class="pm-dropdown__options" tabindex="-1">
-                <li *ngFor="let option of filteredOptions"
-                    class="pm-dropdown__option"
-                    tabindex="0"
-                    [ngClass]="{
-                'pm-dropdown__option--selected': option.key === value,
-            }"
-                    [value]="option.key"
-                    (click)="selectOption(option)"
-                    (keydown.enter)="selectOption(option)"
-                >{{ option.value }}</li>
+                <ng-container *ngFor="let option of filteredOptions; let i = index">
+                    <li *ngIf="option.group && (i === 0 || filteredOptions[i - 1].group !== option.group)"
+                        class="pm-dropdown__group-header"
+                    >{{ option.group }}</li>
+                    <li class="pm-dropdown__option"
+                        tabindex="0"
+                        [ngClass]="{
+                    'pm-dropdown__option--selected': option.key === value,
+                    'pm-dropdown__option--grouped': option.group,
+                }"
+                        [value]="option.key"
+                        (click)="selectOption(option)"
+                        (keydown.enter)="selectOption(option)"
+                    >{{ option.value }}</li>
+                </ng-container>
             </ul>
         </div>
     </div>

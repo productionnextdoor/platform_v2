@@ -1,0 +1,335 @@
+<pm-header
+    class="material-overview__header"
+    [breadcrumbs]="breadcrumbs"
+>
+    <pm-button
+        class="material-overview__header-btn"
+        *ngIf="canCreate"
+        [type]="ButtonType.PRIMARY"
+        [icon]="Icon.ADD"
+        [label]="localisations.createButton"
+        [active]="true"
+        (onClicked)="toggleCreateForm()"
+    />
+</pm-header>
+
+<pm-card [hasHeader]="false" [contentPadding]="true">
+    <pm-col [gap]="DefaultMargins.Large">
+
+        <pm-col *ngIf="showCreateForm" [gap]="DefaultMargins.Medium" class="material-overview__create-form">
+            <pm-input
+                [type]="EPmInputType.TEXT"
+                [name]="'newMaterialName'"
+                [inputId]="'newMaterialName'"
+                [label]="localisations.nameLabel"
+                [placeholder]="localisations.namePlaceholder"
+                [(value)]="newMaterialName"
+                [required]="true"
+            />
+            <pm-row template="auto auto 1fr" [gap]="DefaultMargins.Small">
+                <pm-button
+                    [type]="ButtonType.PRIMARY"
+                    [label]="localisations.saveButton"
+                    [disabled]="!canSubmitCreate()"
+                    (onClicked)="createMaterial()"
+                />
+                <pm-button
+                    [type]="ButtonType.SECONDARY"
+                    [label]="localisations.cancelButton"
+                    (onClicked)="toggleCreateForm()"
+                />
+            </pm-row>
+        </pm-col>
+
+        <pm-text *ngIf="!loading && materials.length === 0" [type]="TextType.COPY_M1">
+            {{ localisations.noMaterials }}
+        </pm-text>
+
+        <pm-col
+            *ngFor="let material of materials; trackBy: trackByMaterialId"
+            [gap]="DefaultMargins.Small"
+            class="material-overview__item"
+        >
+            <pm-row template="1fr auto" [gap]="DefaultMargins.Small">
+                <ng-container *ngIf="!isEditing(material.materialId)">
+                    <pm-row template="auto 1fr auto" [gap]="DefaultMargins.Small">
+                        <pm-button
+                            [type]="ButtonType.ICON"
+                            [icon]="Icon.CHEVRON"
+                            [iconRotation]="isExpanded(material.materialId) ? 180 : 0"
+                            (onClicked)="toggleExpand(material.materialId)"
+                        />
+                        <pm-text [type]="TextType.H4">{{ material.name }}</pm-text>
+                        <pm-text [type]="TextType.COPY_M1">
+                            ({{ material.specifications.length }} {{ localisations.specificationsLabel }}, {{ material.specificationGroups.length }} {{ material.specificationGroups.length === 1 ? localisations.groupSingularLabel : localisations.groupPluralLabel }})
+                        </pm-text>
+                    </pm-row>
+                    <pm-row [gap]="DefaultMargins.Small" template="auto auto">
+                        <pm-button
+                            *ngIf="canEdit"
+                            [type]="ButtonType.ICON"
+                            [icon]="Icon.EDIT"
+                            (onClicked)="startEdit(material)"
+                        />
+                        <pm-button
+                            *ngIf="canDelete"
+                            [type]="ButtonType.ICON"
+                            [icon]="Icon.DELETE"
+                            (onClicked)="deleteMaterial(material.materialId)"
+                        />
+                    </pm-row>
+                </ng-container>
+
+                <ng-container *ngIf="isEditing(material.materialId)">
+                    <pm-row template="1fr auto auto" [gap]="DefaultMargins.Small">
+                        <pm-input
+                            [type]="EPmInputType.TEXT"
+                            [name]="'editMaterialName'"
+                            [inputId]="'editMaterialName'"
+                            [label]="localisations.nameLabel"
+                            [(value)]="editState!.name"
+                            [required]="true"
+                        />
+                        <pm-button
+                            [type]="ButtonType.PRIMARY"
+                            [label]="localisations.saveButton"
+                            (onClicked)="saveEdit()"
+                        />
+                        <pm-button
+                            [type]="ButtonType.SECONDARY"
+                            [label]="localisations.cancelButton"
+                            (onClicked)="cancelEdit()"
+                        />
+                    </pm-row>
+                </ng-container>
+            </pm-row>
+
+            <pm-col
+                *ngIf="isExpanded(material.materialId)"
+                [gap]="DefaultMargins.Small"
+                class="material-overview__specifications"
+            >
+                <!-- Gruppen -->
+                <pm-text *ngIf="material.specificationGroups.length > 0 || canCreate" [type]="TextType.H4">
+                    {{ localisations.groupPluralLabel }}
+                </pm-text>
+                <pm-col
+                    *ngFor="let group of material.specificationGroups; trackBy: trackByGroupId"
+                    [gap]="DefaultMargins.Small"
+                    class="material-overview__group"
+                >
+                    <pm-row template="1fr auto" [gap]="DefaultMargins.Small">
+                        <ng-container *ngIf="!isEditingGroup(group.groupId)">
+                            <pm-text [type]="TextType.COPY_M1"><strong>{{ group.name }}</strong></pm-text>
+                            <pm-row [gap]="DefaultMargins.Small" template="auto auto">
+                                <pm-button
+                                    *ngIf="canEdit"
+                                    [type]="ButtonType.ICON"
+                                    [icon]="Icon.EDIT"
+                                    (onClicked)="startGroupEdit(group)"
+                                />
+                                <pm-button
+                                    *ngIf="canDelete"
+                                    [type]="ButtonType.ICON"
+                                    [icon]="Icon.DELETE"
+                                    (onClicked)="deleteGroup(group.groupId)"
+                                />
+                            </pm-row>
+                        </ng-container>
+                        <ng-container *ngIf="isEditingGroup(group.groupId)">
+                            <pm-row template="1fr auto auto" [gap]="DefaultMargins.Small">
+                                <pm-input
+                                    [type]="EPmInputType.TEXT"
+                                    [name]="'editGroupName_' + group.groupId"
+                                    [inputId]="'editGroupName_' + group.groupId"
+                                    [label]="localisations.groupNameLabel"
+                                    [(value)]="groupEditState!.name"
+                                    [required]="true"
+                                />
+                                <pm-button
+                                    [type]="ButtonType.PRIMARY"
+                                    [label]="localisations.saveButton"
+                                    (onClicked)="saveGroupEdit()"
+                                />
+                                <pm-button
+                                    [type]="ButtonType.SECONDARY"
+                                    [label]="localisations.cancelButton"
+                                    (onClicked)="cancelGroupEdit()"
+                                />
+                            </pm-row>
+                        </ng-container>
+                    </pm-row>
+
+                    <pm-col [gap]="DefaultMargins.Small" class="material-overview__group-specs">
+                        <pm-row
+                            *ngFor="let spec of group.specifications"
+                            template="1fr auto"
+                            [gap]="DefaultMargins.Small"
+                            class="material-overview__spec-row"
+                        >
+                            <ng-container *ngIf="!isEditingSpec(spec.specificationId)">
+                                <pm-text [type]="TextType.COPY_M1">{{ spec.name }}</pm-text>
+                                <pm-row [gap]="DefaultMargins.Small" template="auto auto">
+                                    <pm-button
+                                        *ngIf="canEdit"
+                                        [type]="ButtonType.ICON"
+                                        [icon]="Icon.EDIT"
+                                        (onClicked)="startSpecEdit(spec)"
+                                    />
+                                    <pm-button
+                                        *ngIf="canDelete"
+                                        [type]="ButtonType.ICON"
+                                        [icon]="Icon.DELETE"
+                                        (onClicked)="deleteSpecification(spec.specificationId)"
+                                    />
+                                </pm-row>
+                            </ng-container>
+                            <ng-container *ngIf="isEditingSpec(spec.specificationId)">
+                                <pm-row template="1fr auto auto" [gap]="DefaultMargins.Small">
+                                    <pm-input
+                                        [type]="EPmInputType.TEXT"
+                                        [name]="'editSpecName_' + spec.specificationId"
+                                        [inputId]="'editSpecName_' + spec.specificationId"
+                                        [label]="localisations.specificationNameLabel"
+                                        [(value)]="specEditState!.name"
+                                        [required]="true"
+                                    />
+                                    <pm-button
+                                        [type]="ButtonType.PRIMARY"
+                                        [label]="localisations.saveButton"
+                                        (onClicked)="saveSpecEdit()"
+                                    />
+                                    <pm-button
+                                        [type]="ButtonType.SECONDARY"
+                                        [label]="localisations.cancelButton"
+                                        (onClicked)="cancelSpecEdit()"
+                                    />
+                                </pm-row>
+                            </ng-container>
+                        </pm-row>
+
+                        <pm-row
+                            *ngIf="canCreate"
+                            template="1fr auto"
+                            [gap]="DefaultMargins.Small"
+                        >
+                            <pm-input
+                                [type]="EPmInputType.TEXT"
+                                [name]="'newGroupSpecName_' + group.groupId"
+                                [inputId]="'newGroupSpecName_' + group.groupId"
+                                [label]="localisations.specificationNameLabel"
+                                [placeholder]="localisations.specificationNamePlaceholder"
+                                [(value)]="newGroupSpecificationNames[group.groupId]"
+                            />
+                            <pm-button
+                                [type]="ButtonType.ICON"
+                                [icon]="Icon.ADD"
+                                (onClicked)="addSpecificationToGroup(material.materialId, group.groupId)"
+                            />
+                        </pm-row>
+                    </pm-col>
+                </pm-col>
+
+                <!-- Neue Gruppe anlegen -->
+                <pm-row
+                    *ngIf="canCreate"
+                    template="1fr auto"
+                    [gap]="DefaultMargins.Small"
+                >
+                    <pm-input
+                        [type]="EPmInputType.TEXT"
+                        [name]="'newGroupName_' + material.materialId"
+                        [inputId]="'newGroupName_' + material.materialId"
+                        [label]="localisations.groupNameLabel"
+                        [placeholder]="localisations.groupNamePlaceholder"
+                        [(value)]="newGroupNames[material.materialId]"
+                    />
+                    <pm-button
+                        [type]="ButtonType.ICON"
+                        [icon]="Icon.ADD"
+                        (onClicked)="addGroup(material.materialId)"
+                    />
+                </pm-row>
+
+                <!-- Ungruppierte Spezifizierungen -->
+                <pm-text *ngIf="getUngroupedSpecifications(material).length > 0 || canCreate" [type]="TextType.H4">
+                    {{ localisations.ungroupedSpecificationsLabel }}
+                </pm-text>
+                <pm-text
+                    *ngIf="getUngroupedSpecifications(material).length === 0 && material.specificationGroups.length === 0"
+                    [type]="TextType.COPY_M1"
+                >
+                    {{ localisations.noSpecifications }}
+                </pm-text>
+
+                <pm-row
+                    *ngFor="let spec of getUngroupedSpecifications(material)"
+                    template="1fr auto"
+                    [gap]="DefaultMargins.Small"
+                    class="material-overview__spec-row"
+                >
+                    <ng-container *ngIf="!isEditingSpec(spec.specificationId)">
+                        <pm-text [type]="TextType.COPY_M1">{{ spec.name }}</pm-text>
+                        <pm-row [gap]="DefaultMargins.Small" template="auto auto">
+                            <pm-button
+                                *ngIf="canEdit"
+                                [type]="ButtonType.ICON"
+                                [icon]="Icon.EDIT"
+                                (onClicked)="startSpecEdit(spec)"
+                            />
+                            <pm-button
+                                *ngIf="canDelete"
+                                [type]="ButtonType.ICON"
+                                [icon]="Icon.DELETE"
+                                (onClicked)="deleteSpecification(spec.specificationId)"
+                            />
+                        </pm-row>
+                    </ng-container>
+                    <ng-container *ngIf="isEditingSpec(spec.specificationId)">
+                        <pm-row template="1fr auto auto" [gap]="DefaultMargins.Small">
+                            <pm-input
+                                [type]="EPmInputType.TEXT"
+                                [name]="'editSpecName_' + spec.specificationId"
+                                [inputId]="'editSpecName_' + spec.specificationId"
+                                [label]="localisations.specificationNameLabel"
+                                [(value)]="specEditState!.name"
+                                [required]="true"
+                            />
+                            <pm-button
+                                [type]="ButtonType.PRIMARY"
+                                [label]="localisations.saveButton"
+                                (onClicked)="saveSpecEdit()"
+                            />
+                            <pm-button
+                                [type]="ButtonType.SECONDARY"
+                                [label]="localisations.cancelButton"
+                                (onClicked)="cancelSpecEdit()"
+                            />
+                        </pm-row>
+                    </ng-container>
+                </pm-row>
+
+                <pm-row
+                    *ngIf="canCreate"
+                    template="1fr auto"
+                    [gap]="DefaultMargins.Small"
+                >
+                    <pm-input
+                        [type]="EPmInputType.TEXT"
+                        [name]="'newSpecName_' + material.materialId"
+                        [inputId]="'newSpecName_' + material.materialId"
+                        [label]="localisations.specificationNameLabel"
+                        [placeholder]="localisations.specificationNamePlaceholder"
+                        [(value)]="newSpecificationNames[material.materialId]"
+                    />
+                    <pm-button
+                        [type]="ButtonType.ICON"
+                        [icon]="Icon.ADD"
+                        (onClicked)="addSpecification(material.materialId)"
+                    />
+                </pm-row>
+            </pm-col>
+        </pm-col>
+
+    </pm-col>
+</pm-card>

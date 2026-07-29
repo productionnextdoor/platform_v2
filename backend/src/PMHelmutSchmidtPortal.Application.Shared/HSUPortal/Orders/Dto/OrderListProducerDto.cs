@@ -1,3 +1,5 @@
+using System;
+using PMHelmutSchmidtPortal.HSUPortal.ShopOrders;
 using PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.Orders.Dto

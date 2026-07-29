@@ -16,11 +16,6 @@ export interface IDeliveryDocument {
   name: string;
 }
 
-export enum ECardMode {
-  VIEW = 'viewOnly',
-  EDIT = 'edit',
-}
-
 export const productionProcessCardLocalisations: IProductionProcessCardLocalisations = {
   title: '',
   startButton: '',

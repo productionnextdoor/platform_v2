@@ -5,11 +5,9 @@ import {
 } from '@angular/core';
 import {
   defaultBreadcrumbs,
-  EValueChainCommissionMode,
   IActionEvent,
   IBreadcrumbs,
   IColumnHeader,
-  ValueChainCommissionModeValues,
 } from 'hsu-library';
 import {
   IOrderDetailsAdminLocalisation,
@@ -35,11 +33,7 @@ import {
 } from 'rxjs';
 import { IUiService } from '../../../services/utils/iui.service';
 import { WithRx } from '../../../shared/mixins/with-rx.mixin';
-import {
-  AdminOrderDetailsOutput,
-  OrderStatus
-} from '../../../shared/service-proxies/service-proxies';
-import { AppConsts } from '../../../shared/AppConsts';
+import { OrderStatus } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'order-details-admin',
@@ -59,9 +53,6 @@ export class OrderDetailsAdminComponent extends WithRx() implements OnInit {
   protected localisations: IOrderDetailsAdminLocalisation = orderDetailsAdminLocalisation;
   protected breadcrumbs: IBreadcrumbs = defaultBreadcrumbs;
   protected isCancelDisabled: boolean = true;
-  protected commissionMode: ValueChainCommissionModeValues = EValueChainCommissionMode['Automatic'];
-  protected showCommissionValueChainPopup: boolean = false;
-  protected valueChainToCommissionId: number = 0;
 
   constructor(
     private readonly orderApiService: IOrderApiService,
@@ -74,16 +65,9 @@ export class OrderDetailsAdminComponent extends WithRx() implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commissionMode = AppConsts.IsOffer ? EValueChainCommissionMode['Manual'] : EValueChainCommissionMode['Automatic'];
     this.columnHeaders = this.valueChainTableService.getColumnHeadersAdmin()
     this.localisations = this.detailsPageService.getLocalisationsAdmin()
     this.setValueChainsData().subscribe();
-  }
-
-  onCommissionClicked(valueChainId: number): void {
-    if (this.commissionMode === EValueChainCommissionMode['Automatic']) return;
-    this.valueChainToCommissionId = valueChainId;
-    this.showCommissionValueChainPopup = true;
   }
 
   protected ReRequestAction(action: IActionEvent): void {
@@ -115,7 +99,7 @@ export class OrderDetailsAdminComponent extends WithRx() implements OnInit {
     return this.orderApiService
       .getOrderDetailsAdmin(this.orderId)
       .pipe(
-        map((result: AdminOrderDetailsOutput) => {
+        map((result) => {
           const valueChains: IValueChainData[] = this.valueChainTableService.mapValueChains(result.valueChains ?? [], result.orderStatus)
           this.productName = result.productName ?? '';
           this.topValueChainData = valueChains.filter(valueChain => topValueChainStatuses.includes(valueChain.status));
@@ -125,19 +109,5 @@ export class OrderDetailsAdminComponent extends WithRx() implements OnInit {
           this.customerInfoCard = this.detailsPageService.mapCustomerInfoData(result.customerInfo);
           this.isCancelDisabled = result.orderStatus !== OrderStatus.Open && result.orderStatus !== OrderStatus.NotDone;
         }));
-  }
-
-
-  commissionValueChain() {
-    this.showCommissionValueChainPopup = false;
-    if (this.commissionMode === EValueChainCommissionMode['Automatic']) return;
-    this.uiService.showBusyIndicator()
-    this.orderApiService
-      .commissionValueChain(this.valueChainToCommissionId)
-      .pipe(
-        this.switchMapCancelable(this.setValueChainsData.bind(this)),
-        finalize(()=> {this.uiService.hideBusyIndicator()})
-      )
-      .subscribe()
   }
 }

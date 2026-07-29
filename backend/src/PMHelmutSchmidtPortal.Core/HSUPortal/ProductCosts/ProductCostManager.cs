@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Abp.Linq.Extensions;
 using Microsoft.EntityFrameworkCore;
 using PMHelmutSchmidtPortal.HSUPortal.Extensions;
 using PMHelmutSchmidtPortal.HSUPortal.Products;
@@ -33,7 +32,7 @@ public class ProductCostManager : HSUDomainBaseService, IProductCostManager
         _taxesAndRoyaltiesRepository = taxesAndRoyaltiesRepository;
     }
 
-    public async Task CalculateAndSaveProductVariantsCost(int productId)
+    public async Task CalculateProductVariantCost(int productId)
     {
         Product product = _productManager
             .GetProduct(productId)
@@ -56,49 +55,19 @@ public class ProductCostManager : HSUDomainBaseService, IProductCostManager
                         v => v.variantAverage)
             );
 
-        List<ProductVariant> productVariants = await CalculateProductVariantPrices(product, productionDetailsLiveId, productAverageStepCostByWorkPieceVariant);
-        SaveProductVariants(productVariants);
-    }
-
-    public async Task<List<ProductVariant>> GetProductVariantsForSinglePlan(int productId, int planId)
-    {
-        Product product = _productManager
-            .GetProduct(productId)
-            .IncludeProductMeasurements()
-            .IncludeWorkPiecesWithConnections()
-            .IncludeNonArchivedProductionDetails()
-            .Single();
-
-        int productionDetailsLiveId = product
-            .ProductionDetails
-            .Single(details => details.ProductionDetailsType == ProductionDetailsType.Live).Id;
-        
-        Dictionary<ProductionStepKey, Dictionary<ProductVariantKey, StepVariantCostInformation>> productAverageStepCostByWorkPieceVariant =
-            (await _stepCostManager.CalculateStepCostForValueChain(planId))
-            .ToDictionary(
-                c => c.stepKey,
-                c => c.variantCost
-                    .ToDictionary(
-                        v => v.productVariantKey,
-                        v => v.variant)
-            );
-        
-
-        return await CalculateProductVariantPrices(product, productionDetailsLiveId, productAverageStepCostByWorkPieceVariant,planId);
+        await CalculateProductVariantPrices(product, productionDetailsLiveId, productAverageStepCostByWorkPieceVariant);
     }
 
 
-    private async Task<List<ProductVariant>> CalculateProductVariantPrices(
+    private async Task CalculateProductVariantPrices(
         Product product,
         int productionDetailsId,
-        IReadOnlyDictionary<ProductionStepKey, Dictionary<ProductVariantKey, StepVariantCostInformation>> productStepCostByWorkPieceVariant,
-        int? planId = null
+        IReadOnlyDictionary<ProductionStepKey, Dictionary<ProductVariantKey, StepVariantCostInformation>> productAverageStepCostByWorkPieceVariant
     )
     {
         int totalVariantsCombinations = product.WorkPieces
             .Select(workPiece => workPiece.WorkPieceVariants.Count + 1).Aggregate((x, y) => x * y);
-        
-        List<ProductVariant> productVariants = new();
+
         foreach (ProductMeasurement priceProductMeasurement in product.ProductMeasurements)
         {
             for (int i = 0; i < totalVariantsCombinations; i++)
@@ -116,7 +85,6 @@ public class ProductCostManager : HSUDomainBaseService, IProductCostManager
                 List<ProductionPlan> productionPlans = _productionPlanRepository
                     .GetProductionPlansForVariant(productVariant)
                     .Where(plan => plan.IsActive)
-                    .WhereIf(planId.HasValue, plan => plan.Id == planId)
                     .ToList();
 
                 int plansCount = productionPlans.Count;
@@ -129,7 +97,7 @@ public class ProductCostManager : HSUDomainBaseService, IProductCostManager
                 List<(int planId, StepVariantCostInformation planCost)> plansCost = productionPlans
                     .Select(p => (p.Id, p.PlanActions
                         .Select(pa => new ProductionStepKey(pa.ProductionStep.StartStateId, pa.FinalStateId))
-                        .Select(stepKey => productStepCostByWorkPieceVariant[stepKey]
+                        .Select(stepKey => productAverageStepCostByWorkPieceVariant[stepKey]
                             .First(pvk => combinationKeys.Contains(pvk.Key))
                             .Value)
                         .AggregateSum()))
@@ -149,7 +117,7 @@ public class ProductCostManager : HSUDomainBaseService, IProductCostManager
                             StepVariantCostInformation totalPlanCost = plansCost
                                 .Single(planCost => planCost.planId == plan.Id).planCost;
                             ProductionStepKey stepKey = new ProductionStepKey(action.ProductionStep.StartStateId, action.FinalStateId);
-                            StepVariantCostInformation actionCosts = productStepCostByWorkPieceVariant[stepKey]
+                            StepVariantCostInformation actionCosts = productAverageStepCostByWorkPieceVariant[stepKey]
                                 .First(pvk => combinationKeys.Contains(pvk.Key))
                                 .Value;
 
@@ -168,11 +136,9 @@ public class ProductCostManager : HSUDomainBaseService, IProductCostManager
                         })).ToList();
 
                 productVariant.VariantActionCost = actionCosts;
-                productVariants.Add(productVariant);
+                await _productVariantRepository.InsertOrUpdateAndGetIdAsync(productVariant);
             }
         }
-        
-        return productVariants;
     }
 
     private ProductVariant GetProductVariant(Product product, int productionDetailsId, ProductMeasurement priceProductMeasurement, IEnumerable<WorkPiece> workPieces, int i)
@@ -239,13 +205,5 @@ public class ProductCostManager : HSUDomainBaseService, IProductCostManager
         variant.PlatformRoyalty = taxesAndRoyalties.Single(tar => tar.TaxType == TaxType.PlatformRoyalty);
 
         variant.Price = (variant.Cost + (variant.Cost * variant.DeveloperRoyalty.Percentage) + (variant.Cost * variant.PlatformRoyalty.Percentage)) * (1 + variant.Tax.Percentage);
-    }
-    
-    private void SaveProductVariants(List<ProductVariant> productVariants)
-    {
-        foreach (ProductVariant productVariant in productVariants)
-        {
-            _productVariantRepository.InsertOrUpdate(productVariant);
-        }
     }
 }

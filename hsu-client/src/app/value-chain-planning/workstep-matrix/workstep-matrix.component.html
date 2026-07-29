@@ -1,0 +1,13 @@
+<pm-workstep-matrix-modal
+    *ngIf="!loading"
+    [localisations]="localisations"
+    [stepId]="stepId"
+    [startStateName]="startState?.label ?? ''"
+    [finalStateName]="endState?.label ?? ''"
+    [stepMeasurementVariants]="productStepsData"
+    [readonly]="readonly"
+    [showDeleteButton]="stepId > 0"
+    (onClose)="onClose.emit()"
+    (onFinalize)="onFinalize($event)"
+    (onDelete)="onDelete($event)"
+/>

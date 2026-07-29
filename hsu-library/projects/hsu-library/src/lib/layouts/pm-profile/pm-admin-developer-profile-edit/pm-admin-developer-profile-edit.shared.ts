@@ -14,6 +14,7 @@ export interface IAdminDeveloperProfileEditLabelLocalisation {
   state: string;
   street: string;
   zipCode: string;
+  deleteProfile: string;
 }
 
 export interface IAdminDeveloperProfileEditLocalisation {
@@ -24,6 +25,11 @@ export interface IAdminDeveloperProfileEditLocalisation {
   notePlaceholder: string;
   popupTitle: string;
   statuses: IStatusesLocalisation;
+}
+
+export interface IDeveloperProductInvolvement {
+  productNumber: number;
+  productName?: string;
 }
 
 export interface IAdminDeveloperProfileEditErrors {
@@ -52,6 +58,7 @@ const adminDeveloperProfileEditLabelLocalisation: IAdminDeveloperProfileEditLabe
   state: '',
   street: '',
   zipCode: '',
+  deleteProfile: '',
 }
 
 export const adminDeveloperProfileEditLocalisation: IAdminDeveloperProfileEditLocalisation = {

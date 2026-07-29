@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.MaterialGroupStep
@@ -12,7 +13,8 @@ namespace PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.MaterialGr
         [Required, StringLength(200)]
         public string FinishedState { get; set; }
         
-        public int SurfaceFinishId { get; set; }
+        [Required]
+        public List<int> SpecificationIds { get; set; }
         
         [Required]
         public int MaterialGroupId { get; set; }

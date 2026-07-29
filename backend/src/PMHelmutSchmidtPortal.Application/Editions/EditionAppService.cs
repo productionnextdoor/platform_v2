@@ -83,7 +83,8 @@ namespace PMHelmutSchmidtPortal.Editions
                 featureValues = features.Select(f => new NameValue(f.Name, f.DefaultValue)).ToList();
             }
 
-            var featureDtos = ObjectMapper.Map<List<FlatFeatureDto>>(features).OrderBy(f => f.DisplayName).ToList();
+            var featureDtos = ObjectMapper.Map<List<FlatFeatureDto>>(features).OrderBy(f => f.DisplayName)
+                .ToList();
 
             return new GetEditionEditOutput
             {

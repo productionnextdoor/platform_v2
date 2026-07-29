@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using GraphQL;
-using GraphQL.Language.AST;
+using GraphQL.Types;
+using GraphQLParser.AST;
 
 namespace PMHelmutSchmidtPortal.Core.Extensions
 {
@@ -45,33 +46,35 @@ namespace PMHelmutSchmidtPortal.Core.Extensions
                 return context.SubFields.ContainsKey(fragments[0]);
             }
 
-            if (context.SubFields[fragments[0]] == null)
+            // GraphQL 8.x - Proper nested field checking using new API
+            if (!context.SubFields.ContainsKey(fragments[0]))
             {
                 return false;
             }
 
-            if (context.SubFields[fragments[0]].SelectionSet == null)
-            {
-                return false;
-            }
-
-            if (context.SubFields[fragments[0]].SelectionSet.Selections == null)
-            {
-                return false;
-            }
-
-
-            var selections = context.SubFields[fragments[0]].SelectionSet.Selections;
+            var currentSubField = context.SubFields[fragments[0]];
+            
+            // Navigate through nested selections using GraphQL 8.x API
+            var currentSelections = currentSubField.Field?.SelectionSet?.Selections;
 
             for (var i = 1; i < fragments.Length; i++)
             {
-                if (selections == null)
+                if (currentSelections == null)
                 {
                     return false;
                 }
 
-                var field = selections.Select(selection => (Field)selection).FirstOrDefault(f => f.Name == fragments[i]);
-                if (field == null)
+                GraphQLField fieldSelection = null;
+                foreach (var selection in currentSelections)
+                {
+                    if (selection is GraphQLField field && field.Name.StringValue == fragments[i])
+                    {
+                        fieldSelection = field;
+                        break;
+                    }
+                }
+                    
+                if (fieldSelection == null)
                 {
                     return false;
                 }
@@ -81,7 +84,7 @@ namespace PMHelmutSchmidtPortal.Core.Extensions
                     return true;
                 }
 
-                selections = field.SelectionSet?.Selections;
+                currentSelections = fieldSelection.SelectionSet?.Selections;
             }
 
             return true;

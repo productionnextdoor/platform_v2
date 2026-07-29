@@ -11,7 +11,7 @@
     *ngIf="confirmDeletePopupIsActive"
     [localisations]="confirmDeletePopupLocalisation"
     (onCancel)="closeConfirmDeletePopup()"
-    (onConfirm)="deleteDeveloper()"
+    (onConfirm)="deleteInvitedDeveloper()"
 ></pm-confirm-popup>
 
 <pm-confirm-popup
@@ -21,12 +21,15 @@
     (onConfirm)="loginAsDeveloper()"
 ></pm-confirm-popup>
 
-
 <pm-admin-developer-profile-edit
     *ngIf="editPopupIsActive"
     (onCancel)=this.closeEditPopup()
     (onSave)="saveDeveloper($event)"
+    (onDeleteProfile)="deleteDeveloperProfile()"
     [localisations]="editProfileLocalisation"
     [stateDropdownOptions]="stateDropdownOptions"
-    [developer]="developer">
+    [developer]="developer"
+    [developerProductInvolvements]="developerProductInvolvements"
+    [confirmRemoveFromProductsPopupLocalisation]="confirmRemoveFromProductsPopupLocalisation"
+    [confirmDeleteProfilePopupLocalisation]="confirmDeleteProfilePopupLocalisation">
 </pm-admin-developer-profile-edit>

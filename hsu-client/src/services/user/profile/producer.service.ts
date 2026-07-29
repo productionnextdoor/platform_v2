@@ -60,19 +60,8 @@ export class ProducerService extends IProducerService {
   }
 
   private mapFromProducerProfileOutput(producerProfile: ProducerProfileOutput): IProducer {
-    const ratings: IProducerRating[] = producerProfile.producerRatings?.map(
-      (ratingDto: IProducerRatingDto) => {
-        return {
-          identifier: ratingDto.ratingId,
-          rating: ratingDto.rating,
-          type: this.localizationService.getLocalizedRatingType(ratingDto.ratingType) ?? '',
-        };
-      }) ?? [];
-
-    const tradeType: IProducerTradeType | undefined = producerProfile.trade ? {
-      key: producerProfile.trade.tradeTypeId,
-      value: producerProfile.trade.tradeTypeName ?? '',
-    } : undefined;
+    const ratings: IProducerRating[] = this.mapProducerRatingsFromOutput(producerProfile.producerRatings);
+    const tradeType: IProducerTradeType = this.mapTradeTypeFromOutput(producerProfile.trade!);
 
     return {
       city: producerProfile.city,
@@ -86,7 +75,23 @@ export class ProducerService extends IProducerService {
       street: producerProfile.street,
       trade: tradeType,
       zipCode: producerProfile.zipCode,
-      producerRatings: ratings
+      producerRatings: ratings,
+      hasProducts: producerProfile.hasProducts
+    };
+  }
+
+  private mapProducerRatingsFromOutput(ratings: IProducerRatingDto[] | undefined): IProducerRating[] {
+    return ratings?.map((ratingDto: IProducerRatingDto) => ({
+      identifier: ratingDto.ratingId,
+      rating: ratingDto.rating,
+      type: this.localizationService.getLocalizedRatingType(ratingDto.ratingType) ?? '',
+    })) ?? [];
+  }
+
+  private mapTradeTypeFromOutput(trade: ITradeTypeDto): IProducerTradeType {
+    return {
+      key: trade.tradeTypeId,
+      value: trade.tradeTypeName ?? '',
     };
   }
 
@@ -112,7 +117,9 @@ export class ProducerService extends IProducerService {
       trade: this.mapToIProducerTradeType(profile.trade),
       tradeTypes: this.mapToIProducerTradeTypes(producerProfileForEditOutput.tradeTypes ?? []),
       zipCode: profile.zipCode,
-      status: statusEnumMap.get(profile.status)
+      status: statusEnumMap.get(profile.status),
+      hasProducts: profile.hasProducts,
+      hasOrders: profile.hasOrders
     };
   }
 

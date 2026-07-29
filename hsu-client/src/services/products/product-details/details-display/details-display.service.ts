@@ -7,14 +7,11 @@ import {
   WorkPieceVariantDto
 } from '../../../../shared/service-proxies/service-proxies';
 import { AppLocalizationService } from '../../../localization/app-localization.service';
-import {
-  map,
-  Observable
-} from 'rxjs';
+import { map, Observable } from 'rxjs';
 import {
   ICardProperty,
-  IPropertyGroup,
-  IPropertySection
+  IPropertySection,
+  IPropertyGroup
 } from 'hsu-library';
 import { ProductFileService } from '../../product-file.service';
 import { AppConsts } from '../../../../shared/AppConsts';
@@ -41,23 +38,12 @@ export class DetailsDisplayService extends IDetailsDisplayService {
   public mapFromProductDetailsOverviewDto(productData: ProductDetailsOverviewDto): IPropertySection[] {
     const sections: IPropertySection[] = [];
 
-    if (AppConsts.IsOffer) {
-      const offerProperties: ICardProperty[] = this.generateOfferProperties(productData);
-      this.addPropertySection(sections, this.localizationService.loc('ProductDetailsSidebar.SectionOfferProperties.Title'), '', [this.createPropertyGroup(offerProperties)]);
-      const deliveryAddressProperties: ICardProperty[] = this.generateDeliveryAddressProperties(productData);
-      this.addPropertySection(sections, this.localizationService.loc('ProductDetailsSidebar.SectionDeliveryAddress.Title'), '', [this.createPropertyGroup(deliveryAddressProperties)]);
-    }
-
     const generalProperties: ICardProperty[] = this.generateGeneralProperties(productData);
     this.addPropertySection(sections, this.localizationService.loc('ProductDetailsSidebar.SectionGeneralInfo.Title'), '', [this.createPropertyGroup(generalProperties)]);
 
     const materialGroups: IPropertyGroup[] = this.generateMaterialGroups(productData);
-    if (materialGroups.length){
-      const localisationPrefix: string = AppConsts.IsOffer ? 'ProductOfferDetailsSidebar' : 'ProductDetailsSidebar';
-
-      this.addPropertySection(sections, this.localizationService.loc(localisationPrefix + '.SectionMaterialGroups.Title'), '', materialGroups);
-    }
-
+    if (materialGroups.length)
+      this.addPropertySection(sections, this.localizationService.loc('ProductDetailsSidebar.SectionMaterialGroups.Title'), '', materialGroups);
 
     const variantsGroups: IPropertyGroup[] = [
       ...this.generateMeasurementGroups(productData),
@@ -103,13 +89,6 @@ export class DetailsDisplayService extends IDetailsDisplayService {
         }
       ]
     };
-  }
-
-  public getOfferInformationDeveloper(productData: ProductDetailsOverviewDto): IPropertyGroup {
-    return {
-      groupTitle: this.localizationService.loc('ProductDetailsSidebar.SectionOfferProperties.Title'),
-      properties: AppConsts.IsOffer ? this.generateOfferProperties(productData) : []
-    }
   }
 
 
@@ -182,33 +161,8 @@ export class DetailsDisplayService extends IDetailsDisplayService {
     });
   }
 
-  private generateOfferProperties(productData: ProductDetailsOverviewDto) {
-    const offerProperties: ICardProperty[] = [];
-
-    if (productData.quantity) {
-      this.addProperty(offerProperties, this.localizationService.loc('ProductDetailsSidebar.SectionOfferProperties.Quantity'), productData.quantity.toString());
-    }
-    if (productData.offerDeadline) {
-      this.addProperty(offerProperties, this.localizationService.loc('ProductDetailsSidebar.SectionOfferProperties.OfferDeadline'), productData.offerDeadline.toFormat(AppConsts.DateFormatString));
-    }
-    if (productData.productionDeadLine) {
-      this.addProperty(offerProperties, this.localizationService.loc('ProductDetailsSidebar.SectionOfferProperties.ProductionDeadline'), productData.productionDeadLine.toFormat(AppConsts.DateFormatString));
-    }
-    return offerProperties;
-  }
-
-  private generateDeliveryAddressProperties(productData: ProductDetailsOverviewDto) {
-    const deliveryAddressProperties: ICardProperty[] = [];
-    this.addProperty(deliveryAddressProperties, this.localizationService.loc('ProductCreateOrEditDeliveryAddress.Name'), productData.deliveryAddress.name);
-    this.addProperty(deliveryAddressProperties, this.localizationService.loc('ProductCreateOrEditDeliveryAddress.Street'), productData.deliveryAddress.street);
-    this.addProperty(deliveryAddressProperties, this.localizationService.loc('ProductCreateOrEditDeliveryAddress.ZipCode'), productData.deliveryAddress.zip);
-    this.addProperty(deliveryAddressProperties, this.localizationService.loc('ProductCreateOrEditDeliveryAddress.City'), productData.deliveryAddress.city);
-    return deliveryAddressProperties;
-  }
-
   private generateGeneralProperties(productData: ProductDetailsOverviewDto): ICardProperty[] {
     const generalProperties: ICardProperty[] = [];
-    const localisationPrefix: string = AppConsts.IsOffer ? 'ProductOfferDetailsSidebar' : 'ProductDetailsSidebar'
 
     this.addProperty(generalProperties, this.localizationService.loc('ProductDetailsSidebar.SectionGeneralInfo.Developer'), `${productData.developer.name} ${productData.developer.surname}`);
     this.addProperty(generalProperties, this.localizationService.loc('ProductDetailsSidebar.SectionGeneralInfo.ProductName'), productData.productName);
@@ -218,7 +172,7 @@ export class DetailsDisplayService extends IDetailsDisplayService {
     if (productData.defaultMeasurement.height) {
       this.addProperty(
         generalProperties,
-        this.localizationService.loc(localisationPrefix + '.SectionGeneralInfo.DefaultMeasurement'),
+        this.localizationService.loc('ProductDetailsSidebar.SectionGeneralInfo.DefaultMeasurement'),
         this.mapMeasurementsToString(productData.defaultMeasurement.height, productData.defaultMeasurement.width, productData.defaultMeasurement.depth)
       );
     }
@@ -236,7 +190,10 @@ export class DetailsDisplayService extends IDetailsDisplayService {
       const properties: ICardProperty[] = [];
       this.addProperty(properties, this.localizationService.loc('ProductDetailsSidebar.SectionMaterialGroups.Material'), workPiece.name);
       this.addProperty(properties, this.localizationService.loc('ProductDetailsSidebar.SectionMaterialGroups.FinalState'), workPiece.finishedState);
-      this.addProperty(properties, this.localizationService.loc('ProductDetailsSidebar.SectionMaterialGroups.SurfaceFinish'), this.localizationService.getLocalizedSurfaceFinish(workPiece.surfaceFinish.name ?? ''));
+      const specificationNames: string = (workPiece.specifications ?? [])
+        .map(spec => this.localizationService.getLocalizedSpecification(spec.name ?? '') ?? spec.name)
+        .join(', ');
+      this.addProperty(properties, this.localizationService.loc('ProductDetailsSidebar.SectionMaterialGroups.Specification'), specificationNames);
 
       groups.push(this.createPropertyGroup(properties, this.localizationService.getLocalizedMaterialGroupName(workPiece.materialGroup.name ?? '')))
     });
@@ -318,5 +275,4 @@ export class DetailsDisplayService extends IDetailsDisplayService {
   private addMaterialGroupName(prefix: string, materialGroupName: string): string {
     return `${prefix} (${this.localizationService.getLocalizedMaterialGroupName(materialGroupName)})`;
   }
-
 }

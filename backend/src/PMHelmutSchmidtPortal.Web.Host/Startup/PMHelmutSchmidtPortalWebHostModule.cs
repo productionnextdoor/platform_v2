@@ -65,15 +65,8 @@ namespace PMHelmutSchmidtPortal.Web.Startup
             }
 
             var workManager = IocManager.Resolve<IBackgroundWorkerManager>();
-
-            Dictionary<string, object> config = Configuration.Modules.AbpConfiguration.GetCustomConfig();
-            
-            if (!bool.Parse(config[PMHelmutSchmidtPortalConsts.IsOfferKey].ToString()??"true"))
-            {
-                workManager.Add(IocManager.Resolve<OrderImportWorker>());
-                workManager.Add(IocManager.Resolve<ProductionPlanTimeoutWorker>());
-            }          
-            
+            workManager.Add(IocManager.Resolve<OrderImportWorker>());
+            workManager.Add(IocManager.Resolve<ProductionPlanTimeoutWorker>());
             if (IocManager.Resolve<IMultiTenancyConfig>().IsEnabled)
             {
                 workManager.Add(IocManager.Resolve<SubscriptionExpirationCheckWorker>());

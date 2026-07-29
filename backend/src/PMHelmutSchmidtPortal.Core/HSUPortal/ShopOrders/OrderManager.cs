@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using NUglify.Helpers;
 using PMHelmutSchmidtPortal.HSUPortal.Extensions;
 using PMHelmutSchmidtPortal.HSUPortal.Orders.Dto;
-using PMHelmutSchmidtPortal.HSUPortal.ProductVariants;
 using PMHelmutSchmidtPortal.HSUPortal.ShopImportExport;
 using PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning;
 
@@ -19,9 +17,6 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ShopOrders;
 
 public class OrderManager : HSUDomainBaseService, IOrderManager
 {
-    private const string ShopOrderPrefix = "S";
-    private const string PlatformOrderPrefix = "P";
-    
     private readonly IOrderImportManager _orderImportManager;
     private readonly IOrderRepository _orderRepository;
     private readonly IOrderProductionManager _orderProductionManager;
@@ -39,7 +34,7 @@ public class OrderManager : HSUDomainBaseService, IOrderManager
 
     public async Task<List<ShopOrder>> ImportOrdersFromShop()
     {
-        List<ShopOrder> orders = await _orderImportManager.GetNewOrdersFromShop(ShopOrderPrefix);
+        List<ShopOrder> orders = await _orderImportManager.GetNewOrdersFromShop();
 
         if (orders.Count == 0) return orders;
 
@@ -54,25 +49,6 @@ public class OrderManager : HSUDomainBaseService, IOrderManager
         await _orderImportManager.SetOrdersAsExported(orders.Select(order => order.ShopUuid));
 
         return orders;
-    }
-    
-    public async Task<ShopOrder> CreateOrderFromOffer(ProductVariant variant,  int selectedValueChainId, int ratingTypeId, CustomerInfo deliveryAddress)
-    {
-        ShopOrder order = new()
-        {
-            ShopUuid = "",
-            OrderNumber = $"{PlatformOrderPrefix}-{await _orderRepository.GetNextPlatformOrderNumberAsync()}",
-            ProductVariant = variant,
-            ValueChainParameterId = ratingTypeId,
-            CustomerInfo = deliveryAddress,
-            OrderDate = DateTime.Now,
-            Status = OrderStatus.Open,
-        };
-        
-        await _orderRepository.InsertAsync(order);
-        await CurrentUnitOfWork.SaveChangesAsync();
-        await _orderProductionManager.ManualSelectValueChainForProduction(order.Id, selectedValueChainId);
-        return order;
     }
 
     public async Task<PagedResultDto<OrderListAdminDto>> GetOrdersListAdmin(OrderInputAdminDto input, CancellationToken cancellationToken)

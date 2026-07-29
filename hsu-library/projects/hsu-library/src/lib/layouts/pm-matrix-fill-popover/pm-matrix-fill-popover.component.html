@@ -1,0 +1,45 @@
+<div class="pm-fill-popover">
+  <div class="pm-fill-popover__header">
+    <span class="pm-fill-popover__title">{{ localisations.title }}</span>
+  </div>
+
+  <div class="pm-fill-popover__body">
+    <pm-radio-group
+      [radioGroup]="radioGroup"
+      (onSelect)="onModeChange($event)"
+    ></pm-radio-group>
+
+    <div *ngIf="showSourceDropdown" class="pm-fill-popover__source">
+      <pm-dropdown
+        [label]="localisations.sourceLabel"
+        [options]="dropdownOptions"
+        [value]="selectedSourceId"
+        (valueChange)="onSourceChange($event)"
+      ></pm-dropdown>
+    </div>
+
+    <div *ngIf="showPercentageInput" class="pm-fill-popover__percentage">
+      <pm-input
+        [type]="EPmInputType.NUMBER"
+        [label]="localisations.percentageLabel"
+        [value]="percentageValue"
+        unit="%"
+        (valueChange)="onPercentageChange($event)"
+      ></pm-input>
+    </div>
+  </div>
+
+  <div class="pm-fill-popover__footer">
+    <pm-button
+      [type]="ButtonType.SECONDARY"
+      [label]="localisations.cancelButton"
+      (onClicked)="cancel()"
+    ></pm-button>
+    <pm-button
+      [type]="ButtonType.PRIMARY"
+      [label]="localisations.applyButton"
+      [disabled]="isApplyDisabled"
+      (onClicked)="apply()"
+    ></pm-button>
+  </div>
+</div>

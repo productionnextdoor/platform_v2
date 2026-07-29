@@ -70,7 +70,7 @@ export const productDetailsSidebarData: IProductDetailsSidebarAdminData = {
               value: 'Montiertes Gestell',
             },
             {
-              key: 'Oberflächenbeschaffenheit',
+              key: 'Spezifizierung',
               value: 'Oberfläche 01',
             },
           ]
@@ -87,7 +87,7 @@ export const productDetailsSidebarData: IProductDetailsSidebarAdminData = {
               value: 'Fertige Glasplatte',
             },
             {
-              key: 'Oberflächenbeschaffenheit',
+              key: 'Spezifizierung',
               value: 'Klar',
             },
           ]

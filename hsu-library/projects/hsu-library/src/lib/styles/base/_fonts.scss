@@ -1,42 +1,8 @@
 @use '../utils/mixins' as m;
 @use '../utils/fonts' as fonts;
 
-// karla regular
-@font-face {
-  font-family: 'Karla';
-  font-style: normal;
-  font-weight: normal;
-  src: url('../fonts/Karla-Regular.ttf') format('truetype');
-}
-
-// karla Medium
-@font-face {
-  font-family: 'Karla';
-  font-style: normal;
-  font-weight: 500;
-  src: url('../fonts/Karla-Medium.ttf') format('truetype');
-}
-
-// karla Bold
-@font-face {
-  font-family: 'Karla';
-  font-style: normal;
-  font-weight: bold;
-  src: url('../fonts/Karla-Bold.ttf') format('truetype');
-}
-
-// Icons
-$hash: 'zskice';
-@font-face {
-  font-family: 'HSU';
-  src: url('../fonts/HSU-icon.eot?#{$hash}');
-  src: url('../fonts/HSU-icon.eot?#{$hash}#iefix') format('embedded-opentype'),
-  url('../fonts/HSU-icon.woff?#{$hash}') format('woff'),
-  url('../fonts/HSU-icon.ttf?#{$hash}') format('truetype'),
-  url('../fonts/HSU-icon.svg?#{$hash}##HSU-icon') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
+// Karla fonts are now loaded via @fontsource-variable/karla in the consuming app
+// No @font-face definitions needed - just use the font-family name
 
 // for each font in the fonts map, create a class with the font mixin
 @each $fontName, $fontValue in fonts.$fonts {

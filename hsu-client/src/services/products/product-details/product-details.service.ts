@@ -17,8 +17,7 @@ import {
   Row,
   ButtonType,
   ITab,
-  ITabButton,
-  pmConfirmPopupLocalisations
+  ITabButton
 } from 'hsu-library';
 import {
   DEFAULT_PER_PAGE,
@@ -38,10 +37,6 @@ import {
 } from '../../../app/product-details/product-details-producer/product-details-producer.shared';
 import { Observable } from 'rxjs';
 import { ITableBaseService } from '../../table/itable-base.service';
-import {
-  IProductDetailsPageDeveloperLocalisations
-} from '../../../app/product-details/product-details-developer/product-details-developer.shared';
-import { AppConsts } from '../../../shared/AppConsts';
 
 @Injectable()
 export class ProductDetailsService extends IProductDetailsService {
@@ -85,34 +80,8 @@ export class ProductDetailsService extends IProductDetailsService {
     }
   }
 
-  public getDeveloperLocalisationStrings(): IProductDetailsPageDeveloperLocalisations{
-    return {
-      infoCardLocalisations: {
-        mainTitle: this.localizationService.loc('ProductDetailsDeveloper.Title'),
-        productDescriptionTitle: this.localizationService.loc('ProductDetailsDeveloper.SectionDescription.Title'),
-        productFilesTitle: this.localizationService.loc('ProductDetailsDeveloper.SectionFiles.Title'),
-        sharepointLinkLabel: this.localizationService.loc('ProductDetailsSidebar.SectionFiles.SharePoint.Label'),
-      },
-      valueChainLocalisations: {
-        tableLocalisation: {
-          cardTitle: this.localizationService.loc('ProductDetails.ValueChainTable.CardTitle'),
-          description: this.localizationService.loc('ProductDetails.ValueChainTable.Description'),
-          paginationTotalText: this.localizationService.loc('ProductDetails.ValueChainTable.PaginationTotalText'),
-          datepickerTitle: this.localizationService.loc('ProductDetails.ValueChainTable.DatepickerTitle'),
-        },
-        selectValueChainPopupLocalisation: {
-          title: this.localizationService.loc('ProductDetails.ValueChainTable.ConfirmPopup.Title'),
-          description: this.localizationService.loc('ProductDetails.ValueChainTable.ConfirmPopup.Description'),
-          confirm: this.localizationService.loc('ConfirmPopup.Default.Confirm'),
-          cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
-        }
-      },
-    };
-  }
   // eslint-disable-next-line max-lines-per-function
   public getAdminLocalisationStrings(): IProductDetailsAdminLocalisations {
-    const productExportLocalisationPrefix: string = AppConsts.IsOffer ? 'ProductOfferExport' : 'ProductExport';
-
     return {
       ...this.getSharedLocalisationStrings(),
       producerTable: {
@@ -146,17 +115,14 @@ export class ProductDetailsService extends IProductDetailsService {
         removeButtonLabel: ''
       },
       valueChainsTabe: {
-        tableLocalisation: {
-          cardTitle: this.localizationService.loc('ProductDetails.ValueChainTable.CardTitle'),
-          description: this.localizationService.loc('ProductDetails.ValueChainTable.Description'),
-          paginationTotalText: this.localizationService.loc('ProductDetails.ValueChainTable.PaginationTotalText'),
-          datepickerTitle: this.localizationService.loc('ProductDetails.ValueChainTable.DatepickerTitle'),
-        },
-        selectValueChainPopupLocalisation: pmConfirmPopupLocalisations
+        cardTitle: this.localizationService.loc('ProductDetails.ValueChainTable.CardTitle'),
+        description: this.localizationService.loc('ProductDetails.ValueChainTable.Description'),
+        paginationTotalText: this.localizationService.loc('ProductDetails.ValueChainTable.PaginationTotalText'),
+        datepickerTitle: this.localizationService.loc('ProductDetails.ValueChainTable.DatepickerTitle'),
       },
       confirmExportPopup: {
-        title: this.localizationService.loc(productExportLocalisationPrefix + '.ConfirmPopup.Title'),
-        description: this.localizationService.loc(productExportLocalisationPrefix + '.ConfirmPopup.Description'),
+        title: this.localizationService.loc('ProductExport.ConfirmPopup.Title'),
+        description: this.localizationService.loc('ProductExport.ConfirmPopup.Description'),
         confirm: this.localizationService.loc('ProductExport.ConfirmPopup.Confirm'),
         cancel: this.localizationService.loc('ProductExport.ConfirmPopup.Cancel')
       },
@@ -187,17 +153,29 @@ export class ProductDetailsService extends IProductDetailsService {
         confirm: this.localizationService.loc('ProductDetails.MaxCostPopup.Confirm'),
         cancel: this.localizationService.loc('ProductDetails.MaxCostPopup.Cancel'),
       },
-      publishProduct: this.localizationService.loc(productExportLocalisationPrefix + '.PublishProduct'),
+      confirmDeletePopup: {
+        title: this.localizationService.loc('Product.Delete.ConfirmPopup.Title'),
+        description: this.localizationService.loc('Product.Delete.ConfirmPopup.Description'),
+        confirm: this.localizationService.loc('ConfirmPopup.Default.Confirm'),
+        cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
+      },
+      deleteNotAllowedPopup: {
+        title: this.localizationService.loc('Product.Delete.NotAllowed.Title'),
+        description: this.localizationService.loc('Product.Delete.NotAllowed.Description'),
+        confirm: this.localizationService.loc('ConfirmPopup.Default.Confirm'),
+        cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
+      },
+      publishProduct: this.localizationService.loc('ProductExport.PublishProduct'),
       makeChanges: this.localizationService.loc('ProductExport.MakeChanges'),
+      deleteProduct: this.localizationService.loc('Product.Delete.ButtonLabel'),
     };
   }
 
   public getProducerLocalisationStrings(): IProductDetailsProducerLocalisations {
-    const productDetailsLocalisationPrefix: string = AppConsts.IsOffer ? 'ProductOfferDetailsDeveloper' : 'ProductDetailsDeveloper';
     return {
       ...this.getSharedLocalisationStrings(),
       productRequestCard: {
-        cardText: this.localizationService.loc(productDetailsLocalisationPrefix + '.ProducerRequest.Text'),
+        cardText: this.localizationService.loc('ProductDetailsDeveloper.ProducerRequest.Text'),
         acceptButtonText: this.localizationService.loc('ProductDetailsDeveloper.ProducerRequest.Accept'),
         rejectButtonText: this.localizationService.loc('ProductDetailsDeveloper.ProducerRequest.Reject'),
       },

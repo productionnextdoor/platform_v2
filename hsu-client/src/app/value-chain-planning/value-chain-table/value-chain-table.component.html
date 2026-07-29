@@ -7,17 +7,8 @@
     [totalItems]="totalItemsValueChains"
     [itemsPerPageOptions]="itemsPerPageOptions"
     [editDisabled]="editDisabled"
-    [localisations]="localisations.tableLocalisation"
+    [localisations]="localisations"
     (onSortingClicked)="onValueChainSortingClicked($event)"
     (onPageClicked)="onValueChainPageClicked($event)"
     (onToggleValueChainsActive)="onSetActive($event)"
-    (onSelectValueChain)="onSelectValueChain($event)"
 ></pm-value-chain-table>
-
-
-<pm-confirm-popup
-    *ngIf="showValueChainSelectionPopup"
-    [localisations]="localisations.selectValueChainPopupLocalisation"
-    (onCancel)="showValueChainSelectionPopup=false"
-    (onConfirm)="selectValueChain()"
-></pm-confirm-popup>

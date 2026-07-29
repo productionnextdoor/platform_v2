@@ -13,25 +13,12 @@
                 [hasLimitHeight]="hasLimitHeight"
                 class="product-details-developer__image"
             />
-            <div class="product-details-developer__section"
-                 *ngIf="offerInformation.properties.length">
-                <pm-text
-                    [type]="TextType.H3"
-                    [margin]="generalSectionMargin"
-                >
-                    {{ offerInformation.groupTitle }}
-                </pm-text>
-                <div *ngFor="let property of offerInformation.properties">
-                    <span class="product-details-developer__label">{{ property.key }}</span>
-                    <span class="product-details-developer__content">{{ property.value }}</span>
-                </div>
-            </div>
             <div class="product-details-developer__general-section">
                 <pm-text
                     [type]="TextType.H3"
                     [margin]="generalSectionMargin"
                 >
-                    {{ generalInformation.groupTitle }}
+                    {{ generalInformation.groupTitle}}
                 </pm-text>
                 <div *ngFor="let property of generalInformation.properties">
                     <span class="product-details-developer__label">{{ property.key }}</span>
@@ -69,7 +56,7 @@
         <!-- Third column -->
         <div class="product-details-developer__column">
             <div *ngIf="productDetailsBaseData.productDescription.length"
-                 class="product-details-developer__description"
+                class="product-details-developer__description"
             >
                 <pm-text
                     [type]="TextType.H3"
@@ -108,7 +95,7 @@
                 <pm-text
                     [type]="TextType.H4"
                     [margin]="groupMargin"
-                > {{ localisations.sharepointLinkLabel }}
+                > {{localisations.sharepointLinkLabel}}
                 </pm-text>
 
                 <div class="product-details-developer__files">
@@ -118,7 +105,7 @@
                         (click)="onClickLink.emit()"
                         class="product-details-developer__icon product-details-developer__icon-link"
                     />
-                    <pm-text [type]="TextType.COPY_M1"> {{ productDetailsBaseData.sharePointLink }}</pm-text>
+                    <pm-text [type]="TextType.COPY_M1"> {{ productDetailsBaseData.sharePointLink }} </pm-text>
                 </div>
             </ng-container>
 

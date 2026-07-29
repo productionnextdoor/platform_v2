@@ -98,7 +98,7 @@ public class UserRepositoryExtended : UserRepository, IUserRepositoryExtended
 
     public async Task<PagedResultDto<ProducerOverviewOutput>> GetAllProducers(ProducerOverviewInput input)
     {
-        int total = await GetTotalProducers(input.Filter);
+        int total = await GetTotalProducers(input.Filter, input.IncludeDeletedNonAnonymized);
 
         StringBuilder queryString = new StringBuilder()
             .GetProducerWithFullInfo(
@@ -114,7 +114,7 @@ public class UserRepositoryExtended : UserRepository, IUserRepositoryExtended
                  {ProducerQueryStringHelper.TradeTypeAlias}.Id as {ProducerQueryStringHelper.TradeIdOrdinal},
                  {ProducerQueryStringHelper.TradeTypeAlias}.Name as {ProducerQueryStringHelper.TradeNameOrdinal}
                  """)
-            .FilterByRole(RoleNameParam)
+            .FilterByRole(RoleNameParam, input.IncludeDeletedNonAnonymized)
             .GetProducersSearch(SearchTermParam)
             .GetSortingQueryString(input.Sorting, (columnName, isAscending) =>
             {
@@ -143,17 +143,16 @@ public class UserRepositoryExtended : UserRepository, IUserRepositoryExtended
         return new PagedResultDto<ProducerOverviewOutput>(total, producerList);
     }
 
-    private async Task<int> GetTotalProducers(string searchValue = "", bool activeOnly = false)
+    private async Task<int> GetTotalProducers(string searchValue = "", bool includeDeleted = false, bool activeOnly = false)
     {
         StringBuilder queryString = new StringBuilder()
             .GetProducerWithFullInfo("Count(*) as TotalProducers")
-            .FilterByRole(RoleNameParam);
+            .FilterByRole(RoleNameParam, includeDeleted);
 
         if (activeOnly)
         {
             queryString.AndActiveOnlyUsers();
         }
-
         List<SqlParameter> parameters = new() { new SqlParameter(RoleNameParam, StaticRoleNames.Host.Producer) };
 
         if (!searchValue.IsNullOrWhiteSpace())
@@ -161,7 +160,6 @@ public class UserRepositoryExtended : UserRepository, IUserRepositoryExtended
             queryString.GetProducersSearch(SearchTermParam);
             parameters.Add(new SqlParameter(SearchTermParam, $"%{searchValue}%"));
         }
-
 
         List<int> totals = await DbHelper
             .GetDbCommand(await _dbContextProvider.GetDbContextAsync(), queryString, parameters.ToArray())

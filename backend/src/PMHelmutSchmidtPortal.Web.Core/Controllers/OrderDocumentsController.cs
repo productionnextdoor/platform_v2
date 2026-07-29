@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +9,6 @@ using Abp.AspNetCore.Mvc.Authorization;
 using Abp.UI;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using PMHelmutSchmidtPortal.Authorization;
 using PMHelmutSchmidtPortal.HSUPortal.ShopOrders;
 using PMHelmutSchmidtPortal.Web.Models.FileUpload;
@@ -20,12 +18,10 @@ namespace PMHelmutSchmidtPortal.Web.Controllers;
 public class OrderDocumentsController: PMHelmutSchmidtPortalControllerBase
 {
     private readonly IDeliveryDocumentsManager _deliveryDocumentsManager;
-    private readonly IOrderRepository _orderRepository;
 
-    public OrderDocumentsController(IDeliveryDocumentsManager deliveryDocumentsManager, IOrderRepository orderRepository)
+    public OrderDocumentsController(IDeliveryDocumentsManager deliveryDocumentsManager)
     {
         _deliveryDocumentsManager = deliveryDocumentsManager;
-        _orderRepository = orderRepository;
     }
 
     [HttpPost]
@@ -46,35 +42,18 @@ public class OrderDocumentsController: PMHelmutSchmidtPortalControllerBase
         await file.CopyToAsync(new FileStream(Path.Combine(dir, uniqueFileName), FileMode.Create), cancellationToken);
         OrderDeliveryDocument document = await SaveFilePathToDb(uniqueFileName, filePath, model.ShopOrderId);
     }
-    
-    [HttpGet]
-    [AbpMvcAuthorize(AppPermissions.Hsu_OrderManagement_Documents_Download)]
-    public async Task<IActionResult> DownloadFilesByProduct(int productId)
-    {
-        int orderId = await _orderRepository
-            .GetAll()
-            .Where(order => order.ProductVariant.ProductId == productId)
-            .Select(order => order.Id)
-            .SingleAsync();
-        
-        return await GetFile(orderId);
-    }
 
     [HttpGet]
     [AbpMvcAuthorize(AppPermissions.Hsu_OrderManagement_Documents_Download)]
     public async Task<IActionResult> DownloadFiles(int orderId)
     {
-        return await GetFile(orderId);
-    }
-    
-    private async Task<IActionResult> GetFile(int orderId)
-    {
+
         List<OrderDeliveryDocument> documents = await _deliveryDocumentsManager.GetDocuments(orderId);
         
         byte[] bytes;
-        using (MemoryStream memoryStream = new())
+        using (MemoryStream memoryStream = new MemoryStream())
         {
-            using (ZipArchive zipArchive = new(memoryStream, ZipArchiveMode.Create, true))
+            using (ZipArchive zipArchive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
             {
                 foreach (OrderDeliveryDocument document in documents)
                 {
@@ -96,7 +75,7 @@ public class OrderDocumentsController: PMHelmutSchmidtPortalControllerBase
         return File(bytes, "application/zip", $"someOrderName.zip");
     }
 
-    private static string GetFileDirectory(int orderId)
+    private string GetFileDirectory(int orderId)
     {
         return Path.Combine("OrderDeliveryDocuments", $"{orderId}");
     }
@@ -113,7 +92,7 @@ public class OrderDocumentsController: PMHelmutSchmidtPortalControllerBase
         return _deliveryDocumentsManager.SaveProductFile(document);
     }
 
-    private static string GetUniqueFileName(string fileName)
+    private string GetUniqueFileName(string fileName)
     {
         fileName = Path.GetFileName(fileName);
         return Path.GetFileNameWithoutExtension(fileName)

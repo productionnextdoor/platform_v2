@@ -1,5 +1,5 @@
 import {
-  Component, Input as RouteParam, OnInit
+  Component, inject, Input as RouteParam, OnInit
 } from '@angular/core';
 import { AppLocalizationService } from '../../../services/localization/app-localization.service';
 import {
@@ -19,7 +19,9 @@ import { DropdownService } from '../../../services/user/profile/dropdown.service
 import { Path } from '../../app-routing.module';
 import { INavigationService } from '../../../services/navigation/inavigation.service';
 import { IUserService } from '../../../services/user/iuser.services';
+import { IProductApiService } from '../../../services/products/iproduct-api.service';
 import { ImpersonationService } from '../../../shared/helpers/Impersonation.service';
+import { ProducerProductInvolvementDto } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'admin-producer-profile',
@@ -29,39 +31,41 @@ export class AdminProducerProfileComponent implements OnInit {
   @RouteParam() producerId!: number;
 
   protected viewProfileLocalisation: IAdminProducerProfileViewLocalisation
-
   protected editProfileLocalisation: IAdminProducerProfileEditLocalisation;
-
   protected confirmDeletePopupLocalisation: IPmConfirmPopupLocalisations;
   protected confirmImpersonationPopupLocalisation: IPmConfirmPopupLocalisations;
+  protected confirmRemoveFromProductsPopupLocalisation: IPmConfirmPopupLocalisations;
+  protected confirmDeleteProfilePopupLocalisation: IPmConfirmPopupLocalisations;
 
   protected ratingDropdownOptions: PmDropdownOption<number>[] = [];
-
   protected stateDropdownOptions: PmDropdownOption<EUserStatus>[] = [];
-
   protected tradeDropdownOptions: PmDropdownOption<number>[] = [];
 
   protected producer: IProducer = {};
+  protected producerProductInvolvements: ProducerProductInvolvementDto[] = [];
 
   protected editPopupIsActive: boolean = false;
-
   protected confirmDeletePopupIsActive: boolean = false;
   protected confirmImpersonationPopupIsActive: boolean = false;
 
   ratingMaxValue: number = profileConfig.producerRatingMaxValue;
 
+  private readonly impersonationService = inject(ImpersonationService);
+
   constructor(
     private readonly producerService: IProducerService,
     private readonly userService: IUserService,
+    private readonly productApiService: IProductApiService,
     private readonly localizationService: AppLocalizationService,
     private readonly dropdownService: DropdownService,
-    private readonly navigationService: INavigationService,
-    private readonly impersonationService: ImpersonationService
+    private readonly navigationService: INavigationService
   ) {
     this.viewProfileLocalisation = this.getAdminProducerProfileViewLocalisation();
     this.editProfileLocalisation = this.getAdminProducerProfileEditLocalisation();
     this.confirmDeletePopupLocalisation = this.getConfirmDeletePopupLocalisation();
     this.confirmImpersonationPopupLocalisation = this.getConfirmImpersonationPopupLocalisation();
+    this.confirmRemoveFromProductsPopupLocalisation = this.getConfirmRemoveFromProductsPopupLocalisation();
+    this.confirmDeleteProfilePopupLocalisation = this.getConfirmDeleteProfilePopupLocalisation();
   }
 
   ngOnInit() {
@@ -80,6 +84,7 @@ export class AdminProducerProfileComponent implements OnInit {
   openEditPopup() {
     this.editPopupIsActive = true;
     this.loadProducer(this.producerId);
+    this.loadProducerProductInvolvements(this.producerId);
   }
 
   closeEditPopup() {
@@ -88,6 +93,7 @@ export class AdminProducerProfileComponent implements OnInit {
 
   deleteProducer() {
     this.userService.deleteUserProfile(this.producerId).subscribe(() => {
+      this.closeConfirmDeletePopup();
       this.navigationService.navigate(Path.PRODUCER_OVERVIEW);
     });
   }
@@ -107,6 +113,7 @@ export class AdminProducerProfileComponent implements OnInit {
   closeConfirmImpersonationPopup() {
     this.confirmImpersonationPopupIsActive = false;
   }
+
 
   getBreadcrumbs(): IBreadcrumbs {
     if (!this.producer.companyName) {
@@ -129,6 +136,13 @@ export class AdminProducerProfileComponent implements OnInit {
     this.impersonationService.impersonateUser(this.producer.userId, undefined);
   }
 
+  deleteProducerProfile() {
+    this.userService.deleteProducerProfile(this.producerId).subscribe(() => {
+      this.closeEditPopup();
+      this.navigationService.navigate(Path.PRODUCER_OVERVIEW);
+    });
+  }
+
   private createOrUpdateDropdowns() {
     this.ratingDropdownOptions = this.dropdownService.getRatingDropdownOptions(this.ratingMaxValue);
     this.stateDropdownOptions = this.dropdownService.getStateDropdownOptions();
@@ -140,6 +154,18 @@ export class AdminProducerProfileComponent implements OnInit {
       .subscribe((producer: IProducer) => {
         this.producer = producer;
         this.createOrUpdateDropdowns();
+      });
+  }
+
+  private loadProducerProductInvolvements(producerId: number) {
+    this.productApiService.getProducerProductInvolvements(producerId)
+      .subscribe({
+        next: (involvements: ProducerProductInvolvementDto[]) => {
+          this.producerProductInvolvements = involvements;
+        },
+        error: () => {
+          this.producerProductInvolvements = [];
+        }
       });
   }
 
@@ -165,7 +191,7 @@ export class AdminProducerProfileComponent implements OnInit {
       statuses: {
         active:  this.localizationService.loc('Profile.State.Active'),
         inactive:  this.localizationService.loc('Profile.State.InActive'),
-        invited:  this.localizationService.loc('Profile.State.Invited')
+        invited:  this.localizationService.loc('Profile.State.Invited'),
       },
       ratingTitleSeparation: this.localizationService.loc('AdminProducerProfileView.Ratings.TitleSeparation'),
     };
@@ -197,6 +223,8 @@ export class AdminProducerProfileComponent implements OnInit {
         tradeType: this.localizationService.loc('AdminProducerProfileEdit.Labels.TradeType'),
         zipCode: this.localizationService.loc('AdminProducerProfileEdit.Labels.ZipCode'),
         note: this.localizationService.loc('AdminProducerProfileEdit.Labels.Note'),
+        deleteProfile: this.localizationService.loc('EditProfile.Producer.AnonymizeProfile'),
+        activeOrdersWarning: this.localizationService.loc('AdminProducerProfileEdit.Labels.ActiveOrdersWarning'),
       },
       statuses: {
         active: this.localizationService.loc('Profile.State.Active'),
@@ -215,6 +243,24 @@ export class AdminProducerProfileComponent implements OnInit {
     }
   }
 
+  private getConfirmRemoveFromProductsPopupLocalisation(): IPmConfirmPopupLocalisations {
+    return {
+      title: this.localizationService.loc('AdminProfile.ConfirmDeletePopup.Title', this.localizationService.loc('RoleName.Producer')),
+      description: this.localizationService.loc('AdminProfile.ConfirmDeleteProducerPopup.Description'),
+      confirm: this.localizationService.loc('ConfirmPopup.Default.Ok'),
+      cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
+    }
+  }
+
+  private getConfirmDeleteProfilePopupLocalisation(): IPmConfirmPopupLocalisations {
+    return {
+      title: this.localizationService.loc('AdminProfile.ConfirmAnonymizePopup.Title', this.localizationService.loc('RoleName.Producer')),
+      description: this.localizationService.loc('AdminProfile.ConfirmAnonymizePopup.Description', this.localizationService.loc('RoleName.Producer')),
+      confirm: this.localizationService.loc('ConfirmPopup.Default.Confirm'),
+      cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
+    }
+  }
+
   private getConfirmImpersonationPopupLocalisation(): IPmConfirmPopupLocalisations {
     return {
       title: this.localizationService.loc('AdminProfile.ConfirmImpersonationPopup.Title', this.localizationService.loc('RoleName.Producer')),
@@ -223,4 +269,5 @@ export class AdminProducerProfileComponent implements OnInit {
       cancel: this.localizationService.loc('ConfirmPopup.Default.Cancel'),
     }
   }
+
 }

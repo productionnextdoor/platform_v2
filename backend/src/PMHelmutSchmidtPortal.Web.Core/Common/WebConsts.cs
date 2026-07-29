@@ -17,10 +17,10 @@ namespace PMHelmutSchmidtPortal.Web.Common
 
         public static class GraphQL
         {
-            public const string PlaygroundEndPoint = "/ui/playground";
+            public const string GraphiQLEndPoint = "/ui/graphiql";
             public const string EndPoint = "/graphql";
 
-            public static bool PlaygroundEnabled = false;
+            public static bool GraphiQLEnabled = false;
             public static bool Enabled = false;
         }
     }

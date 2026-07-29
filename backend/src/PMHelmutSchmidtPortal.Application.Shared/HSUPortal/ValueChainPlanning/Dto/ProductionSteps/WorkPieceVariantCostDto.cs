@@ -7,6 +7,7 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning.Dto.ProductionSteps
         public int? WorkPieceVariantId { get; set; }
         public bool IsStandard { get; set; }
         public decimal MaterialCost { get; set; }
+        public decimal WorkCost { get; set; }
         public bool CanProduce { get; set; }
     }
 }

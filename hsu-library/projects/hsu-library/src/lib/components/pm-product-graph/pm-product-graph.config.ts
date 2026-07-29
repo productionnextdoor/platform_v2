@@ -5,12 +5,12 @@ import { IProductGraphConfig } from './pm-product-graph.shared';
 export const productGraphConfig: IProductGraphConfig = {
   fonts: {
     default: {
-      family: 'Karla',
+      family: 'Karla Variable',
       size: 16,
       style: 'normal'
     },
     tooltip: {
-      family: 'Karla',
+      family: 'Karla Variable',
       size: 12,
       style: 'normal'
     },

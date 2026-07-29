@@ -32,6 +32,8 @@ export interface IProducer {
   tradeTypes?: IProducerTradeType[];
   status?: EUserStatus;
   agbAndTerms?: boolean;
+  hasProducts?: boolean;
+  hasOrders?: boolean;
 }
 
 export const PRODUCER_RATING_UNSPECIFIED: number = 0;

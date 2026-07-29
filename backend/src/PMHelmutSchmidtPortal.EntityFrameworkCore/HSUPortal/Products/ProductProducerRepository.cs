@@ -21,4 +21,15 @@ public class ProductProducerRepository : PmHelmutSchmidtPortalRepositoryBase<Pro
         
         GetDbContext().RemoveRange(productProducers);
     }
+
+    public void RemoveProductProducer(int productionDetailsId, long producerId)
+    {
+        ProductProducer productProducer = GetAll()
+            .Single(pp => pp.ProductionDetailsId == productionDetailsId && pp.AssignedProducerId == producerId);
+
+        if (productProducer != null)
+        {
+            Delete(productProducer);
+        }
+    }
 }

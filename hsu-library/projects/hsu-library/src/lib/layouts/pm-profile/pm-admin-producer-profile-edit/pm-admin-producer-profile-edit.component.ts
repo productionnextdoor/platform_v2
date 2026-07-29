@@ -5,10 +5,12 @@ import { PopupType } from '../../../components/pm-popup/pm-popup.component';
 import {
   adminProducerProfileEditLocalisation, IAdminProducerProfileEditLocalisation,
   defaultAdminProducerProfileEditErrors, IAdminProducerProfileEditErrors,
+  IProducerProductInvolvement,
 } from './pm-admin-producer-profile-edit.shared';
 import {
   IProducer, IProducerRating, IProducerTradeType
 } from '../producer.shared'
+import { IPmConfirmPopupLocalisations } from '../../pm-confirm-popup/pm-confirm-popup.shared';
 import { EUserStatus } from '../general.shared'
 import { PmDropdownOption } from '../../../components/pm-dropdown/pm-dropdown.shared';
 import { EPmInputType } from '../../../components/pm-input/pm-input.component';
@@ -41,11 +43,36 @@ export class PmAdminProducerProfileEditComponent {
   @Input()
   ratingDropdownOptions: PmDropdownOption<number>[] = [];
 
+  @Input()
+  producerProductInvolvements: IProducerProductInvolvement[] = [];
+
+  @Input()
+  confirmRemoveFromProductsPopupLocalisation: IPmConfirmPopupLocalisations = {
+    title: '',
+    description: '',
+    confirm: '',
+    cancel: ''
+  };
+
+  @Input()
+  confirmDeleteProfilePopupLocalisation: IPmConfirmPopupLocalisations = {
+    title: '',
+    description: '',
+    confirm: '',
+    cancel: ''
+  };
+
   @Output()
   onCancel: EventEmitter<void> = new EventEmitter();
 
   @Output()
   onSave: EventEmitter<IProducer> = new EventEmitter<IProducer>();
+
+  @Output()
+  onDeleteProfile: EventEmitter<void> = new EventEmitter<void>();
+
+  protected confirmRemoveFromProductsPopupIsActive: boolean = false;
+  protected confirmDeleteProfilePopupIsActive: boolean = false;
 
   adminProducerProfileEditErrors: IAdminProducerProfileEditErrors = defaultAdminProducerProfileEditErrors
 
@@ -63,7 +90,6 @@ export class PmAdminProducerProfileEditComponent {
   protected readonly IconSize = IconSize;
   /** @ignore */
   protected readonly EUserStatus: typeof EUserStatus = EUserStatus;
-
   /** @ignore */
   onCancelClick(): void {
     this.onCancel.emit();
@@ -76,6 +102,52 @@ export class PmAdminProducerProfileEditComponent {
     if (!this.hasFormErrors()) {
       this.onSave.emit(this.producer);
     }
+  }
+
+  /** @ignore */
+  hasProductInvolvements(): boolean {
+    return this.producerProductInvolvements.length > 0;
+  }
+
+  /** @ignore */
+  hasOrders(): boolean {
+    return this.producer.hasOrders === true;
+  }
+
+  /** @ignore */
+  cannotDeleteProfile(): boolean {
+    return this.hasProductInvolvements() || this.hasOrders();
+  }
+
+  /** @ignore */
+  onDeleteProfileClick(): void {
+    if (this.cannotDeleteProfile()) {
+      this.confirmRemoveFromProductsPopupIsActive = true;
+    } else {
+      this.confirmDeleteProfilePopupIsActive = true;
+    }
+  }
+
+  /** @ignore */
+  continueToDeleteProfile(): void {
+    this.confirmRemoveFromProductsPopupIsActive = false;
+    this.confirmDeleteProfilePopupIsActive = true;
+  }
+
+  /** @ignore */
+  closeRemoveFromProductsPopup(): void {
+    this.confirmRemoveFromProductsPopupIsActive = false;
+  }
+
+  /** @ignore */
+  confirmDeleteProfile(): void {
+    this.onDeleteProfile.emit();
+    this.confirmDeleteProfilePopupIsActive = false;
+  }
+
+  /** @ignore */
+  closeDeleteProfilePopup(): void {
+    this.confirmDeleteProfilePopupIsActive = false;
   }
 
   /** @ignore */

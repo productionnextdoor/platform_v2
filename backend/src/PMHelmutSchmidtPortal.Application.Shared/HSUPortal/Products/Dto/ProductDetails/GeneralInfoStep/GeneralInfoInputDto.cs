@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.GeneralInfoStep
@@ -19,11 +18,5 @@ namespace PMHelmutSchmidtPortal.HSUPortal.Products.Dto.ProductDetails.GeneralInf
         
         [Required]
         public float Depth { get; set; }
-        
-        public int? Quantity { get; set; }
-        
-        public DateTime? OfferDeadline { get; set; }
-        
-        public DateTime? ProductionDeadLine { get; set; }
     }
 }

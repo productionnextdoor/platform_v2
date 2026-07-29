@@ -71,25 +71,26 @@ namespace PMHelmutSchmidtPortal.Friendships
             {
                 await _friendshipManager.CreateFriendshipAsync(targetFriendship);
 
-                var clients = _onlineClientManager.GetAllByUserId(probableFriend);
+                var clients = await _onlineClientManager.GetAllByUserIdAsync(probableFriend);
                 if (clients.Any())
                 {
-                    var isFriendOnline = _onlineClientManager.IsOnline(sourceFriendship.ToUserIdentifier());
+                    var isFriendOnline = await _onlineClientManager.IsOnlineAsync(sourceFriendship.ToUserIdentifier());
                     await _chatCommunicator.SendFriendshipRequestToClient(clients, targetFriendship, false,
                         isFriendOnline);
                 }
             }
 
-            var senderClients = _onlineClientManager.GetAllByUserId(userIdentifier);
+            var senderClients = await _onlineClientManager.GetAllByUserIdAsync(userIdentifier);
             if (senderClients.Any())
             {
-                var isFriendOnline = _onlineClientManager.IsOnline(targetFriendship.ToUserIdentifier());
+                var isFriendOnline = await _onlineClientManager.IsOnlineAsync(targetFriendship.ToUserIdentifier());
                 await _chatCommunicator.SendFriendshipRequestToClient(senderClients, sourceFriendship, true,
                     isFriendOnline);
             }
 
             var sourceFriendshipRequest = ObjectMapper.Map<FriendDto>(sourceFriendship);
-            sourceFriendshipRequest.IsOnline = _onlineClientManager.GetAllByUserId(probableFriend).Any();
+            var probableFriendClients = await _onlineClientManager.GetAllByUserIdAsync(probableFriend);
+            sourceFriendshipRequest.IsOnline = probableFriendClients.Any();
 
             return sourceFriendshipRequest;
         }
@@ -142,7 +143,7 @@ namespace PMHelmutSchmidtPortal.Friendships
             var friendIdentifier = new UserIdentifier(input.TenantId, input.UserId);
             await _friendshipManager.BanFriendAsync(userIdentifier, friendIdentifier);
 
-            var clients = _onlineClientManager.GetAllByUserId(userIdentifier);
+            var clients = await _onlineClientManager.GetAllByUserIdAsync(userIdentifier);
             if (clients.Any())
             {
                 await _chatCommunicator.SendUserStateChangeToClients(clients, friendIdentifier,
@@ -156,7 +157,7 @@ namespace PMHelmutSchmidtPortal.Friendships
             var friendIdentifier = new UserIdentifier(input.TenantId, input.UserId);
             await _friendshipManager.AcceptFriendshipRequestAsync(userIdentifier, friendIdentifier);
 
-            var clients = _onlineClientManager.GetAllByUserId(userIdentifier);
+            var clients = await _onlineClientManager.GetAllByUserIdAsync(userIdentifier);
             if (clients.Any())
             {
                 await _chatCommunicator.SendUserStateChangeToClients(clients, friendIdentifier,
@@ -170,7 +171,7 @@ namespace PMHelmutSchmidtPortal.Friendships
             var friendIdentifier = new UserIdentifier(input.TenantId, input.UserId);
             await _friendshipManager.AcceptFriendshipRequestAsync(userIdentifier, friendIdentifier);
 
-            var clients = _onlineClientManager.GetAllByUserId(userIdentifier);
+            var clients = await _onlineClientManager.GetAllByUserIdAsync(userIdentifier);
             if (clients.Any())
             {
                 await _chatCommunicator.SendUserStateChangeToClients(clients, friendIdentifier,
@@ -184,7 +185,7 @@ namespace PMHelmutSchmidtPortal.Friendships
             
             await CheckFeatures(tenancyName);
 
-            if (!tenancyName.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(tenancyName))
             {
                 using (CurrentUnitOfWork.SetTenantId(null))
                 {
@@ -223,7 +224,7 @@ namespace PMHelmutSchmidtPortal.Friendships
             var tenantToHostAllowed = await FeatureChecker.IsEnabledAsync
                 ("App.ChatFeature.TenantToHost");
 
-            if (tenancyName.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(tenancyName))
             {
                 if (!tenantToHostAllowed)
                 {

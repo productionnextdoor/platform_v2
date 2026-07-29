@@ -2,40 +2,130 @@
     <ng-container *ngFor="let form of workingPieces; let i = index">
         <pm-row [gap]="margins.Small" template="1fr auto">
             <figure>
-                <pm-input
-                    [type]="EPmInputType.TEXT"
-                    [name]="'material_' + i"
-                    [inputId]="'material_' + i"
-                    [label]="localisations.materialLabel"
-                    [placeholder]="localisations.materialPlaceholder"
-                    [(value)]="form.material"
-                    [required]="true"
+                <pm-row template="1fr 1fr" [gap]="margins.Small">
+                    <pm-dropdown
+                        [label]="localisations.materialGroupLabel"
+                        [placeholder]="localisations.materialGroupPlaceholder"
+                        [options]="materialGroupOptions"
+                        [(value)]="form.materialGroupId"
+                        [required]="true"
+                        [margin]="inputFieldsMargin"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="onMaterialGroupChange(form)"
+                    />
+                    <pm-input
+                        [type]="EPmInputType.TEXT"
+                        [name]="'material_' + i"
+                        [inputId]="'material_' + i"
+                        [label]="localisations.materialLabel"
+                        [placeholder]="localisations.materialPlaceholder"
+                        [(value)]="form.material"
+                        [required]="true"
+                        [margin]="inputFieldsMargin"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="valueChange()"
+                    />
+                </pm-row>
+                <pm-text *ngIf="hasSpecificationGroups(form.materialGroupId)"
+                    [type]="TextType.H4"
                     [margin]="inputFieldsMargin"
-                    [errorMessages]="localisations.inputErrorMessages"
-                    (valueChange) ="valueChange()"
-                />
-                <pm-input
-                    [type]="EPmInputType.TEXT"
-                    [name]="'finalState_' + i"
-                    [inputId]="'finalState_' + i"
-                    [label]="localisations.finalStateLabel"
-                    [placeholder]="localisations.finalStatePlaceholder"
-                    [(value)]="form.finalState"
-                    [required]="true"
-                    [margin]="inputFieldsMargin"
-                    [errorMessages]="localisations.inputErrorMessages"
-                    (valueChange) ="valueChange()"
-                />
-                <pm-dropdown
-                    *ngIf="surfaceFinishes.length > 0"
-                    [label]="localisations.surfaceFinishLabel"
-                    [placeholder]="localisations.surfaceFinishPlaceholder"
-                    [options]="surfaceFinishes"
-                    [(value)]="form.surfaceFinishId"
-                    [required]="true"
-                    [errorMessages]="localisations.inputErrorMessages"
-                    (valueChange) ="valueChange()"
-                />
+                >{{ localisations.firstSpecificationHeading }}</pm-text>
+                <pm-row template="1fr 1fr" [gap]="margins.Small" *ngIf="hasSpecificationGroups(form.materialGroupId)">
+                    <pm-dropdown
+                        [label]="localisations.specificationGroupLabel"
+                        [placeholder]="localisations.specificationGroupPlaceholder"
+                        [options]="getSpecificationGroupOptions(form.materialGroupId)"
+                        [value]="getFirstSpecGroupId(form)"
+                        [required]="true"
+                        [disabled]="!form.materialGroupId"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        [margin]="inputFieldsMargin"
+                        (valueChange)="onFirstSpecGroupChange(form, $event)"
+                    />
+                    <pm-input
+                        [type]="EPmInputType.TEXT"
+                        [name]="'finalState_' + i"
+                        [inputId]="'finalState_' + i"
+                        [label]="localisations.finalStateLabel"
+                        [placeholder]="localisations.finalStatePlaceholder"
+                        [(value)]="form.finalState"
+                        [required]="true"
+                        [margin]="inputFieldsMargin"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="valueChange()"
+                    />
+                </pm-row>
+                <pm-row template="1fr 1fr" [gap]="margins.Small">
+                    <pm-dropdown
+                        [label]="localisations.specificationLabel"
+                        [placeholder]="localisations.specificationPlaceholder"
+                        [options]="getSpecsForSelectedGroup(form, 0)"
+                        [value]="getFirstSpecificationId(form)"
+                        [required]="true"
+                        [disabled]="!form.materialGroupId || (hasSpecificationGroups(form.materialGroupId) && getFirstSpecGroupId(form) === undefined)"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        [margin]="inputFieldsMargin"
+                        (valueChange)="onFirstSpecificationChange(form, $event)"
+                    />
+                    <pm-input *ngIf="!hasSpecificationGroups(form.materialGroupId)"
+                        [type]="EPmInputType.TEXT"
+                        [name]="'finalState_' + i"
+                        [inputId]="'finalState_' + i"
+                        [label]="localisations.finalStateLabel"
+                        [placeholder]="localisations.finalStatePlaceholder"
+                        [(value)]="form.finalState"
+                        [required]="true"
+                        [margin]="inputFieldsMargin"
+                        [errorMessages]="localisations.inputErrorMessages"
+                        (valueChange)="valueChange()"
+                    />
+                    <div *ngIf="hasSpecificationGroups(form.materialGroupId)"></div>
+                </pm-row>
+                <ng-container *ngIf="getFirstSpecificationId(form) && hasSpecificationGroups(form.materialGroupId)">
+                    <pm-text
+                        [type]="TextType.H4"
+                        [margin]="inputFieldsMargin"
+                    >{{ localisations.secondSpecificationHeading }}</pm-text>
+                    <pm-row template="1fr 1fr" [gap]="margins.Small">
+                        <pm-dropdown
+                            [label]="localisations.specificationGroupLabel"
+                            [placeholder]="localisations.specificationGroupPlaceholder"
+                            [options]="getSpecificationGroupOptions(form.materialGroupId)"
+                            [value]="getSecondSpecGroupId(form)"
+                            [required]="false"
+                            [disabled]="!form.materialGroupId"
+                            [margin]="inputFieldsMargin"
+                            (valueChange)="onSecondSpecGroupChange(form, $event)"
+                        />
+                        <div></div>
+                    </pm-row>
+                    <pm-row template="1fr 1fr" [gap]="margins.Small">
+                        <pm-dropdown
+                            [label]="localisations.secondSpecificationLabel"
+                            [placeholder]="localisations.secondSpecificationPlaceholder"
+                            [options]="getFilteredSpecificationsForSecondDropdown(form)"
+                            [value]="getSecondSpecificationId(form)"
+                            [required]="false"
+                            [disabled]="!form.materialGroupId || (hasSpecificationGroups(form.materialGroupId) && getSecondSpecGroupId(form) === undefined)"
+                            [margin]="inputFieldsMargin"
+                            (valueChange)="onSecondSpecificationChange(form, $event)"
+                        />
+                        <div></div>
+                    </pm-row>
+                </ng-container>
+                <pm-row template="1fr 1fr" [gap]="margins.Small" *ngIf="getFirstSpecificationId(form) && !hasSpecificationGroups(form.materialGroupId)">
+                    <pm-dropdown
+                        [label]="localisations.secondSpecificationLabel"
+                        [placeholder]="localisations.secondSpecificationPlaceholder"
+                        [options]="getFilteredSpecificationsForSecondDropdown(form)"
+                        [value]="getSecondSpecificationId(form)"
+                        [required]="false"
+                        [disabled]="!form.materialGroupId"
+                        [margin]="inputFieldsMargin"
+                        (valueChange)="onSecondSpecificationChange(form, $event)"
+                    />
+                    <div></div>
+                </pm-row>
             </figure>
             <pm-button
                 [type]="ButtonType.ICON"

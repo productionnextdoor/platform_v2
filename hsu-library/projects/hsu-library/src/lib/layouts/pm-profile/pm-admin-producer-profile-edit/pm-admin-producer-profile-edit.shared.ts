@@ -15,6 +15,8 @@ export interface IAdminProducerProfileEditLabelLocalisation {
   tradeType: string;
   zipCode: string;
   note: string;
+  deleteProfile: string;
+  activeOrdersWarning: string;
 }
 
 export interface IAdminProducerProfileEditLocalisation {
@@ -29,6 +31,11 @@ export interface IAdminProducerProfileEditLocalisation {
   labels: IAdminProducerProfileEditLabelLocalisation;
   statuses: IStatusesLocalisation;
   inputErrorMessages: string[];
+}
+
+export interface IProducerProductInvolvement {
+  productNumber: number;
+  productName?: string;
 }
 
 export interface IAdminProducerProfileEditErrors {
@@ -58,6 +65,8 @@ const adminProducerProfileEditLabelLocalisation: IAdminProducerProfileEditLabelL
   tradeType: '',
   zipCode: '',
   note: '',
+  deleteProfile: '',
+  activeOrdersWarning: '',
 }
 
 export const adminProducerProfileEditLocalisation: IAdminProducerProfileEditLocalisation = {

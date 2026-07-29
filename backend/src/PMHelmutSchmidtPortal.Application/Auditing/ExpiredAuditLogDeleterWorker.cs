@@ -149,8 +149,7 @@ namespace PMHelmutSchmidtPortal.Auditing
 
             if (expiredEntryCount > MaxDeletionCount)
             {
-                var deleteStartId = _auditLogRepository.GetAll().OrderBy(l => l.Id).Skip(MaxDeletionCount)
-                    .Select(x => x.Id).First();
+                var deleteStartId = _auditLogRepository.GetAll().OrderBy(l => l.Id).Skip(MaxDeletionCount).Select(x => x.Id).First();
 
                 BatchDelete(l => l.Id < deleteStartId);
             }

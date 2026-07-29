@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Abp.Zero.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -53,9 +53,13 @@ namespace PMHelmutSchmidtPortal.EntityFrameworkCore
 
         public virtual DbSet<MaterialGroup> MaterialGroups { get; set; }
 
-        public virtual DbSet<SurfaceFinish> SurfaceFinishes { get; set; }
+        public virtual DbSet<Specification> Specifications { get; set; }
+
+        public virtual DbSet<SpecificationGroup> SpecificationGroups { get; set; }
 
         public virtual DbSet<WorkPiece> WorkPieces { get; set; }
+
+        public virtual DbSet<WorkPieceSpecification> WorkPieceSpecifications { get; set; }
 
         public virtual DbSet<ProductionState> ProductionStates { get; set; }
 
@@ -107,8 +111,6 @@ namespace PMHelmutSchmidtPortal.EntityFrameworkCore
         public virtual DbSet<VariantProductionPlanActionCost> VariantProductionPlanActionCosts { get; set; }
         
         public virtual DbSet<ProductionDetails> ProductionDetails { get; set; }
-        
-        public virtual DbSet<ProductCustomerInfo> ProductCustomerInfos { get; set; }
 
         public PMHelmutSchmidtPortalDbContext(DbContextOptions<PMHelmutSchmidtPortalDbContext> options)
             : base(options)
@@ -195,8 +197,10 @@ namespace PMHelmutSchmidtPortal.EntityFrameworkCore
                 .WithMany(p => p.WorkPieces).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<WorkPiece>().HasOne(wp => wp.MaterialGroup)
                 .WithMany().HasForeignKey(wp => wp.MaterialGroupId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<WorkPiece>().HasOne(wp => wp.SurfaceFinish)
-                .WithMany().HasForeignKey(wp => wp.SurfaceFinishId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<WorkPieceSpecification>().HasOne(wps => wps.WorkPiece)
+                .WithMany(wp => wp.WorkPieceSpecifications).HasForeignKey(wps => wps.WorkPieceId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<WorkPieceSpecification>().HasOne(wps => wps.Specification)
+                .WithMany().HasForeignKey(wps => wps.SpecificationId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<ProductionState>().HasOne(ps => ps.ProductionDetails)
                 .WithMany(p => p.ProductionStates).OnDelete(DeleteBehavior.Restrict);
@@ -334,23 +338,6 @@ namespace PMHelmutSchmidtPortal.EntityFrameworkCore
                 .HasForeignKey<WizardStep>(ws => ws.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ProductCustomerInfo>()
-                .HasOne(pci => pci.Product)
-                .WithOne()
-                .HasForeignKey<ProductCustomerInfo>(pci => pci.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<CustomerInfo>()
-                .HasOne(ci => ci.ProductCustomerInfo)
-                .WithOne(pci => pci.CustomerInfo)
-                .HasForeignKey<CustomerInfo>(ci => ci.ProductCustomerInfoId)
-                .OnDelete(DeleteBehavior.Cascade);
-            
-            modelBuilder.Entity<ProductCustomerInfo>()
-                .HasOne(pci => pci.CustomerInfo)
-                .WithOne(ci => ci.ProductCustomerInfo)
-                .HasForeignKey<ProductCustomerInfo>(pci => pci.CustomerInfoId)
-                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

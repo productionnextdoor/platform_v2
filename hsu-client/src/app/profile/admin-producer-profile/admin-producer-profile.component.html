@@ -22,13 +22,18 @@
     (onConfirm)="loginAsProducer()"
 ></pm-confirm-popup>
 
+
 <pm-admin-producer-profile-edit
     *ngIf="editPopupIsActive"
     (onCancel)=closeEditPopup()
     (onSave)="saveProducer($event)"
+    (onDeleteProfile)="deleteProducerProfile()"
     [localisations]="editProfileLocalisation"
     [tradeDropdownOptions]="tradeDropdownOptions"
     [stateDropdownOptions]="stateDropdownOptions"
     [ratingDropdownOptions]="ratingDropdownOptions"
-    [producer]="producer">
+    [producer]="producer"
+    [producerProductInvolvements]="producerProductInvolvements"
+    [confirmRemoveFromProductsPopupLocalisation]="confirmRemoveFromProductsPopupLocalisation"
+    [confirmDeleteProfilePopupLocalisation]="confirmDeleteProfilePopupLocalisation">
 </pm-admin-producer-profile-edit>

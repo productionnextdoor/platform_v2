@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import {
   ActionStatus,
-  AdminOrderDetailsOutput, DeliveryDocumentsDto, OrderDetailsBaseOutput, OrderValueChainProducerDto,
+  AdminOrderDetailsOutput, OrderDetailsBaseOutput, OrderValueChainProducerDto,
   PagedResultDtoOfOrderListAdminDto,
   PagedResultDtoOfOrderListProducerDto
 } from '../../shared/service-proxies/service-proxies';
@@ -18,12 +18,9 @@ export abstract class IOrderApiService {
   abstract getProducerOrderStatus(orderId: number): Observable<ActionStatus>;
   abstract getOrderActionsData(orderId: number):Observable<IProducerOrderActionData[]>;
   abstract getProducerOrderDetails(orderId: number):Observable<OrderDetailsBaseOutput>;
-  abstract getProductDeliveryDocuments(productId: number): Observable<DeliveryDocumentsDto[]>
   abstract startFinishValueChainAction(valueChainActionId: number, start: boolean): Observable<void>
   abstract getOrderCommissionedValueChainProducer(orderId:number): Observable<OrderValueChainProducerDto>;
-  abstract getOrderCommissionedValueChainDeveloper(productId:number): Observable<OrderValueChainProducerDto>;
   abstract acceptOrRejectActionRequest(orderId: number, stepId: number, accept: boolean): Observable<void>;
   abstract reRequestProductionAction(productionStepId: number, orderId: number): Observable<void>;
   abstract cancelOrder(orderId: number): Observable<void>;
-  abstract commissionValueChain(valueCHainId: number): Observable<void>;
 }

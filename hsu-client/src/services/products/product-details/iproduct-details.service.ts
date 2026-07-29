@@ -17,13 +17,9 @@ import {
   IProductDetailsProducerLocalisations
 } from '../../../app/product-details/product-details-producer/product-details-producer.shared';
 import { Observable } from 'rxjs';
-import {
-  IProductDetailsPageDeveloperLocalisations
-} from '../../../app/product-details/product-details-developer/product-details-developer.shared';
 
 export abstract class IProductDetailsService {
   public abstract getProducerTableColumnHeaders(): IColumnHeader[];
-  public abstract getDeveloperLocalisationStrings(): IProductDetailsPageDeveloperLocalisations;
   public abstract getAdminLocalisationStrings(): IProductDetailsAdminLocalisations;
   public abstract getProducerLocalisationStrings(): IProductDetailsProducerLocalisations;
   public abstract getPaginationOptions(): PmDropdownOption<string>[];

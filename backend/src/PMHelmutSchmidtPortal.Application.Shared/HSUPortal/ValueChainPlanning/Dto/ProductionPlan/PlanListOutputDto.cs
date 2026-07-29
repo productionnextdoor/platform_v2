@@ -9,6 +9,5 @@ namespace PMHelmutSchmidtPortal.HSUPortal.ValueChainPlanning.Dto.ProductionPlan
         public DateTime? LastPlanCalculatedAt { get; set; }
         public List<PlanRatingTypesDto> RatingTypes { get; set; }
         public PagedResultDto<PlanListDto> Plans { get; set; }
-        public int? SelectedForProductionId { get; set; }
     }
 }

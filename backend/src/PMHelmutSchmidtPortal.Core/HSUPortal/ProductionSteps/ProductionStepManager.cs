@@ -26,6 +26,7 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
     private readonly IMeasurementPositionManager _measurementPositionManager;
     private readonly IRepository<ProductionStepMeasurementVariant> _stepMeasurementVariantRepository;
     private readonly IProductManager _productManager;
+    private readonly IProductProducerRepository _productProducerRepository;
 
     public ProductionStepManager(
         IProductionStepRepository productionStepRepository,
@@ -33,7 +34,8 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
         IProducerInfoRepository producerInfoRepository,
         IMeasurementPositionManager measurementPositionManager,
         IRepository<ProductionStepMeasurementVariant> stepMeasurementVariantRepository,
-        IProductManager productManager
+        IProductManager productManager,
+        IProductProducerRepository productProducerRepository
     )
     {
         _productionStepRepository = productionStepRepository;
@@ -42,6 +44,7 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
         _measurementPositionManager = measurementPositionManager;
         _stepMeasurementVariantRepository = stepMeasurementVariantRepository;
         _productManager = productManager;
+        _productProducerRepository = productProducerRepository;
     }
 
     public async Task<ProductionStep> GetProductionStep(ProductionStepBaseDto input, long producerId)
@@ -49,6 +52,7 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
         
         IIncludableQueryable<ProductionStep, ICollection<ProductionStepWorkPieceVariantCost>> productQuery = _productionStepRepository
             .GetAll()
+            .IncludeStates()
             .IncludeMeasurementsAndCosts();
 
         if (input.StepId != 0)
@@ -100,29 +104,30 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
 
         try
         {
-            if (productionStep.Id == 0)
+            // Validate that standard measurement + standard material combination exists
+            ProductMeasurement standardMeasurement = product.ProductMeasurements.FirstOrDefault(pm => pm.IsDefault);
+            if (standardMeasurement == null)
             {
-                CreateStepInformation(
-                    input.StepMeasurementVariants.Concat(await GetInBetweenStepInformation(product.Id, input.StepMeasurementVariants)),
-                    product,
-                    productionStep,
-                    producerInfo);
+                throw new UserFriendlyException("Standard measurement missing", "Product must have a default measurement");
             }
-            else
-            {
-                List<StepMeasurementVariantsDto> inBetweenStepInformation = (await GetInBetweenStepInformationForUpdate(product.Id, productionStep.Id, input.StepMeasurementVariants)).ToList();
-                UpdateStepInformation(
-                    input.StepMeasurementVariants.Concat(inBetweenStepInformation.Where(smv => smv.StepMeasurementVariantsId > 0)),
-                    productionStep);
 
-                // Create all inbetween StepInformation which weren't created during step initialisation. This is just to prevent data garbage after merging this ticket (old steps/products won't have those step information).
-                // In production this should never happen
-                CreateStepInformation(
-                    inBetweenStepInformation.Where(smv => smv.StepMeasurementVariantsId < 1),
-                    product,
-                    productionStep,
-                    producerInfo);
+            StepMeasurementVariantsDto standardMeasurementVariant = input.StepMeasurementVariants
+                .FirstOrDefault(smv => smv.MeasurementId == standardMeasurement.Id);
+            
+            if (standardMeasurementVariant == null)
+            {
+                throw new UserFriendlyException("Standard measurement variant missing", "Request must include the standard measurement variant");
             }
+
+            WorkPieceVariantCostDto standardWorkPieceCost = standardMeasurementVariant.WorkPieceVariantsCost
+                .FirstOrDefault(wpvc => wpvc.IsStandard);
+            
+            if (standardWorkPieceCost == null || standardWorkPieceCost.MaterialCost <= 0)
+            {
+                throw new UserFriendlyException("Standard material missing", "Standard measurement must have a standard material variant");
+            }
+            
+            CreateOrUpdateStepInformation(input.StepMeasurementVariants, product, productionStep, producerInfo);
 
             await _productionStepRepository.InsertOrUpdateAndGetIdAsync(productionStep);
 
@@ -148,6 +153,15 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
     public async Task DeleteProductionStep(ProductionStep productionStep)
     {
         await _productionStepRepository.DeleteAsync(productionStep);
+
+        bool hasRemainingSteps = await _productionStepRepository
+            .GetAllByProductionDetailsId(productionStep.ProductionDetailsId)
+            .AnyAsync(step => step.Id != productionStep.Id && step.ProducerInfo.UserId == productionStep.ProducerInfo.UserId);
+
+        if (!hasRemainingSteps)
+        {
+            _productProducerRepository.RemoveProductProducer(productionStep.ProductionDetailsId, productionStep.ProducerInfo.UserId);
+        }
     }
 
     public async Task RecalculateStepsData(User currentUser)
@@ -183,6 +197,7 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
                                     WorkPieceVariantId = swpvc.VariantId,
                                     IsStandard = swpvc.IsStandard,
                                     MaterialCost = swpvc.MaterialCost,
+                                    WorkCost = swpvc.WorkCost,
                                     CanProduce = swpvc.CanProduce
                                 }).ToList()
                         }).ToList()
@@ -198,217 +213,44 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
             Product product = await (await _productManager.GetProductForProductionSteps(steps.Key, currentUser))
                 .SingleAsync();
 
-            List<int> baseMeasurementIds = product.ProductMeasurements
-                .Where(pm =>
-                    pm.Position == product.ProductMeasurements.Max(prodm => prodm.Position) ||
-                    pm.Position == product.ProductMeasurements.Min(prodm => prodm.Position) ||
-                    pm.IsDefault)
-                .Select(pm => pm.Id)
-                .ToList();
-
             foreach ((long producerId, int productId,ProductionStepCreateOrUpdateDto step) producerStep in steps)
             {
-                List<StepMeasurementVariantsDto> stepBaseMeasurements = producerStep.step.StepMeasurementVariants
-                    .Where(measurement => baseMeasurementIds.Contains(measurement.MeasurementId))
-                    .ToList();
-
-                producerStep.step.StepMeasurementVariants = stepBaseMeasurements;
                 await CreateOrUpdateProductionStep(producerStep.step, product, producerStep.producerId);
             }
         }
     }
 
-    private async Task<IEnumerable<StepMeasurementVariantsDto>> GetInBetweenStepInformationForUpdate(int productId, int productionStepId, List<StepMeasurementVariantsDto> baseStepInformation)
-    {
-        List<StepMeasurementVariantsDto> inBetweenStepInformation = (await GetInBetweenStepInformation(productId, baseStepInformation)).ToList();
-        List<ProductionStepMeasurementVariant> existingStepInformation = await _stepMeasurementVariantRepository
-            .GetAll()
-            .Include(smv => smv.StepWorkPieceVariantCosts)
-            .Where(smv => smv.ProductionStepId == productionStepId)
-            .ToListAsync();
 
-        foreach (StepMeasurementVariantsDto stepMeasurementVariantsDto in inBetweenStepInformation)
-        {
-            ProductionStepMeasurementVariant existingVariant = existingStepInformation
-                .SingleOrDefault(smv => smv.ProductMeasurementId == stepMeasurementVariantsDto.MeasurementId);
-
-            if (existingVariant is null) continue;
-
-            stepMeasurementVariantsDto.StepMeasurementVariantsId = existingVariant.Id;
-            foreach (WorkPieceVariantCostDto workPieceVariantCostDto in stepMeasurementVariantsDto.WorkPieceVariantsCost)
-            {
-                workPieceVariantCostDto.WorkPieceVariantCostId = existingVariant.StepWorkPieceVariantCosts
-                    .Single(swpv =>
-                        swpv.WorkPieceId == workPieceVariantCostDto.WorkPieceId &&
-                        swpv.VariantId == workPieceVariantCostDto.WorkPieceVariantId)
-                    .Id;
-            }
-        }
-
-        return inBetweenStepInformation;
-    }
-
-    private async Task<IEnumerable<StepMeasurementVariantsDto>> GetInBetweenStepInformation(int productId, List<StepMeasurementVariantsDto> baseStepInformation)
-    {
-        List<ProductMeasurement> productMeasurements = (await _measurementPositionManager
-            .GetProductMeasurements(productId))
-            .OrderBy(pm => pm.Position)
-            .ToList();
-
-        // Normalizing the positions. If in developer wizard measurements where added or deleted multiple times
-        // and have never been sorted in step 5, there will be gaps in position enumerations. That can affect our
-        // calculations that's why normalization is needed to eliminate those gaps.   
-        int i = 1;
-        foreach (ProductMeasurement productMeasurement in productMeasurements)
-        {
-            productMeasurement.Position = i++;
-        }
-
-        await CurrentUnitOfWork.SaveChangesAsync();
-        
-        ProductMeasurement maxMeasurement = productMeasurements
-            .Single(pm =>
-                pm.Position == productMeasurements.Max(prm => prm.Position));
-        ProductMeasurement minMeasurement = productMeasurements
-            .Single(pm =>
-                pm.Position == productMeasurements.Min(prm => prm.Position));
-        ProductMeasurement defaultMeasurement = productMeasurements.Single(pm => pm.IsDefault);
-
-        List<ProductMeasurement> noneBaseProductMeasurements = productMeasurements
-            .Where(pm =>
-                pm.Position != maxMeasurement.Position &&
-                pm.Position != minMeasurement.Position &&
-                !pm.IsDefault)
-            .ToList();
-
-        return noneBaseProductMeasurements.Select(pm =>
-        {
-            ProductMeasurement lowerMeasurementBound = pm.Position >= minMeasurement.Position && pm.Position <= defaultMeasurement.Position
-                ? minMeasurement
-                : defaultMeasurement;
-
-            ProductMeasurement upperMeasurementBound = pm.Position > defaultMeasurement.Position && pm.Position <= maxMeasurement.Position
-                ? maxMeasurement
-                : defaultMeasurement;
-
-            StepMeasurementVariantsDto lowerStepInformationBound = pm.Position >= minMeasurement.Position && pm.Position <= defaultMeasurement.Position
-                ? baseStepInformation.Single(bsi => bsi.MeasurementId == minMeasurement.Id)
-                : baseStepInformation.Single(bsi => bsi.MeasurementId == defaultMeasurement.Id);
-
-            StepMeasurementVariantsDto upperStepInformationBound = pm.Position > defaultMeasurement.Position && pm.Position <= maxMeasurement.Position
-                ? baseStepInformation.Single(bsi => bsi.MeasurementId == maxMeasurement.Id)
-                : baseStepInformation.Single(bsi => bsi.MeasurementId == defaultMeasurement.Id);
-
-            return InterpolateStepMeasurementVariants(
-                pm,
-                lowerMeasurementBound,
-                upperMeasurementBound,
-                lowerStepInformationBound,
-                upperStepInformationBound);
-        });
-    }
-
-    private StepMeasurementVariantsDto InterpolateStepMeasurementVariants(
-        ProductMeasurement productMeasurement,
-        ProductMeasurement lowerMeasurementBound,
-        ProductMeasurement upperMeasurementBound,
-        StepMeasurementVariantsDto lowerStepInformationBound,
-        StepMeasurementVariantsDto upperStepInformationBound
-    ) => new()
-    {
-        MeasurementId = productMeasurement.Id,
-        OrderProcessingTime = MathUtilities.LinearCostInterpolation(
-            lowerMeasurementBound.Position,
-            upperMeasurementBound.Position,
-            lowerStepInformationBound.OrderProcessingTime,
-            upperStepInformationBound.OrderProcessingTime,
-            productMeasurement.Position),
-        WorkHours = MathUtilities.LinearCostInterpolation(
-            lowerMeasurementBound.Position,
-            upperMeasurementBound.Position,
-            lowerStepInformationBound.WorkHours,
-            upperStepInformationBound.WorkHours,
-            productMeasurement.Position),
-        TransportAndAssemblyCost = MathUtilities.LinearCostInterpolation(
-            lowerMeasurementBound.Position,
-            upperMeasurementBound.Position,
-            lowerStepInformationBound.TransportAndAssemblyCost,
-            upperStepInformationBound.TransportAndAssemblyCost,
-            productMeasurement.Position),
-        AdditionalCosts = MathUtilities.LinearCostInterpolation(
-            lowerMeasurementBound.Position,
-            upperMeasurementBound.Position,
-            lowerStepInformationBound.AdditionalCosts,
-            upperStepInformationBound.AdditionalCosts,
-            productMeasurement.Position),
-
-        WorkPieceVariantsCost = lowerStepInformationBound.WorkPieceVariantsCost.Select((lwpv, index) =>
-                InterpolateWorkPieceVariantCostDto(
-                    lwpv,
-                    upperStepInformationBound.WorkPieceVariantsCost[index],
-                    lowerMeasurementBound,
-                    upperMeasurementBound,
-                    productMeasurement))
-            .ToList()
-    };
-
-    private WorkPieceVariantCostDto InterpolateWorkPieceVariantCostDto(
-        WorkPieceVariantCostDto lowerVariantBound,
-        WorkPieceVariantCostDto upperVariantBound,
-        ProductMeasurement lowerMeasurementBound,
-        ProductMeasurement upperMeasurementBound,
-        ProductMeasurement productMeasurement
-    ) => new()
-    {
-        CanProduce = lowerVariantBound.CanProduce && upperVariantBound.CanProduce,
-        IsStandard = lowerVariantBound.IsStandard && upperVariantBound.IsStandard,
-        MaterialCost = MathUtilities.LinearCostInterpolation(
-            lowerMeasurementBound.Position,
-            upperMeasurementBound.Position,
-            lowerVariantBound.MaterialCost, upperVariantBound.MaterialCost,
-            productMeasurement.Position),
-        WorkPieceId = lowerVariantBound.WorkPieceId,
-        WorkPieceVariantCostId = 0,
-        WorkPieceVariantId = lowerVariantBound.WorkPieceVariantId
-    };
-
-    private static void CreateStepInformation(IEnumerable<StepMeasurementVariantsDto> stepMeasurementVariants, Product product, ProductionStep productionStep, ProducerInfo producerInfo)
+    private static void CreateOrUpdateStepInformation(IEnumerable<StepMeasurementVariantsDto> stepMeasurementVariants, Product product, ProductionStep productionStep, ProducerInfo producerInfo)
     {
         foreach (StepMeasurementVariantsDto stepMeasurementVariantDto in stepMeasurementVariants)
         {
-            ProductionStepMeasurementVariant stepMeasurementVariant =
-                CreateProductionStepMeasurementVariant(product, productionStep, stepMeasurementVariantDto);
-
-            foreach (ProductionStepWorkPieceVariantCost stepWorkPieceVariantCost in stepMeasurementVariantDto
-                         .WorkPieceVariantsCost
-                         .Select(workPieceVariantCostDto =>
-                             CreateStepWorkPieceVariantCost(product, producerInfo, workPieceVariantCostDto)))
+            ProductionStepMeasurementVariant stepMeasurementVariant;
+            
+            if (stepMeasurementVariantDto.StepMeasurementVariantsId > 0)
             {
-                stepMeasurementVariant.StepWorkPieceVariantCosts.Add(stepWorkPieceVariantCost);
+                stepMeasurementVariant = UpdateProductionStepMeasurementVariant(productionStep, stepMeasurementVariantDto);
             }
-
-            productionStep.StepMeasurementVariants.Add(stepMeasurementVariant);
+            else
+            {
+                stepMeasurementVariant = CreateProductionStepMeasurementVariant(product, productionStep, stepMeasurementVariantDto);
+                productionStep.StepMeasurementVariants.Add(stepMeasurementVariant);
+            }
+            foreach (WorkPieceVariantCostDto workPieceVariantCostDto in stepMeasurementVariantDto.WorkPieceVariantsCost)
+            {
+                if (workPieceVariantCostDto.WorkPieceVariantCostId > 0)
+                {
+                    UpdateStepWorkPieceVariantCost(stepMeasurementVariant, workPieceVariantCostDto);
+                }
+                else
+                {
+                    ProductionStepWorkPieceVariantCost newCost = CreateStepWorkPieceVariantCost(product, producerInfo, workPieceVariantCostDto);
+                    stepMeasurementVariant.StepWorkPieceVariantCosts.Add(newCost);
+                }
+            }
         }
     }
 
-    private static void UpdateStepInformation(IEnumerable<StepMeasurementVariantsDto> stepMeasurementVariants, ProductionStep productionStep)
-    {
-        foreach (StepMeasurementVariantsDto stepMeasurementVariantDto in stepMeasurementVariants)
-        {
-            ProductionStepMeasurementVariant stepMeasurementVariant =
-                UpdateProductionStepMeasurementVariant(productionStep, stepMeasurementVariantDto);
-
-            foreach (ProductionStepWorkPieceVariantCost stepWorkPieceVariantCost in stepMeasurementVariantDto
-                         .WorkPieceVariantsCost
-                         .Select(workPieceVariantCostDto =>
-                             UpdateStepWorkPieceVariantCost(stepMeasurementVariant, workPieceVariantCostDto)))
-            {
-                stepMeasurementVariant.StepWorkPieceVariantCosts.Add(stepWorkPieceVariantCost);
-            }
-
-            productionStep.StepMeasurementVariants.Add(stepMeasurementVariant);
-        }
-    }
 
 
     private static bool IsStepPossible(int startStateId, int endStateId, int? workPieceId, List<ProductionState> productionStates)
@@ -499,6 +341,7 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
             Variant = workPieceVariant,
             IsStandard = workPieceVariantCostDto.IsStandard,
             MaterialCost = workPieceVariantCostDto.MaterialCost,
+            WorkCost = workPieceVariantCostDto.WorkCost,
             CanProduce = workPieceVariantCostDto.CanProduce
         };
 
@@ -515,6 +358,7 @@ public class ProductionStepManager : HSUDomainBaseService, IProductionStepManage
 
         workPieceVariantCost.CanProduce = workPieceVariantCostDto.CanProduce;
         workPieceVariantCost.MaterialCost = workPieceVariantCostDto.MaterialCost;
+        workPieceVariantCost.WorkCost = workPieceVariantCostDto.WorkCost;
 
         return workPieceVariantCost;
     }

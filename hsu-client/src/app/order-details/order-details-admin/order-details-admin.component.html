@@ -5,50 +5,40 @@
     [cancelDisabled]="isCancelDisabled"
     (onCancelOrder)="onCancelOrder()"
 >
-    <pm-col>
-        <ng-container *ngFor="let valueChain of topValueChainData">
-            <pm-order-value-chain-card
-                [index]="valueChain.index"
-                [requestDate]="valueChain.requestDate"
-                [status]="valueChain.status"
-                [commissionMode]="commissionMode"
-                [columnHeaders]="columnHeaders"
-                [rowData]="valueChain.rowData"
-                [valueChainCardLocalisation]="localisations.valueChainCardLocalisation"
-                (onCommissionClicked)="onCommissionClicked(valueChain.valueChainId)"
+        <pm-col>
+            <ng-container *ngFor="let valueChain of topValueChainData">
+                <pm-order-value-chain-card
+                    [index]="valueChain.index"
+                    [requestDate]="valueChain.requestDate"
+                    [status]="valueChain.status"
+                    [columnHeaders]="columnHeaders"
+                    [rowData]="valueChain.rowData"
+                    [valueChainCardLocalisation]="localisations.valueChainCardLocalisation"
+                ></pm-order-value-chain-card>
+            </ng-container>
 
-            ></pm-order-value-chain-card>
-        </ng-container>
+            <pm-ordered-product-details
+                *ngIf="productInfoCard"
+                [title]="productInfoCard.productInfoCardTitle"
+                [detailData]="productInfoCard.productInfoCardData"
+                (onDownloadClick)="downloadFiles()"
+            />
+            <pm-ordered-product-customer-info
+                *ngIf="customerInfoCard"
+                [title]="customerInfoCard.customerInfoCardTitle"
+                [customerData]="customerInfoCard.customerInfoCardData"
+            />
 
-        <pm-ordered-product-details
-            *ngIf="productInfoCard"
-            [title]="productInfoCard.productInfoCardTitle"
-            [detailData]="productInfoCard.productInfoCardData"
-            (onDownloadClick)="downloadFiles()"
-        />
-        <pm-ordered-product-customer-info
-            *ngIf="customerInfoCard"
-            [title]="customerInfoCard.customerInfoCardTitle"
-            [customerData]="customerInfoCard.customerInfoCardData"
-        />
-
-        <ng-container *ngFor="let valueChain of bottomValueChainData">
-            <pm-order-value-chain-card
-                [index]="valueChain.index"
-                [requestDate]="valueChain.requestDate"
-                [status]="valueChain.status"
-                [columnHeaders]="columnHeaders"
-                [rowData]="valueChain.rowData"
-                [valueChainCardLocalisation]="localisations.valueChainCardLocalisation"
-                (onActionClicked)="ReRequestAction($event)"
-            ></pm-order-value-chain-card>
-        </ng-container>
-    </pm-col>
+            <ng-container *ngFor="let valueChain of bottomValueChainData">
+                <pm-order-value-chain-card
+                    [index]="valueChain.index"
+                    [requestDate]="valueChain.requestDate"
+                    [status]="valueChain.status"
+                    [columnHeaders]="columnHeaders"
+                    [rowData]="valueChain.rowData"
+                    [valueChainCardLocalisation]="localisations.valueChainCardLocalisation"
+                    (onActionClicked)="ReRequestAction($event)"
+                ></pm-order-value-chain-card>
+            </ng-container>
+        </pm-col>
 </pm-order-details-admin>
-
-<pm-confirm-popup
-    *ngIf="showCommissionValueChainPopup"
-    [localisations]="localisations.commissionValueChainPopupLocalisation"
-    (onCancel)="showCommissionValueChainPopup = false"
-    (onConfirm)="commissionValueChain()"
-></pm-confirm-popup>

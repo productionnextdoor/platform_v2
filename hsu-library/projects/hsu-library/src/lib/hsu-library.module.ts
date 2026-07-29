@@ -1,8 +1,7 @@
 import {
   CommonModule,
   DatePipe,
-  NgClass,
-  NgSwitchCase
+  NgClass
 } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -65,8 +64,10 @@ import { PmTextComponent } from './components/pm-text/pm-text.component';
 import { PmTimerComponent } from './components/pm-timer/pm-timer.component';
 import { PmUploadComponent } from './components/pm-upload/pm-upload.component';
 import { PmWizardComponent } from './components/pm-wizard/pm-wizard.component';
-import { PmWorkstepWizardComponent } from './layouts/pm-workstep-wizard/pm-workstep-wizard.component';
-import { PmWorkstepDataComponent } from './layouts/pm-workstep-wizard/pm-workstep-data/pm-workstep-data.component';
+
+import { PmMatrixFillPopoverComponent } from './layouts/pm-matrix-fill-popover/pm-matrix-fill-popover.component';
+import { PmWorkstepMatrixComponent } from './layouts/pm-workstep-matrix/pm-workstep-matrix.component';
+import { PmWorkstepMatrixModalComponent } from './layouts/pm-workstep-matrix-modal/pm-workstep-matrix-modal.component';
 
 import { PmConfirmPopupComponent } from './layouts/pm-confirm-popup/pm-confirm-popup.component';
 import { PmContentWithSidebarComponent } from './layouts/pm-content-with-sidebar/pm-content-with-sidebar.component';
@@ -78,6 +79,7 @@ import { PmGridComponent } from './layouts/pm-grid/pm-grid.component';
 import { PmHeaderComponent } from './layouts/pm-header/pm-header.component';
 import { PmLoginComponent } from './layouts/pm-login/pm-login.component';
 import { PmMaterialGroupComponent } from './layouts/pm-material-group/pm-material-group.component';
+import { PmMaterialOverviewComponent } from './layouts/pm-material-overview/pm-material-overview.component';
 import { PmMaterialItemComponent } from './layouts/pm-material-item/pm-material-item.component';
 import { PmMenuComponent } from './layouts/pm-menu/pm-menu.component';
 import { PmProducerOverviewComponent } from './layouts/pm-producer-overview/pm-producer-overview.component';
@@ -160,8 +162,6 @@ import {
 } from './layouts/pm-developer-revenue-card/pm-developer-revenue-card.component';
 import { PmTabCardComponent } from './components/pm-tab-card/pm-tab-card.component';
 import { PmStatisticsCardComponent } from './layouts/pm-statistics-card/pm-statistics-card.component';
-import { PmProductDeliveryAddressComponent } from './layouts/pm-product-delivery-address/pm-product-delivery-address.component';
-import { PmDeliveryDocumentsComponent } from './layouts/pm-order-details/pm-delivery-documents/pm-delivery-documents.component';
 import { PmImprintComponent } from './layouts/pm-imprint/pm-imprint.component';
 
 @NgModule({
@@ -240,11 +240,11 @@ import { PmImprintComponent } from './layouts/pm-imprint/pm-imprint.component';
     PmLoginComponent,
     PmMaterialGroupComponent,
     PmMaterialItemComponent,
+    PmMaterialOverviewComponent,
     PmMenuComponent,
     PmProducerOverviewComponent,
     PmProducerRegistrationComponent,
     PmProducerTableComponent,
-    PmProductDeliveryAddressComponent,
     PmProductDetailsDeveloperComponent,
     PmProductDetailsInProgressComponent,
     PmProductDetailsSidebarComponent,
@@ -262,9 +262,10 @@ import { PmImprintComponent } from './layouts/pm-imprint/pm-imprint.component';
     PmUploadComponent,
     PmValueChainTableComponent,
     PmWorkStepPopupComponent,
-    PmWorkstepDataComponent,
+    PmMatrixFillPopoverComponent,
+    PmWorkstepMatrixComponent,
+    PmWorkstepMatrixModalComponent,
     PmWorkstepTableComponent,
-    PmWorkstepWizardComponent,
     PmOrdersOverviewComponent,
     PmMaxCostPopupComponent,
     PmOrderValueChainCardComponent,
@@ -275,7 +276,6 @@ import { PmImprintComponent } from './layouts/pm-imprint/pm-imprint.component';
     PmProductionProcessCardComponent,
     PmTabCardComponent,
     PmStatisticsCardComponent,
-    PmDeliveryDocumentsComponent,
     PmImprintComponent
   ],
   exports: [
@@ -314,13 +314,13 @@ import { PmImprintComponent } from './layouts/pm-imprint/pm-imprint.component';
     PmLogoScreenComponent,
     PmMaterialGroupComponent,
     PmMaterialItemComponent,
+    PmMaterialOverviewComponent,
     PmMenuComponent,
     PmPopupComponent,
     PmProducerOverviewComponent,
     PmProducerRegistrationComponent,
     PmProducerRequestCardComponent,
     PmProducerTableComponent,
-    PmProductDeliveryAddressComponent,
     PmProductDetailsDeveloperComponent,
     PmProductDetailsInProgressComponent,
     PmProductDetailsSidebarComponent,
@@ -342,9 +342,10 @@ import { PmImprintComponent } from './layouts/pm-imprint/pm-imprint.component';
     PmValueChainTableComponent,
     PmWizardComponent,
     PmWorkStepPopupComponent,
-    PmWorkstepDataComponent,
+    PmMatrixFillPopoverComponent,
+    PmWorkstepMatrixComponent,
+    PmWorkstepMatrixModalComponent,
     PmWorkstepTableComponent,
-    PmWorkstepWizardComponent,
     PmMaxCostPopupComponent,
     PmOrdersOverviewComponent,
     PmOrderValueChainCardComponent,
@@ -354,8 +355,6 @@ import { PmImprintComponent } from './layouts/pm-imprint/pm-imprint.component';
     PmOrderedProductCustomerInfoComponent,
     PmProductionProcessCardComponent,
     PmTabCardComponent,
-    PmStatisticsCardComponent,
-    PmDeliveryDocumentsComponent,
     PmStatisticsCardComponent,
     PmImprintComponent
 
@@ -372,7 +371,6 @@ import { PmImprintComponent } from './layouts/pm-imprint/pm-imprint.component';
     FormsModule,
     NgClass,
     RouterModule,
-    NgSwitchCase,
   ]
 })
 export class HsuLibraryModule {

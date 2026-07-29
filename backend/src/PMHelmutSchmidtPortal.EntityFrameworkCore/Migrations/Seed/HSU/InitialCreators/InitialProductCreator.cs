@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using PMHelmutSchmidtPortal.Authorization.Roles;
 using PMHelmutSchmidtPortal.Authorization.Users;
 using PMHelmutSchmidtPortal.EntityFrameworkCore;
 using PMHelmutSchmidtPortal.HSUPortal.Products;
-using PMHelmutSchmidtPortal.HSUPortal.ShopOrders;
 
 namespace PMHelmutSchmidtPortal.Migrations.Seed.HSU.InitialCreators;
 
@@ -22,12 +20,10 @@ public class InitialProductCreator
         _randomizer = new Random();
     }
 
-    public void Create(bool isOffer)
+    public void Create()
     {
         CreateProducts();
         AssignDeveloperToProducts();
-        if (isOffer)
-            CreateProductCustomerInfos();
     }
 
     private void CreateProducts()
@@ -49,15 +45,7 @@ public class InitialProductCreator
                     DescriptionForDev = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam rutrum neque in enim facilisis, " +
                                         "ac venenatis libero finibus. In faucibus suscipit nisi, vitae sodales purus aliquet eget.",
                     State = randomState,
-                    AssignedDeveloper = devUsers[_randomizer.Next(devUsers.Count)],
-                    ProductionDetails = new List<ProductionDetails>
-                    {
-                        new ProductionDetails
-                        {
-                            ProductionDetailsType = ProductionDetailsType.Live
-                        }
-                    },
-                    
+                    AssignedDeveloper = devUsers[_randomizer.Next(devUsers.Count)]
                 });
         }
 
@@ -74,40 +62,6 @@ public class InitialProductCreator
         {
             product.AssignedDeveloper = devUsers[_randomizer.Next(devUsers.Count)];
             _context.Products.Update(product);
-        }
-
-        _context.SaveChanges();
-    }
-
-    private void CreateProductCustomerInfos()
-    {
-        List<Product> products = _context.Products
-            .Include(p => p.AssignedDeveloper)
-            .Include(p => p.AssignedDeveloper.UserAddress)
-            .ToList();
-        
-        foreach (Product product in products)
-        {
-            
-            if (_context.ProductCustomerInfos.Any(p => p.ProductId == product.Id))
-                continue;
-            
-            CustomerInfo customerInfo = new()
-            {
-                Name = product.AssignedDeveloper.Name,
-                PhoneNumber = product.AssignedDeveloper.PhoneNumber,
-                EmailAddress = product.AssignedDeveloper.EmailAddress,
-                Street = product.AssignedDeveloper.UserAddress.Street,
-                Zip = product.AssignedDeveloper.UserAddress.ZipCode,
-                City = product.AssignedDeveloper.UserAddress.City,
-            };
-            _context.CustomerInfos.Add(customerInfo);
-            
-            _context.ProductCustomerInfos.Add(new ProductCustomerInfo
-            {
-                ProductId = product.Id,
-                CustomerInfo = customerInfo 
-            });
         }
 
         _context.SaveChanges();
